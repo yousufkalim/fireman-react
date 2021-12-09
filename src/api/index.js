@@ -3,8 +3,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const api = async (method = "get", uri, body) => {
+  
+  console.log(uri);
   // API Call
-  const url = process.env.REACT_APP_SERVER_URL + uri;
+   const url = process.env.REACT_APP_SERVER_URL + uri;
+   console.log(url);
   return new Promise((resolve, reject) => {
     axios[method](url, body)
       .then((res) => resolve(res))
@@ -12,8 +15,8 @@ const api = async (method = "get", uri, body) => {
         if (err?.response?.status === 403) {
           window.location = "/login";
         } else {
-          console.log("API Error --------> ", err?.response?.status);
-          toast.error(err?.response?.data ? err.response.data : err?.message);
+          console.log("API Error --------> ", {...err});
+          toast.error(err?.response?.data?.errorMessage!=null ? err?.response?.data?.errorMessage[0] : err?.response?.statusText);
           reject(err);
         }
       });
