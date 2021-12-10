@@ -1,6 +1,7 @@
 /* Importing all CSS files */
 @import url("./Header.css");
-
+@import url("./login.css");
+@import url("./signup.css");
 /* Defaults */
 * {
   padding: 0;

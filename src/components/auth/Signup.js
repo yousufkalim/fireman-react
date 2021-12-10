@@ -1,0 +1,329 @@
+import * as React from "react";
+import { useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { toast } from "react-toastify";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import api from "../../api";
+
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+const theme = createTheme();
+const Signup = () => {
+  const [sdisDropdown, setSdisDropdown] = useState([]);
+  const [groupDropDownValue, setGroupDropdownValue] = useState([]);
+  const [serviceDropDownValue, setServiceDropdownValue] = useState([]);
+  const [destinationDropdownValue, setDestinationDropdownValue] = useState([]);
+  const CHARACTER_LIMIT = 20;
+  const PHONENO_LIMIT = 9;
+  useEffect(() => {
+    api("get", "/api/v1/sdis/dropdown").then((res) =>
+      setSdisDropdown(res.data)
+    );
+    ///////getting value for dropdown sdis
+    api("get", "/api/v1/roles/getall").then(
+      (res) =>
+        setDestinationDropdownValue(
+          res.data.filter((elem) => elem.roleSerial > 3)
+        ) //getting designation dropdown value roleId greater than 3
+    );
+  }, []);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    if (data.get("password") !== data.get("confirmpassword")) {
+      toast.error("passwords must be same");
+      return false;
+    } else {
+      api("post", "/api/v1/register", {
+        roleId: parseInt(data.get("designationid")),
+        groupId: parseInt(data.get("groupid")),
+        serviceId: parseInt(data.get("serviceid")),
+        empFirstName: data.get("firstName"),
+        empLastName: data.get("lastName"),
+        email: data.get("email"),
+        cellNo: data.get("cellno"),
+        password: data.get("password"),
+        isValidated: false,
+        isAdmin: false,
+      }).then((res) =>
+        res?.statusText === "OK"
+          ? toast.success(res?.statusText)
+          : toast.error(res?.statusText)
+      );
+    }
+  };
+
+  const handleChangeGroup = (event) => {
+    const id = event.target.value;
+    api("get", `/api/v1/group/dropdown/${id}`).then(
+      (res) => setGroupDropdownValue(res.data) ////getting dropdown values for group input
+    );
+  };
+  const handleChangeServices = (event) => {
+    const id = event.target.value;
+    api("get", `/api/v1/services/dropdown/${id}`).then(
+      (res) => setServiceDropdownValue(res.data) ////getting dropdown values for service input
+    );
+  };
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+        <Grid className="signupForm-container" container component="main">
+          <CssBaseline />
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={5}
+            sx={{
+              backgroundImage: "url(https://source.unsplash.com/random)",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: (t) =>
+                t.palette.mode === "light"
+                  ? t.palette.grey[50]
+                  : t.palette.grey[900],
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={7}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <Box
+              sx={{
+                mx: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Register
+              </Typography>
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                <Grid sx={{ py: 2 }} item xs={12} sm={6} md={12}>
+                  <TextField
+                    inputProps={{
+                      maxLength: CHARACTER_LIMIT,
+                      pattern: "^[a-zA-Z]{3,}$",
+                    }}
+                    autoComplete="given-name"
+                    name="firstName"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                  />
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <TextField
+                    inputProps={{
+                      maxLength: CHARACTER_LIMIT,
+                      pattern: "^[a-zA-Z]{3,}$",
+                    }}
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="family-name"
+                  />
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    type="email"
+                  />
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <div className="phoneno-input-container">
+                    <label className="phoneno-input-label">+33</label>
+                    <TextField
+                      name="cellno"
+                      label="Cell no"
+                      required
+                      fullWidth
+                      id="cellno"
+                      autoFocus
+                      inputProps={{
+                        style: { marginLeft: "10%" },
+                        maxLength: PHONENO_LIMIT,
+                      }}
+                    />
+                  </div>
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    inputProps={{
+                      pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
+                    }}
+                  />
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="confirmpassword"
+                    label="Confirm password"
+                    type="password"
+                    id="password"
+                  />
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">SDIS</InputLabel>
+                    <Select
+                      labelId="sdis-simple-select-label"
+                      id="sdis-simple-select"
+                      label="SDIS"
+                      name="sdis"
+                      onChange={handleChangeGroup}
+                      required
+                    >
+                      {sdisDropdown.map((item, i) => (
+                        <MenuItem key={i} id={i} value={item.value}>
+                          {item.text}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Group</InputLabel>
+                    <Select
+                      labelId="group-simple-select-label"
+                      id="demo-simple-select"
+                      label="Group"
+                      name="groupid"
+                      onChange={handleChangeServices}
+                      required
+                    >
+                      {groupDropDownValue.map((item, i) => (
+                        <MenuItem id={i} key={i} value={item.value}>
+                          {item.text}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Service
+                    </InputLabel>
+                    <Select
+                      labelId="service-simple-select-label"
+                      id="service-simple-select"
+                      label="Service"
+                      name="serviceid"
+                      required
+                    >
+                      {serviceDropDownValue.map((item, i) => (
+                        <MenuItem key={i} id={i} value={item.value}>
+                          {item.text}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid sx={{ py: 1 }} item xs={12} sm={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Designation
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="designation-simple-select"
+                      label="Designation"
+                      name="designationid"
+                      required
+                    >
+                      {destinationDropdownValue.map((item, i) => (
+                        <MenuItem key={i} id={i} value={item.roleId}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign Up
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </ThemeProvider>
+    </>
+  );
+};
+
+export default Signup;

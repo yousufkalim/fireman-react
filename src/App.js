@@ -1,14 +1,21 @@
 // Init
-import React from "react";
+import React, { useEffect } from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import SetAuthToken from "./utils/SetAuthToken";
 // Files
 import Index from "./routes/index";
 import "./css/index.css";
 
 // Component
 function App() {
+  let token = localStorage.getItem("UserToken");
+  useEffect(() => {
+    if (token) {
+      SetAuthToken(token);
+    }
+  }, [token]);
+
   return (
     <div className="App">
       {/* toastify Container for Notification */}

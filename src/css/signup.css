@@ -1,0 +1,13 @@
+.signupForm-container{
+width: 80% !important;
+margin: auto !important;
+height: 100% !important;
+}
+.phoneno-input-container{
+position: relative;
+}
+.phoneno-input-label{
+    position: absolute;
+    left: 5%;
+    top: 28%;
+}
