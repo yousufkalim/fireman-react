@@ -53,11 +53,12 @@ const Signup = () => {
   }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
+    let newFormData={...formValues,cellNo:"33"+formValues.cellNo}
     if (formValues.password !== formValues.confirmpassword ) {
       toast.error("passwords must be same");
       return false;
     } else {
-      api("post", "/api/v1/register", formValues).then((res) =>
+      api("post", "/api/v1/register", newFormData).then((res) =>
         res?.statusText === "OK"
           ? toast.success(res?.statusText)
           : toast.error(res?.statusText)

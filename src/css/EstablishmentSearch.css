@@ -1,0 +1,18 @@
+.leftbar-icon-text{
+    display: flex;
+    border-bottom: 1px solid gray;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+.leftbar-icon-text > *{
+    margin-right: 8px;
+}
+
+.inputs-heading-text{
+    border-left: 1px solid gray;
+    padding-left: 5px;
+}
+
+.input-styling{
+    position: relative;
+}
