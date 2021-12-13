@@ -8,8 +8,7 @@ import Index from "./routes/index";
 import "./css/index.css";
 
 // Component
-function App(props) {
-  console.log(props);
+function App() {
   let token = localStorage.getItem("UserToken");
   useEffect(() => {
     if (token) {
