@@ -3,13 +3,13 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 import api from "../../api/index";
 function Copyright(props) {
   return (
@@ -39,11 +39,10 @@ const Login = () => {
     })
       .then((res) => {
         localStorage.setItem("UserToken", res.data.token);
-        window.location.reload();
+        window.location = "/dashboard";
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -76,6 +75,7 @@ const Login = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
                 autoFocus
               />
@@ -99,7 +99,7 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="/forgetpassword" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>

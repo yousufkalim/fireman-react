@@ -18,29 +18,25 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import api from "../../api";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 const theme = createTheme();
 const Signup = () => {
   const [sdisDropdown, setSdisDropdown] = useState([]);
   const [groupDropDownValue, setGroupDropdownValue] = useState([]);
   const [serviceDropDownValue, setServiceDropdownValue] = useState([]);
   const [destinationDropdownValue, setDestinationDropdownValue] = useState([]);
+  const [formValues, setFormValues] = useState({
+    empFirstName: "",
+    empLastName: "",
+    email: "",
+    cellNo: "",
+    password: "",
+    roleId: "",
+    groupId: "",
+    serviceId: "",
+    isValidated: false,
+    isAdmin: false,
+  });
+
   const CHARACTER_LIMIT = 20;
   const PHONENO_LIMIT = 9;
   useEffect(() => {
@@ -57,23 +53,12 @@ const Signup = () => {
   }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    if (data.get("password") !== data.get("confirmpassword")) {
+    let newFormData = { ...formValues, cellNo: "33" + formValues.cellNo };
+    if (formValues.password !== formValues.confirmpassword) {
       toast.error("passwords must be same");
       return false;
     } else {
-      api("post", "/api/v1/register", {
-        roleId: parseInt(data.get("designationid")),
-        groupId: parseInt(data.get("groupid")),
-        serviceId: parseInt(data.get("serviceid")),
-        empFirstName: data.get("firstName"),
-        empLastName: data.get("lastName"),
-        email: data.get("email"),
-        cellNo: data.get("cellno"),
-        password: data.get("password"),
-        isValidated: false,
-        isAdmin: false,
-      }).then((res) =>
+      api("post", "/api/v1/register", newFormData).then((res) =>
         res?.statusText === "OK"
           ? toast.success(res?.statusText)
           : toast.error(res?.statusText)
@@ -81,18 +66,27 @@ const Signup = () => {
     }
   };
 
-  const handleChangeGroup = (event) => {
+  const handleChange = (event) => {
     const id = event.target.value;
-    api("get", `/api/v1/group/dropdown/${id}`).then(
-      (res) => setGroupDropdownValue(res.data) ////getting dropdown values for group input
-    );
+    const name = event.target.name;
+    setFormValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: event.target.value,
+      };
+    });
+    if (name === "sdis") {
+      api("get", `/api/v1/group/dropdown/${id}`).then(
+        (res) => setGroupDropdownValue(res.data) ////getting dropdown values for group input
+      );
+    }
+    if (name === "groupId") {
+      api("get", `/api/v1/services/dropdown/${id}`).then(
+        (res) => setServiceDropdownValue(res.data) ////getting dropdown values for group input
+      );
+    }
   };
-  const handleChangeServices = (event) => {
-    const id = event.target.value;
-    api("get", `/api/v1/services/dropdown/${id}`).then(
-      (res) => setServiceDropdownValue(res.data) ////getting dropdown values for service input
-    );
-  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -137,19 +131,20 @@ const Signup = () => {
               <Typography component="h1" variant="h5">
                 Register
               </Typography>
-              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                <Grid sx={{ py: 2 }} item xs={12} sm={6} md={12}>
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width:"80%" }}>
+                <Grid sx={{ py: 2}} item xs={12} sm={6} md={12}>
                   <TextField
                     inputProps={{
                       maxLength: CHARACTER_LIMIT,
                       pattern: "^[a-zA-Z]{3,}$",
                     }}
                     autoComplete="given-name"
-                    name="firstName"
+                    name="empFirstName"
                     required
                     fullWidth
-                    id="firstName"
+                    id="empFirstName"
                     label="First Name"
+                    onChange={handleChange}
                     autoFocus
                   />
                 </Grid>
@@ -161,10 +156,11 @@ const Signup = () => {
                     }}
                     required
                     fullWidth
-                    id="lastName"
+                    id="empLastName"
                     label="Last Name"
-                    name="lastName"
+                    name="empLastName"
                     autoComplete="family-name"
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid sx={{ py: 1 }} item xs={12}>
@@ -176,17 +172,19 @@ const Signup = () => {
                     name="email"
                     autoComplete="email"
                     type="email"
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid sx={{ py: 1 }} item xs={12} sm={12}>
                   <div className="phoneno-input-container">
                     <label className="phoneno-input-label">+33</label>
                     <TextField
-                      name="cellno"
+                      name="cellNo"
                       label="Cell no"
                       required
                       fullWidth
-                      id="cellno"
+                      id="cellNo"
+                      onChange={handleChange}
                       autoFocus
                       inputProps={{
                         style: { marginLeft: "10%" },
@@ -203,6 +201,7 @@ const Signup = () => {
                     label="Password"
                     type="password"
                     id="password"
+                    onChange={handleChange}
                     inputProps={{
                       pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
                     }}
@@ -215,7 +214,8 @@ const Signup = () => {
                     name="confirmpassword"
                     label="Confirm password"
                     type="password"
-                    id="password"
+                    id="confirmpassword"
+                    onChange={handleChange}
                   />
                 </Grid>
                 <Grid sx={{ py: 1 }} item xs={12} sm={12}>
@@ -226,7 +226,7 @@ const Signup = () => {
                       id="sdis-simple-select"
                       label="SDIS"
                       name="sdis"
-                      onChange={handleChangeGroup}
+                      onChange={handleChange}
                       required
                     >
                       {sdisDropdown.map((item, i) => (
@@ -244,8 +244,8 @@ const Signup = () => {
                       labelId="group-simple-select-label"
                       id="demo-simple-select"
                       label="Group"
-                      name="groupid"
-                      onChange={handleChangeServices}
+                      name="groupId"
+                      onChange={handleChange}
                       required
                     >
                       {groupDropDownValue.map((item, i) => (
@@ -265,7 +265,8 @@ const Signup = () => {
                       labelId="service-simple-select-label"
                       id="service-simple-select"
                       label="Service"
-                      name="serviceid"
+                      name="serviceId"
+                      onChange={handleChange}
                       required
                     >
                       {serviceDropDownValue.map((item, i) => (
@@ -285,7 +286,8 @@ const Signup = () => {
                       labelId="demo-simple-select-label"
                       id="designation-simple-select"
                       label="Designation"
-                      name="designationid"
+                      name="roleId"
+                      onChange={handleChange}
                       required
                     >
                       {destinationDropdownValue.map((item, i) => (
@@ -304,19 +306,6 @@ const Signup = () => {
                 >
                   Sign Up
                 </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Copyright sx={{ mt: 5 }} />
               </Box>
             </Box>
           </Grid>
