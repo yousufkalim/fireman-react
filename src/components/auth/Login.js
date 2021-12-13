@@ -9,9 +9,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../../api/index";
 function Copyright(props) {
   return (
@@ -41,7 +39,7 @@ const Login = () => {
     })
       .then((res) => {
         localStorage.setItem("UserToken", res.data.token);
-        window.location= '/dashboard';
+        window.location = "/dashboard";
       })
       .catch((err) => console.log(err));
   };
@@ -77,6 +75,7 @@ const Login = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
                 autoFocus
               />

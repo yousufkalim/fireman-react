@@ -25,18 +25,18 @@ const Signup = () => {
   const [serviceDropDownValue, setServiceDropdownValue] = useState([]);
   const [destinationDropdownValue, setDestinationDropdownValue] = useState([]);
   const [formValues, setFormValues] = useState({
-    empFirstName:"",
-    empLastName:"",
-    email:"",
-    cellNo:"33",
-    password:"",
-    roleId:"",
-    groupId:"",
-    serviceId:"",
+    empFirstName: "",
+    empLastName: "",
+    email: "",
+    cellNo: "",
+    password: "",
+    roleId: "",
+    groupId: "",
+    serviceId: "",
     isValidated: false,
-    isAdmin: false
+    isAdmin: false,
   });
- 
+
   const CHARACTER_LIMIT = 20;
   const PHONENO_LIMIT = 9;
   useEffect(() => {
@@ -53,8 +53,8 @@ const Signup = () => {
   }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
-    let newFormData={...formValues,cellNo:"33"+formValues.cellNo}
-    if (formValues.password !== formValues.confirmpassword ) {
+    let newFormData = { ...formValues, cellNo: "33" + formValues.cellNo };
+    if (formValues.password !== formValues.confirmpassword) {
       toast.error("passwords must be same");
       return false;
     } else {
@@ -69,24 +69,24 @@ const Signup = () => {
   const handleChange = (event) => {
     const id = event.target.value;
     const name = event.target.name;
-    setFormValues((preVal)=>{
-     return{
-       ...preVal,
-       [name]: event.target.value
-     }
-    })
-    if(name==="sdis") {
+    setFormValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: event.target.value,
+      };
+    });
+    if (name === "sdis") {
       api("get", `/api/v1/group/dropdown/${id}`).then(
         (res) => setGroupDropdownValue(res.data) ////getting dropdown values for group input
       );
-    };
-    if(name==="groupId") {
+    }
+    if (name === "groupId") {
       api("get", `/api/v1/services/dropdown/${id}`).then(
         (res) => setServiceDropdownValue(res.data) ////getting dropdown values for group input
       );
-    };
     }
-    
+  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -131,8 +131,8 @@ const Signup = () => {
               <Typography component="h1" variant="h5">
                 Register
               </Typography>
-              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                <Grid sx={{ py: 2 }} item xs={12} sm={6} md={12}>
+              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width:"80%" }}>
+                <Grid sx={{ py: 2}} item xs={12} sm={6} md={12}>
                   <TextField
                     inputProps={{
                       maxLength: CHARACTER_LIMIT,
@@ -183,7 +183,7 @@ const Signup = () => {
                       label="Cell no"
                       required
                       fullWidth
-                      id="cellNo" 
+                      id="cellNo"
                       onChange={handleChange}
                       autoFocus
                       inputProps={{
@@ -306,18 +306,6 @@ const Signup = () => {
                 >
                   Sign Up
                 </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
               </Box>
             </Box>
           </Grid>

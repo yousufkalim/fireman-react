@@ -1,29 +1,29 @@
-import React from 'react'
-import Box from '@mui/material/Box';
-import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import React from "react";
+import Box from "@mui/material/Box";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
 const EstablishmentSearchLeftBar = () => {
-    return (
-        <>
-            <Box  sx={{ p: 2 }}>
-                <div className="leftbar-icon-text"> 
-                 <AccessibilityIcon/>
-                 <span>text</span>
-                </div>
-                <div className="leftbar-icon-text"> 
-                 <AccessibilityIcon/>
-                 <span>text</span>
-                </div>
-                <div className="leftbar-icon-text"> 
-                 <AccessibilityIcon/>
-                 <span>text</span>
-                </div>
-                <div className="leftbar-icon-text"> 
-                 <AccessibilityIcon/>
-                 <span>text</span>
-                </div>
-            </Box>  
-        </>
-    )
-}
+  return (
+    <>
+      <Box sx={{ p: 2 }}>
+        <div className="leftbar-icon-text">
+          <AccessibilityIcon />
+          <span>dossieres en course</span>
+        </div>
+        <div className="leftbar-icon-text">
+          <AccessibilityIcon />
+          <span>Nouveuaux dossieres</span>
+        </div>
+        <div className="leftbar-icon-text">
+          <AccessibilityIcon />
+          <span>Dossieres realises</span>
+        </div>
+        <div className="leftbar-icon-text">
+          <AccessibilityIcon />
+          <span>Annuaire</span>
+        </div>
+      </Box>
+    </>
+  );
+};
 
-export default EstablishmentSearchLeftBar
+export default EstablishmentSearchLeftBar;
