@@ -15,11 +15,36 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const EstablishmentSearchInputs = () => {
   const [dropdownValue, setdropdownValue] = useState([]);
+  const [inputValues, setInputValues] = useState({
+    ref:"",
+    commune:"",
+    Classification:"",
+    streetavenue:"",
+    getname:"",
+    status:"",
+    ranking:""
+  })
   useEffect(() => {
     api("get", "/api/v1/sectionhead/dropdown").then((res) =>
       setdropdownValue(res.data)
     );
   }, []);
+  const handleChange = (e)=>{
+   const name = e.target.name;
+   const value = e.target.value;
+   setInputValues((preVal)=>{
+     return{
+           ...preVal,
+           [name]:value
+     }
+    })
+  }
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+      api("get", `/api/v1/establishment/search/${inputValues.ref}/${inputValues.getname}/${inputValues.commune}/${inputValues.streetavenue}/${inputValues.status}/${inputValues.Classification}/${inputValues.ranking}`).then((res)=>(
+        console.log(res)
+      ))
+  }
   return (
     <>
       <Box
@@ -40,7 +65,7 @@ const EstablishmentSearchInputs = () => {
           padding: "10px",
         }}
       >
-        <Grid item md={6}>
+        <Grid item md={12}>
           <Item sx={{ boxShadow: "none" }}>
             <Typography
               align="start"
@@ -50,88 +75,88 @@ const EstablishmentSearchInputs = () => {
             >
               Saisai
             </Typography>
-            <FormControl fullWidth>
+            <form className="establishment-form" type="submit" onSubmit={handleSubmit}> 
+            <div> 
             <div class="flex-form">
-                <input type="submit" value="Ref." />
-                <input type="search" />
+                <input type="text"  placeholder="Ref." />
+                <input type="search" onChange={handleChange} name="ref" required/>
               </div>
               <div class="flex-form">
-                <input type="submit" value="Commune" />
+                <input type="text"  placeholder="Commune"/>
                 <select
                   className="dropdown"
                   type="select"
-                  name="cars"
-                  id="cars"
+                  name="commune"
+                  onChange={handleChange}
+                  required
                 >
+                  <option value="">Select communue</option>
                   {dropdownValue?.map((item) => (
-                    <option>{item.text}</option>
+                    <option key={item.value} value={item.value}>{item.text}</option>
                   ))}
                 </select>
               </div>
              
               <div class="flex-form">
-                <input type="submit" value="Classification" />
+                <input type="text" placeholder="Classification"/>
                 <select
                   className="dropdown"
                   type="select"
-                  name="cars"
-                  id="cars"
+                  name="Classification"
+                  onChange={handleChange}
                 >
+                   <option value="">Select Classification</option>
                   {dropdownValue?.map((item) => (
-                    <option>{item.text}</option>
+                    <option key={item.value} value={item.value}>{item.text}</option>
                   ))}
                 </select>
               </div>
-              <div class="flex-form">
-                <input type="submit" value="Street/Avenue" />
-                <input type="search" />
               </div>
-            </FormControl>
-          </Item>
-        </Grid>
-
-        <Grid sx={{}} item md={6}>
-          <Item sx={{ boxShadow: "none", marginTop: "20px" }}>
-            <FormControl fullWidth>
+              <div> 
+              <div class="flex-form">
+                <input type="text" placeholder="Street/Avenue"/>
+                <input type="search" onChange={handleChange} name="streetavenue" required/>
+              </div>
             <div class="flex-form">
-                <input type="submit" value="Name" />
-                <input type="search" />
+                <input type="text" placeholder="name"/>
+                <input type="search" onChange={handleChange} name="getname" required/>
               </div>
               <div class="flex-form">
-                <input type="submit" value="Status" />
+                <input type="text" placeholder="Status" name="status"/>
                 <select
                   className="dropdown"
                   type="select"
-                  name="cars"
-                  id="cars"
+                  name="status"
+                  required
+                  onChange={handleChange}
                 >
+                   <option value="">Select status</option>
                   {dropdownValue?.map((item) => (
-                    <option>{item.text}</option>
+                    <option key={item.value} value={item.value}>{item.text}</option>
                   ))}
                 </select>
               </div>
-             
+              
               <Box>
                 <div class="flex-form">
-                  <input type="submit" value="Ranking" />
+                  <input type="text" placeholder="Ranking"/>
                   <select
                   className="dropdown"
                   type="select"
-                  name="cars"
-                  id="cars"
-                >
+                  name="ranking"
+                  required
+                  onChange={handleChange}
+                > 
+                   <option value="">Select Ranking</option>
                   {dropdownValue?.map((item) => (
-                    <option>{item.text}</option>
+                    <option key={item.value} value={item.value}>{item.text}</option>
                   ))}
                 </select>
                 </div>
-                <div class="flex-form">
-                <input type="submit" value="Name" />
-                <input type="search" />
-              </div>
+                <button className="establishment-search-btn-submit" type="submit"> Submit </button>
               </Box>
-             
-            </FormControl>
+              </div>
+            </form>
            
           </Item>
         </Grid>

@@ -24,10 +24,6 @@
     border: 10px;
 }
 
-
-
-
-
 .flex-form {
     display: -webkit-box;
     display: flex;
@@ -48,13 +44,13 @@
     -webkit-appearance: none;
   }
   
-  input[type="search"] {
+  .flex-form input[type="search"] {
     flex-basis: 500px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: aliceblue;
   }
-  .flex-form input[type="submit"] {
+  .flex-form input[type="text"] {
     background: cadetblue;
     color: #fff;
     cursor: pointer;
@@ -71,8 +67,12 @@
     border-bottom-right-radius: 10px;
     background-color: aliceblue;
   }
-
-  .submit-input{
-      flex-basis: 770px !important;
-      width: 20% !important;
+.establishment-search-btn-submit{
+  background: cadetblue;
+    padding: 10px 50px;
+    border-radius: 15px;
+    border:none;
+  }
+  .establishment-form{
+  display: flex;
   }

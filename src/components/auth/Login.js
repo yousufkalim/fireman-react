@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import {UpdateStore} from '../../StoreContext'
 import api from "../../api/index";
 function Copyright(props) {
   return (
@@ -30,6 +31,7 @@ function Copyright(props) {
 }
 const theme = createTheme();
 const Login = () => {
+  const updateStore = UpdateStore()
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);
     event.preventDefault();
