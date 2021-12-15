@@ -7,8 +7,10 @@ const EstablishmentSearchInputHeader = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          borderBottom: "1px solid gray",
-          padding: "10px",
+          padding: "15px",
+          borderLeft: "10px solid green",
+          borderRadius: "8px",
+          backgroundColor: "#fff"
         }}
       >
         <h5>Documents durbanisme rattaches</h5>

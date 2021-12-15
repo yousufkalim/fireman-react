@@ -38,8 +38,12 @@ const Login = () => {
       password: data.get("password"),
     })
       .then((res) => {
-        localStorage.setItem("UserToken", res.data.token);
-        window.location = "/dashboard";
+        const dataObj = {
+          usertoken: res.data.token,
+          userid: res.data.userId,
+        };
+        localStorage.setItem("userData", JSON.stringify(dataObj));
+        window.location = "/establishmentsearch";
       })
       .catch((err) => console.log(err));
   };
