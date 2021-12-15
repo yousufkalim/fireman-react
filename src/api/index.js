@@ -7,7 +7,6 @@ const api = async (method = "get", uri, body) => {
   console.log(uri);
   // API Call
    const url = process.env.REACT_APP_SERVER_URL + uri;
-   console.log(url);
   return new Promise((resolve, reject) => {
     axios[method](url, body)
       .then((res) => resolve(res))

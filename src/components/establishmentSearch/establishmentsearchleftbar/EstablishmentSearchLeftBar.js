@@ -7,23 +7,24 @@ const EstablishmentSearchLeftBar = ({setActiveSearch,getResponse}) => {
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId)
-     api("get",`/api/v1/casefiles/rolewise_cases/${userId.userid}`).then((res)=>(
+     api("get",`/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then((res)=>(
          getResponse(res)
      ))
   }, [])
-  const getCurrentCases =()=>{
-    setActiveSearch(false);
+  const getCurrentCases =(e)=>{
+     const name = e.target.id;
+    setActiveSearch(name)
   }
   return (
     <>
       <Box sx={{ p: 2 }}>
         <div className="leftbar-icon-text">
           <AccessibilityIcon />
-          <span onClick={getCurrentCases}>Current Cases</span>
+          <span id="currentcases" onClick={getCurrentCases}>Current Cases</span>
         </div>
         <div className="leftbar-icon-text">
           <AccessibilityIcon />
-          <span>Nouveuaux dossieres</span>
+          <span id="newcases" onClick={getCurrentCases}>New Cases</span>
         </div>
         <div className="leftbar-icon-text">
           <AccessibilityIcon />

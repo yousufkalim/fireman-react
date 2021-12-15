@@ -7,11 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const EstablishmentSearchData = ({ establishmentSearchData }) => {
-  console.log(establishmentSearchData);
+const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+  const onClick = (id) => {
+    localStorage.setItem("establishmentid", id);
+    setCompShow("filestructure");
+  };
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer sx={{ marginTop: "10px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
@@ -26,6 +29,7 @@ const EstablishmentSearchData = ({ establishmentSearchData }) => {
           <TableBody>
             {establishmentSearchData.data?.map((row, i) => (
               <TableRow
+                onClick={() => onClick(row.establishmentId)}
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >

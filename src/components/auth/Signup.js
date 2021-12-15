@@ -4,7 +4,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -131,12 +130,16 @@ const Signup = () => {
               <Typography component="h1" variant="h5">
                 Register
               </Typography>
-              <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width:"80%" }}>
-                <Grid sx={{ py: 2}} item xs={12} sm={6} md={12}>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                sx={{ mt: 1, width: "80%" }}
+              >
+                <Grid sx={{ py: 2 }} item xs={12} sm={6} md={12}>
                   <TextField
                     inputProps={{
                       maxLength: CHARACTER_LIMIT,
-                      pattern: "^[a-zA-Z]{3,}$",
+                      pattern: "^[a-zA-Z]{3,}+[]*$",
                     }}
                     autoComplete="given-name"
                     name="empFirstName"
@@ -152,7 +155,7 @@ const Signup = () => {
                   <TextField
                     inputProps={{
                       maxLength: CHARACTER_LIMIT,
-                      pattern: "^[a-zA-Z]{3,}$",
+                      pattern: "^[a-zA-Z]{3,}+[]*$",
                     }}
                     required
                     fullWidth

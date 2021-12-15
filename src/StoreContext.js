@@ -20,7 +20,7 @@ export function StoreProvider({ children }) {
   let [store, setStore] = useState({
     loggedIn: false,
     user: {},
-    authorization:null,
+    authorization: false,
   });
 
   const updateStore = (data) => {

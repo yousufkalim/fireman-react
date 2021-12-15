@@ -1,20 +1,18 @@
 // Init
-import React, { useEffect } from "react";
+import React from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SetAuthToken from "./utils/SetAuthToken";
 // Files
 import Index from "./routes/index";
 import "./css/index.css";
-
 // Component
 function App() {
-  let token = localStorage.getItem("UserToken");
-  useEffect(() => {
-    if (token) {
-      SetAuthToken(token);
-    }
-  }, [token]);
+  let userdata = localStorage.getItem("userData");
+  userdata = JSON.parse(userdata);
+  if (userdata?.usertoken) {
+    SetAuthToken(userdata?.usertoken);
+  }
 
   return (
     <div className="App">
@@ -25,7 +23,6 @@ function App() {
         hideProgressBar={true}
         transition={Flip}
       />
-
       {/* Routes */}
       <Index />
     </div>

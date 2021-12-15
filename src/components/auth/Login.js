@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import {UpdateStore} from '../../StoreContext'
 import api from "../../api/index";
 function Copyright(props) {
   return (
@@ -31,7 +30,6 @@ function Copyright(props) {
 }
 const theme = createTheme();
 const Login = () => {
-  const updateStore = UpdateStore()
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);
     event.preventDefault();
@@ -40,14 +38,12 @@ const Login = () => {
       password: data.get("password"),
     })
       .then((res) => {
-        const dataObj = 
-          {
-            usertoken: res.data.token,
-            userid: res.data.userId
-          }
-        
-        localStorage.setItem("userData",JSON.stringify(dataObj))
-         window.location = "/dashboard";
+        const dataObj = {
+          usertoken: res.data.token,
+          userid: res.data.userId,
+        };
+        localStorage.setItem("userData", JSON.stringify(dataObj));
+        window.location = "/establishmentsearch";
       })
       .catch((err) => console.log(err));
   };

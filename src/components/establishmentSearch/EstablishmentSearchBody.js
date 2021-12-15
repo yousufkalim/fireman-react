@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import EstablishmentSearchInputHeader from "./EstablishmentSearchInputHeader";
-import EstablishmentSearchInputs from "./EstablishmentSearchInputs";
 import EstablishmentSearchLeftBar from "./establishmentsearchleftbar/EstablishmentSearchLeftBar";
 import EstablishmentSearchRightBar from "./establishmentsearchrightbar/EstablishmentSearchRightBar";
 import EstablishmentSearchHeader from "./EstablishmentSearchHeader";
-import EstablishmentSearchCurrentCases from "./establishmentsearchleftbar/EstablishmentSearchCurrentCases";
+import EstablishmentSearchCurrentCases from "../establishmentSearch/establishmentsearchleftbar/establishmentsearchcurrentcases/EstablishmentSearchCurrentCases";
+import EstablishmentSearchNewCases from "../establishmentSearch/establishmentsearchleftbar/establishmentsearchnewcases/EstablishmentSearchNewCases";
 import { styled } from "@mui/material/styles";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchBody = () => {
-  const [activeSearch, setActiveSearch] = useState(true);
+  const [activeSearch, setActiveSearch] = useState("newcases");
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
     setResponseData(data);
@@ -38,28 +38,11 @@ const EstablishmentSearchBody = () => {
           </Item>
         </Grid>
         <Grid item xs={8}>
-          <Item
-            sx={{
-              marginTop: "5px",
-              borderLeft: "10px solid green",
-              borderRadius: "10px",
-            }}
-          >
-            <EstablishmentSearchInputHeader />
-          </Item>
-          {activeSearch ? (
-            <Item
-              sx={{
-                marginTop: "5px",
-                borderLeft: "10px solid cadetblue",
-                borderRadius: "10px",
-              }}
-            >
-              <EstablishmentSearchInputs />
-            </Item>
-          ) : (
+          <EstablishmentSearchInputHeader />
+          {activeSearch === "newcases" ? <EstablishmentSearchNewCases /> : null}
+          {activeSearch === "currentcases" ? (
             <EstablishmentSearchCurrentCases currentcasesData={responseData} />
-          )}
+          ) : null}
         </Grid>
         <Grid item xs={2}>
           <EstablishmentSearchRightBar />

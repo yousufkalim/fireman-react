@@ -6,11 +6,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { styled } from "@mui/material/styles";
 const EstablishmentSearchCurrentCases = ({currentcasesData}) => {
-    
+  const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
     return (
         <>
        <h1>Current cases</h1>  
+       <Item
+              sx={{
+                marginTop: "5px",
+                borderLeft: "10px solid cadetblue",
+                borderRadius: "10px",
+              }}
+            >
        <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
@@ -42,6 +55,7 @@ const EstablishmentSearchCurrentCases = ({currentcasesData}) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </Item>
         </>
     )
 }
