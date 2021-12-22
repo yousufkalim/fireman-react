@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import HistoricalSearch from './HistoricalSearch'
 
-const EstablishmentSearch = () => {
+
+const EstablishmentSearchContainer = () => {
+    
+    
     return (
         <>
-    
+         <HistoricalSearch/>
         </>
     )
 }
 
-export default EstablishmentSearch
+export default EstablishmentSearchContainer

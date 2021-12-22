@@ -3,7 +3,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
-const EstablishmentSearchActivePanel = () => {
+import EstablishmentSearchContainer from "./establishmentsearch/EstablishmentSearchContainer";
+const EstablishmentSearchActivePanel = ({getActiveTab}) => {
   const [activeTab, setActiveTab] = useState(0);
   const items = [
     {
@@ -30,6 +31,7 @@ const EstablishmentSearchActivePanel = () => {
   ];
   const onClick = (e) => {
     setActiveTab(e);
+    getActiveTab(e)
   };
   return (
     <>
@@ -77,6 +79,8 @@ const EstablishmentSearchActivePanel = () => {
         </AppBar>
       </Box>
       <OpenSearchInputHeader />
+      {/* {activeTab === 0 ? <OpenSearchNewCases /> : null} */}
+      {activeTab === 1 ? <EstablishmentSearchContainer /> : null}
     </>
   );
 };

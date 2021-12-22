@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import OpenSearchBody from '../components/openSearch/OpenSearchBody'
+import Body from '../components/Body'
 const EstablishmentSearch = () => {
     return (
         <>
          <Navbar/>   
-         <OpenSearchBody/>
+         <Body/>
         </>
     )
 }
