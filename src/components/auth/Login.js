@@ -10,8 +10,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import jwt from 'jwt-decode'
 import api from "../../api/index";
+import {UpdateStore} from '../../StoreContext'
 function Copyright(props) {
+ 
   return (
     <Typography
       variant="body2"
@@ -30,6 +33,7 @@ function Copyright(props) {
 }
 const theme = createTheme();
 const Login = () => {
+  const updatestore = UpdateStore();
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);
     event.preventDefault();
@@ -38,12 +42,16 @@ const Login = () => {
       password: data.get("password"),
     })
       .then((res) => {
+        console.log(res);
+        const token = res?.data?.token;
+        const user = jwt(token); // decode your token here
+         localStorage.setItem('user', user?.email);
         const dataObj = {
-          usertoken: res.data.token,
-          userid: res.data.userId,
+          usertoken: res?.data?.token,
+          userid: res?.data?.userId,
         };
         localStorage.setItem("userData", JSON.stringify(dataObj));
-        window.location = "/establishmentsearch";
+         window.location = "/openSearch";
       })
       .catch((err) => console.log(err));
   };

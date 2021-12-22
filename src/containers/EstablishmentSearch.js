@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import EstablishmentSearchBody from '../components/establishmentSearch/EstablishmentSearchBody'
+import EstablishmentSearchContainer from '../components/establishmentsearch/EstablishmentSearchContainer'
 const EstablishmentSearch = () => {
     return (
         <>
-         <Navbar/>   
-         <EstablishmentSearchBody/>
+         <Navbar/>
+         <EstablishmentSearchContainer/>   
         </>
     )
 }
