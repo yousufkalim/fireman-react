@@ -77,12 +77,6 @@ const EstablishmentSearchActivePanel = () => {
         </AppBar>
       </Box>
       <OpenSearchInputHeader />
-      {/* {
-      activeTab ===0?  <EstablishmentSearchNewCasesInputs/>:null
-      } */}
-      {/* {
-      activeTab ===1? <EstablishmentSearchContainer/>:null
-      } */}
     </>
   );
 };
