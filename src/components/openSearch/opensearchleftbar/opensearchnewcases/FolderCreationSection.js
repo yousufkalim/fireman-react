@@ -152,7 +152,6 @@ const FolderCreationSection = ({
       };
     });
   };
-  console.log(CompName,indexdata?.sectionindex);
   const handleSubmit = (e) => {
     e.preventDefault();
     ////////////for new cases//////////
@@ -184,7 +183,6 @@ const FolderCreationSection = ({
                 iconState: true,
               };
             });
-            console.log(CompName,indexdata.sectionindex);
               doneIconState.accordianState
               ? (focusPoint.current.style.display = "block")
               : (focusPoint.current.style.display = "none");
@@ -206,10 +204,8 @@ const FolderCreationSection = ({
         visitTypeId: currentcasesvisitTypeId,
         commisionDate: currentcasescommisionDate,
       };
-      console.log("updatedObj", updatedObj);
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
-          console.log("updateres", res);
           if (res.status === 200) {
             setInputValues((preVal) => {
               return {

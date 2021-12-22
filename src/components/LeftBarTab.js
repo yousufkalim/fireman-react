@@ -30,10 +30,8 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then(
-      (res) => { 
-        console.log("role:",res);
-        getResponse(res)
-
+      (res) => {
+        getResponse(res);
       }
     );
   }, []);

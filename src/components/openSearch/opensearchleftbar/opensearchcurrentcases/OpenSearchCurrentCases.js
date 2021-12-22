@@ -17,7 +17,6 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   });
   const [CompName, setCompName] = useState("");
   const onClick = (id, sectionIndex, tabIndex) => {
-    console.log(id, sectionIndex, tabIndex);
     setIndexdata(() => {
       return {
         sectionindex: sectionIndex,
@@ -26,13 +25,10 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     });
     api("get", `/api/v1/casefiles/get_open_foldercreation/${id}`).then(
       (res) => {
-        console.log("res", res);
         setFolderCreationData(res?.data);
       }
     );
   };
-
-  console.log("currentcasesData", currentcasesData);
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
