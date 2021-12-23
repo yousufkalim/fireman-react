@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
+import ActiveTabHeader from "../../../ActiveTabHeader";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -16,7 +17,9 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const FolderCreationSection = ({
+  compShow,
   CompName,
+  getActiveTab,
   indexdata,
   currentcasescaseFileId,
   currentcasescaseTypeId,
@@ -30,6 +33,12 @@ const FolderCreationSection = ({
     iconState: false,
     accordianState: false,
   });
+  const [activeSearch, setActiveSearch] = useState("newcases");
+  const [activeLink, setActiveLink] = useState(0);
+  
+   const [classstate, setclassstate] = useState("")
+  //////
+  /////
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -55,11 +64,22 @@ const FolderCreationSection = ({
     caseid: "",
   });
   const [inputDisableState, setInputDisableState] = useState("");
+  const [checkBoxRes, setCheckBoxRes] = useState()
   const focusPoint = useRef(null);
+   console.log(CompName);   
+   
   useEffect(() => {
-     CompName==="currentcases"? 
-     (focusPoint.current.style.display = "none"):
-     (focusPoint.current.style.display = "block")
+    CompName === "currentcases" && (indexdata.sectionindex===0|| indexdata.sectionindex===1 ) && activeLink===0?
+      setclassstate("formhide")  : setclassstate("formdisplay") 
+    // console.log("indexdata",indexdata.sectionindex); required later
+    //  CompName === "currentcases" && indexdata.sectionindex===0 && activeLink===0? required later
+     //console.log("indexdata.sectionindex",indexdata.sectionindex); required later
+//  CompName === "currentcases" && (indexdata.sectionindex===0|| indexdata.sectionindex===1 ) && activeLink===0?
+    // (focusPoint.current.style.display = "none")
+    // : (focusPoint.current.style.display = "block");  required later
+  }, [activeLink])
+
+  useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) =>
@@ -183,7 +203,7 @@ const FolderCreationSection = ({
                 iconState: true,
               };
             });
-              doneIconState.accordianState
+            doneIconState.accordianState
               ? (focusPoint.current.style.display = "block")
               : (focusPoint.current.style.display = "none");
           }
@@ -238,221 +258,237 @@ const FolderCreationSection = ({
         accordianState: !doneIconState.accordianState,
       };
     });
-    doneIconState.accordianState ? (focusPoint.current.style.display = "block")
+    doneIconState.accordianState
+      ? (focusPoint.current.style.display = "block")
       : (focusPoint.current.style.display = "none");
   };
   const postCheckboxesData = () => {
+    console.log("checkboxObj",checkboxObj);
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
+        setCheckBoxRes(res.status)
         toast.success(res?.statusText);
       })
       .catch((err) => toast.error(err?.statusText));
-  };
+  };  
   return (
     <>
-      <Item
-        sx={{
-          marginTop: "5px",
-          borderLeft: "10px solid cadetblue",
-          borderRadius: "10px",
-        }}
-      >
-        <Box
-          onClick={onClickDoneIcon}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            borderBottom: "1px solid gray",
-            padding: "10px",
-          }}
-        >
-          <h5>Documents durbanisme rattaches</h5>
-          <div>
-            {doneIconState?.iconState || CompName==="currentcases"? (
-              <DoneIcon sx={{ backgroundColor: "green" }} />
-            ) : null}
-            <span className="inputs-heading-text"> Reduire</span>
-          </div>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "10px",
-          }}
-        >
-          {
-          <Grid
-          ref={focusPoint} item md={12}>
-            <Item sx={{ boxShadow: "none" }}>
-              <Typography
-                align="start"
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                Saisai
-              </Typography>
-              <form
-                className="establishment-form"
-                type="submit"
-                onSubmit={handleSubmit}
-              >
-                <div className="inputs-container">
-                  <div class="flex-form">
-                    <input type="text" placeholder="Type" />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="caseTypeId"
-                      onChange={handleChange}
-                      value={currentcasescaseTypeId}
-                      required
-                    >
-                      <option value="">Select Type</option>
-                      {dropdownValue.casetype.data?.map((item, i) => (
-                        <option value={item.value}>{item.text}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="flex-form">
-                    <input type="text" placeholder="Commission" />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="commisionTypeId"
-                      onChange={handleChange}
-                      value={currentcasescommisionTypeId}
-                      required
-                    >
-                      <option value="">Select Commission</option>
-                      {dropdownValue.commission.data?.map((item) => (
-                        <option value={item.value}>{item.text}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="flex-form">
-                    <input type="text" placeholder="Agent" />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="agent"
-                      value={dropdownValue?.inputsvalue?.data?.firstName}
-                      disabled
-                      required
-                    />
-                  </div>
-                  <div class="flex-form">
-                    <input type="text" placeholder="Group" />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="group"
-                      value={dropdownValue?.inputsvalue?.data?.group}
-                      disabled
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="inputs-container">
-                  {inputDisableState === "1" ? (
-                    <div class="flex-form">
-                      <input type="text" placeholder="Study" />
-                      <select
-                        className="dropdown"
-                        type="select"
-                        name="studyTypeId"
-                        onChange={handleChange}
-                        value={currentcasesstudyTypeId}
-                        required
-                      >
-                        <option value="">Select Study</option>
-                        {dropdownValue.studytype.data?.map((item) => (
-                          <option value={item.value}>{item.text}</option>
-                        ))}
-                      </select>
-                    </div>
-                  ) : null}
-                  {inputDisableState === "2" ? (
-                    <div class="flex-form">
-                      <input type="text" placeholder="Visit" />
-                      <select
-                        className="dropdown"
-                        type="select"
-                        name="visitTypeId"
-                        onChange={handleChange}
-                        value={currentcasesvisitTypeId}
-                        required
-                      >
-                        {dropdownValue.visittype.data?.map((item) => (
-                          <option value={item.value}>{item.text}</option>
-                        ))}
-                      </select>
-                    </div>
-                  ) : null}
-                  <div class="flex-form">
-                    <input type="text" placeholder="Commission Date" />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="commissiondate"
-                      value={
-                        currentcasescommisionDate
-                          ? currentcasescommisionDate
-                          : dropdownValue?.commissiondate?.data?.commisionDate
-                      }
-                      disabled
-                      required
-                    />
-                  </div>
-                  <div class="flex-form">
-                    <input type="text" placeholder="Service" />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="service"
-                      disabled
-                      value={dropdownValue?.inputsvalue?.data?.service}
-                    />
-                  </div>
-
-                  <Box>
-                    <button
-                      className="establishment-search-btn-submit"
+     {
+       CompName==="currentcases" ? ( <ActiveTabHeader
+        setActiveSearch={setActiveSearch}
+        setActiveLink={setActiveLink}
+      />):null
+     }
+     
+      {
+      (activeLink === 0 && CompName==="currentcases") || (compShow ==="filestructure")? (
+        <>
+          <Item
+            sx={{
+              marginTop: "5px",
+              borderLeft: "10px solid cadetblue",
+              borderRadius: "10px",
+            }}
+          >
+            <Box
+              onClick={onClickDoneIcon}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "1px solid gray",
+                padding: "10px",
+              }}
+            >
+              <h5>Création de dossier</h5>
+              <div>
+                {doneIconState?.iconState || CompName === "currentcases" ? (
+                  <DoneIcon sx={{ backgroundColor: "green" }} />
+                ) : null}
+                <span className="inputs-heading-text"> Reduire</span>
+              </div>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px",
+              }}
+            >
+              {
+                // 
+                <Grid  ref={focusPoint} className={`${classstate}`} item md={12}>
+                  <Item sx={{ boxShadow: "none" }}>
+                    <form
+                      className="establishment-form"
                       type="submit"
+                      onSubmit={handleSubmit}
                     >
-                      {" "}
-                      To Validate{" "}
-                    </button>
-                  </Box>
-                </div>
-              </form>
-            </Item>
-          </Grid>
-           }
-        </Box>
-      </Item>
+                      <div className="inputs-container">
+                      <label>Nauture dossier</label> <br/>
+                        <div class="flex-form">
+                        
+                          <input type="text" placeholder="Type" />
+                          <select
+                            className="dropdown"
+                            type="select"
+                            name="caseTypeId"
+                            onChange={handleChange}
+                            value={currentcasescaseTypeId}
+                            required
+                          >
+                            <option value="">Sélectionner le genr</option>
+                            {dropdownValue.casetype.data?.map((item, i) => (
+                              <option value={item.value}>{item.text}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <label>Commission</label><br/>
+                        <div class="flex-form">
+                          <input type="text" placeholder="Commission" />
+                          <select
+                            className="dropdown"
+                            type="select"
+                            name="commisionTypeId"
+                            onChange={handleChange}
+                            value={currentcasescommisionTypeId}
+                            required
+                          >
+                            <option value="">Sélectionner une commission</option>
+                            {dropdownValue.commission.data?.map((item) => (
+                              <option value={item.value}>{item.text}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <label>Agent</label>
+                        <div class="flex-form">
+                          <input type="text" placeholder="Agent" />
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="agent"
+                            value={dropdownValue?.inputsvalue?.data?.firstName}
+                            disabled
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="inputs-container">
+                        {inputDisableState === "1" ? (
+                          <div class="flex-form flex-form-space">
+                            <input type="text" placeholder="Etude" />
+                            <select
+                              className="dropdown"
+                              type="select"
+                              name="studyTypeId"
+                              onChange={handleChange}
+                              value={currentcasesstudyTypeId}
+                              required
+                            >
+                              <option value="">Sélectionnez l'étude</option>
+                              {dropdownValue.studytype.data?.map((item) => (
+                                <option value={item.value}>{item.text}</option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : null}
+                        {inputDisableState === "2" ? (
+                          <div class="flex-form">
+                            <input type="text" placeholder="Visite" />
+                            <select
+                              className="dropdown"
+                              type="select"
+                              name="visitTypeId"
+                              onChange={handleChange}
+                              value={currentcasesvisitTypeId}
+                              required
+                            >
+                              {dropdownValue.visittype.data?.map((item) => (
+                                <option value={item.value}>{item.text}</option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : null}
+                        <div class="flex-form">
+                          <input type="text" placeholder="Date commission" />
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="commissiondate"
+                            value={
+                              currentcasescommisionDate
+                                ? currentcasescommisionDate
+                                : dropdownValue?.commissiondate?.data
+                                    ?.commisionDate
+                            }
+                            disabled
+                            required
+                          />
+                        </div>
+                        <div class="flex-form flex-form-space">
+                          <input type="text" placeholder="Groupement" />
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="group"
+                            value={dropdownValue?.inputsvalue?.data?.group}
+                            disabled
+                            required
+                          />
+                        </div>
+                        <div class="flex-form">
+                          <input type="text" placeholder="Service" />
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="service"
+                            disabled
+                            value={dropdownValue?.inputsvalue?.data?.service}
+                          />
+                        </div>
 
-      {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
-        <OpenSearchStudyForm
-          CompName={CompName}
-          indexdata={indexdata}
-          townplanning={state.townObj}
-          study={state.study}
-          casefileId={inputValues.caseid}
-          setCheckboxObj={setCheckboxObj}
-          postCheckboxesData={postCheckboxesData}
-        />
-      ) : null}
-      {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
-        <OpenSearchVisitForm
-          CompName={CompName}
-          indexdata={indexdata}
-          visit={state.visit}
-          casefileId={inputValues.caseid}
-          setCheckboxObj={setCheckboxObj}
-          postCheckboxesData={postCheckboxesData}
-        />
+                        <Box sx={{textAlign:"end"}}>
+                          <button
+                            className="establishment-search-btn-submit"
+                            type="submit"
+                          >
+                            {" "}
+                            VALIDER{" "}
+                          </button>
+                        </Box>
+                      </div>
+                    </form>
+                  </Item>
+                </Grid>
+              }
+            </Box>
+          </Item>
+
+          {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
+            <OpenSearchStudyForm
+            compShow={compShow}
+              CompName={CompName}
+              indexdata={indexdata}
+              townplanning={state.townObj}
+              study={state.study}
+              casefileId={inputValues.caseid}
+              setCheckboxObj={setCheckboxObj}
+              postCheckboxesData={postCheckboxesData}
+              checkBoxRes={checkBoxRes}
+            />
+          ) : null}
+          {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
+            <OpenSearchVisitForm
+            compShow={compShow}
+              CompName={CompName}
+              indexdata={indexdata}
+              visit={state.visit}
+              casefileId={inputValues.caseid}
+              setCheckboxObj={setCheckboxObj}
+              postCheckboxesData={postCheckboxesData}
+              checkBoxRes={checkBoxRes}
+            />
+          ) : null}
+        </>
       ) : null}
     </>
   );

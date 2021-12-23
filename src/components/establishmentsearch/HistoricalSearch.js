@@ -72,10 +72,8 @@ const HistoricalSearch = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("inputValues", inputValues);
     api("post", `/api/v1/create_generaldata_establishment`, inputValues).then(
       (res) => {
-        console.log("res", res.status);
         if (res.status === 200) {
           setHistoricalCompState(true);
         }

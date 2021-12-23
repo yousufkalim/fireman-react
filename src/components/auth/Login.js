@@ -42,7 +42,6 @@ const Login = () => {
       password: data.get("password"),
     })
       .then((res) => {
-        console.log(res);
         const token = res?.data?.token;
         const user = jwt(token); // decode your token here
          localStorage.setItem('user', user?.email);

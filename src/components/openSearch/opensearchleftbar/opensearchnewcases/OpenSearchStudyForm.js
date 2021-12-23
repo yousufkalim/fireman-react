@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Box from "@mui/material/Box";
 import api from "../../../../api/index";
 import Grid from "@mui/material/Grid";
@@ -14,6 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const EstablishmentSearchStudyForm = ({
   indexdata,
+  compShow,
   CompName,
   townplanning,
   study,
@@ -27,7 +28,8 @@ const EstablishmentSearchStudyForm = ({
   const [toggleUpdateTabstwo, setToggleUpdateTabstwo] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
   );
-
+const [classState,  setClassState] = useState(true)
+const [iconState, seticonState] = useState(false)
   const [formValues, setFormValues] = useState({
     originId: "",
     caseAverageId: "",
@@ -44,12 +46,18 @@ const EstablishmentSearchStudyForm = ({
     origin: "",
     requesttype: "",
   });
+  const focusPoint = useRef(null);
   const onClickTownPlanning = () => {
     setToggleUpdateTabs(!toggleUpdateTabs);
+    if(compShow==="filestructure"){
+      classState? focusPoint.current.style.display = "block":focusPoint.current.style.display = "none"
+    }
+    setClassState(!classState)
   };
 
   const onClickdetailsObj = () => {
     setToggleUpdateTabstwo(!toggleUpdateTabstwo);
+    
   };
 
   useEffect(() => {
@@ -113,9 +121,16 @@ const EstablishmentSearchStudyForm = ({
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
         toast.success(res?.statusText);
+        if(res?.status===200){
+          seticonState(true);
+        }
+        if(compShow==="filestructure" && res?.status===200){
+          focusPoint.current.style.display = "none"
+        }
       })
       .catch((err) => toast.error(err?.statusText));
   };
+  
   return (
     <>
       <Item
@@ -136,8 +151,8 @@ const EstablishmentSearchStudyForm = ({
         >
           <h5>Related town planning documents</h5>
           <div>
-            {indexdata?.sectionindex === 1 ? <CheckIcon /> : null}
-
+            {indexdata?.sectionindex === 1 ? <CheckIcon sx={{backgroundColor:"green"}}/> : null}
+            {iconState? <CheckIcon sx={{backgroundColor:"green"}}/> : null}
             <span className="inputs-heading-text"> Reduire</span>
           </div>
         </Box>
@@ -147,17 +162,20 @@ const EstablishmentSearchStudyForm = ({
           }}
         >
           <Grid
-            className={`${
-              CompName === "currentcases" && toggleUpdateTabs
-                ? "formhide"
+             ref={focusPoint}
+             className={`${
+             CompName === "currentcases" && toggleUpdateTabs?
+               "formhide"
                 : "formdisplay"
             }`}
           >
             <form onSubmit={handleSubmit}>
               <div className="establishment-form ">
+                
                 <div className="inputs-container">
+                <label>Saisie</label>
                   <div class="flex-form">
-                    <input type="text" placeholder="Origin" />
+                    <input type="text" placeholder="Origine" />
                     <select
                       className="dropdown"
                       type="select"
@@ -165,14 +183,14 @@ const EstablishmentSearchStudyForm = ({
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Select Origin</option>
+                      <option value="">Sélectionnez l'origine</option>
                       {dropdownValue?.origin?.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
                     </select>
                   </div>
                   <div class="flex-form">
-                    <input type="text" placeholder="Dated" />
+                    <input type="text" placeholder="Date" />
                     <input
                       type="search"
                       onChange={handleChange}
@@ -181,17 +199,9 @@ const EstablishmentSearchStudyForm = ({
                       required
                     />
                   </div>
+                 <label> Références d’urbanisme</label>
                   <div class="flex-form">
-                    <input type="text" placeholder="Name" />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="applicant"
-                      required
-                    />
-                  </div>
-                  <div class="flex-form">
-                    <input type="text" placeholder="Request type" />
+                    <input type="text" placeholder="Type demande" />
                     <select
                       className="dropdown"
                       type="select"
@@ -199,16 +209,27 @@ const EstablishmentSearchStudyForm = ({
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Select Request Type</option>
+                      <option value="">Sélectionnez le type de demande</option>
                       {dropdownValue.requesttype.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
                     </select>
                   </div>
-                </div>
-                <div className="inputs-container">
+                  <label>Demandeur</label>
                   <div class="flex-form">
-                    <input type="text" placeholder="Average" />
+                    <input type="text" placeholder="Nom" />
+                    <input
+                      type="search"
+                      onChange={handleChange}
+                      name="applicant"
+                      required
+                    />
+                  </div>
+                  
+                </div>
+                <div className="inputs-container inputs-container-study">
+                  <div class="flex-form">
+                    <input type="text" placeholder="Moyen" />
                     <select
                       className="dropdown"
                       type="select"
@@ -216,14 +237,14 @@ const EstablishmentSearchStudyForm = ({
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Select Average</option>
+                      <option value="">Sélectionnez Moyenne</option>
                       {dropdownValue.average.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
                     </select>
                   </div>
                   <div class="flex-form">
-                    <input type="text" placeholder="Reception Service" />
+                    <input type="text" placeholder="Réception service" />
                     <input
                       type="search"
                       onChange={handleChange}
@@ -232,7 +253,7 @@ const EstablishmentSearchStudyForm = ({
                       required
                     />
                   </div>
-                  <div class="flex-form">
+                  <div class="flex-form flex-form-space">
                     <input type="text" placeholder="Ref." />
                     <input
                       type="search"
@@ -242,7 +263,7 @@ const EstablishmentSearchStudyForm = ({
                     />
                   </div>
 
-                  <div class="flex-form">
+                  <div class="flex-form flex-form-space">
                     <input type="text" placeholder="Mobile" />
                     <input
                       type="search"
@@ -298,7 +319,7 @@ const EstablishmentSearchStudyForm = ({
                   className="establishment-search-btn-submit"
                 >
                   {" "}
-                  To Validate{" "}
+                  VALIDER{" "}
                 </button>
               </Box>
             </form>
@@ -328,6 +349,7 @@ const EstablishmentSearchStudyForm = ({
                 <span className="inputs-heading-text"> Reduire</span>
               </div>
             </Box>
+            <form onSubmit={handleSubmit}>
             <Box
               className={`${
                 CompName === "currentcases" && toggleUpdateTabstwo
@@ -340,15 +362,32 @@ const EstablishmentSearchStudyForm = ({
                   <h5> {item.checkHeadingName}</h5>
                   {item?.chkList?.map((val) => (
                     <div className="checkbox-container">
-                      <input className="study-form-checkbox" type="checkbox" />
+                      <input  
+                      onChange={handleChange} 
+                      className="study-form-checkbox" 
+                      name="checkbox"
+                      type="checkbox" 
+                      id={val.caseFileCheckListId}
+                      />
                       <label for="checkbox"> {val.name}</label> <br />
                     </div>
                   ))}
                 </>
               ))}
             </Box>
+            <Box sx={{ textAlign: "end" }}>
+                <button
+                  type="submit"
+                  className="establishment-search-btn-submit"
+                >
+                  {" "}
+                  VALIDER{" "}
+                </button>
+              </Box>
+              </form>
           </Grid>
         </Box>
+        
       </Item>
     </>
   );

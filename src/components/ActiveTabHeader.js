@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import EstablishmentSearchContainer from "./establishmentsearch/EstablishmentSearchContainer";
-const EstablishmentSearchActivePanel = ({getActiveTab}) => {
+const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveLink,compShow}) => {
   const [activeTab, setActiveTab] = useState(0);
   const items = [
     {
@@ -30,8 +30,14 @@ const EstablishmentSearchActivePanel = ({getActiveTab}) => {
     },
   ];
   const onClick = (e) => {
-    setActiveTab(e);
-    getActiveTab(e)
+    if(e!=0){
+      setActiveSearch("")
+    }
+    if(e===0){
+      setActiveSearch("newcases")
+    }
+    setActiveTab(e)
+    setActiveLink(e)
   };
   return (
     <>

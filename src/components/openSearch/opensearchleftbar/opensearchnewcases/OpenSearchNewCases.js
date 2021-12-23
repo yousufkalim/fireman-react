@@ -9,7 +9,7 @@ const EstablishmentSearchNewCases = () => {
       {compShow === "newcases" ? (
         <OpenSearchNewCasesInputs setCompShow={setCompShow} />
       ) : null}
-      {compShow === "filestructure" ? <FolderCreationSection /> : null}
+      {compShow === "filestructure" ? <FolderCreationSection compShow={compShow}/> : null}
     </>
   );
 };

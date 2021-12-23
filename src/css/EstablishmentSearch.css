@@ -77,6 +77,7 @@
 }
 .inputs-container {
   width: 50%;
+  text-align: start;
 }
 .flex-form select {
   width: inherit;
@@ -113,5 +114,24 @@
 }
 
 .formhide{
+  display: none;
+}
+
+
+/* opensearchstudyform */
+
+.flex-form-space{
+ padding-top: 30px;
+}
+
+.inputs-container-study{
+  margin-top: 17px;
+}
+
+#formdisplay{
+  display: block;
+}
+
+#formhide{
   display: none;
 }

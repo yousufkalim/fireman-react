@@ -35,12 +35,14 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
       }
     );
   }, []);
-  const getCurrentCases = (e) => {
-    const name = e.target.id;
-    setActiveSearch(name);
-  };
+  // const getCurrentCases = (e) => {
+  //   const name = e.target.id;
+  //   alert(name)
+  //   setActiveSearch(name);
+  // };
   const onClick = (e) => {
     setActive(e);
+    setActiveSearch(e);
   };
   return (
     <>
@@ -49,12 +51,12 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
         return (
           <Box
             className={`unactive leftbar-icon-text ${className}`}
-            onClick={() => onClick(item.id)}
+             onClick = {()=>onClick(item.id)}
             sx={{ margin: "10px 0px" }}
           >
             <div>
               {item.icon}
-              <span id={item.id} onClick={getCurrentCases}>
+              <span id={item.id} >
                 {item.text}
               </span>
             </div>
