@@ -1,5 +1,5 @@
 // Init
-import React from "react";
+import React,{useEffect} from "react";
 import { ToastContainer, Flip } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SetAuthToken from "./utils/SetAuthToken";
@@ -13,7 +13,6 @@ function App() {
   if (userdata?.usertoken) {
     SetAuthToken(userdata?.usertoken);
   }
-
   return (
     <div className="App">
       {/* toastify Container for Notification */}

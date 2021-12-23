@@ -10,7 +10,7 @@ const EstablishmentSearchInputHeader = () => {
           padding: "15px",
           borderLeft: "10px solid green",
           borderRadius: "8px",
-          backgroundColor: "#fff"
+          backgroundColor: "#fff",
         }}
       >
         <h5>Documents durbanisme rattaches</h5>

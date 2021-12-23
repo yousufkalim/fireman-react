@@ -1,27 +1,23 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
-
-
-
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  let user = localStorage.getItem("user");
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,47 +29,47 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    localStorage.removeItem("userData");
+    window.location = "/login";
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
-       id={menuId}
+      id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -106,8 +102,15 @@ export default function Navbar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, fontSize:'18px' }}>
-      <AppBar sx={{backgroundColor:"aliceblue", boxShadow:'none', color:'#000000'}} position="static">
+    <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
+      <AppBar
+        sx={{
+          backgroundColor: "aliceblue",
+          boxShadow: "none",
+          color: "#000000",
+        }}
+        position="static"
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -118,21 +121,29 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-         <Box sx={{display:'flex', flexDirection:'column'}}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <span>visite periodique</span>
             <span>La Grande Recre</span>
             <span>sevegre/202174-41</span>
-         </Box>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-             <Typography
-            variant="span"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block', md:'flex', justifyContent:'center', alignItems:'center' } }}
-          >
-            17,November 2021
-          </Typography>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Typography
+              variant="span"
+              noWrap
+              component="div"
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "block",
+                  md: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
+              17,November 2021
+            </Typography>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -153,12 +164,12 @@ export default function Navbar() {
             >
               <AccountCircle />
             </IconButton>
-            <Box sx={{padding:'25px 10px'}}>
-              <h5>Ludovic Crepy</h5>
+            <Box sx={{ padding: "25px 10px" }}>
+              <h5>{user}</h5>
               <span>Inspecteur</span>
-              </Box>
+            </Box>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -169,7 +180,6 @@ export default function Navbar() {
             >
               <MoreIcon />
             </IconButton>
-            
           </Box>
         </Toolbar>
       </AppBar>

@@ -16,7 +16,6 @@ const EstablishmentSearchRightBar = () => {
         sx={{
           backgroundColor: "#fff",
           padding: "0px 20px",
-          margin: "10px 0px",
         }}
       >
         <Box sx={{ p: 2, backgroundColor: "#fff" }}>
