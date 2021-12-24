@@ -6,12 +6,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import {UpdateStore} from '../../../../StoreContext'
+import {Store} from '../../../../StoreContext'
 
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+  const updatestore = UpdateStore();
+    const store = Store()
   const onClick = (id) => {
+    updatestore({establishmentId:id})
     localStorage.setItem("establishmentid", id);
     setCompShow("filestructure");
   };
+console.log(store.establishmentId,"store");
   return (
     <>
       <TableContainer sx={{ marginTop: "10px" }} component={Paper}>

@@ -21,9 +21,11 @@ export function StoreProvider({ children }) {
     loggedIn: false,
     user: {},
     authorization: false,
+    establishmentId:null
   });
 
   const updateStore = (data) => {
+    console.log(data,"data");
     setStore((prev) => {
       return {
         ...prev,

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/index";
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0)];
 const CreateHistoricalData = () => {
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
