@@ -26,24 +26,20 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
       icon: <AccessibilityIcon />,
     },
   ];
-  useEffect(() => {
-    let userId = localStorage.getItem("userData");
-    userId = JSON.parse(userId);
-    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then(
-      (res) => {
-        console.log("response",res);
-        getResponse(res);
-      }
-    );
-  }, []);
-  // const getCurrentCases = (e) => {
-  //   const name = e.target.id;
-  //   alert(name)
-  //   setActiveSearch(name);
-  // };
+  
   const onClick = (e) => {
     setActive(e);
     setActiveSearch(e);
+    if(e==="currentcases"){
+      let userId = localStorage.getItem("userData");
+      userId = JSON.parse(userId);
+      api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then(
+        (res) => {
+          console.log("response",res);
+          getResponse(res);
+        }
+      );
+    }
   };
   return (
     <>

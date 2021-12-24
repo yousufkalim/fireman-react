@@ -12,6 +12,7 @@ import moment from "moment";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
+  const [Studydata, setStudydata] = useState([])
   const [indexdata, setIndexdata] = useState({
     sectionindex: "",
     tabindex: "",
@@ -29,6 +30,10 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
         setFolderCreationData(res?.data);
       }
     );
+    api('get', `/api/v1/casefiles/get_open_townplanning/${id}`).then((res)=>{
+      console.log("study",res);
+      setStudydata(res)
+      })
   };
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -36,6 +41,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  console.log("",currentcasesData);
   return (
     <>
       {folderCreationData.length !== 0 ? (
@@ -48,6 +54,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
           currentcasesstudyTypeId={folderCreationData.studyTypeId}
           currentcasesvisitTypeId={folderCreationData.visitTypeId}
           currentcasescommisionDate={folderCreationData.commisionDate}
+          Studydata={Studydata}
         />
       ) : (
         <Item
@@ -65,12 +72,12 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell>CaseTypeName</TableCell>
-                  <TableCell align="right">caseAverageName</TableCell>
-                  <TableCell align="right">commisionDate&nbsp;</TableCell>
-                  <TableCell align="right">createdAt&nbsp;</TableCell>
-                  <TableCell align="right">employeeName&nbsp;</TableCell>
-                  <TableCell align="right">refNum&nbsp;</TableCell>
+                  <TableCell><span>Type</span> <br/> <span>Ref</span> </TableCell>
+                  <TableCell align="left">caseAverageName</TableCell>
+                  <TableCell align="left">commisionDate&nbsp;</TableCell>
+                  <TableCell align="left">createdAt&nbsp;</TableCell>
+                  <TableCell align="left">employeeName&nbsp;</TableCell>
+                  <TableCell align="left">refNum&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -89,14 +96,14 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.caseTypeName}
+                    <span>  {row.caseTypeName} </span> <br/> <span>{row.refNum}</span>
                     </TableCell>
-                    <TableCell align="right">{row.caseAverageName}</TableCell>
-                    <TableCell align="right">{row.commisionDate}</TableCell>
-                    <TableCell align="right">{row.createdAt}</TableCell>
-                    <TableCell align="right">{row.employeeName}</TableCell>
-                    <TableCell align="right">{row.refNum}</TableCell>
-                    <TableCell align="right">{row.state}</TableCell>
+                    <TableCell align="left"> {row.caseAverageName}  </TableCell>
+                    <TableCell align="left">{row.commisionDate}</TableCell>
+                    <TableCell align="left">{row.createdAt}</TableCell>
+                    <TableCell align="left">{row.employeeName}</TableCell>
+                    <TableCell align="left">{row.refNum}</TableCell>
+                    <TableCell align="left">{row.state}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

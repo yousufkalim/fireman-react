@@ -27,6 +27,7 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
+  Studydata
 }) => {
   const [checkboxObj, setCheckboxObj] = useState([]);
   const [doneIconState, setdoneIconState] = useState({
@@ -472,6 +473,7 @@ const FolderCreationSection = ({
               setCheckboxObj={setCheckboxObj}
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
+              Studydata={Studydata}
             />
           ) : null}
           {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
