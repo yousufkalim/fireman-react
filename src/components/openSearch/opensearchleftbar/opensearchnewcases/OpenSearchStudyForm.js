@@ -21,6 +21,7 @@ const EstablishmentSearchStudyForm = ({
   casefileId,
   setCheckboxObj,
   postCheckboxesData,
+  Studydata
 }) => {
   const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
@@ -85,8 +86,9 @@ const [iconState, seticonState] = useState(false)
         };
       });
     });
+    
   }, []);
-
+console.log("stu",Studydata);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -130,7 +132,7 @@ const [iconState, seticonState] = useState(false)
       })
       .catch((err) => toast.error(err?.statusText));
   };
-  
+  console.log("",Studydata?.data?.townPlanningDate);
   return (
     <>
       <Item
@@ -180,10 +182,11 @@ const [iconState, seticonState] = useState(false)
                       className="dropdown"
                       type="select"
                       name="originId"
+                     value={Studydata?.data?.originId}
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Sélectionnez l'origine</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue?.origin?.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -195,6 +198,7 @@ const [iconState, seticonState] = useState(false)
                       type="search"
                       onChange={handleChange}
                       name="townPlanningDate"
+                      value={Studydata?.data?.townPlanningDate}
                       type="date"
                       required
                     />
@@ -207,9 +211,10 @@ const [iconState, seticonState] = useState(false)
                       type="select"
                       name="requestTypeId"
                       onChange={handleChange}
+                      value={Studydata?.data?.requestTypeId}
                       required
                     >
-                      <option value="">Sélectionnez le type de demande</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.requesttype.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -221,6 +226,7 @@ const [iconState, seticonState] = useState(false)
                     <input
                       type="search"
                       onChange={handleChange}
+                      value={Studydata?.data?.applicant}
                       name="applicant"
                       required
                     />
@@ -234,10 +240,11 @@ const [iconState, seticonState] = useState(false)
                       className="dropdown"
                       type="select"
                       name="caseAverageId"
+                      value={Studydata?.data?.caseAverageId}
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Sélectionnez Moyenne</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.average.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -250,6 +257,7 @@ const [iconState, seticonState] = useState(false)
                       onChange={handleChange}
                       name="receptionServiceDate"
                       type="date"
+                      value={Studydata?.data?.receptionServiceDate}
                       required
                     />
                   </div>
@@ -259,6 +267,7 @@ const [iconState, seticonState] = useState(false)
                       type="search"
                       onChange={handleChange}
                       name="refNum"
+                      value={Studydata?.data?.refNum}
                       required
                     />
                   </div>
@@ -269,6 +278,7 @@ const [iconState, seticonState] = useState(false)
                       type="search"
                       onChange={handleChange}
                       name="mobile"
+                      value={Studydata?.data?.mobile}
                       required
                     />
                   </div>
@@ -278,6 +288,7 @@ const [iconState, seticonState] = useState(false)
                       type="search"
                       onChange={handleChange}
                       name="email"
+                      value={Studydata?.data?.email}
                       required
                     />
                   </div>

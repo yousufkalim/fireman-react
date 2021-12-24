@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../api/index";
 import CreateHistoricalData from "./CreateHistoricalData";
+import {Store} from '../../StoreContext'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -20,7 +21,6 @@ const HistoricalSearch = () => {
     cityId: "",
   });
   const [inputValues, setInputValues] = useState({
-    establishmentId: 0,
     establishmentName: "",
     statusId: "",
     cityId: "",
@@ -69,10 +69,16 @@ const HistoricalSearch = () => {
       };
     });
   };
-
+  const store = Store()
   const handleSubmit = (e) => {
     e.preventDefault();
-    api("post", `/api/v1/create_generaldata_establishment`, inputValues).then(
+    
+    const updatedObj = {
+      ...inputValues,
+      establishmentId:store.establishmentId
+    }
+    console.log("inputValues",updatedObj);
+    api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {
           setHistoricalCompState(true);
@@ -255,7 +261,7 @@ const HistoricalSearch = () => {
                 </div>
               </form>
             </Item>
-            {HistoricalCompState ? <CreateHistoricalData /> : null}
+            {HistoricalCompState ? <CreateHistoricalData establishmentid={store.establishmentId}/> : null}
           </Grid>
         </Box>
       </Item>

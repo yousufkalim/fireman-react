@@ -27,7 +27,7 @@ const Body = () => {
   };
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Grid
         sx={{ backgroundColor: "aliceblue", padding: "0px 20px" }}
         container

@@ -27,6 +27,7 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
+  Studydata
 }) => {
   const [checkboxObj, setCheckboxObj] = useState([]);
   const [doneIconState, setdoneIconState] = useState({
@@ -65,9 +66,8 @@ const FolderCreationSection = ({
   });
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState()
-  const focusPoint = useRef(null);
-   console.log(CompName);   
-   
+  const focusPoint = useRef(null);  
+   console.log("dropdownValue?.commissiondate?.data?.commisionDate",dropdownValue?.commissiondate?.data?.commisionDate);
   useEffect(() => {
     CompName === "currentcases" && (indexdata.sectionindex===0|| indexdata.sectionindex===1 ) && activeLink===0?
       setclassstate("formhide")  : setclassstate("formdisplay") 
@@ -336,7 +336,7 @@ const FolderCreationSection = ({
                             value={currentcasescaseTypeId}
                             required
                           >
-                            <option value="">Sélectionner le genr</option>
+                            <option value="">Choisissez s'il vous plaît</option>
                             {dropdownValue.casetype.data?.map((item, i) => (
                               <option value={item.value}>{item.text}</option>
                             ))}
@@ -353,7 +353,7 @@ const FolderCreationSection = ({
                             value={currentcasescommisionTypeId}
                             required
                           >
-                            <option value="">Sélectionner une commission</option>
+                            <option value="">Choisissez s'il vous plaît</option>
                             {dropdownValue.commission.data?.map((item) => (
                               <option value={item.value}>{item.text}</option>
                             ))}
@@ -384,7 +384,7 @@ const FolderCreationSection = ({
                               value={currentcasesstudyTypeId}
                               required
                             >
-                              <option value="">Sélectionnez l'étude</option>
+                              <option value="">Choisissez s'il vous plaît</option>
                               {dropdownValue.studytype.data?.map((item) => (
                                 <option value={item.value}>{item.text}</option>
                               ))}
@@ -417,8 +417,7 @@ const FolderCreationSection = ({
                             value={
                               currentcasescommisionDate
                                 ? currentcasescommisionDate
-                                : dropdownValue?.commissiondate?.data
-                                    ?.commisionDate
+                                : Date.parse(dropdownValue?.commissiondate?.data?.commisionDate).ddmmyyyy
                             }
                             disabled
                             required
@@ -474,6 +473,7 @@ const FolderCreationSection = ({
               setCheckboxObj={setCheckboxObj}
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
+              Studydata={Studydata}
             />
           ) : null}
           {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
