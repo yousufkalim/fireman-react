@@ -1,12 +1,5 @@
-import React,{useState,useEffect} from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import api from '../../api/index'
+import React, { useState, useEffect } from "react";
+import api from "../../api/index";
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -14,86 +7,91 @@ function createData(name, calories, fat, carbs, protein) {
 const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0)];
 const CreateHistoricalData = () => {
   const [dropdownValue, setdropdownValue] = useState({
-    object: "",
+    objectDropdown: "",
   });
+  const [detailValue, setDetailsValue] = useState({
+    detailone:""
+  })
   useEffect(() => {
-   api("get","/api/v1/historicalobjects/dropdown").then((res)=>{
-    setdropdownValue((pre)=>{
+    api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
+      setdropdownValue((pre) => {
+        return {
+          ...pre,
+          objectDropdown: res,
+        };
+      });
+    });
+  }, []);
+  
+  const [inputValues, setInputValues] = useState({ 
+  historicalEventId: "0",
+  historicalOpinionId: "0",
+  historicalObjectId: "0",
+  dateEvent: "",
+  details: "",
+  establishmentId: "0",
+  urbanPlanningRef: ""
+  });
+  
+  const handleChange = (e) => {
+    console.log(inputValues.object,inputValues.opinion );
+    const name = e.target.name;
+    const value = e.target.value;
+    setInputValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: value,
+      };
+    });
+    setDetailsValue(()=>{
       return{
-        ...pre,
-        object:res
+        detailone: inputValues.object=="Projet de construction" && inputValues.opinion =="favourable"? 
+        "Optionally give the general nature of the modifications. EX The modifications relate to the smoke extraction of the circulation of the floors. The box in the PRECISIONS column begins with  The changes relate to...":null
       }
     })
-   })
-  }, [])
+  }
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+  api("post","/api/v1/create_historicaldata_establishment", inputValues).then((res)=>(
+    console.log("reshis",res)
+  ))
 
-  console.log("res",dropdownValue.object);
+  }
+  console.log("detailValue", inputValues);
   return (
     <>
       <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Dated</TableCell>
-                <TableCell align="right">Object</TableCell>
-                <TableCell align="right">Opinion</TableCell>
-                <TableCell align="right">
-                  Details - Will appear in the report
-                </TableCell>
-                <TableCell align="right">Urban Planning Reference</TableCell>
-                <TableCell align="right">Enclosed</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="right">
-                    <input name="date" type="date" />
-                  </TableCell>
-                  <TableCell align="right">
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="caseTypeId"
-                      required
-                    >
-                      <option value="">Projet de construction</option>
-                      {dropdownValue.object.data?.map((item, i) => (
-                        <option value={item.value}>{item.text}</option>
-                      ))}
-                    </select>
-                  </TableCell>
-                  <TableCell align="right">
+      <form onSubmit={handleSubmit}>   
+                  <input  onChange={handleChange} name="dateEvent" type="date" />
                   <select
-                      className="dropdown"
-                      type="select"
-                      name="caseTypeId"
-                      required
-                    >
-                      <option value="">Projet de construction</option>
-                        <option value="0">Avis favorable</option>
-                        <option value="1">Avis défavorable</option>
-                        <option value="2">Sans avis</option>
-                    </select>
-                  </TableCell>
-                  <TableCell align="right">
-                    <input type="text" />
-                  </TableCell>
-                  <TableCell align="right">
-                    <input type="text" />
-                  </TableCell>
-                  <TableCell align="right">
-                    <input type="file" />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    className="dropdown"
+                    type="select"
+                    name="historicalObjectId"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Projet de construction</option>
+                    {dropdownValue.objectDropdown.data?.map((item, i) => (
+                      <option value={i}>{item.text}</option>
+                    ))}
+                  </select>
+                  <select
+                    className="dropdown"
+                    type="select"
+                    name="historicalOpinionId"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select option</option>
+                    <option value="0">Avis favorable</option>
+                    <option value="1">Avis défavorable</option>
+                    <option value="2">Sans avis</option>
+                  </select>
+                  <input  onChange={handleChange} value={detailValue.detailone} name="details" type="text" />
+                  <input  onChange={handleChange} type="text" name="urbanPlanningRef"/>
+                  <input  onChange={handleChange} type="file" />
+                  <button type="submit"> Valider </button>
+                </form>
       </div>
     </>
   );

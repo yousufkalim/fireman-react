@@ -50,6 +50,7 @@ const Body = () => {
                 getActiveTab={getActiveTab}
                 setActiveLink={setActiveLink}
                 setActiveSearch={setActiveSearch}
+                activeSearch={activeSearch}
               />
               {activeSearch === "newcases" ? <OpenSearchNewCases /> : null}
             </>
