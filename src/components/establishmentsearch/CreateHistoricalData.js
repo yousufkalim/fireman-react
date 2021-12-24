@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/index";
 
-const CreateHistoricalData = () => {
+const CreateHistoricalData = ({establishmentid}) => {
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
   });
@@ -25,14 +25,18 @@ const CreateHistoricalData = () => {
   historicalObjectId: "0",
   dateEvent: "",
   details: "",
-  establishmentId: "0",
+  establishmentId: establishmentid,
   urbanPlanningRef: ""
   });
   
   const handleChange = (e) => {
-    console.log(inputValues.object,inputValues.opinion );
+    
+    const text = e.target.textContent;
+    // const data =text.filter((val)=> val.value===value)
+    const data = [{text}]
     const name = e.target.name;
     const value = e.target.value;
+    console.log("text",data);
     setInputValues((preVal) => {
       return {
         ...preVal,

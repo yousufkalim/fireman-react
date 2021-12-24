@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
 import OpenSearchFilterData from "./OpenSearchFilterData";
+import Button from '@mui/material/Button';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+}));
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
 }));
 const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
   const [dropdownValue, setdropdownValue] = useState({
@@ -95,18 +107,16 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
           marginTop: "5px",
           borderLeft: "10px solid cadetblue",
           borderRadius: "10px",
+          fontSize:"20px"
         }}
       >
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            borderBottom: "1px solid gray",
-            padding: "10px",
-          }}
+        sx={{textAlign:"start", display:"flex", paddingLeft:"16px"}}
         >
-          <h5>Documents durbanisme rattaches</h5>
-          <span className="inputs-heading-text"> Reduire</span>
+          <h5>Establissement nouveau</h5>
+          <BootstrapTooltip title="Sera mis en œuvre plus tard">
+        <Button sx={{padding:"2px 2px"}}>Creer</Button>
+      </BootstrapTooltip>
         </Box>
         <Box
           sx={{
@@ -117,20 +127,13 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
         >
           <Grid item md={12}>
             <Item sx={{ boxShadow: "none" }}>
-              <Typography
-                align="start"
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                Saisai
-              </Typography>
               <form
                 className="establishment-form"
                 type="submit"
                 onSubmit={handleSubmit}
               >
                 <div className="inputs-container">
+                <label> Etablissement existant</label>
                   <div className="flex-form">
                     <input type="text" placeholder="Ref." disabled />
                     <input
@@ -140,7 +143,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     />
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="name" disabled />
+                    <input type="text" placeholder="Nom" disabled />
                     <input type="search" onChange={handleChange} name="name" />
                   </div>
                   <div className="flex-form">
@@ -151,7 +154,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                       name="commune"
                       onChange={handleChange}
                     >
-                      <option value="">Select communue</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.city.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -160,25 +163,25 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Street/Avenue" disabled />
+                    <input type="text" placeholder="Rue/Avenue" disabled />
                     <input type="search" onChange={handleChange} name="steet" />
                   </div>
                 </div>
-                <div className="inputs-container">
+                <div className="inputs-container input-container-search">
                   <div className="flex-form">
                     <input
                       type="text"
-                      placeholder="Status"
+                      placeholder="Statut"
                       name="status"
                       disabled
                     />
                     <select
                       className="dropdown"
                       type="select"
-                      name="status"
+                      name="statut"
                       onChange={handleChange}
                     >
-                      <option value="">Select status</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.status.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -187,14 +190,14 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Classification" />
+                    <input type="text" placeholder="Classement Type" />
                     <select
                       className="dropdown"
                       type="select"
                       name="classification"
                       onChange={handleChange}
                     >
-                      <option value="">Select Classification</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.classification.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -205,14 +208,14 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
 
                   <Box>
                     <div className="flex-form">
-                      <input type="text" placeholder="Ranking" />
+                      <input type="text" placeholder="Classement CAT" />
                       <select
                         className="dropdown"
                         type="select"
                         name="ranking"
                         onChange={handleChange}
                       >
-                        <option value="">Select Ranking</option>
+                        <option value="">Choisissez s'il vous plaît</option>
                         {dropdownValue.ranking.data?.map((item) => (
                           <option key={item.value} value={item.value}>
                             {item.text}
@@ -220,13 +223,15 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                         ))}
                       </select>
                     </div>
+                    <Box sx={{textAlign:"right", paddingRight:"20px"}}> 
                     <button
                       className="establishment-search-btn-submit"
                       type="submit"
                     >
                       {" "}
-                      Search{" "}
+                      RECHERCHER{" "}
                     </button>
+                    </Box>
                   </Box>
                 </div>
               </form>

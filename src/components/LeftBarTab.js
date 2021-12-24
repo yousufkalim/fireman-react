@@ -31,6 +31,7 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
     userId = JSON.parse(userId);
     api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then(
       (res) => {
+        console.log("response",res);
         getResponse(res);
       }
     );

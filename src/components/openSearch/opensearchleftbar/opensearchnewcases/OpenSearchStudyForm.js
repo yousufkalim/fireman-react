@@ -183,7 +183,7 @@ const [iconState, seticonState] = useState(false)
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Sélectionnez l'origine</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue?.origin?.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -209,7 +209,7 @@ const [iconState, seticonState] = useState(false)
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Sélectionnez le type de demande</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.requesttype.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -237,7 +237,7 @@ const [iconState, seticonState] = useState(false)
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Sélectionnez Moyenne</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.average.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
