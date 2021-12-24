@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import EstablishmentSearchContainer from "./establishmentsearch/EstablishmentSearchContainer";
-const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveLink,compShow}) => {
+import OpenSearchNewCases from './openSearch/opensearchleftbar/opensearchnewcases/OpenSearchNewCases'
+const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveLink,activeSearch}) => {
   const [activeTab, setActiveTab] = useState(0);
+  console.log("activeSearch",activeSearch);
   const items = [
     {
       text: "Open",
@@ -39,6 +41,7 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
     setActiveTab(e)
     setActiveLink(e)
   };
+  
   return (
     <>
       <Box
@@ -85,8 +88,8 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
         </AppBar>
       </Box>
       <OpenSearchInputHeader />
-      {/* {activeTab === 0 ? <OpenSearchNewCases /> : null} */}
-      {activeTab === 1 ? <EstablishmentSearchContainer /> : null}
+        {/* {activeTab!==0 && activeSearch === "newcases" ? <OpenSearchNewCases /> : null}   */}
+      {activeTab === 1? <EstablishmentSearchContainer /> : null}
     </>
   );
 };
