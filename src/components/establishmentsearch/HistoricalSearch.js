@@ -77,7 +77,6 @@ const HistoricalSearch = () => {
       ...inputValues,
       establishmentId:store.establishmentId
     }
-    console.log("inputValues",updatedObj);
     api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {

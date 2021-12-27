@@ -8,21 +8,44 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {UpdateStore} from '../../../../StoreContext'
 import {Store} from '../../../../StoreContext'
+import { DataGrid } from "@mui/x-data-grid";
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
-  
+  console.log(establishmentSearchData);
   const updatestore = UpdateStore();
     const store = Store()
-  const onClick = (id) => {
-    updatestore({establishmentId:id})
-    localStorage.setItem("establishmentid", id);
+  //might needed in future
+  // const onClick = (id) => {
+  //   console.log("",id);
+  //   updatestore({establishmentId:id})
+  //   localStorage.setItem("establishmentid", id);
+  //   setCompShow("filestructure");
+  //   console.log(store.establishmentId,"store");
+  // };
+   const column = [ 
+     { field: "ref", headerName: "Ref.", width: 150 },
+   { field: "commune", headerName: "Commune", width: 150 },
+   { field: "nom", headerName: "Nom", width: 150 },
+   { field: "statut", headerName: "Statut", width: 150 },
+   { field: "type", headerName: "Type", width: 150 },
+   { field: "CAT", headerName: "CAT", width: 150 }
+  ]
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: 'commune',
+      sort: 'asc',
+    },
+  ]);
+const onRowClick =(data, event)=>{
+  event.defaultMuiPrevented = true;
+console.log(data,"");
+ updatestore({establishmentId:data.id})
+ localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");
-    console.log(store.establishmentId,"store");
-  };
-  
-
-  
+}
   return (
     <>
+      {/* 
+      might be needed in future
       <TableContainer sx={{ marginTop: "10px" }} component={Paper}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
@@ -60,7 +83,31 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
+
+      <div style={{ height: "50vh", width: "100%" }}>
+        
+      <DataGrid
+      onCellClick={(params,event)=>onRowClick(params,event)}
+      sortModel={sortModel}
+      onSortModelChange={(model) => setSortModel(model)}
+       columns={column.map((val,index)=>({
+        field: val.field,
+        headerName: val.headerName
+       }))} 
+       rows={establishmentSearchData.data.map((val, index) => ({
+        id: val.establishmentId,
+         ref:val.referenceNo,
+         commune:val.commune,
+         nom:val.establishmentName,
+         statut:val.status,
+         type:val.classification,
+         CAT:val.ranking,
+        sortable: false,
+      }))}
+      
+       />
+    </div>
     </>
   );
 };

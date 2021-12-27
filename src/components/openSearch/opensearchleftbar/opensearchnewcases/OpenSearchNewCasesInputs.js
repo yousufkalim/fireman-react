@@ -7,7 +7,6 @@ import api from "../../../../api/index";
 import OpenSearchFilterData from "./OpenSearchFilterData";
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),

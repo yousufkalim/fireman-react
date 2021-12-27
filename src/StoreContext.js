@@ -21,7 +21,8 @@ export function StoreProvider({ children }) {
     loggedIn: false,
     user: {},
     authorization: false,
-    establishmentId:null
+    establishmentId:null,
+    activeNavbarTab:0
   });
 
   const updateStore = (data) => {

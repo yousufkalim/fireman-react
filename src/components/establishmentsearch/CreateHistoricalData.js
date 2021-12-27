@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
 import api from "../../api/index";
-
+import _ from 'lodash';
 const CreateHistoricalData = ({establishmentid}) => {
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
@@ -30,13 +31,8 @@ const CreateHistoricalData = ({establishmentid}) => {
   });
   
   const handleChange = (e) => {
-    
-    const text = e.target.textContent;
-    // const data =text.filter((val)=> val.value===value)
-    const data = [{text}]
     const name = e.target.name;
     const value = e.target.value;
-    console.log("text",data);
     setInputValues((preVal) => {
       return {
         ...preVal,
@@ -57,7 +53,20 @@ const CreateHistoricalData = ({establishmentid}) => {
   ))
 
   }
-  console.log("detailValue", inputValues);
+  ///////////////
+  const handleChangeFiles = async e => {
+    let { files } = e.target;
+
+    let formData = new FormData();
+    _.forEach(files, file => {
+        formData.append('files', file);
+    });
+   api("post","/api/v1/upload_historicaldata_file", formData).then((res)=>{
+   console.log("", res);
+   })
+
+}
+
   return (
     <>
       <div>
@@ -89,11 +98,18 @@ const CreateHistoricalData = ({establishmentid}) => {
                   </select>
                   <input  onChange={handleChange} value={detailValue.detailone} name="details" type="text" />
                   <input  onChange={handleChange} type="text" name="urbanPlanningRef"/>
-                  <input  onChange={handleChange} type="file" />
+                
                   <button type="submit"> Valider </button>
                 </form>
+               
       </div>
+      <Box>
+      <input multiple className="file-input" type="file"  onChange={handleChangeFiles} />
+      </Box>
+    
     </>
+
+    
   );
 };
 

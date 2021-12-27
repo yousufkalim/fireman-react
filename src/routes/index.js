@@ -8,7 +8,7 @@ import Login from "../components/auth/Login";
 import Signup from "../components/auth/Signup";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import OpenSearch from "../containers/OpenSearch";
-
+import Body from '../components/Body'
 const index = () => {
   let userdata = localStorage.getItem("userData");
   userdata = JSON.parse(userdata);
@@ -16,14 +16,25 @@ const index = () => {
   return (
     <>
       {userdata && userdata.usertoken ? (
-        <Switch>
-          <Route
-            exact
-            path="/openSearch"
-            component={OpenSearch}
-          />
-          <Redirect from="*" to="/OpenSearch" />
-        </Switch>
+        // <Switch>
+        //   <Route
+        //     exact
+        //     path="/openSearch"
+        //     component={OpenSearch}
+        //   />
+          
+        //   <Redirect from="*" to="/OpenSearch" />
+        // </Switch>
+         <Switch>
+         <Route
+           exact
+           path="/body"
+           component={Body}
+         />
+         
+         <Redirect from="*" to="/body" />
+       
+       </Switch>
       ) : (
         <Switch>
           <Route exact path="/signup" component={Signup} />

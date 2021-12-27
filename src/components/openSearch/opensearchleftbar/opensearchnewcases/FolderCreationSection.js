@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
@@ -9,7 +8,7 @@ import { toast } from "react-toastify";
 import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
-import ActiveTabHeader from "../../../ActiveTabHeader";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -19,7 +18,6 @@ const Item = styled(Paper)(({ theme }) => ({
 const FolderCreationSection = ({
   compShow,
   CompName,
-  getActiveTab,
   indexdata,
   currentcasescaseFileId,
   currentcasescaseTypeId,
@@ -27,19 +25,20 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
-  Studydata
+  Studydata,
 }) => {
   const [checkboxObj, setCheckboxObj] = useState([]);
+  const [activeLink, setActiveLink] = useState(0);
   const [doneIconState, setdoneIconState] = useState({
     iconState: false,
-    accordianState: false,
+    accordianState:
+      CompName === "currentcases" &&
+      (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
+      activeLink === 0
+        ? true
+        : false,
   });
-  const [activeSearch, setActiveSearch] = useState("newcases");
-  const [activeLink, setActiveLink] = useState(0);
-  
-   const [classstate, setclassstate] = useState("")
   //////
-  /////
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -65,21 +64,17 @@ const FolderCreationSection = ({
     caseid: "",
   });
   const [inputDisableState, setInputDisableState] = useState("");
-  const [checkBoxRes, setCheckBoxRes] = useState()
-  const focusPoint = useRef(null);  
-   console.log("dropdownValue?.commissiondate?.data?.commisionDate",dropdownValue?.commissiondate?.data?.commisionDate);
-  useEffect(() => {
-    CompName === "currentcases" && (indexdata.sectionindex===0|| indexdata.sectionindex===1 ) && activeLink===0?
-      setclassstate("formhide")  : setclassstate("formdisplay") 
-    // console.log("indexdata",indexdata.sectionindex); required later
-    //  CompName === "currentcases" && indexdata.sectionindex===0 && activeLink===0? required later
-     //console.log("indexdata.sectionindex",indexdata.sectionindex); required later
-//  CompName === "currentcases" && (indexdata.sectionindex===0|| indexdata.sectionindex===1 ) && activeLink===0?
-    // (focusPoint.current.style.display = "none")
-    // : (focusPoint.current.style.display = "block");  required later
-  }, [activeLink])
+  const [checkBoxRes, setCheckBoxRes] = useState();
+  const focusPoint = useRef(null);
 
   useEffect(() => {
+    doneIconState.accordianState &&
+    CompName === "currentcases" &&
+    (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
+    activeLink === 0 ///////////set display none when user in current cases
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+    /////
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) =>
@@ -262,26 +257,20 @@ const FolderCreationSection = ({
       ? (focusPoint.current.style.display = "block")
       : (focusPoint.current.style.display = "none");
   };
+  ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = () => {
-    console.log("checkboxObj",checkboxObj);
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
-        setCheckBoxRes(res.status)
+        setCheckBoxRes(res.status);
         toast.success(res?.statusText);
       })
       .catch((err) => toast.error(err?.statusText));
-  };  
+  };
+  ///////////////////////////////
   return (
     <>
-     {
-       CompName==="currentcases" ? ( <ActiveTabHeader
-        setActiveSearch={setActiveSearch}
-        setActiveLink={setActiveLink}
-      />):null
-     }
-     
-      {
-      (activeLink === 0 && CompName==="currentcases") || (compShow ==="filestructure")? (
+      {(activeLink === 0 && CompName === "currentcases") ||
+      compShow === "filestructure" ? (
         <>
           <Item
             sx={{
@@ -315,8 +304,8 @@ const FolderCreationSection = ({
               }}
             >
               {
-                // 
-                <Grid  ref={focusPoint} className={`${classstate}`} item md={12}>
+                //
+                <Grid ref={focusPoint} item md={12}>
                   <Item sx={{ boxShadow: "none" }}>
                     <form
                       className="establishment-form"
@@ -324,9 +313,8 @@ const FolderCreationSection = ({
                       onSubmit={handleSubmit}
                     >
                       <div className="inputs-container">
-                      <label>Nauture dossier</label> <br/>
+                        <label>Nauture dossier</label> <br />
                         <div class="flex-form">
-                        
                           <input type="text" placeholder="Type" />
                           <select
                             className="dropdown"
@@ -342,7 +330,8 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                        <label>Commission</label><br/>
+                        <label>Commission</label>
+                        <br />
                         <div class="flex-form">
                           <input type="text" placeholder="Commission" />
                           <select
@@ -384,7 +373,9 @@ const FolderCreationSection = ({
                               value={currentcasesstudyTypeId}
                               required
                             >
-                              <option value="">Choisissez s'il vous plaît</option>
+                              <option value="">
+                                Choisissez s'il vous plaît
+                              </option>
                               {dropdownValue.studytype.data?.map((item) => (
                                 <option value={item.value}>{item.text}</option>
                               ))}
@@ -417,7 +408,10 @@ const FolderCreationSection = ({
                             value={
                               currentcasescommisionDate
                                 ? currentcasescommisionDate
-                                : Date.parse(dropdownValue?.commissiondate?.data?.commisionDate).ddmmyyyy
+                                : Date.parse(
+                                    dropdownValue?.commissiondate?.data
+                                      ?.commisionDate
+                                  ).ddmmyyyy
                             }
                             disabled
                             required
@@ -445,7 +439,7 @@ const FolderCreationSection = ({
                           />
                         </div>
 
-                        <Box sx={{textAlign:"end"}}>
+                        <Box sx={{ textAlign: "end" }}>
                           <button
                             className="establishment-search-btn-submit"
                             type="submit"
@@ -464,7 +458,7 @@ const FolderCreationSection = ({
 
           {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
             <OpenSearchStudyForm
-            compShow={compShow}
+              compShow={compShow}
               CompName={CompName}
               indexdata={indexdata}
               townplanning={state.townObj}
@@ -478,7 +472,7 @@ const FolderCreationSection = ({
           ) : null}
           {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
             <OpenSearchVisitForm
-            compShow={compShow}
+              compShow={compShow}
               CompName={CompName}
               indexdata={indexdata}
               visit={state.visit}

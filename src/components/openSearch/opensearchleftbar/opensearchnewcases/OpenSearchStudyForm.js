@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
+import moment from "moment";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -88,7 +89,6 @@ const [iconState, seticonState] = useState(false)
     });
     
   }, []);
-console.log("stu",Studydata);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -132,7 +132,6 @@ console.log("stu",Studydata);
       })
       .catch((err) => toast.error(err?.statusText));
   };
-  console.log("",Studydata?.data?.townPlanningDate);
   return (
     <>
       <Item
@@ -195,10 +194,9 @@ console.log("stu",Studydata);
                   <div class="flex-form">
                     <input type="text" placeholder="Date" />
                     <input
-                      type="search"
                       onChange={handleChange}
                       name="townPlanningDate"
-                      value={Studydata?.data?.townPlanningDate}
+                      value={formValues.townPlanningDate? formValues.townPlanningDate: moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format("YYYY-MM-DD")}
                       type="date"
                       required
                     />
@@ -257,7 +255,7 @@ console.log("stu",Studydata);
                       onChange={handleChange}
                       name="receptionServiceDate"
                       type="date"
-                      value={Studydata?.data?.receptionServiceDate}
+                      value={formValues.receptionServiceDate? formValues.receptionServiceDate: moment(Studydata?.data?.receptionServiceDate, "YYYY-MM-DD").format("YYYY-MM-DD")}
                       required
                     />
                   </div>
