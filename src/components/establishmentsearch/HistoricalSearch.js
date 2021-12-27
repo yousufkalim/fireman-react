@@ -20,8 +20,9 @@ const HistoricalSearch = () => {
     status: "",
     cityId: "",
   });
+  const store = Store()
   const [inputValues, setInputValues] = useState({
-    establishmentName: "",
+    establishmentName: store.establishmentname,
     statusId: "",
     cityId: "",
     trackTypeId: "",
@@ -69,7 +70,7 @@ const HistoricalSearch = () => {
       };
     });
   };
-  const store = Store()
+  console.log("store.establishmentName",store.establishmentname);
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -129,6 +130,7 @@ const HistoricalSearch = () => {
                     />
                     <input
                       type="search"
+                      value={inputValues.establishmentName}
                       onChange={handleChange}
                       name="establishmentName"
                     />
@@ -168,6 +170,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerLastName"
+                      value={inputValues.securityManagerLastName.toUpperCase()}
                     />
                   </div>
                   
@@ -223,6 +226,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="channelName"
+                      value={inputValues.channelName.toUpperCase()}
                     />
                   </div>
                   <div className="flex-form">

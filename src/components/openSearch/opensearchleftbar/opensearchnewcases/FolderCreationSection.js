@@ -86,7 +86,7 @@ const FolderCreationSection = ({
         };
       })
     );
-    api("get", "/api/v1/casefiles/casefile_checklist/0").then((res) => {
+    api("get", `/api/v1/casefiles/casefile_checklist/0/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -94,7 +94,7 @@ const FolderCreationSection = ({
         };
       });
     });
-    api("get", "/api/v1/casefiles/casefile_checklist/1").then((res) => {
+    api("get", `/api/v1/casefiles/casefile_checklist/1/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -102,7 +102,7 @@ const FolderCreationSection = ({
         };
       });
     });
-    api("get", "/api/v1/casefiles/casefile_checklist/2").then((res) => {
+    api("get", `/api/v1/casefiles/casefile_checklist/2/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -467,6 +467,7 @@ const FolderCreationSection = ({
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
               Studydata={Studydata}
+              currentcasescaseFileId={currentcasescaseFileId}
             />
           ) : null}
           {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
@@ -479,6 +480,7 @@ const FolderCreationSection = ({
               setCheckboxObj={setCheckboxObj}
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
+              currentcasescaseFileId={currentcasescaseFileId}
             />
           ) : null}
         </>
