@@ -37,8 +37,10 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   ]);
 const onRowClick =(data, event)=>{
   event.defaultMuiPrevented = true;
-console.log(data,"");
- updatestore({establishmentId:data.id})
+ updatestore({
+   establishmentId:data.id,
+   establishmentname:data.row.nom
+})
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");
 }

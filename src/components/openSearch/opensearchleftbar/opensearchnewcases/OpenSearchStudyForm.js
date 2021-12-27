@@ -22,7 +22,8 @@ const EstablishmentSearchStudyForm = ({
   casefileId,
   setCheckboxObj,
   postCheckboxesData,
-  Studydata
+  Studydata,
+  currentcasescaseFileId
 }) => {
   const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
@@ -32,6 +33,7 @@ const EstablishmentSearchStudyForm = ({
   );
 const [classState,  setClassState] = useState(true)
 const [iconState, seticonState] = useState(false)
+const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
   const [formValues, setFormValues] = useState({
     originId: "",
     caseAverageId: "",
@@ -48,6 +50,10 @@ const [iconState, seticonState] = useState(false)
     origin: "",
     requesttype: "",
   });
+  
+  console.log("caseid",townplanning);
+  
+
   const focusPoint = useRef(null);
   const onClickTownPlanning = () => {
     setToggleUpdateTabs(!toggleUpdateTabs);
@@ -89,6 +95,14 @@ const [iconState, seticonState] = useState(false)
     });
     
   }, []);
+   
+      
+  
+       
+      
+
+    //////
+ 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -312,6 +326,7 @@ const [iconState, seticonState] = useState(false)
                             type="checkbox"
                             name="checkbox"
                             for="checkbox"
+                            checked={val.isSelected? true: false}
                             id={val.caseFileCheckListId}
                             onChange={handleChange}
                           />

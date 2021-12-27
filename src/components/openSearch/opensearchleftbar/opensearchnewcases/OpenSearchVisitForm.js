@@ -103,6 +103,7 @@ const EstablishmentSearchVisitForm = ({
                           className="study-form-checkbox"
                           type="checkbox"
                           name="checkbox"
+                          checked={val.isSelected? true: false}
                           id={val.caseFileCheckListId}
                           onChange={handleChange}
                         />

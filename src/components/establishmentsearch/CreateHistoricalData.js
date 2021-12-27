@@ -32,11 +32,11 @@ const CreateHistoricalData = ({establishmentid}) => {
   
   const handleChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value;
+    const value = e.target.value.toUpperCase();
     setInputValues((preVal) => {
       return {
         ...preVal,
-        [name]: value,
+        [name]: value.toUpperCase(),
       };
     });
     setDetailsValue(()=>{
@@ -61,6 +61,7 @@ const CreateHistoricalData = ({establishmentid}) => {
     _.forEach(files, file => {
         formData.append('files', file);
     });
+    console.log("formimages",formData.getAll('files'));
    api("post","/api/v1/upload_historicaldata_file", formData).then((res)=>{
    console.log("", res);
    })

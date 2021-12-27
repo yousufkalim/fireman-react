@@ -22,6 +22,7 @@ export function StoreProvider({ children }) {
     user: {},
     authorization: false,
     establishmentId:null,
+    establishmentname:null,
     activeNavbarTab:0
   });
 
