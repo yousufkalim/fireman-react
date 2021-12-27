@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
+import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
@@ -18,7 +19,22 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     tabindex: "",
   });
   const [CompName, setCompName] = useState("");
+  // const [sortModel, setSortModel] = React.useState([
+  //   {
+  //     field: 'refnum',
+  //     sort: 'asc',
+  //   },
+  // ]);
+//   const column = [ 
+//   { field: "typeref", headerName: "Ref.", width: 150 },
+//   { field: "caseaveragename", headerName: "caseAverageName", width: 150 },
+//   { field: "commisionDate", headerName: "commisionDate", width: 150 },
+//   { field: "createdAt", headerName: "createdAt", width: 150 },
+//   { field: "employeename", headerName: "employeeName", width: 150 },
+//   { field: "refnum", headerName: "refNum", width: 150 },
+//  ]
   const onClick = (id, sectionIndex, tabIndex) => {
+    console.log(id, sectionIndex, tabIndex);
     setIndexdata(() => {
       return {
         sectionindex: sectionIndex,
@@ -31,17 +47,23 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       }
     );
     api('get', `/api/v1/casefiles/get_open_townplanning/${id}`).then((res)=>{
-      console.log("study",res);
       setStudydata(res)
       })
   };
+
+  // const onRowClick =(data, event)=>{
+  //   event.defaultMuiPrevented = true;
+  //   console.log("id",data.id);
+  //   console.log("sectionindex", data);
+  //   console.log("tabIndex", data.tabIndex);
+  // }
+  console.log("currentcasesData",currentcasesData);
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  console.log("",currentcasesData);
   return (
     <>
       {folderCreationData.length !== 0 ? (
@@ -109,8 +131,34 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
               </TableBody>
             </Table>
           </TableContainer>
+          
         </Item>
+        
       )}
+      {/* <div style={{ height: "50vh", width: "100%" }}>
+        
+        <DataGrid
+        onCellClick={(params,event)=>onRowClick(params,event)}
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+         columns={column.map((val,index)=>({
+          field: val.field,
+          headerName: val.headerName
+         }))} 
+         rows={currentcasesData.data?.map((val, index) => ({
+          id: val.caseFileId,
+           typeref:val.caseTypeName,
+           caseaveragename:val.caseAverageName,
+           commisionDate:val.commisionDate,
+           createdAt:val.createdAt,
+           employeename:val.employeeName,
+           refnum:val.refNum,
+           sectionindex: val.sectionIndex,
+           tabindex:val.tabIndex,
+        }))}
+        
+         />
+      </div> */}
     </>
   );
 };

@@ -3,9 +3,10 @@ import Box from "@mui/material/Box";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import api from "../api/index";
 import { useEffect } from "react";
-
-const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
+import {UpdateStore} from '../StoreContext'
+const EstablishmentSearchLeftBar = ({ getResponse }) => {
   const [active, setActive] = useState("newcases");
+  const update = UpdateStore();
   const items = [
     {
       id: "currentcases",
@@ -27,10 +28,10 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
     },
   ];
   
-  const onClick = (e) => {
-    setActive(e);
-    setActiveSearch(e);
-    if(e==="currentcases"){
+  const onClick = (activelefttab) => {
+    update({activeNavbarTab:activelefttab})
+    setActive(activelefttab);   ///////setting backgroundColor of leftbar tab
+    if(activelefttab==="currentcases"){
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
       api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}`).then(
@@ -41,6 +42,7 @@ const EstablishmentSearchLeftBar = ({ setActiveSearch, getResponse }) => {
       );
     }
   };
+
   return (
     <>
       {items.map((item, i) => {

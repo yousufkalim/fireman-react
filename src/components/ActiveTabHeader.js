@@ -3,11 +3,10 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
-import EstablishmentSearchContainer from "./establishmentsearch/EstablishmentSearchContainer";
-import OpenSearchNewCases from './openSearch/opensearchleftbar/opensearchnewcases/OpenSearchNewCases'
-const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveLink,activeSearch}) => {
+import {UpdateStore} from '../StoreContext'
+const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const [activeTab, setActiveTab] = useState(0);
-  console.log("activeSearch",activeSearch);
+  const updatestore = UpdateStore()
   const items = [
     {
       text: "Open",
@@ -31,21 +30,15 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
       text: "Facilities gas",
     },
   ];
-  const onClick = (e) => {
-    if(e!=0){
-      setActiveSearch("")
-    }
-    if(e===0){
-      setActiveSearch("newcases")
-    }
-    setActiveTab(e)
-    setActiveLink(e)
+  const onClick = (activetabindex) => {
+    setActiveTab(activetabindex)
+    updatestore({activeNavbarTab:activetabindex})
   };
   
   return (
     <>
       <Box
-        sx={{ flexGrow: 1, backgroundColor: "aliceblue", padding: "5px 0px" }}
+        sx={{ flexGrow: 1, backgroundColor: "aliceblue" }}
       >
         <AppBar
           sx={{
@@ -55,6 +48,7 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
             margin: "auto",
             boxShadow: "none",
             color: "#000000",
+            paddingBottom:"20px"
           }}
           position="static"
         >
@@ -66,17 +60,17 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
                 alignItems: "center",
               }}
             >
-              {items.map((item, i) => {
-                const className = activeTab === i ? "active" : "";
+              {items.map((item, index) => {
+                const className = activeTab === index ? "active" : "";
                 return (
                   <Box
                     className={`unactive ${className}`}
-                    onClick={() => onClick(i)}
+                    onClick={() => onClick(index)}
                     sx={{
                       display: "flex",
-                      fontSize: "13px",
+                      fontSize: "20px",
                       borderRight: "1px solid lightgray",
-                      padding: "20px",
+                       padding:"10px 20px"
                     }}
                   >
                     <span> {item.text} </span>
@@ -88,8 +82,6 @@ const EstablishmentSearchActivePanel = ({getActiveTab,setActiveSearch,setActiveL
         </AppBar>
       </Box>
       <OpenSearchInputHeader />
-        {/* {activeTab!==0 && activeSearch === "newcases" ? <OpenSearchNewCases /> : null}   */}
-      {activeTab === 1? <EstablishmentSearchContainer /> : null}
     </>
   );
 };
