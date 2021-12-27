@@ -22,12 +22,12 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   //   console.log(store.establishmentId,"store");
   // };
    const column = [ 
-     { field: "ref", headerName: "Ref.", width: 150 },
-   { field: "commune", headerName: "Commune", width: 150 },
-   { field: "nom", headerName: "Nom", width: 150 },
-   { field: "statut", headerName: "Statut", width: 150 },
-   { field: "type", headerName: "Type", width: 150 },
-   { field: "CAT", headerName: "CAT", width: 150 }
+     { field: "ref", headerName: "Ref.", minWidth: 100 },
+   { field: "commune", headerName: "Commune", minWidth: 150},
+   { field: "nom", headerName: "Nom", minWidth: 190},
+   { field: "statut", headerName: "Statut", minWidth: 150},
+   { field: "type", headerName: "Type", minWidth: 130},
+   { field: "CAT", headerName: "CAT", minWidth: 130}
   ]
   const [sortModel, setSortModel] = React.useState([
     {
@@ -91,10 +91,15 @@ console.log(data,"");
       onCellClick={(params,event)=>onRowClick(params,event)}
       sortModel={sortModel}
       onSortModelChange={(model) => setSortModel(model)}
-       columns={column.map((val,index)=>({
+       columns={ column.map((val,index)=>({
         field: val.field,
-        headerName: val.headerName
-       }))} 
+        headerName: val.headerName,
+        minWidth:val.minWidth
+       })) } 
+
+      //  columns ={[{
+      //   minWidth: 350,
+      // }]}
        rows={establishmentSearchData.data.map((val, index) => ({
         id: val.establishmentId,
          ref:val.referenceNo,

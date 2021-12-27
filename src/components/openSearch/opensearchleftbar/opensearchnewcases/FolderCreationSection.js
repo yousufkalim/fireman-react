@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
-
+import moment from "moment";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -62,6 +62,7 @@ const FolderCreationSection = ({
     service: "",
     caseFileId: "",
     caseid: "",
+    commissionDate:moment(new Date(), "YYYY-MM-DD").format("YYYY-MM-DD")
   });
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState();
@@ -153,6 +154,7 @@ const FolderCreationSection = ({
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log("value", name , value);
     if (
       (value === "1" && name === "caseTypeId") ||
       (value === "2" && name === "caseTypeId") ||
@@ -402,18 +404,15 @@ const FolderCreationSection = ({
                         <div class="flex-form">
                           <input type="text" placeholder="Date commission" />
                           <input
-                            type="search"
+                            type="date"
                             onChange={handleChange}
-                            name="commissiondate"
+                            name="commissionDate"
                             value={
                               currentcasescommisionDate
                                 ? currentcasescommisionDate
-                                : Date.parse(
-                                    dropdownValue?.commissiondate?.data
-                                      ?.commisionDate
-                                  ).ddmmyyyy
+                                : inputValues.commissionDate
                             }
-                            disabled
+                            
                             required
                           />
                         </div>

@@ -103,7 +103,7 @@ const HistoricalSearch = () => {
             padding: "10px",
           }}
         >
-          <h5>Documents durbanisme rattaches</h5>
+          <h5>Données générales</h5>
           <span className="inputs-heading-text"> Reduire</span>
         </Box>
         <Box
@@ -115,56 +115,16 @@ const HistoricalSearch = () => {
         >
           <Grid item md={12}>
             <Item sx={{ boxShadow: "none" }}>
-              <Typography
-                align="start"
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                Saisai
-              </Typography>
               <form
                 className="establishment-form"
                 type="submit"
                 onSubmit={handleSubmit}
               >
                 <div className="inputs-container">
-                  <div className="flex-form">
-                    <input type="text" placeholder="Status" disabled />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="statusId"
-                      onChange={handleChange}
-                    >
-                      <option value="">Select status</option>
-                      {dropdownValue.status.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="tracktype" disabled />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="trackTypeId"
-                      onChange={handleChange}
-                    >
-                      <option value="">Select track type</option>
-                      {dropdownValue.tracktype.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex-form">
+                <div className="flex-form">
                     <input
                       type="text"
-                      placeholder="Name Establishment"
+                      placeholder="Nom établissement"
                       disabled
                     />
                     <input
@@ -173,6 +133,9 @@ const HistoricalSearch = () => {
                       name="establishmentName"
                     />
                   </div>
+              
+
+                  <span> Adresse</span>
                   <div className="flex-form">
                     <input type="text" placeholder="Commune" disabled />
                     <select
@@ -181,7 +144,7 @@ const HistoricalSearch = () => {
                       name="cityId"
                       onChange={handleChange}
                     >
-                      <option value="">Select track type</option>
+                      <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.cityId.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -197,14 +160,17 @@ const HistoricalSearch = () => {
                       name="zipCode"
                     />
                   </div>
+                  <div className="establishment-nom-mobile-container"> 
+                  <span>Responsable de sécurité</span>
                   <div className="flex-form">
-                    <input type="text" placeholder="name" disabled />
+                    <input type="text" placeholder="Nom" disabled />
                     <input
                       type="search"
                       onChange={handleChange}
                       name="securityManagerLastName"
                     />
                   </div>
+                  
 
                   <div className="flex-form">
                     <input type="text" placeholder="Mobile" disabled />
@@ -214,10 +180,45 @@ const HistoricalSearch = () => {
                       name="mobile"
                     />
                   </div>
+                  </div>
                 </div>
                 <div className="inputs-container">
+                <div className="flex-form">
+                    <input type="text" placeholder="Statut" disabled />
+                    <select
+                      className="dropdown"
+                      type="select"
+                      name="statusId"
+                      onChange={handleChange}
+                    >
+                      <option value="">Choisissez s'il vous plaît</option>
+                      {dropdownValue.status.data?.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                 <div className="establishment-typenom-container"> 
                   <div className="flex-form">
-                    <input type="text" placeholder="Channel Name" disabled />
+                    <input type="text" placeholder="Type voie" disabled />
+                    <select
+                      className="dropdown"
+                      type="select"
+                      name="trackTypeId"
+                      onChange={handleChange}
+                    >
+                      <option value="">Choisissez s'il vous plaît</option>
+                      {dropdownValue.tracktype.data?.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex-form">
+                    <input type="text" placeholder="Nom voie" disabled />
                     <input
                       type="search"
                       onChange={handleChange}
@@ -225,15 +226,16 @@ const HistoricalSearch = () => {
                     />
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Number" disabled />
+                    <input type="text" placeholder="Numero" disabled />
                     <input
                       type="search"
                       onChange={handleChange}
                       name="securityManagerMobile"
                     />
                   </div>
+                  </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="First Name" disabled />
+                    <input type="text" placeholder="Prénom" disabled />
                     <input
                       type="search"
                       onChange={handleChange}
