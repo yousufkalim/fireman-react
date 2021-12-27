@@ -27,6 +27,7 @@ const EstablishmentSearchVisitForm = ({
   const [classState,  setClassState] = useState(true)
   const focusPoint = useRef(null);
   const handleChange = (e) => {
+    console.log("dfhjdfhj",e.target);
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {
@@ -107,7 +108,7 @@ const EstablishmentSearchVisitForm = ({
                           id={val.caseFileCheckListId}
                           onChange={handleChange}
                         />
-                        <label for="checkbox"> {val.name}</label> <br />
+                        <label for={val.caseFileCheckListId}> {val.name}</label> <br />
                       </div>
                     ))}
                   </>
