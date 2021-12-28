@@ -25,8 +25,11 @@ const EstablishmentSearchStudyForm = ({
   Studydata,
   currentcasescaseFileId
 }) => {
+
+  
+
   const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
-    CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
+    CompName === "currentcases" && (indexdata.sectionindex === 1) ? true : false
   );
   const [toggleUpdateTabstwo, setToggleUpdateTabstwo] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
@@ -34,16 +37,17 @@ const EstablishmentSearchStudyForm = ({
 const [classState,  setClassState] = useState(true)
 const [iconState, seticonState] = useState(false)
 const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
+console.log("",Studydata);
   const [formValues, setFormValues] = useState({
-    originId: "",
-    caseAverageId: "",
-    townPlanningDate: "",
-    receptionServiceDate: "",
-    requestTypeId: "",
-    refNum: "",
-    applicant: "",
-    mobile: "",
-    email: "",
+    originId: Studydata?.data?.originId? Studydata?.data?.originId: "",
+    caseAverageId: Studydata?.data?.caseAverageId?Studydata?.data?.caseAverageId :"",
+    townPlanningDate: Studydata?.data?.townPlanningDate? moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format("YYYY-MM-DD"):"" ,    
+    receptionServiceDate: Studydata?.data?.receptionServiceDate? moment(Studydata?.data?.receptionServiceDate, "YYYY-MM-DD").format("YYYY-MM-DD"):"",
+    requestTypeId: Studydata?.data?.requestTypeId?Studydata?.data?.requestTypeId:"",
+    refNum: Studydata?.data?.refNum? Studydata?.data?.refNum :"",
+    applicant: Studydata?.data?.applicant? Studydata?.data?.applicant:"",
+    mobile: Studydata?.data?.mobile? Studydata?.data?.mobile :"",
+    email: Studydata?.data?.email?Studydata?.data?.email :"",
   });
   const [dropdownValue, setdropdownValue] = useState({
     average: "",
@@ -51,13 +55,25 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
     requesttype: "",
   });
   
-  console.log("caseid",townplanning);
+  console.log("caseid",Studydata?.data?.receptionServiceDate);
   
-
+  useEffect(() => {
+    setFormValues ( {
+      originId: Studydata?.data?.originId? Studydata?.data?.originId: "",
+      caseAverageId: Studydata?.data?.caseAverageId?Studydata?.data?.caseAverageId :"",
+      townPlanningDate: Studydata?.data?.townPlanningDate? moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format("YYYY-MM-DD"):"" ,
+      receptionServiceDate: Studydata?.data?.receptionServiceDate? moment(Studydata?.data?.receptionServiceDate, "YYYY-MM-DD").format("YYYY-MM-DD"):"",
+      requestTypeId: Studydata?.data?.requestTypeId?Studydata?.data?.requestTypeId:"",
+      refNum: Studydata?.data?.refNum? Studydata?.data?.refNum :"",
+      applicant: Studydata?.data?.applicant? Studydata?.data?.applicant:"",
+      mobile: Studydata?.data?.mobile? Studydata?.data?.mobile :"",
+      email: Studydata?.data?.email?Studydata?.data?.email :"",
+    })
+  }, [Studydata])
   const focusPoint = useRef(null);
   const onClickTownPlanning = () => {
     setToggleUpdateTabs(!toggleUpdateTabs);
-    if(compShow==="filestructure"){
+    if(compShow==="filestructure" || CompName === "currentcases"){
       classState? focusPoint.current.style.display = "block":focusPoint.current.style.display = "none"
     }
     setClassState(!classState)
@@ -96,13 +112,8 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
     
   }, []);
    
-      
-  
-       
-      
-
     //////
- 
+ console.log("",currentcasescaseFileId);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -111,7 +122,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
     if (checked) {
       const obj = {
         caseFileCheckListId: id,
-        caseFileId: casefileId,
+        casefileId: casefileId? casefileId: currentcasescaseFileId
       };
       setCheckboxObj((pre) => [...pre, obj]);
     }
@@ -131,22 +142,23 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
     e.preventDefault();
     const formData = {
       ...formValues,
-      caseFileId: casefileId,
+     casefileId: casefileId? casefileId: currentcasescaseFileId
     };
     postCheckboxesData();
+    console.log("formData",formData);
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
         toast.success(res?.statusText);
-        if(res?.status===200){
+        if(res?.status===200 ){
           seticonState(true);
         }
-        if(compShow==="filestructure" && res?.status===200){
+        if((compShow==="filestructure" ||CompName === "currentcases") && res?.status===200){
           focusPoint.current.style.display = "none"
         }
       })
       .catch((err) => toast.error(err?.statusText));
   };
-
+console.log("",Studydata?.data?.townPlanningDate);
   return (
     <>
       <Item
@@ -196,7 +208,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       className="dropdown"
                       type="select"
                       name="originId"
-                     value={Studydata?.data?.originId}
+                     value={formValues.originId}
                       onChange={handleChange}
                       required
                     >
@@ -211,7 +223,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                     <input
                       onChange={handleChange}
                       name="townPlanningDate"
-                      value={formValues.townPlanningDate? formValues.townPlanningDate: moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format("YYYY-MM-DD")}
+                      value={formValues.townPlanningDate}
                       type="date"
                       required
                     />
@@ -224,7 +236,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       type="select"
                       name="requestTypeId"
                       onChange={handleChange}
-                      value={Studydata?.data?.requestTypeId}
+                      value={formValues.requestTypeId} 
                       required
                     >
                       <option value="">Choisissez s'il vous plaît</option>
@@ -239,7 +251,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                     <input
                       type="search"
                       onChange={handleChange}
-                      value={Studydata?.data?.applicant}
+                      value={formValues.applicant}
                       name="applicant"
                       required
                     />
@@ -253,7 +265,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       className="dropdown"
                       type="select"
                       name="caseAverageId"
-                      value={Studydata?.data?.caseAverageId}
+                      value={formValues.caseAverageId}
                       onChange={handleChange}
                       required
                     >
@@ -280,7 +292,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       type="search"
                       onChange={handleChange}
                       name="refNum"
-                      value={Studydata?.data?.refNum}
+                      value={formValues.refNum}
                       required
                     />
                   </div>
@@ -291,7 +303,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       type="search"
                       onChange={handleChange}
                       name="mobile"
-                      value={Studydata?.data?.mobile}
+                      value={formValues.mobile}
                       required
                     />
                   </div>
@@ -301,7 +313,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       type="search"
                       onChange={handleChange}
                       name="email"
-                      value={Studydata?.data?.email}
+                      value={formValues.email}
                       required
                     />
                   </div>
@@ -392,6 +404,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                       className="study-form-checkbox" 
                       name="checkbox"
                       type="checkbox" 
+                      defaultChecked={val.isSelected}
                       id={val.caseFileCheckListId}
                       />
                       <label for="checkbox"> {val.name}</label> <br />

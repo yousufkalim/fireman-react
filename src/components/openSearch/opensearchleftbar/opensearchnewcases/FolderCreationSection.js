@@ -27,18 +27,6 @@ const FolderCreationSection = ({
   currentcasescommisionDate,
   Studydata,
 }) => {
-  const [checkboxObj, setCheckboxObj] = useState([]);
-  const [activeLink, setActiveLink] = useState(0);
-  const [doneIconState, setdoneIconState] = useState({
-    iconState: false,
-    accordianState:
-      CompName === "currentcases" &&
-      (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
-      activeLink === 0
-        ? true
-        : false,
-  });
-  //////
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -47,28 +35,8 @@ const FolderCreationSection = ({
     commissiondate: "",
     inputsvalue: {},
   });
-  const [state, setstate] = useState({
-    townObj: [],
-    study: [],
-    visit: [],
-  });
-  const [inputValues, setInputValues] = useState({
-    caseTypeId: "",
-    commisionTypeId: "",
-    agent: "",
-    studyTypeId: "",
-    visitTypeId: "",
-    group: "",
-    service: "",
-    caseFileId: "",
-    caseid: "",
-    commissionDate:moment(new Date(), "YYYY-MM-DD").format("YYYY-MM-DD")
-  });
-  const [inputDisableState, setInputDisableState] = useState("");
-  const [checkBoxRes, setCheckBoxRes] = useState();
-  const focusPoint = useRef(null);
-
   useEffect(() => {
+  console.log("",currentcasescaseFileId)
     doneIconState.accordianState &&
     CompName === "currentcases" &&
     (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
@@ -151,6 +119,41 @@ const FolderCreationSection = ({
       })
     );
   }, []);
+  const [checkboxObj, setCheckboxObj] = useState([]);
+  const [activeLink, setActiveLink] = useState(0);
+  const [doneIconState, setdoneIconState] = useState({
+    iconState: false,
+    accordianState:
+      CompName === "currentcases" &&
+      (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
+      activeLink === 0
+        ? true
+        : false,
+  });
+  //////
+  
+  const [state, setstate] = useState({
+    townObj: [],
+    study: [],
+    visit: [],
+  });
+  const [inputValues, setInputValues] = useState({
+    caseTypeId: "",
+    commisionTypeId: "",
+    agent:"",
+    studyTypeId: "",
+    visitTypeId: "",
+    group: "",
+    service:"",
+    caseFileId: "",
+    caseid: "",
+    commisionDate: currentcasescommisionDate? currentcasescommisionDate:""
+  });
+  const [inputDisableState, setInputDisableState] = useState("");
+  const [checkBoxRes, setCheckBoxRes] = useState();
+  const focusPoint = useRef(null);
+
+  console.log("",currentcasescommisionDate);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -185,6 +188,7 @@ const FolderCreationSection = ({
         studyTypeId:
           inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
       };
+      console.log("comissiondate",formdata);
       api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
           setInputValues((preVal) => {
@@ -269,6 +273,21 @@ const FolderCreationSection = ({
       .catch((err) => toast.error(err?.statusText));
   };
   ///////////////////////////////
+  useEffect(() => {
+   setInputValues({
+    caseTypeId: currentcasescaseTypeId ,
+    commisionTypeId: currentcasescommisionTypeId,
+    agent: dropdownValue?.inputsvalue?.data?.firstName,
+    studyTypeId: "",
+    visitTypeId: "",
+    group: dropdownValue?.inputsvalue?.data?.group,
+    service: dropdownValue?.inputsvalue?.data?.service,
+    caseFileId: "",
+    caseid: "",
+    commisionDate: currentcasescommisionDate? moment(currentcasescommisionDate,"YYYY-MM-DD").format("YYYY-MM-DD"):""
+  })
+  }, [dropdownValue])
+  console.log(dropdownValue?.inputsvalue,"inputValues")
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
@@ -323,7 +342,7 @@ const FolderCreationSection = ({
                             type="select"
                             name="caseTypeId"
                             onChange={handleChange}
-                            value={currentcasescaseTypeId}
+                            value={inputValues.caseTypeId}
                             required
                           >
                             <option value="">Choisissez s'il vous plaît</option>
@@ -341,7 +360,7 @@ const FolderCreationSection = ({
                             type="select"
                             name="commisionTypeId"
                             onChange={handleChange}
-                            value={currentcasescommisionTypeId}
+                            value={inputValues.commisionTypeId}
                             required
                           >
                             <option value="">Choisissez s'il vous plaît</option>
@@ -357,8 +376,7 @@ const FolderCreationSection = ({
                             type="search"
                             onChange={handleChange}
                             name="agent"
-                            value={dropdownValue?.inputsvalue?.data?.firstName}
-                            disabled
+                            value={inputValues.agent}
                             required
                           />
                         </div>
@@ -406,13 +424,9 @@ const FolderCreationSection = ({
                           <input
                             type="date"
                             onChange={handleChange}
-                            name="commissionDate"
+                            name="commisionDate"
                             value={
-                              currentcasescommisionDate
-                                ? currentcasescommisionDate
-                                : inputValues.commissionDate
-                            }
-                            
+                                 inputValues.commisionDate}
                             required
                           />
                         </div>
@@ -422,8 +436,7 @@ const FolderCreationSection = ({
                             type="search"
                             onChange={handleChange}
                             name="group"
-                            value={dropdownValue?.inputsvalue?.data?.group}
-                            disabled
+                            value={inputValues.group}
                             required
                           />
                         </div>
@@ -433,8 +446,7 @@ const FolderCreationSection = ({
                             type="search"
                             onChange={handleChange}
                             name="service"
-                            disabled
-                            value={dropdownValue?.inputsvalue?.data?.service}
+                            value={inputValues.service}
                           />
                         </div>
 
