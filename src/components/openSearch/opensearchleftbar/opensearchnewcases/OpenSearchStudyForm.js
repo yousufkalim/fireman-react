@@ -146,6 +146,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
       })
       .catch((err) => toast.error(err?.statusText));
   };
+
   return (
     <>
       <Item
@@ -326,7 +327,7 @@ const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
                             type="checkbox"
                             name="checkbox"
                             for="checkbox"
-                            checked={val.isSelected? true: false}
+                            defaultChecked={val.isSelected}
                             id={val.caseFileCheckListId}
                             onChange={handleChange}
                           />
