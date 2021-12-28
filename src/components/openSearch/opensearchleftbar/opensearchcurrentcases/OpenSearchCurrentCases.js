@@ -57,7 +57,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   //   console.log("sectionindex", data);
   //   console.log("tabIndex", data.tabIndex);
   // }
-  console.log("currentcasesData",currentcasesData);
+  console.log("currentcasesData",folderCreationData);
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),

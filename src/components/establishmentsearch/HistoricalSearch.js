@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import api from "../../api/index";
 import CreateHistoricalData from "./CreateHistoricalData";
 import {Store} from '../../StoreContext'
+import { toast } from "react-toastify"
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -81,8 +82,9 @@ const HistoricalSearch = () => {
     api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {
-          setHistoricalCompState(true);
+          toast.success(res?.statusText);
         }
+        
       }
     );
   };
@@ -260,13 +262,13 @@ const HistoricalSearch = () => {
                       type="submit"
                     >
                       {" "}
-                      Search{" "}
+                      Valider{" "}
                     </button>
                   </Box>
                 </div>
               </form>
             </Item>
-            {HistoricalCompState ? <CreateHistoricalData establishmentid={store.establishmentId}/> : null}
+        <CreateHistoricalData establishmentid={store.establishmentId}/>
           </Grid>
         </Box>
       </Item>

@@ -19,6 +19,7 @@ const EstablishmentSearchVisitForm = ({
   casefileId,
   setCheckboxObj,
   postCheckboxesData,
+  currentcasescaseFileId
 }) => {
   const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
@@ -33,7 +34,7 @@ const EstablishmentSearchVisitForm = ({
     if (checked) {
       const obj = {
         caseFileCheckListId: id,
-        caseFileId: casefileId,
+        casefileId: casefileId? casefileId: currentcasescaseFileId
       };
       setCheckboxObj((pre) => [...pre, obj]);
     }
@@ -104,7 +105,7 @@ const EstablishmentSearchVisitForm = ({
                           className="study-form-checkbox"
                           type="checkbox"
                           name="checkbox"
-                          checked={val.isSelected? true: false}
+                          defaultChecked={val.isSelected}
                           id={val.caseFileCheckListId}
                           onChange={handleChange}
                         />
