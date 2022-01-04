@@ -3,6 +3,8 @@
 @import url("./login.css");
 @import url("./signup.css");
 @import url("./EstablishmentSearch.css");
+@import url("./etablissment.css");
+
 /* Defaults */
 * {
   padding: 0;

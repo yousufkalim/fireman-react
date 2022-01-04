@@ -1,0 +1,112 @@
+.etablissement h3{
+    color: #9095A3;
+    margin-top: 22px;
+    margin-right: 10px;
+}
+
+.etablissement .chapter{
+    display: flex;
+    align-items: end;
+    color: #9095A3;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #C5D3DB;
+    padding-bottom: 12px;
+
+}
+
+.etablissement .chapter .svg{
+margin-top: 5px;
+}
+
+.etablissement .sections .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root{
+background-color: #3675B7 !important;
+color: #FFFFFF !important;
+border-radius: 10px !important;
+border: none !important;
+}
+
+.etablissement .sections .css-ahj2mt-MuiTypography-root {
+    font-size: 16px !important;
+}
+.etablissement .sections .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root .MuiAccordionSummary-content{
+    position: relative;
+}
+.cehck_section{
+    position: absolute;
+    right: 6px;
+}
+.section_id{
+    margin-right: 15px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    border-right: 1px solid #5E93CB;
+    padding-right: 10px;
+}
+
+
+
+.etablissement .sections .divider{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-left: 0px;
+    color:#C5D3DB ;
+}
+.etablissement .sections .MuiPaper-root{
+    border:none;
+    background: #F5F9FD !important;
+}
+
+.etablissement .sections .checklist{
+    background: #FFFFFF;
+    color: #9095A3;
+    display: flex;
+    min-height: 50px;
+    padding: 0px 16px;
+    vertical-align:middle;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+}
+.checklist p{
+    margin-left: 40px;
+}
+.etablissement .sections .css-ta84vm-MuiAccordionDetails-root{
+    padding: 16px 0px !important;
+    border: none !important;
+}
+
+  .custom-checkbox-root .MuiSvgIcon-root{
+    width: 30px;
+    height: 30px;
+  }
+
+  .edit_icon{
+      position: absolute;
+      right: 33px;
+      width: 18px;
+      }
+      .checklist_detail_bottom{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0px 25px;
+          margin-top: 10px;
+
+      }
+      .checklist_detail_bottom img{
+          width: 26px;
+      }
+
+      .bottom_buttons{
+          float: right;
+          padding: 20px 0px;
+      }
+
+      .bottom_buttons .css-1pqm26d-MuiAvatar-img{
+    
+      }
