@@ -149,3 +149,23 @@ margin-top: 20px;
 .establishment-nom-mobile-container{
 padding-top: 20px;
 }
+.dropdown-historical{
+width: 15%;
+padding: 20px;
+margin-right: 5px;
+}
+
+.historical-form >*{
+  margin-right: 10px;
+}
+
+.btn-historical{
+  padding: 15px 15px;
+  font-size: 15px;
+}
+
+
+////////////*fgchvjk*///////////
+.input-historical{
+    padding: 30px 0px;
+}

@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../api/index";
 import CreateHistoricalData from "./CreateHistoricalData";
 import {Store} from '../../StoreContext'
 import { toast } from "react-toastify"
+import DialogBox from '../DialogBox'
+import { display } from "@mui/system";
+import EstablishmentLevel from './EstablishmentLevel'
+import Description from './Description'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -15,7 +20,10 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const HistoricalSearch = () => {
-  const [HistoricalCompState, setHistoricalCompState] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(false)
+  const [iconState, setIconState] = useState(false)
+  const [messageText, setMessageText] = useState("")
   const [dropdownValue, setdropdownValue] = useState({
     tracktype: "",
     status: "",
@@ -35,6 +43,7 @@ const HistoricalSearch = () => {
     securityManagerMobile: "",
     securityManagerEmail: "",
   });
+  const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -64,6 +73,29 @@ const HistoricalSearch = () => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+     console.log("",value);
+
+     console.log("inputValues.statusId",inputValues.statusId);
+     if(inputValues.statusId==="2" && inputValues.statusId!=="" &&  value!=="2"){
+      setOpen(true)
+      setMessageText(
+        "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
+           )
+     }
+     if(inputValues.statusId!=="2" && inputValues.statusId!=="" && value==="2"){
+      setOpen(true)
+      setMessageText(
+        "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
+           )
+     }
+     if(inputValues.establishmentName!== store.establishmentname){
+      setOpen(true)
+      setMessageText(
+        `You are about to change the name of an establishment or a group of 
+        establishments. The history of establishment XX and the reference will now be 
+        linked to this new name.`
+           )
+     }
     setInputValues((preVal) => {
       return {
         ...preVal,
@@ -71,7 +103,7 @@ const HistoricalSearch = () => {
       };
     });
   };
-  console.log("store.establishmentName",store.establishmentname);
+  console.log("store.establishmentName",dropdownValue.status);
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -82,13 +114,23 @@ const HistoricalSearch = () => {
     api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {
-          toast.success(res?.statusText);
+          setIconState(true)
+          setToggle(true)
+          toast.success("Successfully Saved");
+          focusPoint.current.style.display = "none"
         }
         
       }
-    );
+    ).catch(err=>{
+      console.log(err);
+    });
   };
 
+
+  const toggleSection =( )=>{
+    setToggle(!toggle)
+    toggle? focusPoint.current.style.display = "none": focusPoint.current.style.display = "block"
+  }
   return (
     <>
       <Item
@@ -105,19 +147,26 @@ const HistoricalSearch = () => {
             borderBottom: "1px solid gray",
             padding: "10px",
           }}
+          onClick={toggleSection}
         >
+          
           <h5>Données générales</h5>
+          <div> 
+       { iconState? <DoneIcon sx={{ backgroundColor: "green" }}/> :null }  
           <span className="inputs-heading-text"> Reduire</span>
+          </div>
         </Box>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             padding: "10px",
+            
           }}
         >
           <Grid item md={12}>
-            <Item sx={{ boxShadow: "none" }}>
+            <Item ref={focusPoint} sx={{ boxShadow: "none" }}>
+           < DialogBox setOpen={setOpen} messageText={messageText} open={open}/>
               <form
                 className="establishment-form"
                 type="submit"
@@ -130,6 +179,8 @@ const HistoricalSearch = () => {
                       placeholder="Nom établissement"
                       disabled
                     />
+                    
+
                     <input
                       type="search"
                       value={inputValues.establishmentName}
@@ -269,6 +320,8 @@ const HistoricalSearch = () => {
               </form>
             </Item>
         <CreateHistoricalData establishmentid={store.establishmentId}/>
+        <EstablishmentLevel/>
+        {/* <Description/> */}
           </Grid>
         </Box>
       </Item>

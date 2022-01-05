@@ -209,7 +209,7 @@ const FolderCreationSection = ({
               : (focusPoint.current.style.display = "none");
           }
 
-          toast.success(res?.statusText);
+          toast.success("Successfully Saved");
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -265,10 +265,11 @@ const FolderCreationSection = ({
   };
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = () => {
+    console.log("bh",checkboxObj);
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
         setCheckBoxRes(res.status);
-        toast.success(res?.statusText);
+        toast.success("Success");
       })
       .catch((err) => toast.error(err?.statusText));
   };

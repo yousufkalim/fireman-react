@@ -33,20 +33,21 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
 //   { field: "employeename", headerName: "employeeName", width: 150 },
 //   { field: "refnum", headerName: "refNum", width: 150 },
 //  ]
-  const onClick = (id, sectionIndex, tabIndex) => {
-    console.log(id, sectionIndex, tabIndex);
+console.log("",currentcasesData);
+  const onClick = (establishmentid,id, sectionIndex, tabIndex) => {
+    console.log(establishmentid,id, sectionIndex, tabIndex);
     setIndexdata(() => {
       return {
         sectionindex: sectionIndex,
         tabindex: tabIndex,
       };
     });
-    api("get", `/api/v1/casefiles/get_open_foldercreation/${id}`).then(
+    api("get", `/api/v1/casefiles/get_open_foldercreation/${establishmentid}/${id}`).then(
       (res) => {
         setFolderCreationData(res?.data);
       }
     );
-    api('get', `/api/v1/casefiles/get_open_townplanning/${id}`).then((res)=>{
+    api('get', `/api/v1/casefiles/get_open_townplanning/${establishmentid}/${id}`).then((res)=>{
       setStudydata(res)
       })
   };
@@ -107,6 +108,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
                   <TableRow
                     onClick={() =>
                       onClick(
+                        row.establishmentId,
                         row.caseFileId,
                         row.sectionIndex,
                         row.tabIndex,
