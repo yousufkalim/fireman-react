@@ -38,7 +38,6 @@ const [classState,  setClassState] = useState(true)
 const [iconState, seticonState] = useState(false)
 const [detailobjiconstate, setdetailobjiconstate] = useState(false)
 const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
-console.log("",Studydata);
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId? Studydata?.data?.originId: "",
     caseAverageId: Studydata?.data?.caseAverageId?Studydata?.data?.caseAverageId :"",
@@ -55,8 +54,6 @@ console.log("",Studydata);
     origin: "",
     requesttype: "",
   });
-  
-console.log("",townplanning);
   
   useEffect(() => {
     setFormValues ( {
@@ -114,7 +111,6 @@ console.log("",townplanning);
   }, []);
    
     //////
- console.log("",currentcasescaseFileId);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -146,7 +142,6 @@ console.log("",townplanning);
      casefileId: casefileId? casefileId: currentcasescaseFileId
     };
     postCheckboxesData();
-    console.log("formData",formData);
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
         toast.success("Success");

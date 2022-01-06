@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const HistoricalSearch = () => {
+const HistoricalSearch = ({generalDataEstablishment}) => {
   const [open, setOpen] = useState(false);
   const [toggle, setToggle] = useState(false)
   const [iconState, setIconState] = useState(false)
@@ -29,20 +29,39 @@ const HistoricalSearch = () => {
     status: "",
     cityId: "",
   });
+  const [Values, setLevelData] = useState([]) 
+  const [historicalDataEstablishment, setHistoricalDataEstablishment] = useState([])
+  const [description, setDescription] = useState() 
   const store = Store()
   const [inputValues, setInputValues] = useState({
-    establishmentName: store.establishmentname,
-    statusId: "",
-    cityId: "",
-    trackTypeId: "",
-    zipCode: "",
-    channelName: "",
-    estNumber: "hf",
-    securityManagerName: "",
-    securityManagerLastName: "",
-    securityManagerMobile: "",
-    securityManagerEmail: "",
+    establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
+    statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
+    cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
+    trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
+    zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
+    channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
+    estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
+    securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
+    securityManagerLastName: generalDataEstablishment.securityManagerLastName? generalDataEstablishment.securityManagerLastName: "",
+    securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
+    securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
   });
+ 
+  useEffect(() => {
+    setInputValues({
+      establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
+      statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
+      cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
+      trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
+      zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
+      channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
+      estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
+      securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
+      securityManagerLastName: generalDataEstablishment.securityManagerLastName?generalDataEstablishment.securityManagerLastName: "",
+      securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
+      securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
+    })
+  }, [generalDataEstablishment])
   const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
@@ -69,13 +88,17 @@ const HistoricalSearch = () => {
         };
       })
     );
+    api("get", "/api/v1/get_description_data/2").then((res)=>{
+      setLevelData(res.data.levels)
+      setDescription(res.data.descriptions)
+     })
+     api("get", `/api/v1/get_historicaldata_establishment/${store.establishmentId}`).then((res)=>{
+       setHistoricalDataEstablishment(res.data)
+     })
   }, []);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-     console.log("",value);
-
-     console.log("inputValues.statusId",inputValues.statusId);
      if(inputValues.statusId==="2" && inputValues.statusId!=="" &&  value!=="2"){
       setOpen(true)
       setMessageText(
@@ -103,7 +126,7 @@ const HistoricalSearch = () => {
       };
     });
   };
-  console.log("store.establishmentName",dropdownValue.status);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -186,6 +209,7 @@ const HistoricalSearch = () => {
                       value={inputValues.establishmentName}
                       onChange={handleChange}
                       name="establishmentName"
+                      value={inputValues.establishmentName}
                     />
                   </div>
               
@@ -197,6 +221,7 @@ const HistoricalSearch = () => {
                       className="dropdown"
                       type="select"
                       name="cityId"
+                      value={inputValues.cityId}
                       onChange={handleChange}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
@@ -213,6 +238,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="zipCode"
+                      value={inputValues.zipCode}
                     />
                   </div>
                   <div className="establishment-nom-mobile-container"> 
@@ -233,7 +259,8 @@ const HistoricalSearch = () => {
                     <input
                       type="search"
                       onChange={handleChange}
-                      name="mobile"
+                      name="securityManagerMobile"
+                      value={inputValues.securityManagerMobile}
                     />
                   </div>
                   </div>
@@ -246,6 +273,7 @@ const HistoricalSearch = () => {
                       type="select"
                       name="statusId"
                       onChange={handleChange}
+                      value={inputValues.statusId}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.status.data?.map((item) => (
@@ -264,6 +292,7 @@ const HistoricalSearch = () => {
                       type="select"
                       name="trackTypeId"
                       onChange={handleChange}
+                      value={inputValues.trackTypeId}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.tracktype.data?.map((item) => (
@@ -288,6 +317,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerMobile"
+                      value={inputValues.securityManagerMobile}
                     />
                   </div>
                   </div>
@@ -297,6 +327,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerName"
+                      value={inputValues.securityManagerName}
                     />
                   </div>
                   <div className="flex-form">
@@ -305,6 +336,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerEmail"
+                      value={inputValues.securityManagerEmail}
                     />
                   </div>
                   <Box>
@@ -319,8 +351,8 @@ const HistoricalSearch = () => {
                 </div>
               </form>
             </Item>
-        <CreateHistoricalData establishmentid={store.establishmentId}/>
-        <EstablishmentLevel/>
+        <CreateHistoricalData historicalDataEstablishment={historicalDataEstablishment} establishmentid={store.establishmentId}/>
+        <EstablishmentLevel  description={description} Values={Values}/>
         {/* <Description/> */}
           </Grid>
         </Box>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,57 +8,44 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
-import { DataGrid } from "@mui/x-data-grid";
-import moment from "moment";
+import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
-  const [Studydata, setStudydata] = useState([])
+  const [Studydata, setStudydata] = useState([]);
   const [indexdata, setIndexdata] = useState({
     sectionindex: "",
     tabindex: "",
   });
   const [CompName, setCompName] = useState("");
-  // const [sortModel, setSortModel] = React.useState([
-  //   {
-  //     field: 'refnum',
-  //     sort: 'asc',
-  //   },
-  // ]);
-//   const column = [ 
-//   { field: "typeref", headerName: "Ref.", width: 150 },
-//   { field: "caseaveragename", headerName: "caseAverageName", width: 150 },
-//   { field: "commisionDate", headerName: "commisionDate", width: 150 },
-//   { field: "createdAt", headerName: "createdAt", width: 150 },
-//   { field: "employeename", headerName: "employeeName", width: 150 },
-//   { field: "refnum", headerName: "refNum", width: 150 },
-//  ]
-console.log("",currentcasesData);
-  const onClick = (establishmentid,id, sectionIndex, tabIndex) => {
-    console.log(establishmentid,id, sectionIndex, tabIndex);
+  const updatestore = UpdateStore();
+  const onClick = (establishmentid, id, sectionIndex, tabIndex) => {
+    if (sectionIndex === 2 && tabIndex === 1) {
+      updatestore({
+        activeNavbarTab: 1,
+        establishmentId: establishmentid,
+        activeCase: "currentcases",
+      });
+    }
     setIndexdata(() => {
       return {
         sectionindex: sectionIndex,
         tabindex: tabIndex,
       };
     });
-    api("get", `/api/v1/casefiles/get_open_foldercreation/${establishmentid}/${id}`).then(
-      (res) => {
-        setFolderCreationData(res?.data);
-      }
-    );
-    api('get', `/api/v1/casefiles/get_open_townplanning/${establishmentid}/${id}`).then((res)=>{
-      setStudydata(res)
-      })
+    api(
+      "get",
+      `/api/v1/casefiles/get_open_foldercreation/${establishmentid}/${id}`
+    ).then((res) => {
+      setFolderCreationData(res?.data);
+    });
+    api(
+      "get",
+      `/api/v1/casefiles/get_open_townplanning/${establishmentid}/${id}`
+    ).then((res) => {
+      setStudydata(res);
+    });
   };
-
-  // const onRowClick =(data, event)=>{
-  //   event.defaultMuiPrevented = true;
-  //   console.log("id",data.id);
-  //   console.log("sectionindex", data);
-  //   console.log("tabIndex", data.tabIndex);
-  // }
-  console.log("currentcasesData",folderCreationData);
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -95,7 +82,9 @@ console.log("",currentcasesData);
             >
               <TableHead>
                 <TableRow>
-                  <TableCell><span>Type</span> <br/> <span>Ref</span> </TableCell>
+                  <TableCell>
+                    <span>Type</span> <br /> <span>Ref</span>{" "}
+                  </TableCell>
                   <TableCell align="left">caseAverageName</TableCell>
                   <TableCell align="left">commisionDate&nbsp;</TableCell>
                   <TableCell align="left">createdAt&nbsp;</TableCell>
@@ -120,9 +109,10 @@ console.log("",currentcasesData);
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                    <span>  {row.caseTypeName} </span> <br/> <span>{row.refNum}</span>
+                      <span> {row.caseTypeName} </span> <br />{" "}
+                      <span>{row.refNum}</span>
                     </TableCell>
-                    <TableCell align="left"> {row.caseAverageName}  </TableCell>
+                    <TableCell align="left"> {row.caseAverageName} </TableCell>
                     <TableCell align="left">{row.commisionDate}</TableCell>
                     <TableCell align="left">{row.createdAt}</TableCell>
                     <TableCell align="left">{row.employeeName}</TableCell>
@@ -133,9 +123,7 @@ console.log("",currentcasesData);
               </TableBody>
             </Table>
           </TableContainer>
-          
         </Item>
-        
       )}
       {/* <div style={{ height: "50vh", width: "100%" }}>
         
