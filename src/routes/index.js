@@ -5,7 +5,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // Routes
 import Home from "../containers/Home.js";
 import Login from "../components/auth/Login";
-import Login2 from "../components/auth/Login2";
 import Signup from "../components/auth/Signup";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import OpenSearch from "../containers/OpenSearch";
@@ -47,7 +46,6 @@ const index = () => {
         <Switch>
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/login2" component={Login2} />
           <Route exact path="/forgetpassword" component={ForgetPassword} />
           <Redirect from="/" to="/login" />
         </Switch>

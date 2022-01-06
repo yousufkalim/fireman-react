@@ -64,16 +64,22 @@ border: none !important;
     background: #FFFFFF;
     color: #9095A3;
     display: flex;
-    min-height: 50px;
+    /* min-height: 50px; */
     padding: 0px 16px;
     vertical-align:middle;
     align-items: center;
     border-radius: 10px;
     border: none;
     margin-top: 10px;
+    justify-content: space-between;
 }
-.checklist p{
-    margin-left: 40px;
+.checklist .checklist_content{
+    display: flex;
+    align-items: center;
+}
+.checklist .checklist_content p{
+    padding: 16px 10px;
+    text-align: justify;
 }
 .etablissement .sections .css-ta84vm-MuiAccordionDetails-root{
     padding: 16px 0px !important;
@@ -88,7 +94,7 @@ border: none !important;
   .edit_icon{
       position: absolute;
       right: 33px;
-      width: 18px;
+      /* width: 18px; */
       }
       .checklist_detail_bottom{
           display: flex;
@@ -102,11 +108,119 @@ border: none !important;
           width: 26px;
       }
 
-      .bottom_buttons{
+      .bottom_buttons {
+        padding: 20px 0px;
+    }
+      .bottom_buttons .bottom_buttons_right{
           float: right;
-          padding: 20px 0px;
+      }
+      .bottom_buttons .bottom_buttons_left{
+        float: left;
+    }
+
+      .bottom_buttons img{
+       width: 26px;
+      }
+      .left_side{
+          margin-top: 55px;
+      }
+      .left_side .first{
+        background-color: #FFFFFF !important;
+        margin-right: 66px;
+        padding: 17px 27px;
+        border-radius: 10px;
+        border: transparent;
+        height: 210px;
+        position: relative;
+    }    
+      
+      .left_side .logo{
+        border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #E0E7EE;
+    padding: 3px;
+    margin-right: 50px;
+    text-align: center;
+      }
+      .left_side .logo_flex p{
+        color: #B4BCC3;
+        display: flex;
+        font-size: 10px;
+        justify-content: center;
+        margin-top: 8px;
+        text-align: center;
+        width: 80px;
       }
 
-      .bottom_buttons .css-1pqm26d-MuiAvatar-img{
-    
+      .left_side .logo img{
+    width: 27px;
+      }
+
+      .left_side .first .logo_flex{
+          display: flex;
+      }
+
+      .first .align{
+          padding-left: 21px;
+      }
+
+      .left_side .first .firecart{
+        position: absolute;
+        top: 14px;
+        right: -58px;
+      }
+      .left_side .Compagnon{
+         background-color: #FFFFFF ;
+         margin-top: 20px;
+         margin-right: 30px;
+         border-radius: 10px;
+         border: transparent;
+         padding: 17px 17px;
+      }
+      .left_side .Compagnon h4{
+          color: #9095A3;
+          font-weight: 500;
+          border-bottom: 1px solid #E7EDF2;
+          padding-bottom: 10px;
+      }
+      
+      .left_side .Compagnon .Compagnon_icons{
+          border: 1px solid #D2DCE4;
+          border-radius: 10px;
+          margin-top: 20px;
+          padding: 5px 10px;
+          display: flex;
+          display: flex;
+          align-items: center;
+      }
+
+      .left_side .Compagnon .Compagnon_icons p{
+        color: #B4BCC3;
+        font-size: 12px;
+        margin-left: 15px;
+        font-weight: 500;
+
+      }
+
+      .left_side .Compagnon .notes{
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+      }
+      .left_side .Compagnon .notes p{
+        color: #B4BCC3;
+        font-size: 12px;
+        margin-left: 15px;
+
+      }
+      .left_side .Compagnon .notes_border{
+        border-top: 1px solid #EAEFF3;
+        border-bottom: 1px solid #EAEFF3;
+        padding: 7px 0px;
+      }
+
+      .checklist .ckeditor{
+        margin: 20px 20px;
       }
