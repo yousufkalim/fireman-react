@@ -93,6 +93,7 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
       setDescription(res.data.descriptions)
      })
      api("get", `/api/v1/get_historicaldata_establishment/${store.establishmentId}`).then((res)=>{
+       console.log("historicaledataestab");
        setHistoricalDataEstablishment(res.data)
      })
   }, []);
@@ -138,6 +139,8 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
       ...inputValues,
       establishmentId:store.establishmentId
     }
+    if(store.activeCase === "newcase") 
+    {
     api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {
@@ -151,6 +154,18 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
     ).catch(err=>{
       console.log(err);
     });
+
+  }
+  
+
+  if(store.activeCase === "currentcases") 
+  {
+   api("put", "/api/v1/update_generaldata_establishment", updatedObj).then((res)=>{
+    console.log("update", res);
+   })
+
+  }
+
   };
 
 

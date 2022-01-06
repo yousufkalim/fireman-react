@@ -31,6 +31,7 @@ const CreateHistoricalData = ({
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
   });
+  console.log("historicalDataEstablishment",historicalDataEstablishment);
   const newarr = historicalDataEstablishment?.map((val) => ({
     histDate: moment(val.histDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
     historicalObjectId: val.historicalObjectId,
@@ -49,9 +50,10 @@ const CreateHistoricalData = ({
     });
   }, []);
   const onSubmit = (values) => {
+    console.log("vale", values);
     const newarr = values.repeatable.map((object) => ({
       ...object,
-      historicalEventid: "0",
+      historicalEventid: object.historicalEventId,
       establishmentId: establishmentid,
     }));
 
@@ -88,7 +90,10 @@ const CreateHistoricalData = ({
     if(store.activeCase === "currentcases") 
     {
       alert("put");
+
+     { console.log("cfgvhjb",newarr)}
       newarr.map((val) => {
+        { console.log("cfgvhjb",val.histDate)}
         return new Promise((resolve, reject) => {
           api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
@@ -796,6 +801,7 @@ const CreateHistoricalData = ({
               historicalObjectId: val.historicalObjectId,
               historicalOpinionId: val.historicalOpinionId,
               urbanPlanningRef: val.urbanPlanningRef,
+              historicalEventId: val.historicalEventId,
               details: val.details,
             })),
           }}
