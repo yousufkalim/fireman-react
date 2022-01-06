@@ -54,6 +54,11 @@ const CreateHistoricalData = ({
       historicalEventid: "0",
       establishmentId: establishmentid,
     }));
+
+    console.log("newarr",newarr);
+    if(store.activeCase === "newcase") 
+    {
+     alert("post");
     newarr.map((val) => {
       return new Promise((resolve, reject) => {
         api("post", "/api/v1/create_historicaldata_establishment", val)
@@ -79,7 +84,39 @@ const CreateHistoricalData = ({
           .catch((err) => console.log(err));
       });
     });
-
+  }
+    if(store.activeCase === "currentcases") 
+    {
+      alert("put");
+      newarr.map((val) => {
+        return new Promise((resolve, reject) => {
+          api("put", "/api/v1/update_historicaldata_establishment", val)
+            .then((res) => {
+              console.log("update",res);
+              if(res.status= 200){
+                toast.success("Success!")
+              }
+              let form_data = new FormData();
+              form_data.append("docFile", val.image);
+              form_data.append("HistoricalEventId", "23");
+              form_data.append("HistoricalEventFilesId", "0");
+              if (val.image) {
+                api("post", "/api/v1/upload_historicaldata_file", form_data)
+                  .then((res) => {
+                    if(res.status= 200){
+                      toast.success("Success!")
+                    }
+                    //console.log("imageres:", res);
+                  })
+                  .catch((err) => console.log(err));
+              }
+            })
+            .catch((err) => console.log(err));
+        });
+      });
+    }
+    
+      
     const photo = values.repeatable.map((object) => object.image);
   };
   const store = Store();
@@ -791,7 +828,9 @@ const CreateHistoricalData = ({
                           <input
                             style={{ padding: "8px" }}
                             type="date"
+                            name={`repeatable.${i}.histDate`}
                             defaultValue={r.histDate}
+                            onChange={(e)=>{setFieldValue(`repeatable.${i}.histDate`, e.target.value)}}
                           />
                         </Box>
 

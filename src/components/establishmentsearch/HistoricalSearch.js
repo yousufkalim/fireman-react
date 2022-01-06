@@ -96,22 +96,26 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
        setHistoricalDataEstablishment(res.data)
      })
   }, []);
+  console.log("generalDataEstablishment",generalDataEstablishment);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-     if(inputValues.statusId==="2" && inputValues.statusId!=="" &&  value!=="2"){
+    console.log(value);
+     if(inputValues.statusId==="2" &&  value!=="2" && name==="statusId"){
       setOpen(true)
       setMessageText(
         "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
            )
      }
-     if(inputValues.statusId!=="2" && inputValues.statusId!=="" && value==="2"){
+     if(inputValues.statusId!=="2" && value==="2" && name==="statusId"){
       setOpen(true)
       setMessageText(
         "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
            )
-     }
-     if(inputValues.establishmentName!== store.establishmentname){
+     }  
+     
+
+     if((inputValues.establishmentName!== store.establishmentname) && (name==="establishmentName")){
       setOpen(true)
       setMessageText(
         `You are about to change the name of an establishment or a group of 

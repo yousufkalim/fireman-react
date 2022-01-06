@@ -35,7 +35,9 @@ const EstablishmentLevel = ({  Values, description }) => {
     });
   }, []);
   const store = Store();
+  console.log("store", store);
   const onSubmit = (values, data) => {
+    console.log(data,"dataest");
     let establishmentid = localStorage.getItem("establishmentid");
     const newarr = values.repeatable.map((object) => ({
       ...object,
@@ -43,15 +45,15 @@ const EstablishmentLevel = ({  Values, description }) => {
     const newdescriptions = {
       lessEightMeter: data.lessEightMeter === "" ? false : true,
       moreEightMeter: data.moreEightMeter === "" ? false : true,
-      siteDescription: data.siteDescription,
+      siteDescription: data.site,
       establishmentdescription: data.establishmentdescription,
     };
     const obj = {
-      establishmentId: establishmentid,
+      establishmentId: store.establishmentId,
       levels: newarr,
       descriptions: newdescriptions,
     };
-
+     console.log("check",obj);
     api("post", "/api/v1/create_description_data", obj).then((res) => {
       if(res.status= 200){
         toast.success("Success!")

@@ -43,6 +43,7 @@ const Description = ({ values, onSubmit, description }) => {
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(value);
     setInputValues((pre) => {
       return {
         ...pre,
@@ -50,7 +51,10 @@ const Description = ({ values, onSubmit, description }) => {
       };
     });
   };
+
+  
   const onSubmitFields = () => {
+    console.log("inputValuesfcgvjhbkn",inputValues);
     onSubmit(values, inputValues);
   };
   return (
