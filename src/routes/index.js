@@ -9,6 +9,8 @@ import Signup from "../components/auth/Signup";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import OpenSearch from "../containers/OpenSearch";
 import Body from '../components/Body'
+import Dashboard from '../components/dashboard/Dashboard'
+
 const index = () => {
   let userdata = localStorage.getItem("userData");
   userdata = JSON.parse(userdata);
@@ -30,6 +32,11 @@ const index = () => {
            exact
            path="/body"
            component={Body}
+         />
+           <Route
+           exact
+           path="/dashboard"
+           component={Dashboard}
          />
          
          <Redirect from="*" to="/body" />

@@ -1,131 +1,78 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+
+import { Grid, Paper } from "@mui/material"
+import { styled } from "@mui/material/styles";
+import logo from '../../assets/LoginfromLogo.png'
 import jwt from 'jwt-decode'
 import api from "../../api/index";
 import {UpdateStore} from '../../StoreContext'
-function Copyright(props) {
- 
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-const theme = createTheme();
-const Login = () => {
-  const updatestore = UpdateStore();
-  const handleSubmit = (event) => {
-    const data = new FormData(event.currentTarget);
-    event.preventDefault();
-    api("post", "/api/v1/Login", {
-      email: data.get("email"),
-      password: data.get("password"),
-    })
-      .then((res) => {
-        const token = res?.data?.token;
-        const user = jwt(token); // decode your token here
-         localStorage.setItem('user', user?.email);
-        const dataObj = {
-          usertoken: res?.data?.token,
-          userid: res?.data?.userId,
-        };
-        localStorage.setItem("userData", JSON.stringify(dataObj));
-         window.location = "/openSearch";
-      })
-      .catch((err) => console.log(err));
-  };
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link to="/forgetpassword" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="/signup" variant="body2">
-                  "Don't have an account? Sign Up"
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Container>
-      </ThemeProvider>
-    </>
-  );
-};
+import { useState } from "react";
 
-export default Login;
+
+const Login = () => {
+const [formInputs,setFormInputs]=useState({email:"",password:""});
+
+    const handleSubmit = (event) => {
+        const data = new FormData(event.currentTarget);
+        event.preventDefault();
+        if(formInputs.email && formInputs.password){
+            api("post", "/api/v1/Login", {
+                email: formInputs.email,
+                password: formInputs.password,
+              })
+                .then((res) => {
+                  const token = res?.data?.token;
+                  const user = jwt(token); // decode your token here
+                   localStorage.setItem('user', user?.email);
+                  const dataObj = {
+                    usertoken: res?.data?.token,
+                    userid: res?.data?.userId,
+                  };
+                  localStorage.setItem("userData", JSON.stringify(dataObj));
+                   window.location = "/openSearch";
+                })
+                .catch((err) => console.log(err));
+        }else{
+
+        }
+       
+      };
+const onChange=(e)=>{
+setFormInputs({...formInputs,[e.target.name]:e.target.value})
+}
+console.log("set",formInputs)
+
+    return (
+        <Grid container spacing={0} columns={20}>
+            <Grid item xs={9}>
+                <div className="left-form">
+                <img src={logo} />
+                </div>
+            </Grid>
+            <Grid item xs={11}>
+                <div className="login-form">
+                    <p className="topHeading">Retour à la page d’accueil</p>
+                    <div className="mainform">
+                        <div style={{ textAlign: "start" ,width:"80%"}}>
+                            <h4>Connectez-vous à votre compte</h4>
+                            <form onSubmit={handleSubmit}>
+                            <div className="input-field">
+                                <label>Adresse e-mail</label>
+                                <input  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
+                            </div>
+                            <div className="input-field">
+                                <label>Mot de passe</label>
+                                <input name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
+                            </div>
+                            <a>Mot de passe oublié ?</a>
+                            <button type="submit">Se connecter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </Grid>
+
+        </Grid>
+    )
+}
+
+export default Login
