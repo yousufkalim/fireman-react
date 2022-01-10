@@ -52,7 +52,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs(props) {
-
+let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionData.sentenceText)
 
     return (
         <div>
@@ -78,20 +78,14 @@ export default function CustomizedDialogs(props) {
                         }}
                         onChange={(event, editor) => {
                             const data = editor.getData();
-                            console.log({ event, editor, data });
-                        }}
-                        onBlur={(event, editor) => {
-                            console.log('Blur.', editor);
-                        }}
-                        onFocus={(event, editor) => {
-                            console.log('Focus.', editor);
+                            setSentence(data)
                         }}
                     />
                     </div>
                   
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={props.handleClose}>
+                    <Button autoFocus onClick={()=>props.saveChanges(sentence)}>
                         Save changes
                     </Button>
                 </DialogActions>

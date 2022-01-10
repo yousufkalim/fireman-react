@@ -60,6 +60,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const AccordionComponent=(props)=>{
 
+
     return(
         <>
       
@@ -72,18 +73,10 @@ const AccordionComponent=(props)=>{
             <AccordionDetails>
                 {
                     props.accordionData.series &&
-                    props.accordionData.series.map((series)=>{
+                    props.accordionData.series.map((series,i)=>{
                         return(
                             <>
-                            <h3 style={{visibility:"hidden"}}>{series.serialName}</h3>
-                                            {
-                                                series.checkList &&
-                                                series.checkList.map((data,i)=>{
-                                                    return(
-                                                        <CheckList  series={series.serialName} index={i} accordionData={data} />
-                                                    )
-                                                })
-                                            }
+              <CheckList series={series.serialName} index={i} accordionData={series} />                    
                            </>
                         )
                     })
