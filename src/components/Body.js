@@ -41,6 +41,7 @@ const Body = () => {
         <Grid item xs={8}>
           {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
           {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
+          {/* {store.activeNavbarTab==="currentcases" && store.activeNavbarTab===1?  <OpenSearchCurrentCases currentcasesData={responseData} />:null} */}
           {store.activeNavbarTab==="newcases" || store.activeNavbarTab===0? <OpenSearchNewCases/>:null}
         </Grid>
         <Grid item xs={2}>

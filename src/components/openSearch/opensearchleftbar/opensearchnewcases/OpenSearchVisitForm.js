@@ -28,7 +28,6 @@ const EstablishmentSearchVisitForm = ({
   const [classState,  setClassState] = useState(true)
   const focusPoint = useRef(null);
   const handleChange = (e) => {
-    console.log("dfhjdfhj",e.target);
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {

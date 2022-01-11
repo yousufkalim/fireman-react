@@ -23,7 +23,8 @@ export function StoreProvider({ children }) {
     authorization: false,
     establishmentId:null,
     establishmentname:null,
-    activeNavbarTab:0
+    activeNavbarTab:0,
+    activeCase:""
   });
 
   const updateStore = (data) => {

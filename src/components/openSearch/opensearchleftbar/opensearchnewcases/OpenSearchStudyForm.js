@@ -36,8 +36,8 @@ const EstablishmentSearchStudyForm = ({
   );
 const [classState,  setClassState] = useState(true)
 const [iconState, seticonState] = useState(false)
+const [detailobjiconstate, setdetailobjiconstate] = useState(false)
 const [checkBoxesChecked, setCheckBoxesChecked] = useState([])
-console.log("",Studydata);
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId? Studydata?.data?.originId: "",
     caseAverageId: Studydata?.data?.caseAverageId?Studydata?.data?.caseAverageId :"",
@@ -54,8 +54,6 @@ console.log("",Studydata);
     origin: "",
     requesttype: "",
   });
-  
-  console.log("caseid",Studydata?.data?.receptionServiceDate);
   
   useEffect(() => {
     setFormValues ( {
@@ -113,7 +111,6 @@ console.log("",Studydata);
   }, []);
    
     //////
- console.log("",currentcasescaseFileId);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -138,27 +135,37 @@ console.log("",Studydata);
       };
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e,data) => {
     e.preventDefault();
     const formData = {
       ...formValues,
      casefileId: casefileId? casefileId: currentcasescaseFileId
     };
     postCheckboxesData();
-    console.log("formData",formData);
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
-        toast.success(res?.statusText);
-        if(res?.status===200 ){
+        toast.success("Success");
+        if(res?.status===200 && compShow==="filestructure"){
           seticonState(true);
         }
+        if(res?.status===200 && CompName === "currentcases" && indexdata.sectionindex!=1){
+          seticonState(true);
+        }
+        // if(res?.status===200 && data==="detailsobj"){
+        //   setdetailobjiconstate(true);
+        // }
         if((compShow==="filestructure" ||CompName === "currentcases") && res?.status===200){
           focusPoint.current.style.display = "none"
         }
       })
       .catch((err) => toast.error(err?.statusText));
   };
-console.log("",Studydata?.data?.townPlanningDate);
+
+  const handleSubmitdetailsobj =(e)=>{
+    e.preventDefault();
+    postCheckboxesData();
+    setdetailobjiconstate(true);
+  }
   return (
     <>
       <Item
@@ -197,7 +204,7 @@ console.log("",Studydata?.data?.townPlanningDate);
                 : "formdisplay"
             }`}
           >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e)=> handleSubmit(e,"townplanning")}>
               <div className="establishment-form ">
                 
                 <div className="inputs-container">
@@ -383,10 +390,11 @@ console.log("",Studydata?.data?.townPlanningDate);
             >
               <h5>Details of the object</h5>
               <div>
-                <span className="inputs-heading-text"> Reduire</span>
-              </div>
+            {detailobjiconstate? <CheckIcon sx={{backgroundColor:"green"}}/> : null}
+            <span className="inputs-heading-text"> Reduire</span>
+          </div>
             </Box>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e)=> handleSubmitdetailsobj(e, "detailsobj")}>
             <Box
               className={`${
                 CompName === "currentcases" && toggleUpdateTabstwo

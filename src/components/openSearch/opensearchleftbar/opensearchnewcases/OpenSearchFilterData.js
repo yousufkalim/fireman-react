@@ -10,7 +10,6 @@ import {UpdateStore} from '../../../../StoreContext'
 import {Store} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
-  console.log(establishmentSearchData);
   const updatestore = UpdateStore();
     const store = Store()
   //might needed in future
@@ -39,7 +38,8 @@ const onRowClick =(data, event)=>{
   event.defaultMuiPrevented = true;
  updatestore({
    establishmentId:data.id,
-   establishmentname:data.row.nom
+   establishmentname:data.row.nom,
+   activeCase:"newcase"
 })
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");

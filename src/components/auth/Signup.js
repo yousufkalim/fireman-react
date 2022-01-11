@@ -59,8 +59,8 @@ const Signup = () => {
     } else {
       api("post", "/api/v1/register", newFormData).then((res) =>
         res?.statusText === "OK"
-          ? toast.success(res?.statusText)
-          : toast.error(res?.statusText)
+          ? toast.success("Successfully SignedUp!")
+          : toast.error("Error!")
       );
     }
   };

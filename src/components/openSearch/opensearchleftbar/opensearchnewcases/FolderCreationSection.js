@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
+import {Store} from '../../../../StoreContext'
 import moment from "moment";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -36,7 +37,6 @@ const FolderCreationSection = ({
     inputsvalue: {},
   });
   useEffect(() => {
-  console.log("",currentcasescaseFileId)
     doneIconState.accordianState &&
     CompName === "currentcases" &&
     (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
@@ -110,7 +110,7 @@ const FolderCreationSection = ({
         };
       })
     );
-    api("get", `/api/v1/casefiles/get_open_foldercreation/${3}`).then((res) =>
+    api("get", `/api/v1/casefiles/get_open_foldercreation/${store.establishmentId}/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) =>
       setdropdownValue((preVal) => {
         return {
           ...preVal,
@@ -152,12 +152,9 @@ const FolderCreationSection = ({
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState();
   const focusPoint = useRef(null);
-
-  console.log("",currentcasescommisionDate);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log("value", name , value);
     if (
       (value === "1" && name === "caseTypeId") ||
       (value === "2" && name === "caseTypeId") ||
@@ -182,13 +179,11 @@ const FolderCreationSection = ({
       const formdata = {
         ...inputValues,
         caseFileId: caseFileId,
+        establishmentId:caseFileId,
         userid: userdata.userid,
-        visitTypeId:
-          inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
-        studyTypeId:
-          inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
+        visitTypeId:inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
+        studyTypeId:inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
       };
-      console.log("comissiondate",formdata);
       api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
           setInputValues((preVal) => {
@@ -209,7 +204,7 @@ const FolderCreationSection = ({
               : (focusPoint.current.style.display = "none");
           }
 
-          toast.success(res?.statusText);
+          toast.success("Successfully Saved");
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -268,7 +263,7 @@ const FolderCreationSection = ({
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
         setCheckBoxRes(res.status);
-        toast.success(res?.statusText);
+        toast.success("Success");
       })
       .catch((err) => toast.error(err?.statusText));
   };
@@ -287,7 +282,7 @@ const FolderCreationSection = ({
     commisionDate: currentcasescommisionDate? moment(currentcasescommisionDate,"YYYY-MM-DD").format("YYYY-MM-DD"):""
   })
   }, [dropdownValue])
-  console.log(dropdownValue?.inputsvalue,"inputValues")
+  const store = Store()
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||

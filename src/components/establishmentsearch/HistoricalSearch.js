@@ -1,40 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../api/index";
 import CreateHistoricalData from "./CreateHistoricalData";
 import {Store} from '../../StoreContext'
 import { toast } from "react-toastify"
+import DialogBox from '../DialogBox'
+import { display } from "@mui/system";
+import EstablishmentLevel from './EstablishmentLevel'
+import StaffLevel from './StaffLevel'
+import Ranking from './Ranking'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const HistoricalSearch = () => {
-  const [HistoricalCompState, setHistoricalCompState] = useState(false);
+const HistoricalSearch = ({generalDataEstablishment}) => {
+  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(false)
+  const [iconState, setIconState] = useState(false)
+  const [messageText, setMessageText] = useState("")
   const [dropdownValue, setdropdownValue] = useState({
     tracktype: "",
     status: "",
     cityId: "",
+    
   });
+  const [Values, setLevelData] = useState([]) 
+  const [historicalDataEstablishment, setHistoricalDataEstablishment] = useState([])
+  const [description, setDescription] = useState() 
   const store = Store()
   const [inputValues, setInputValues] = useState({
-    establishmentName: store.establishmentname,
-    statusId: "",
-    cityId: "",
-    trackTypeId: "",
-    zipCode: "",
-    channelName: "",
-    estNumber: "hf",
-    securityManagerName: "",
-    securityManagerLastName: "",
-    securityManagerMobile: "",
-    securityManagerEmail: "",
+    establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
+    statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
+    cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
+    trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
+    zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
+    channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
+    estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
+    securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
+    securityManagerLastName: generalDataEstablishment.securityManagerLastName? generalDataEstablishment.securityManagerLastName: "",
+    securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
+    securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
   });
+ 
+  useEffect(() => {
+    setInputValues({
+      establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
+      statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
+      cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
+      trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
+      zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
+      channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
+      estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
+      securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
+      securityManagerLastName: generalDataEstablishment.securityManagerLastName?generalDataEstablishment.securityManagerLastName: "",
+      securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
+      securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
+    })
+  }, [generalDataEstablishment])
+  const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -60,10 +90,42 @@ const HistoricalSearch = () => {
         };
       })
     );
+    api("get", "/api/v1/get_description_data/2").then((res)=>{
+      setLevelData(res.data.levels)
+      setDescription(res.data.descriptions)
+     })
+     api("get", `/api/v1/get_historicaldata_establishment/${store.establishmentId}`).then((res)=>{
+       console.log("historicaledataestab");
+       setHistoricalDataEstablishment(res.data)
+     })
   }, []);
+  console.log("generalDataEstablishment",generalDataEstablishment);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(value);
+     if(inputValues.statusId==="2" &&  value!=="2" && name==="statusId"){
+      setOpen(true)
+      setMessageText(
+        "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
+           )
+     }
+     if(inputValues.statusId!=="2" && value==="2" && name==="statusId"){
+      setOpen(true)
+      setMessageText(
+        "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
+           )
+     }  
+     
+
+     if((inputValues.establishmentName!== store.establishmentname) && (name==="establishmentName")){
+      setOpen(true)
+      setMessageText(
+        `You are about to change the name of an establishment or a group of 
+        establishments. The history of establishment XX and the reference will now be 
+        linked to this new name.`
+           )
+     }
     setInputValues((preVal) => {
       return {
         ...preVal,
@@ -71,7 +133,7 @@ const HistoricalSearch = () => {
       };
     });
   };
-  console.log("store.establishmentName",store.establishmentname);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -79,16 +141,40 @@ const HistoricalSearch = () => {
       ...inputValues,
       establishmentId:store.establishmentId
     }
+    if(store.activeCase === "newcase") 
+    {
     api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
       (res) => {
         if (res.status === 200) {
-          toast.success(res?.statusText);
+          setIconState(true)
+          setToggle(true)
+          toast.success("Successfully Saved");
+          focusPoint.current.style.display = "none"
         }
         
       }
-    );
+    ).catch(err=>{
+      console.log(err);
+    });
+
+  }
+  
+
+  if(store.activeCase === "currentcases") 
+  {
+   api("put", "/api/v1/update_generaldata_establishment", updatedObj).then((res)=>{
+    console.log("update", res);
+   })
+
+  }
+
   };
 
+
+  const toggleSection =( )=>{
+    setToggle(!toggle)
+    toggle? focusPoint.current.style.display = "none": focusPoint.current.style.display = "block"
+  }
   return (
     <>
       <Item
@@ -105,19 +191,26 @@ const HistoricalSearch = () => {
             borderBottom: "1px solid gray",
             padding: "10px",
           }}
+          onClick={toggleSection}
         >
+          
           <h5>Données générales</h5>
+          <div> 
+       { iconState? <DoneIcon sx={{ backgroundColor: "green" }}/> :null }  
           <span className="inputs-heading-text"> Reduire</span>
+          </div>
         </Box>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             padding: "10px",
+            
           }}
         >
           <Grid item md={12}>
-            <Item sx={{ boxShadow: "none" }}>
+            <Item ref={focusPoint} sx={{ boxShadow: "none" }}>
+           < DialogBox setOpen={setOpen} messageText={messageText} open={open}/>
               <form
                 className="establishment-form"
                 type="submit"
@@ -130,11 +223,14 @@ const HistoricalSearch = () => {
                       placeholder="Nom établissement"
                       disabled
                     />
+                    
+
                     <input
                       type="search"
                       value={inputValues.establishmentName}
                       onChange={handleChange}
                       name="establishmentName"
+                      value={inputValues.establishmentName}
                     />
                   </div>
               
@@ -146,6 +242,7 @@ const HistoricalSearch = () => {
                       className="dropdown"
                       type="select"
                       name="cityId"
+                      value={inputValues.cityId}
                       onChange={handleChange}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
@@ -162,6 +259,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="zipCode"
+                      value={inputValues.zipCode}
                     />
                   </div>
                   <div className="establishment-nom-mobile-container"> 
@@ -182,7 +280,8 @@ const HistoricalSearch = () => {
                     <input
                       type="search"
                       onChange={handleChange}
-                      name="mobile"
+                      name="securityManagerMobile"
+                      value={inputValues.securityManagerMobile}
                     />
                   </div>
                   </div>
@@ -195,6 +294,7 @@ const HistoricalSearch = () => {
                       type="select"
                       name="statusId"
                       onChange={handleChange}
+                      value={inputValues.statusId}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.status.data?.map((item) => (
@@ -213,6 +313,7 @@ const HistoricalSearch = () => {
                       type="select"
                       name="trackTypeId"
                       onChange={handleChange}
+                      value={inputValues.trackTypeId}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.tracktype.data?.map((item) => (
@@ -237,6 +338,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerMobile"
+                      value={inputValues.securityManagerMobile}
                     />
                   </div>
                   </div>
@@ -246,6 +348,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerName"
+                      value={inputValues.securityManagerName}
                     />
                   </div>
                   <div className="flex-form">
@@ -254,6 +357,7 @@ const HistoricalSearch = () => {
                       type="search"
                       onChange={handleChange}
                       name="securityManagerEmail"
+                      value={inputValues.securityManagerEmail}
                     />
                   </div>
                   <Box>
@@ -268,7 +372,11 @@ const HistoricalSearch = () => {
                 </div>
               </form>
             </Item>
-        <CreateHistoricalData establishmentid={store.establishmentId}/>
+        <CreateHistoricalData historicalDataEstablishment={historicalDataEstablishment} establishmentid={store.establishmentId}/>
+        <EstablishmentLevel  description={description} Values={Values}/>
+        <StaffLevel establishmentid={store.establishmentId}/>
+        <Ranking establishmentid={store.establishmentId}/>
+        {/* <Description/> */}
           </Grid>
         </Box>
       </Item>

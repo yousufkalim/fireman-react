@@ -4,9 +4,13 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import {UpdateStore} from '../StoreContext'
+import {Store} from '../StoreContext'
 const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const [activeTab, setActiveTab] = useState(0);
   const updatestore = UpdateStore()
+  const store = Store()
+
+  console.log(store.activeNavbarTab);
   const items = [
     {
       text: "Open",
@@ -61,7 +65,7 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
               }}
             >
               {items.map((item, index) => {
-                const className = activeTab === index ? "active" : "";
+                const className = activeTab === index || store.activeNavbarTab===index? "active" : "";
                 return (
                   <Box
                     className={`unactive ${className}`}
