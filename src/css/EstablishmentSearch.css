@@ -165,7 +165,23 @@ margin-right: 5px;
 }
 
 
-////////////*fgchvjk*///////////
+/*fgchvjk*/
 .input-historical{
     padding: 30px 0px;
+}
+
+
+.select-input{
+  height: 54px;
+}
+
+.total{
+  background-color: lightblue;
+  width: 95%;
+    text-align: end;
+}
+
+
+.dropdown-ranking{
+  margin: 0px 5px;
 }

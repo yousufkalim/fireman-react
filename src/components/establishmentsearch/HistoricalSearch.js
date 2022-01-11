@@ -12,7 +12,8 @@ import { toast } from "react-toastify"
 import DialogBox from '../DialogBox'
 import { display } from "@mui/system";
 import EstablishmentLevel from './EstablishmentLevel'
-import Description from './Description'
+import StaffLevel from './StaffLevel'
+import Ranking from './Ranking'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -28,6 +29,7 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
     tracktype: "",
     status: "",
     cityId: "",
+    
   });
   const [Values, setLevelData] = useState([]) 
   const [historicalDataEstablishment, setHistoricalDataEstablishment] = useState([])
@@ -372,6 +374,8 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
             </Item>
         <CreateHistoricalData historicalDataEstablishment={historicalDataEstablishment} establishmentid={store.establishmentId}/>
         <EstablishmentLevel  description={description} Values={Values}/>
+        <StaffLevel establishmentid={store.establishmentId}/>
+        <Ranking establishmentid={store.establishmentId}/>
         {/* <Description/> */}
           </Grid>
         </Box>

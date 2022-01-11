@@ -46,7 +46,7 @@ const EstablishmentLevel = ({  Values, description }) => {
       lessEightMeter: data.lessEightMeter === "" ? false : true,
       moreEightMeter: data.moreEightMeter === "" ? false : true,
       siteDescription: data.site,
-      establishmentdescription: data.establishmentdescription,
+      description: data.establishmentdescription,
     };
     const obj = {
       establishmentId: store.establishmentId,
@@ -54,11 +54,20 @@ const EstablishmentLevel = ({  Values, description }) => {
       descriptions: newdescriptions,
     };
      console.log("check",obj);
-    api("post", "/api/v1/create_description_data", obj).then((res) => {
-      if(res.status= 200){
-        toast.success("Success!")
-      }
-    });
+     if(store.activeCase === "newcase"){
+      api("post", "/api/v1/create_description_data", obj).then((res) => {
+        if(res.status= 200){
+          toast.success("Success!")
+        }
+      });
+     }
+
+     if(store.activeCase === "currentcases"){
+       api("put", "/api/v1/update_description_data", obj).then((res)=>{
+     console.log("update:",res);
+       })
+
+     }
    
   };
 
