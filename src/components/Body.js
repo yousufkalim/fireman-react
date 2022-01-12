@@ -8,14 +8,10 @@ import OpenSearchNewCases from "./openSearch/opensearchleftbar/opensearchnewcase
 import OpenSearchCurrentCases from "./openSearch/opensearchleftbar/opensearchcurrentcases/OpenSearchCurrentCases";
 import EstablishmentSearchContainer from './establishmentsearch/EstablishmentSearchContainer'
 import Navbar from './Navbar'
+import NavbarNew from './NavbarNew'
 import { styled } from "@mui/material/styles";
 import {Store} from '../StoreContext'
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
@@ -24,19 +20,19 @@ const Body = () => {
  const store = Store()
   return (
     <>
-      <Navbar/>
+      <NavbarNew/>
+      <Grid item xs={12} sx={{background:"aliceblue"}}>
       <ActiveTabHeader/>
+      </Grid>
       <Grid
-        sx={{ backgroundColor: "aliceblue", padding: "0px 20px" }}
+        sx={{ backgroundColor: "aliceblue" }}
         container
         spacing={2}
       >
-        <Grid item xs={2}>
-          <Item sx={{ height: "100%" }}>
+        <Grid item xs={1}>
             <LeftBarTab
               getResponse={getResponse}
             />
-          </Item>
         </Grid>
         <Grid item xs={8}>
           {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
@@ -44,7 +40,7 @@ const Body = () => {
           {/* {store.activeNavbarTab==="currentcases" && store.activeNavbarTab===1?  <OpenSearchCurrentCases currentcasesData={responseData} />:null} */}
           {store.activeNavbarTab==="newcases" || store.activeNavbarTab===0? <OpenSearchNewCases/>:null}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <RightBarTab />
         </Grid>
       </Grid>

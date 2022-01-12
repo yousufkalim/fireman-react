@@ -7,6 +7,9 @@ import api from "../../../../api/index";
 import OpenSearchFilterData from "./OpenSearchFilterData";
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Rightarrow from "../../../../assets/rightarrow.png";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -101,14 +104,33 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
 
   return (
     <>
+     <Box sx={{
+       display:"flex", 
+       justifyContent:"space-between", 
+       backgroundColor:"#3675B7", 
+       borderRadius:"5px", 
+      borderBottom:"1px solid #C5D3DB",
+       margin:"12px 4px",
+       padding:"20px",
+       color:"#ffffff"
+       }}> 
+     <Typography variant="h6">
+     Creation de dossier
+</Typography>
+<Typography sx={{color:"#A2AABE"}} variant="span">
+</Typography>
+
+        </Box>
       <Item
         sx={{
           marginTop: "5px",
-          borderLeft: "10px solid cadetblue",
           borderRadius: "10px",
-          fontSize:"20px"
+          fontSize:"20px",
+          boxShadow:"none"
         }}
       >
+
+       
         <Box
         sx={{textAlign:"start", display:"flex", paddingLeft:"16px"}}
         >
@@ -131,10 +153,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                 type="submit"
                 onSubmit={handleSubmit}
               >
+                <Box sx={{display:"flex"}}> 
                 <div className="inputs-container">
                 <label> Etablissement existant</label>
                   <div className="flex-form">
-                    <input type="text" placeholder="Ref." disabled />
+                    <label className="label-color"> Ref.</label>
                     <input
                       type="search"
                       onChange={handleChange}
@@ -142,11 +165,12 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     />
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Nom" disabled />
+                    <label className="label-color"> Nom</label>
                     <input type="search" onChange={handleChange} name="name" />
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Commune" disabled />
+                  
+                    <label className="label-color"> Commune</label>
                     <select
                       className="dropdown"
                       type="select"
@@ -155,25 +179,20 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.city.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
+                        <option class="option2" key={item.value} value={item.value}>
                           {item.text}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Rue/Avenue" disabled />
+                    <label className="label-color"> Rue/Avenue</label>
                     <input type="search" onChange={handleChange} name="steet" />
                   </div>
                 </div>
                 <div className="inputs-container input-container-search">
                   <div className="flex-form">
-                    <input
-                      type="text"
-                      placeholder="Statut"
-                      name="status"
-                      disabled
-                    />
+                    <label className="label-color"> Statut</label>
                     <select
                       className="dropdown"
                       type="select"
@@ -189,7 +208,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <input type="text" placeholder="Classement Type" />
+                    <label className="label-color"> Classement Type</label>
                     <select
                       className="dropdown"
                       type="select"
@@ -207,7 +226,8 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
 
                   <Box>
                     <div className="flex-form">
-                      <input type="text" placeholder="Classement CAT" />
+                   
+                      <label className="label-color"> Classement CAT</label>
                       <select
                         className="dropdown"
                         type="select"
@@ -222,28 +242,30 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                         ))}
                       </select>
                     </div>
-                    <Box sx={{textAlign:"right", paddingRight:"20px"}}> 
-                    <button
-                      className="establishment-search-btn-submit"
-                      type="submit"
-                    >
-                      {" "}
-                      RECHERCHER{" "}
-                    </button>
-                    </Box>
+                   
                   </Box>
+                 
                 </div>
+                </Box>   
+                <Divider sx={{margin:"20px 0px"}}/>
+                <Box sx={{textAlign:"right"}}> 
+                    <Button   type="submit" endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                    RECHERCHER
+                          </Button>
+                    </Box>
+                                
               </form>
-              {establishmentSearchData.data ? (
+              
+            </Item>
+          </Grid>
+        </Box>
+      </Item>
+      {establishmentSearchData.data ? (
                 <OpenSearchFilterData
                   establishmentSearchData={establishmentSearchData}
                   setCompShow={setCompShow}
                 />
               ) : null}
-            </Item>
-          </Grid>
-        </Box>
-      </Item>
     </>
   );
 };

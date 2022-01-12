@@ -6,9 +6,12 @@ import api from "../../api/index";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Description from "./Description";
 import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 import { Store } from "../../StoreContext";
+import { Typography } from "@mui/material"
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
+import DoneIcon from "@mui/icons-material/Done";
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -19,11 +22,19 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
     backgroundColor: theme.palette.common.black,
   },
 }));
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const EstablishmentLevel = ({  Values, description }) => {
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
-
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
+  const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/level/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -70,9 +81,33 @@ const EstablishmentLevel = ({  Values, description }) => {
      }
    
   };
-
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
   return (
     <>
+     <Box sx={{
+       display:"flex", 
+       justifyContent:"space-between",  
+       borderBottom:"1px solid #C5D3DB",
+        margin:"12px 4px"
+        }}
+        onClick={toggleSection}
+        > 
+     <Typography sx={{color:"#314A6C"}} variant="h6">
+     Descriptif
+</Typography>
+<div>
+          {iconState ? <DoneIcon/> : null}
+          <Typography sx={{ color: "#A2AABE" }} variant="span">
+            Réduire
+          </Typography>
+        </div>
+        </Box>
+    <Item ref={focusPoint} sx={{ boxShadow: "none" }}> 
       {store.activeCase === "newcase" ? (
         <Formik
           initialValues={{ repeatable: [] }}
@@ -474,6 +509,8 @@ const EstablishmentLevel = ({  Values, description }) => {
           )}
         />
       ) : null}
+
+</Item>
     </>
   );
 };

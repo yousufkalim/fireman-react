@@ -5,43 +5,52 @@ import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import {UpdateStore} from '../StoreContext'
 import {Store} from '../StoreContext'
+
+import { dividerClasses, Grid, Paper } from "@mui/material"
+import MobileStepper from '@mui/material/MobileStepper';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const [activeTab, setActiveTab] = useState(0);
   const updatestore = UpdateStore()
   const store = Store()
-
+  let [steps, setSteps] = useState(1)
+  let [accordionData, setAccordionData] = useState([])
   console.log(store.activeNavbarTab);
   const items = [
     {
-      text: "Open",
+      text: "Ouverture",
     },
     {
-      text: "Establishment",
+      text: "Etablissement",
     },
     {
-      text: "Implatation",
+      text: "Implantation",
     },
     {
       text: "Construction",
     },
     {
-      text: "Clearances",
+      text: "Construction",
     },
     {
-      text: "Facilities electric",
+      text: "Dégagement",
     },
     {
-      text: "Facilities gas",
+      text: "Categorie",
     },
   ];
   const onClick = (activetabindex) => {
+    setSteps(activetabindex+1)
     setActiveTab(activetabindex)
     updatestore({activeNavbarTab:activetabindex})
   };
   
   return (
     <>
-      <Box
+      {/* <Box
         sx={{ flexGrow: 1, backgroundColor: "aliceblue" }}
       >
         <AppBar
@@ -84,7 +93,38 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
             </Box>
           </Toolbar>
         </AppBar>
-      </Box>
+      </Box> */}
+       <Grid sx={{ margin:"auto"}}  xs={10}>
+                        <div className="header_selection" >
+                            {/* <a onClick={() => { setSteps(1) }} className="active">Ouverture</a>
+                            <a onClick={() => { setSteps(2) }}>Etablissement</a>
+                            <a onClick={() => { setSteps(3) }}>Implantation</a>
+                            <a onClick={() => { setSteps(4) }}>Construction</a>
+                            <a onClick={() => { setSteps(5) }}>Dégagement</a>
+                            <a onClick={() => { setSteps(6) }}>Categorie</a> */}
+                           {items.map((item, index) => {
+                const className = activeTab === index || store.activeNavbarTab===index? "active" : "";
+                return (
+                  <div className="header_selection" 
+                    //className={`unactive ${className}`}
+                    
+                    
+                  >
+                    <a onClick={() => onClick(index)}> {item.text} </a>
+                  </div>
+                );
+              })}
+
+                        </div>
+                        <MobileStepper
+                            variant="progress"
+                            steps={7}
+                            position="static"
+                            activeStep={steps}
+                            sx={{ width: "79%", flexGrow: 1, margin:"8px", padding:"0" }}
+                        />
+                       
+                    </Grid>
       <OpenSearchInputHeader />
     </>
   );

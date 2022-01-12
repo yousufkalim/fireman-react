@@ -8,7 +8,12 @@ import { toast } from "react-toastify";
 import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
-import {Store} from '../../../../StoreContext'
+import Rightarrow from "../../../../assets/rightarrow.png";
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import { Typography } from "@mui/material";
+
+import { Store } from "../../../../StoreContext";
 import moment from "moment";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -54,7 +59,12 @@ const FolderCreationSection = ({
         };
       })
     );
-    api("get", `/api/v1/casefiles/casefile_checklist/0/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
+    api(
+      "get",
+      `/api/v1/casefiles/casefile_checklist/0/${
+        currentcasescaseFileId ? currentcasescaseFileId : 0
+      }`
+    ).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -62,7 +72,12 @@ const FolderCreationSection = ({
         };
       });
     });
-    api("get", `/api/v1/casefiles/casefile_checklist/1/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
+    api(
+      "get",
+      `/api/v1/casefiles/casefile_checklist/1/${
+        currentcasescaseFileId ? currentcasescaseFileId : 0
+      }`
+    ).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -70,7 +85,12 @@ const FolderCreationSection = ({
         };
       });
     });
-    api("get", `/api/v1/casefiles/casefile_checklist/2/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) => {
+    api(
+      "get",
+      `/api/v1/casefiles/casefile_checklist/2/${
+        currentcasescaseFileId ? currentcasescaseFileId : 0
+      }`
+    ).then((res) => {
       setstate((preVal) => {
         return {
           ...preVal,
@@ -110,7 +130,12 @@ const FolderCreationSection = ({
         };
       })
     );
-    api("get", `/api/v1/casefiles/get_open_foldercreation/${store.establishmentId}/${currentcasescaseFileId?currentcasescaseFileId:0}`).then((res) =>
+    api(
+      "get",
+      `/api/v1/casefiles/get_open_foldercreation/${store.establishmentId}/${
+        currentcasescaseFileId ? currentcasescaseFileId : 0
+      }`
+    ).then((res) =>
       setdropdownValue((preVal) => {
         return {
           ...preVal,
@@ -131,7 +156,7 @@ const FolderCreationSection = ({
         : false,
   });
   //////
-  
+
   const [state, setstate] = useState({
     townObj: [],
     study: [],
@@ -140,14 +165,14 @@ const FolderCreationSection = ({
   const [inputValues, setInputValues] = useState({
     caseTypeId: "",
     commisionTypeId: "",
-    agent:"",
+    agent: "",
     studyTypeId: "",
     visitTypeId: "",
     group: "",
-    service:"",
+    service: "",
     caseFileId: "",
     caseid: "",
-    commisionDate: currentcasescommisionDate? currentcasescommisionDate:""
+    commisionDate: currentcasescommisionDate ? currentcasescommisionDate : "",
   });
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState();
@@ -179,10 +204,12 @@ const FolderCreationSection = ({
       const formdata = {
         ...inputValues,
         caseFileId: caseFileId,
-        establishmentId:caseFileId,
+        establishmentId: caseFileId,
         userid: userdata.userid,
-        visitTypeId:inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
-        studyTypeId:inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
+        visitTypeId:
+          inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
+        studyTypeId:
+          inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
       };
       api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
@@ -269,49 +296,51 @@ const FolderCreationSection = ({
   };
   ///////////////////////////////
   useEffect(() => {
-   setInputValues({
-    caseTypeId: currentcasescaseTypeId ,
-    commisionTypeId: currentcasescommisionTypeId,
-    agent: dropdownValue?.inputsvalue?.data?.firstName,
-    studyTypeId: "",
-    visitTypeId: "",
-    group: dropdownValue?.inputsvalue?.data?.group,
-    service: dropdownValue?.inputsvalue?.data?.service,
-    caseFileId: "",
-    caseid: "",
-    commisionDate: currentcasescommisionDate? moment(currentcasescommisionDate,"YYYY-MM-DD").format("YYYY-MM-DD"):""
-  })
-  }, [dropdownValue])
-  const store = Store()
+    setInputValues({
+      caseTypeId: currentcasescaseTypeId,
+      commisionTypeId: currentcasescommisionTypeId,
+      agent: dropdownValue?.inputsvalue?.data?.firstName,
+      studyTypeId: "",
+      visitTypeId: "",
+      group: dropdownValue?.inputsvalue?.data?.group,
+      service: dropdownValue?.inputsvalue?.data?.service,
+      caseFileId: "",
+      caseid: "",
+      commisionDate: currentcasescommisionDate
+        ? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD")
+        : "",
+    });
+  }, [dropdownValue]);
+  const store = Store();
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
       compShow === "filestructure" ? (
         <>
-          <Item
+          <Box
+            onClick={onClickDoneIcon}
             sx={{
-              marginTop: "5px",
-              borderLeft: "10px solid cadetblue",
-              borderRadius: "10px",
+              display: "flex",
+              justifyContent: "space-between",
+              borderBottom: "0.6px solid #C5D3DB",
+              padding: "10px 10px",
+              backgroundColor:"#3675B7", 
+              borderRadius:"5px", 
+              color:"#ffffff",
+              width: "96%",
+              margin: "auto"
             }}
           >
-            <Box
-              onClick={onClickDoneIcon}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                borderBottom: "1px solid gray",
-                padding: "10px",
-              }}
-            >
-              <h5>Création de dossier</h5>
-              <div>
-                {doneIconState?.iconState || CompName === "currentcases" ? (
-                  <DoneIcon sx={{ backgroundColor: "green" }} />
-                ) : null}
-                <span className="inputs-heading-text"> Reduire</span>
-              </div>
-            </Box>
+            <Typography variant="h6">
+              Creation de dossier
+            </Typography>
+            <div>
+              {doneIconState?.iconState || CompName === "currentcases" ? (
+                <DoneIcon />
+              ) : null}
+            </div>
+          </Box>
+         
             <Box
               sx={{
                 display: "flex",
@@ -328,10 +357,10 @@ const FolderCreationSection = ({
                       type="submit"
                       onSubmit={handleSubmit}
                     >
+                         <Box sx={{display:"flex"}}> 
                       <div className="inputs-container">
-                        <label>Nauture dossier</label> <br />
+                        <label className="label-color">Nauture dossier</label> <br />
                         <div class="flex-form">
-                          <input type="text" placeholder="Type" />
                           <select
                             className="dropdown"
                             type="select"
@@ -346,10 +375,9 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                        <label>Commission</label>
+                        <label className="label-color">Commission</label>
                         <br />
                         <div class="flex-form">
-                          <input type="text" placeholder="Commission" />
                           <select
                             className="dropdown"
                             type="select"
@@ -364,9 +392,8 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                        <label>Agent</label>
+                        <label className="label-color">Agent</label>
                         <div class="flex-form">
-                          <input type="text" placeholder="Agent" />
                           <input
                             type="search"
                             onChange={handleChange}
@@ -378,8 +405,10 @@ const FolderCreationSection = ({
                       </div>
                       <div className="inputs-container">
                         {inputDisableState === "1" ? (
-                          <div class="flex-form flex-form-space">
-                            <input type="text" placeholder="Etude" />
+                         <> 
+                         <label className="label-color"> Etude</label>
+
+                          <div class="flex-form">
                             <select
                               className="dropdown"
                               type="select"
@@ -396,10 +425,13 @@ const FolderCreationSection = ({
                               ))}
                             </select>
                           </div>
+                          </>
+
                         ) : null}
                         {inputDisableState === "2" ? (
-                          <div class="flex-form">
-                            <input type="text" placeholder="Visite" />
+                          <> 
+                           <label className="label-color">Visite </label>
+                          <div class="flex-form">  
                             <select
                               className="dropdown"
                               type="select"
@@ -413,20 +445,24 @@ const FolderCreationSection = ({
                               ))}
                             </select>
                           </div>
+                          </>
                         ) : null}
+                         <label className="label-color">Date commission </label>
                         <div class="flex-form">
-                          <input type="text" placeholder="Date commission" />
+                         
+                         
                           <input
                             type="date"
                             onChange={handleChange}
                             name="commisionDate"
-                            value={
-                                 inputValues.commisionDate}
+                            value={inputValues.commisionDate}
                             required
                           />
                         </div>
-                        <div class="flex-form flex-form-space">
-                          <input type="text" placeholder="Groupement" />
+                        <label className="label-color">Groupement</label>
+                        <div class="flex-form">
+                         
+                         
                           <input
                             type="search"
                             onChange={handleChange}
@@ -435,8 +471,8 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
+                        <label className="label-color">Service</label>
                         <div class="flex-form">
-                          <input type="text" placeholder="Service" />
                           <input
                             type="search"
                             onChange={handleChange}
@@ -445,22 +481,21 @@ const FolderCreationSection = ({
                           />
                         </div>
 
-                        <Box sx={{ textAlign: "end" }}>
-                          <button
-                            className="establishment-search-btn-submit"
-                            type="submit"
-                          >
-                            {" "}
-                            VALIDER{" "}
-                          </button>
-                        </Box>
+                       
                       </div>
+                   </Box>
+                   <Divider sx={{margin:"20px 0px"}}/>
+                   <Box sx={{textAlign:"right", padding:"10px"}}> 
+                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", fontSize:"16.97px", ':hover': { background: "#3675B7" } }} variant="contained">
+                    Valider
+                          </Button>
+                    </Box>
                     </form>
                   </Item>
                 </Grid>
               }
             </Box>
-          </Item>
+       
 
           {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
             <OpenSearchStudyForm

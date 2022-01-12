@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
@@ -7,63 +7,110 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../api/index";
 import CreateHistoricalData from "./CreateHistoricalData";
-import {Store} from '../../StoreContext'
-import { toast } from "react-toastify"
-import DialogBox from '../DialogBox'
+import { Store } from "../../StoreContext";
+import { toast } from "react-toastify";
+import DialogBox from "../DialogBox";
 import { display } from "@mui/system";
-import EstablishmentLevel from './EstablishmentLevel'
-import StaffLevel from './StaffLevel'
-import Ranking from './Ranking'
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import Rightarrow from "../../assets/rightarrow.png";
+import EstablishmentLevel from "./EstablishmentLevel";
+import StaffLevel from "./StaffLevel";
+import Ranking from "./Ranking";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const HistoricalSearch = ({generalDataEstablishment}) => {
+const HistoricalSearch = ({ generalDataEstablishment }) => {
   const [open, setOpen] = useState(false);
-  const [toggle, setToggle] = useState(false)
-  const [iconState, setIconState] = useState(false)
-  const [messageText, setMessageText] = useState("")
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
+  const [messageText, setMessageText] = useState("");
   const [dropdownValue, setdropdownValue] = useState({
     tracktype: "",
     status: "",
     cityId: "",
-    
   });
-  const [Values, setLevelData] = useState([]) 
-  const [historicalDataEstablishment, setHistoricalDataEstablishment] = useState([])
-  const [description, setDescription] = useState() 
-  const store = Store()
+  const [Values, setLevelData] = useState([]);
+  const [historicalDataEstablishment, setHistoricalDataEstablishment] =
+    useState([]);
+  const [description, setDescription] = useState();
+  const store = Store();
   const [inputValues, setInputValues] = useState({
-    establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
-    statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
-    cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
-    trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
-    zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
-    channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
-    estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
-    securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
-    securityManagerLastName: generalDataEstablishment.securityManagerLastName? generalDataEstablishment.securityManagerLastName: "",
-    securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
-    securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
+    establishmentName: generalDataEstablishment.establishmentName
+      ? generalDataEstablishment.establishmentName
+      : "",
+    statusId: generalDataEstablishment.statusId
+      ? generalDataEstablishment.statusId
+      : "",
+    cityId: generalDataEstablishment.cityId
+      ? generalDataEstablishment.cityId
+      : "",
+    trackTypeId: generalDataEstablishment.trackTypeId
+      ? generalDataEstablishment.trackTypeId
+      : "",
+    zipCode: generalDataEstablishment.zipCode
+      ? generalDataEstablishment.zipCode
+      : "",
+    channelName: generalDataEstablishment.channelName
+      ? generalDataEstablishment.channelName
+      : "",
+    estNumber: generalDataEstablishment.estNumber
+      ? generalDataEstablishment.estNumber
+      : "",
+    securityManagerName: generalDataEstablishment.securityManagerName
+      ? generalDataEstablishment.securityManagerName
+      : "",
+    securityManagerLastName: generalDataEstablishment.securityManagerLastName
+      ? generalDataEstablishment.securityManagerLastName
+      : "",
+    securityManagerMobile: generalDataEstablishment.securityManagerMobile
+      ? generalDataEstablishment.securityManagerMobile
+      : "",
+    securityManagerEmail: generalDataEstablishment.securityManagerEmail
+      ? generalDataEstablishment.securityManagerEmail
+      : "",
   });
- 
+
   useEffect(() => {
     setInputValues({
-      establishmentName: generalDataEstablishment.establishmentName? generalDataEstablishment.establishmentName:"",
-      statusId: generalDataEstablishment.statusId? generalDataEstablishment.statusId:"",
-      cityId: generalDataEstablishment.cityId? generalDataEstablishment.cityId: "",
-      trackTypeId: generalDataEstablishment.trackTypeId?generalDataEstablishment.trackTypeId: "",
-      zipCode: generalDataEstablishment.zipCode? generalDataEstablishment.zipCode: "",
-      channelName: generalDataEstablishment.channelName?generalDataEstablishment.channelName:"",
-      estNumber: generalDataEstablishment.estNumber?generalDataEstablishment.estNumber: "",
-      securityManagerName: generalDataEstablishment.securityManagerName? generalDataEstablishment.securityManagerName: "",
-      securityManagerLastName: generalDataEstablishment.securityManagerLastName?generalDataEstablishment.securityManagerLastName: "",
-      securityManagerMobile: generalDataEstablishment.securityManagerMobile?generalDataEstablishment.securityManagerMobile: "",
-      securityManagerEmail: generalDataEstablishment.securityManagerEmail? generalDataEstablishment.securityManagerEmail:"",
-    })
-  }, [generalDataEstablishment])
+      establishmentName: generalDataEstablishment.establishmentName
+        ? generalDataEstablishment.establishmentName
+        : "",
+      statusId: generalDataEstablishment.statusId
+        ? generalDataEstablishment.statusId
+        : "",
+      cityId: generalDataEstablishment.cityId
+        ? generalDataEstablishment.cityId
+        : "",
+      trackTypeId: generalDataEstablishment.trackTypeId
+        ? generalDataEstablishment.trackTypeId
+        : "",
+      zipCode: generalDataEstablishment.zipCode
+        ? generalDataEstablishment.zipCode
+        : "",
+      channelName: generalDataEstablishment.channelName
+        ? generalDataEstablishment.channelName
+        : "",
+      estNumber: generalDataEstablishment.estNumber
+        ? generalDataEstablishment.estNumber
+        : "",
+      securityManagerName: generalDataEstablishment.securityManagerName
+        ? generalDataEstablishment.securityManagerName
+        : "",
+      securityManagerLastName: generalDataEstablishment.securityManagerLastName
+        ? generalDataEstablishment.securityManagerLastName
+        : "",
+      securityManagerMobile: generalDataEstablishment.securityManagerMobile
+        ? generalDataEstablishment.securityManagerMobile
+        : "",
+      securityManagerEmail: generalDataEstablishment.securityManagerEmail
+        ? generalDataEstablishment.securityManagerEmail
+        : "",
+    });
+  }, [generalDataEstablishment]);
   const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
@@ -90,42 +137,47 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
         };
       })
     );
-    api("get", "/api/v1/get_description_data/2").then((res)=>{
-      setLevelData(res.data.levels)
-      setDescription(res.data.descriptions)
-     })
-     api("get", `/api/v1/get_historicaldata_establishment/${store.establishmentId}`).then((res)=>{
-       console.log("historicaledataestab");
-       setHistoricalDataEstablishment(res.data)
-     })
+    api("get", "/api/v1/get_description_data/2").then((res) => {
+      setLevelData(res.data.levels);
+      setDescription(res.data.descriptions);
+    });
+    api(
+      "get",
+      `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
+    ).then((res) => {
+      console.log("historicaledataestab");
+      setHistoricalDataEstablishment(res.data);
+    });
   }, []);
-  console.log("generalDataEstablishment",generalDataEstablishment);
+  console.log("generalDataEstablishment", generalDataEstablishment);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     console.log(value);
-     if(inputValues.statusId==="2" &&  value!=="2" && name==="statusId"){
-      setOpen(true)
+    if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
+      setOpen(true);
       setMessageText(
         "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
-           )
-     }
-     if(inputValues.statusId!=="2" && value==="2" && name==="statusId"){
-      setOpen(true)
+      );
+    }
+    if (inputValues.statusId !== "2" && value === "2" && name === "statusId") {
+      setOpen(true);
       setMessageText(
         "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
-           )
-     }  
-     
+      );
+    }
 
-     if((inputValues.establishmentName!== store.establishmentname) && (name==="establishmentName")){
-      setOpen(true)
+    if (
+      inputValues.establishmentName !== store.establishmentname &&
+      name === "establishmentName"
+    ) {
+      setOpen(true);
       setMessageText(
         `You are about to change the name of an establishment or a group of 
         establishments. The history of establishment XX and the reference will now be 
         linked to this new name.`
-           )
-     }
+      );
+    }
     setInputValues((preVal) => {
       return {
         ...preVal,
@@ -133,253 +185,261 @@ const HistoricalSearch = ({generalDataEstablishment}) => {
       };
     });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const updatedObj = {
       ...inputValues,
-      establishmentId:store.establishmentId
+      establishmentId: store.establishmentId,
+    };
+    if (store.activeCase === "newcase") {
+      api("post", `/api/v1/create_generaldata_establishment`, updatedObj)
+        .then((res) => {
+          if (res.status === 200) {
+            setIconState(true);
+            setToggle(true);
+            toast.success("Successfully Saved");
+            focusPoint.current.style.display = "none";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    if(store.activeCase === "newcase") 
-    {
-    api("post", `/api/v1/create_generaldata_establishment`, updatedObj).then(
-      (res) => {
-        if (res.status === 200) {
-          setIconState(true)
-          setToggle(true)
-          toast.success("Successfully Saved");
-          focusPoint.current.style.display = "none"
+
+    if (store.activeCase === "currentcases") {
+      api("put", "/api/v1/update_generaldata_establishment", updatedObj).then(
+        (res) => {
+          console.log("update", res);
         }
-        
-      }
-    ).catch(err=>{
-      console.log(err);
-    });
-
-  }
-  
-
-  if(store.activeCase === "currentcases") 
-  {
-   api("put", "/api/v1/update_generaldata_establishment", updatedObj).then((res)=>{
-    console.log("update", res);
-   })
-
-  }
-
+      );
+    }
   };
 
-
-  const toggleSection =( )=>{
-    setToggle(!toggle)
-    toggle? focusPoint.current.style.display = "none": focusPoint.current.style.display = "block"
-  }
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
   return (
     <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          borderBottom: "1px solid #C5D3DB",
+          margin: "12px 4px",
+        }}
+        onClick={toggleSection}
+      >
+        <Typography sx={{ color: "#314A6C" }} variant="h6">
+          Données générales
+        </Typography>
+        <div>
+          {iconState ? <DoneIcon/> : null}
+          <Typography sx={{ color: "#A2AABE" }} variant="span">
+            Réduire
+          </Typography>
+        </div>
+      </Box>
       <Item
         sx={{
           marginTop: "5px",
-          borderLeft: "10px solid cadetblue",
           borderRadius: "10px",
+          boxShadow:"none"
         }}
+        ref={focusPoint} sx={{ boxShadow: "none" }}
       >
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            borderBottom: "1px solid gray",
             padding: "10px",
-          }}
-          onClick={toggleSection}
-        >
-          
-          <h5>Données générales</h5>
-          <div> 
-       { iconState? <DoneIcon sx={{ backgroundColor: "green" }}/> :null }  
-          <span className="inputs-heading-text"> Reduire</span>
-          </div>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "10px",
-            
           }}
         >
           <Grid item md={12}>
-            <Item ref={focusPoint} sx={{ boxShadow: "none" }}>
-           < DialogBox setOpen={setOpen} messageText={messageText} open={open}/>
+         
+              <DialogBox
+                setOpen={setOpen}
+                messageText={messageText}
+                open={open}
+              />
               <form
                 className="establishment-form"
                 type="submit"
                 onSubmit={handleSubmit}
               >
-                <div className="inputs-container">
-                <div className="flex-form">
-                    <input
-                      type="text"
-                      placeholder="Nom établissement"
-                      disabled
-                    />
-                    
+                <Box sx={{ display: "flex" }}>
+                  <div className="inputs-container">
+                    <label>Nom établissement </label>
+                    <div className="flex-form">
+                      <input
+                        type="search"
+                        value={inputValues.establishmentName}
+                        onChange={handleChange}
+                        name="establishmentName"
+                        value={inputValues.establishmentName}
+                      />
+                    </div>
 
-                    <input
-                      type="search"
-                      value={inputValues.establishmentName}
-                      onChange={handleChange}
-                      name="establishmentName"
-                      value={inputValues.establishmentName}
-                    />
-                  </div>
-              
+                    <span> Adresse</span>
+                    <br />
+                    <label>Commune </label>
+                    <div className="flex-form">
+                      <select
+                        className="dropdown"
+                        type="select"
+                        name="cityId"
+                        value={inputValues.cityId}
+                        onChange={handleChange}
+                      >
+                        <option value="">Choisissez s'il vous plaît</option>
+                        {dropdownValue.cityId.data?.map((item) => (
+                          <option key={item.value} value={item.value}>
+                            {item.text}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex-form">
+                      <label>CP</label>
+                      <input
+                        type="search"
+                        onChange={handleChange}
+                        name="zipCode"
+                        value={inputValues.zipCode}
+                      />
+                    </div>
+                    <div className="establishment-nom-mobile-container">
+                      <div className="flex-form">
+                        <span>Responsable de sécurité</span>
+                        <label>Nom </label>
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerLastName"
+                          value={inputValues.securityManagerLastName.toUpperCase()}
+                        />
+                      </div>
 
-                  <span> Adresse</span>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Commune" disabled />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="cityId"
-                      value={inputValues.cityId}
-                      onChange={handleChange}
-                    >
-                      <option value="">Choisissez s'il vous plaît</option>
-                      {dropdownValue.cityId.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
+                      <label>Mobile </label>
+                      <div className="flex-form">
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerMobile"
+                          value={inputValues.securityManagerMobile}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="CP" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="zipCode"
-                      value={inputValues.zipCode}
-                    />
-                  </div>
-                  <div className="establishment-nom-mobile-container"> 
-                  <span>Responsable de sécurité</span>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Nom" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerLastName"
-                      value={inputValues.securityManagerLastName.toUpperCase()}
-                    />
-                  </div>
-                  
+                  <div className="inputs-container">
+                    <label>Statut </label>
+                    <div className="flex-form">
+                      <select
+                        className="dropdown"
+                        type="select"
+                        name="statusId"
+                        onChange={handleChange}
+                        value={inputValues.statusId}
+                      >
+                        <option value="">Choisissez s'il vous plaît</option>
+                        {dropdownValue.status.data?.map((item) => (
+                          <option key={item.value} value={item.value}>
+                            {item.text}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-                  <div className="flex-form">
-                    <input type="text" placeholder="Mobile" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerMobile"
-                      value={inputValues.securityManagerMobile}
-                    />
+                    <div className="establishment-typenom-container">
+                      <label>Type voie </label>
+                      <div className="flex-form">
+                        <select
+                          className="dropdown"
+                          type="select"
+                          name="trackTypeId"
+                          onChange={handleChange}
+                          value={inputValues.trackTypeId}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.tracktype.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="flex-form">
+                        <label>Nom voie</label>
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="channelName"
+                          value={inputValues.channelName.toUpperCase()}
+                        />
+                      </div>
+                      <label>Numero</label>
+                      <div className="flex-form">
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerMobile"
+                          value={inputValues.securityManagerMobile}
+                        />
+                      </div>
+                    </div>
+                    <label>Prénom</label>
+                    <div className="flex-form">
+                      <input
+                        type="search"
+                        onChange={handleChange}
+                        name="securityManagerName"
+                        value={inputValues.securityManagerName}
+                      />
+                    </div>
+                    <label>Mail</label>
+                    <div className="flex-form">
+                      <input
+                        type="search"
+                        onChange={handleChange}
+                        name="securityManagerEmail"
+                        value={inputValues.securityManagerEmail}
+                      />
+                    </div>
                   </div>
-                  </div>
-                </div>
-                <div className="inputs-container">
-                <div className="flex-form">
-                    <input type="text" placeholder="Statut" disabled />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="statusId"
-                      onChange={handleChange}
-                      value={inputValues.statusId}
-                    >
-                      <option value="">Choisissez s'il vous plaît</option>
-                      {dropdownValue.status.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  
-                 <div className="establishment-typenom-container"> 
-                  <div className="flex-form">
-                    <input type="text" placeholder="Type voie" disabled />
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="trackTypeId"
-                      onChange={handleChange}
-                      value={inputValues.trackTypeId}
-                    >
-                      <option value="">Choisissez s'il vous plaît</option>
-                      {dropdownValue.tracktype.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Nom voie" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="channelName"
-                      value={inputValues.channelName.toUpperCase()}
-                    />
-                  </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Numero" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerMobile"
-                      value={inputValues.securityManagerMobile}
-                    />
-                  </div>
-                  </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Prénom" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerName"
-                      value={inputValues.securityManagerName}
-                    />
-                  </div>
-                  <div className="flex-form">
-                    <input type="text" placeholder="Mail" disabled />
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerEmail"
-                      value={inputValues.securityManagerEmail}
-                    />
-                  </div>
-                  <Box>
-                    <button
-                      className="establishment-search-btn-submit"
-                      type="submit"
-                    >
-                      {" "}
-                      Valider{" "}
-                    </button>
-                  </Box>
-                </div>
+                </Box>
+                <Divider sx={{ margin: "20px 0px" }} />
+                <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
               </form>
-            </Item>
-        <CreateHistoricalData historicalDataEstablishment={historicalDataEstablishment} establishmentid={store.establishmentId}/>
-        <EstablishmentLevel  description={description} Values={Values}/>
-        <StaffLevel establishmentid={store.establishmentId}/>
-        <Ranking establishmentid={store.establishmentId}/>
-        {/* <Description/> */}
+           
+            {/* <Description/> */}
           </Grid>
         </Box>
       </Item>
+      <CreateHistoricalData
+              historicalDataEstablishment={historicalDataEstablishment}
+              establishmentid={store.establishmentId}
+            />
+           
+            <EstablishmentLevel description={description} Values={Values} />
+            <StaffLevel establishmentid={store.establishmentId} />
+            <Ranking establishmentid={store.establishmentId} />
     </>
   );
 };

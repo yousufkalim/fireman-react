@@ -1,32 +1,25 @@
-import  React,{useState} from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import  React from "react";
 import {UpdateStore} from '../../../../StoreContext'
 import {Store} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   const updatestore = UpdateStore();
     const store = Store()
-  //might needed in future
-  // const onClick = (id) => {
-  //   console.log("",id);
-  //   updatestore({establishmentId:id})
-  //   localStorage.setItem("establishmentid", id);
-  //   setCompShow("filestructure");
-  //   console.log(store.establishmentId,"store");
-  // };
    const column = [ 
-     { field: "ref", headerName: "Ref.", minWidth: 100 },
-   { field: "commune", headerName: "Commune", minWidth: 150},
-   { field: "nom", headerName: "Nom", minWidth: 190},
-   { field: "statut", headerName: "Statut", minWidth: 150},
-   { field: "type", headerName: "Type", minWidth: 130},
-   { field: "CAT", headerName: "CAT", minWidth: 130}
+     { field: "ref", headerName: "Ref.", minWidth: 100, color: "#8D919D"},
+   { field: "commune", headerName: "Commune", minWidth: 150, color: "#8D919D"},
+   { field: "nom", headerName: "Nom", minWidth: 190, color: "#8D919D"},
+   { field: "statut", headerName: "Statut", minWidth: 150, color: "#8D919D"},
+   { field: "type", headerName: "Type", minWidth: 130, color: "#8D919D"},
+   { field: "CAT", headerName: "CAT", minWidth: 130, color: "#8D919D"}
   ]
   const [sortModel, setSortModel] = React.useState([
     {
@@ -46,62 +39,25 @@ const onRowClick =(data, event)=>{
 }
   return (
     <>
-      {/* 
-      might be needed in future
-      <TableContainer sx={{ marginTop: "10px" }} component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-            <TableCell align="left">Ref.</TableCell>
-            <TableCell align="left">Commune</TableCell>
-            <TableCell align="left">Nom</TableCell>
-            <TableCell align="left">Statut</TableCell>
-              <TableCell>Type</TableCell>
-
-             
-
-              <TableCell align="left">CAT</TableCell>
-              
-             
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {establishmentSearchData.data?.map((row, i) => (
-              <TableRow
-                onClick={() => onClick(row.establishmentId)}
-                key={i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                
-                <TableCell align="left">{row.referenceNo}</TableCell>
-                <TableCell align="left">{row.commune}</TableCell>
-                <TableCell align="left">{row.establishmentName}</TableCell>
-                <TableCell align="left">{row.status}</TableCell>
-                <TableCell component="th" scope="row">
-                  {row.classification}
-                </TableCell>
-                <TableCell align="left">{row.ranking}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
-
-      <div style={{ height: "50vh", width: "100%" }}>
-        
+    <Item
+     sx={{
+      marginTop: "10px",
+      borderRadius: "10px",
+      boxShadow:"none"
+    }}
+    > 
+    <div style={{ height: "50vh", width: "100%" }}>
       <DataGrid
+        sx={{border:"none"}}
       onCellClick={(params,event)=>onRowClick(params,event)}
       sortModel={sortModel}
       onSortModelChange={(model) => setSortModel(model)}
        columns={ column.map((val,index)=>({
         field: val.field,
         headerName: val.headerName,
-        minWidth:val.minWidth
-       })) } 
-
-      //  columns ={[{
-      //   minWidth: 350,
-      // }]}
+        minWidth:val.minWidth,
+        color: val.color
+          })) } 
        rows={establishmentSearchData.data.map((val, index) => ({
         id: val.establishmentId,
          ref:val.referenceNo,
@@ -115,6 +71,8 @@ const onRowClick =(data, event)=>{
       
        />
     </div>
+    </Item>
+     
     </>
   );
 };

@@ -1,13 +1,4 @@
-.leftbar-icon-text {
-  display: flex;
-  border-bottom: 1px solid gray;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-  font-size: 10px;
-}
-.leftbar-icon-text > * {
-  margin-right: 8px;
-}
+
 .inputs-heading-text {
   border-left: 1px solid blue;
   padding-left: 5px;
@@ -22,33 +13,34 @@
 .flex-form {
   display: -webkit-box;
   display: flex;
+  flex-direction: column;
   z-index: 10;
   position: relative;
   width: 95%;
   margin: 5px 0px;
+  padding-bottom: 15px;
+}
+.label-color{
+  color: #314A6C;
+  font-size: 16px;
 }
 .flex-form > * {
   border: 0;
-  padding: 0 0 0 10px;
   background: #fff;
-  line-height: 40px;
-  font-size: 1rem;
+  line-height: 38px;
   border-radius: 0;
   outline: 0;
   -webkit-appearance: none;
 }
 
 .flex-form input[type="search"] {
-  flex-basis: 500px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+     border-radius: 10px;
   background-color: aliceblue;
 }
 .flex-form input[type="date"] {
-  flex-basis: 500px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 10px;
   background-color: aliceblue;
+  height: 37px;
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -61,11 +53,21 @@
   font-size: 13px;
 }
 .dropdown {
-  flex-basis: 500px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 10px;
   background-color: aliceblue;
 }
+.dropdown-townplanning{
+  width: 95%;
+}
+
+.icon-validate{
+  width: 20px;
+}
+
+select.dropdown option.option2{
+  background-color: #007700;
+}
+
 .establishment-search-btn-submit {
   background: #24adfd;
   padding: 10px 50px;
@@ -74,17 +76,25 @@
 }
 .establishment-form {
   display: flex;
+  flex-direction: column;
 }
 .inputs-container {
   width: 50%;
   text-align: start;
 }
-.flex-form select {
-  width: inherit;
-}
+
 .checkbox-container {
   display: flex;
   justify-content: start;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0px;
+    align-items: center;
+    background: #FFFFFF;
+border: 1px solid rgba(0, 31, 79, 0.1);
+box-sizing: border-box;
+box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
+border-radius: 10px;
 }
 .checkbox-container > * {
   padding: 5px 0px;
@@ -96,13 +106,39 @@
   zoom: 1.5;
   margin-top: 5px;
   margin-right: 2px;
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
 }
-.unactive{
+.study-form-checkbox:checked {
+  background-color:#3EC010;
+}
+
+.checkbox-label{
+  font-weight: bold;
+font-size: 18px;
+line-height: 22px;
+color: #3675B7;
+padding-left: 1%;
+}
+
+
+/* ghjh */
+
+
+/* ghjh */
+/* .unactive{
   background-color: #ffffff;
 }
 .active{
   background-color: lightblue !important;
-}
+} */
 
  ::placeholder {
   color: #000000;
@@ -147,7 +183,7 @@ margin-top: 20px;
 
 }
 .establishment-nom-mobile-container{
-padding-top: 20px;
+margin-top: 38px;
 }
 .dropdown-historical{
 width: 15%;

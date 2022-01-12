@@ -8,6 +8,10 @@ import { styled } from "@mui/material/styles";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
 import moment from "moment";
+import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import Rightarrow from "../../assets/rightarrow.png";
 import {
   Formik,
   Field,
@@ -24,6 +28,12 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
     backgroundColor: theme.palette.common.black,
   },
 }));
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const CreateHistoricalData = ({
   establishmentid,
   historicalDataEstablishment,
@@ -39,6 +49,8 @@ const CreateHistoricalData = ({
     urbanPlanningRef: val.urbanPlanningRef,
     details: val.details,
   }));
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
   useEffect(() => {
     api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
       setdropdownValue((pre) => {
@@ -124,9 +136,35 @@ const CreateHistoricalData = ({
       
     const photo = values.repeatable.map((object) => object.image);
   };
+  const focusPoint = useRef(null);
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
   const store = Store();
   return (
     <>
+    <Box sx={{
+    display:"flex", 
+    justifyContent:"space-between",  
+    borderBottom:"1px solid #C5D3DB", 
+    margin:"12px 4px"
+    }}
+    onClick={toggleSection}
+    > 
+     <Typography sx={{color:"#314A6C"}} variant="h6">
+     Historique
+</Typography>
+<div>
+          {iconState ? <DoneIcon/> : null}
+          <Typography sx={{ color: "#A2AABE" }} variant="span">
+            Réduire
+          </Typography>
+        </div>
+        </Box>
+    <Item ref={focusPoint} sx={{ boxShadow: "none" }} sx={{marginTop:"10px"}}> 
       {store.activeCase === "newcase" ? (
         <Formik
           onSubmit={(values) => onSubmit(values)}
@@ -783,11 +821,19 @@ const CreateHistoricalData = ({
                   </>
                 )}
               />
-              <Box sx={{ textAlign: "end", padding: "10px" }}>
-                <Button type="submit" variant="contained">
-                  Valider
-                </Button>
-              </Box>
+             <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
             </Form>
           )}
         />
@@ -1469,15 +1515,24 @@ const CreateHistoricalData = ({
                   </>
                 )}
               />
-              <Box sx={{ textAlign: "end", padding: "10px" }}>
-                <Button type="submit" variant="contained">
-                  Valider
-                </Button>
-              </Box>
+            <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
             </Form>
           )}
         />
       ) : null}
+      </Item>
     </>
   );
 };

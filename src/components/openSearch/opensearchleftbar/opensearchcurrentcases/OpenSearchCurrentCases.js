@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
@@ -67,13 +68,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
           Studydata={Studydata}
         />
       ) : (
-        <Item
-          sx={{
-            marginTop: "5px",
-            borderLeft: "10px solid cadetblue",
-            borderRadius: "10px",
-          }}
-        >
+        
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650 }}
@@ -94,7 +89,9 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
               </TableHead>
               <TableBody>
                 {currentcasesData.data?.map((row, i) => (
+                 
                   <TableRow
+                  sx={{borderBottom:"1px solid", borderRadius:"2px"}}
                     onClick={() =>
                       onClick(
                         row.establishmentId,
@@ -108,7 +105,8 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
                     key={i}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    
+                    <TableCell  component="th" scope="row">
                       <span> {row.caseTypeName} </span> <br />{" "}
                       <span>{row.refNum}</span>
                     </TableCell>
@@ -118,12 +116,14 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
                     <TableCell align="left">{row.employeeName}</TableCell>
                     <TableCell align="left">{row.refNum}</TableCell>
                     <TableCell align="left">{row.state}</TableCell>
+                   
                   </TableRow>
+                  
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-        </Item>
+       
       )}
       {/* <div style={{ height: "50vh", width: "100%" }}>
         

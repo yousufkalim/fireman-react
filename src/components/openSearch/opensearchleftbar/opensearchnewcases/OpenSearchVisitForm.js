@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
+import { Typography } from "@mui/material";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -61,31 +62,39 @@ const EstablishmentSearchVisitForm = ({
   };
   return (
     <>
+     <Box
+               sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "0.6px solid #C5D3DB",
+                backgroundColor:"#3675B7", 
+                borderRadius:"5px", 
+                width: "96%",
+                margin: "10px auto",
+                padding: "10px 10px",
+                color:"#ffffff"
+              }}
+              onClick={onClick}
+            >
+              <Typography variant="h6">
+              Detail of the object
+        </Typography>
+              <div>
+              {iconState? <CheckIcon sx={{backgroundColor:"green"}}/> : null}
+              </div>
+              
+            </Box>
       <Item
         sx={{
-          marginTop: "5px",
-          borderLeft: "10px solid cadetblue",
+          marginTop: "15px",
           borderRadius: "10px",
+          boxShadow: "none",
+          width:"96%",
+          margin:"auto"
         }}
       >
         <Box>
           <Grid>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                borderBottom: "1px solid gray",
-                padding: "10px",
-              }}
-              onClick={onClick}
-            >
-              <h5>Detail of the object</h5>
-              <div>
-              {iconState? <CheckIcon sx={{backgroundColor:"green"}}/> : null}
-              <span className="inputs-heading-text"> Reduire</span>
-              </div>
-              
-            </Box>
             <form onSubmit={handleSubmit}>
               <Box
                ref={focusPoint}
