@@ -91,9 +91,13 @@ const EstablishmentLevel = ({  Values, description }) => {
     <>
      <Box sx={{
        display:"flex", 
-       justifyContent:"space-between",  
-       borderBottom:"1px solid #C5D3DB",
-        margin:"12px 4px"
+       justifyContent:"space-between", 
+       backgroundColor:"#3675B7", 
+       borderRadius:"5px", 
+      borderBottom:"1px solid #C5D3DB",
+       margin:"12px 4px",
+       padding:"20px",
+       color:"#ffffff"
         }}
         onClick={toggleSection}
         > 
@@ -102,9 +106,6 @@ const EstablishmentLevel = ({  Values, description }) => {
 </Typography>
 <div>
           {iconState ? <DoneIcon/> : null}
-          <Typography sx={{ color: "#A2AABE" }} variant="span">
-            Réduire
-          </Typography>
         </div>
         </Box>
     <Item ref={focusPoint} sx={{ boxShadow: "none" }}> 

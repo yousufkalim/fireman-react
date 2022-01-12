@@ -72,7 +72,6 @@ const CreateHistoricalData = ({
     console.log("newarr",newarr);
     if(store.activeCase === "newcase") 
     {
-     alert("post");
     newarr.map((val) => {
       return new Promise((resolve, reject) => {
         api("post", "/api/v1/create_historicaldata_establishment", val)
@@ -101,9 +100,6 @@ const CreateHistoricalData = ({
   }
     if(store.activeCase === "currentcases") 
     {
-      alert("put");
-
-     { console.log("cfgvhjb",newarr)}
       newarr.map((val) => {
         { console.log("cfgvhjb",val.histDate)}
         return new Promise((resolve, reject) => {
@@ -148,9 +144,13 @@ const CreateHistoricalData = ({
     <>
     <Box sx={{
     display:"flex", 
-    justifyContent:"space-between",  
-    borderBottom:"1px solid #C5D3DB", 
-    margin:"12px 4px"
+    justifyContent:"space-between", 
+    backgroundColor:"#3675B7", 
+    borderRadius:"5px", 
+   borderBottom:"1px solid #C5D3DB",
+    margin:"12px 4px",
+    padding:"20px",
+    color:"#ffffff"
     }}
     onClick={toggleSection}
     > 
@@ -159,12 +159,9 @@ const CreateHistoricalData = ({
 </Typography>
 <div>
           {iconState ? <DoneIcon/> : null}
-          <Typography sx={{ color: "#A2AABE" }} variant="span">
-            Réduire
-          </Typography>
         </div>
         </Box>
-    <Item ref={focusPoint} sx={{ boxShadow: "none" }} sx={{marginTop:"10px"}}> 
+    <Item ref={focusPoint}  sx={{marginTop:"10px"}}> 
       {store.activeCase === "newcase" ? (
         <Formik
           onSubmit={(values) => onSubmit(values)}
