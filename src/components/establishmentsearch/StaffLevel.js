@@ -105,20 +105,23 @@ const StaffLevel = ({ establishmentid }) => {
       if(store.activeCase === "newcase"){
   api("post", "/api/v1/create_establishment_stafftable", newArr).then((res)=>{
     toast.success("Success!")
+    if(res.status===200){
+      setIconState(true);
+    setToggle(true);
+    focusPoint.current.style.display = "none";
+    }
+    
   }).catch((err)=>{
     toast.error(err?.statusText)
   })
 }
   if(store.activeCase === "currentcases"){
-    console.log("newarr", newArr)
     api("put", "/api/v1/update_establishment_stafftable", newArr).then((res)=>{
     if(res.data===true){
       toast.success("success")
     }
     })
   }
-  
-    console.log("newArr", newArr);
   };
   const toggleSection = () => {
     setToggle(!toggle);
@@ -141,7 +144,7 @@ const StaffLevel = ({ establishmentid }) => {
     }}
      onClick={toggleSection}
      > 
-     <Typography sx={{color:"#314A6C"}} variant="h6">
+     <Typography  variant="h6">
      Tableau des effectifs
 </Typography>
 <div>
@@ -481,6 +484,7 @@ const StaffLevel = ({ establishmentid }) => {
       <Box sx={{ textAlign: "right" }}>
                   <Button
                     type="submit"
+                    onClick={handleSubmit}
                     endIcon={<img className="" src={Rightarrow} />}
                     sx={{
                       background: "#3675B7",

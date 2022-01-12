@@ -197,9 +197,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       api("post", `/api/v1/create_generaldata_establishment`, updatedObj)
         .then((res) => {
           if (res.status === 200) {
+            toast.success("Successfully Saved");
             setIconState(true);
             setToggle(true);
-            toast.success("Successfully Saved");
             focusPoint.current.style.display = "none";
           }
         })
@@ -238,7 +238,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         }}
         onClick={toggleSection}
       >
-        <Typography sx={{ color: "#314A6C" }} variant="h6">
+        <Typography variant="h6">
           Données générales
         </Typography>
         <div>

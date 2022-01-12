@@ -155,6 +155,7 @@ const Description = ({ values, onSubmit, description }) => {
         <Box sx={{ textAlign: "right" }}>
                   <Button
                     type="submit"
+                    onClick={onSubmitFields}
                     endIcon={<img className="" src={Rightarrow} />}
                     sx={{
                       background: "#3675B7",

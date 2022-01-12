@@ -108,10 +108,11 @@ const Ranking = ({establishmentid}) => {
 
         console.log(newObj);
        api("put","/api/v1/establishment_ranking_details",newObj).then((res)=>{
-
-        console.log(res);
+        toast.success("success")
           if(res.status===200){
-              toast.success("success")
+              setIconState(true);
+              setToggle(true);
+              focusPoint.current.style.display = "none";
           }
        })
         console.log(inputValues);
@@ -140,7 +141,7 @@ const Ranking = ({establishmentid}) => {
       }}
         onClick={toggleSection}
         > 
-     <Typography sx={{color:"#314A6C"}} variant="h6">
+     <Typography variant="h6">
      Classement
 </Typography>
 <div>
@@ -152,7 +153,7 @@ const Ranking = ({establishmentid}) => {
                 className="establishment-form"
                 type="submit"
                 onSubmit={handleSubmit}
-              ></form>
+              >
            <select
                      className="select-input dropdown-ranking"
                       type="select"
@@ -222,7 +223,7 @@ const Ranking = ({establishmentid}) => {
                     Valider
                   </Button>
                 </Box>
-                    <form/>
+                    </form>
 
                     </Item>
         </>

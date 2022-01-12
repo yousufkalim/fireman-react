@@ -76,8 +76,11 @@ const CreateHistoricalData = ({
       return new Promise((resolve, reject) => {
         api("post", "/api/v1/create_historicaldata_establishment", val)
           .then((res) => {
+            toast.success("Success!")
             if(res.status= 200){
-              toast.success("Success!")
+              setIconState(true);
+              setToggle(true);
+              focusPoint.current.style.display = "none";
             }
             let form_data = new FormData();
             form_data.append("docFile", val.image);
@@ -86,9 +89,7 @@ const CreateHistoricalData = ({
             if (val.image) {
               api("post", "/api/v1/upload_historicaldata_file", form_data)
                 .then((res) => {
-                  if(res.status= 200){
-                    toast.success("Success!")
-                  }
+                  toast.success("Successful!")
                   //console.log("imageres:", res);
                 })
                 .catch((err) => console.log(err));
@@ -106,8 +107,11 @@ const CreateHistoricalData = ({
           api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
               console.log("update",res);
+              toast.success("Success!")
               if(res.status= 200){
-                toast.success("Success!")
+                setIconState(true);
+                setToggle(true);
+                focusPoint.current.style.display = "none";
               }
               let form_data = new FormData();
               form_data.append("docFile", val.image);
@@ -116,8 +120,9 @@ const CreateHistoricalData = ({
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
+                    console.log(res);
                     if(res.status= 200){
-                      toast.success("Success!")
+                        toast.success("Successfully Saved");
                     }
                     //console.log("imageres:", res);
                   })
@@ -154,7 +159,7 @@ const CreateHistoricalData = ({
     }}
     onClick={toggleSection}
     > 
-     <Typography sx={{color:"#314A6C"}} variant="h6">
+     <Typography variant="h6">
      Historique
 </Typography>
 <div>

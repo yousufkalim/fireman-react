@@ -67,8 +67,11 @@ const EstablishmentLevel = ({  Values, description }) => {
      console.log("check",obj);
      if(store.activeCase === "newcase"){
       api("post", "/api/v1/create_description_data", obj).then((res) => {
+        toast.success("Success!")
         if(res.status= 200){
-          toast.success("Success!")
+          setIconState(true);
+          setToggle(true);
+          focusPoint.current.style.display = "none";
         }
       });
      }
@@ -101,7 +104,7 @@ const EstablishmentLevel = ({  Values, description }) => {
         }}
         onClick={toggleSection}
         > 
-     <Typography sx={{color:"#314A6C"}} variant="h6">
+     <Typography variant="h6">
      Descriptif
 </Typography>
 <div>
