@@ -5,6 +5,8 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { Typography } from "@mui/material";
+import Button from '@mui/material/Button';
+import Rightarrow from "../../../../assets/rightarrow.png";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -123,15 +125,11 @@ const EstablishmentSearchVisitForm = ({
                   </>
                 ))}
               </Box>
-              <Box sx={{textAlign:"end"}}>
-                <button
-                  type="submit"
-                  className="establishment-search-btn-submit"
-                >
-                  {" "}
-                  To Validate{" "}
-                </button>
-              </Box>
+              <Box sx={{textAlign:"right", padding:"10px"}}> 
+                    <Button   type="submit" endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                    Valider
+                          </Button>
+                    </Box>
             </form>
           </Grid>
         </Box>

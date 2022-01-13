@@ -99,7 +99,7 @@ const EstablishmentLevel = ({  Values, description }) => {
        borderRadius:"5px", 
       borderBottom:"1px solid #C5D3DB",
        margin:"12px 4px",
-       padding:"20px",
+       padding:"10px",
        color:"#ffffff"
         }}
         onClick={toggleSection}
@@ -111,7 +111,7 @@ const EstablishmentLevel = ({  Values, description }) => {
           {iconState ? <DoneIcon/> : null}
         </div>
         </Box>
-    <Item ref={focusPoint} sx={{ boxShadow: "none" }}> 
+    <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
       {store.activeCase === "newcase" ? (
         <Formik
           initialValues={{ repeatable: [] }}

@@ -433,6 +433,7 @@ const EstablishmentSearchStudyForm = ({
                       ))}
                     </>
                   ))}
+
                 </Grid>
               </Box>
              

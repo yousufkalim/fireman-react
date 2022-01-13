@@ -154,7 +154,7 @@ const CreateHistoricalData = ({
     borderRadius:"5px", 
    borderBottom:"1px solid #C5D3DB",
     margin:"12px 4px",
-    padding:"20px",
+    padding:"10px",
     color:"#ffffff"
     }}
     onClick={toggleSection}
@@ -166,7 +166,7 @@ const CreateHistoricalData = ({
           {iconState ? <DoneIcon/> : null}
         </div>
         </Box>
-    <Item ref={focusPoint}  sx={{marginTop:"10px"}}> 
+    <Item ref={focusPoint}  sx={{marginTop:"10px" , width:"97%", margin:"auto"}}> 
       {store.activeCase === "newcase" ? (
         <Formik
           onSubmit={(values) => onSubmit(values)}

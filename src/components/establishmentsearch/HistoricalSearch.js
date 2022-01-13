@@ -233,8 +233,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
        borderRadius:"5px", 
       borderBottom:"1px solid #C5D3DB",
        margin:"12px 4px",
-       padding:"20px",
-       color:"#ffffff"
+       padding:"10px",
+       color:"#ffffff",
         }}
         onClick={toggleSection}
       >
@@ -247,17 +247,19 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       </Box>
       <Item
         sx={{
-          marginTop: "5px",
+          marginTop: "15px",
           borderRadius: "10px",
-          boxShadow:"none"
+           width:"97%",
+           margin:"auto"
         }}
-        ref={focusPoint} sx={{ boxShadow: "none" }}
+        ref={focusPoint} 
       >
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             padding: "10px",
+           
           }}
         >
           <Grid item md={12}>

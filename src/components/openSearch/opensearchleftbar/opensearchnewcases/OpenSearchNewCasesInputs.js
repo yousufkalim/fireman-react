@@ -111,7 +111,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
        borderRadius:"5px", 
       borderBottom:"1px solid #C5D3DB",
        margin:"12px 4px",
-       padding:"20px",
+       padding:"10px",
        color:"#ffffff"
        }}> 
      <Typography variant="h6">

@@ -136,7 +136,7 @@ const Ranking = ({establishmentid}) => {
         borderRadius:"5px", 
        borderBottom:"1px solid #C5D3DB",
         margin:"12px 4px",
-        padding:"20px",
+        padding:"10px",
         color:"#ffffff"
       }}
         onClick={toggleSection}
@@ -148,7 +148,7 @@ const Ranking = ({establishmentid}) => {
           {iconState ? <DoneIcon/> : null}
         </div>
         </Box>
-        <Item ref={focusPoint} sx={{ boxShadow: "none" }}> 
+        <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
            <form
                 className="establishment-form"
                 type="submit"
