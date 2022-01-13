@@ -43,7 +43,7 @@ console.log("set",formInputs)
 
     return (
         <Grid container spacing={0} columns={20}>
-            <Grid item xs={9}>
+            <Grid item xs={8}>
                 <div className="left-form">
                 <img src={logo} />
                 </div>
@@ -53,17 +53,17 @@ console.log("set",formInputs)
                     <p className="topHeading">Retour à la page d’accueil</p>
                     <div className="mainform">
                         <div style={{ textAlign: "start" ,width:"80%"}}>
-                            <h4>Connectez-vous à votre compte</h4>
+                            <h6 className="form-heading">Connectez-vous à votre compte</h6>
                             <form onSubmit={handleSubmit}>
                             <div className="input-field">
-                                <label>Adresse e-mail</label>
+                                <label className="login-label">Adresse e-mail</label>
                                 <input  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
                             </div>
                             <div className="input-field">
-                                <label>Mot de passe</label>
+                                <label className="login-label">Mot de passe</label>
                                 <input name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
                             </div>
-                            <a>Mot de passe oublié ?</a>
+                            <a >Mot de passe oublié ?</a>
                             <button type="submit">Se connecter</button>
                             </form>
                         </div>

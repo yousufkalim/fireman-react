@@ -7,8 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+import Rightarrow from "../../assets/rightarrow.png";
 const Description = ({ values, onSubmit, description }) => {
   console.log("description",description);
   const [inputValues, setInputValues] = useState({
@@ -65,7 +64,7 @@ const Description = ({ values, onSubmit, description }) => {
           padding: "10px",
           marginTop: "20px",
         }}
-      >
+     >
         <Accordion sx={{ backgroundColor: "lightskyblue" }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -153,11 +152,20 @@ const Description = ({ values, onSubmit, description }) => {
             </div>
           </AccordionDetails>
         </Accordion>
-        <Box sx={{ textAlign: "end", padding: "10px" }}>
-          <Button onClick={onSubmitFields} type="submit" variant="contained">
-            Valider
-          </Button>
-        </Box>
+        <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    onClick={onSubmitFields}
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
       </Box>
     </>
   );

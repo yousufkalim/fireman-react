@@ -11,18 +11,22 @@
 }
 .login-form  .topHeading {
 text-align: right; 
-font-size: 13px;
+font-size: 20px;
 margin-bottom: 21px;
-
+color: #3F424E;
 }
 
 .mainform{
-     height: 77vh;
+     height: 66vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.login-label{
+color: #314A6C;
+font-size: 20px;
 
+}
 .mainform h4{
   margin-bottom: 2rem;
   letter-spacing: 2px;
@@ -30,18 +34,14 @@ margin-bottom: 21px;
 .input-field {
   margin-bottom: 10px;
 }
-.input-field label{
-  font-size: 14px;
-}
 .input-field input{
   display: block;
-  margin-top: 8px;
+  margin-top: 15px;
   border-radius:5px ;
   border: 1px solid #C5C8D2;
   width: 100%;
   height: 41px;
   padding: 5px 12px;
-  color: #C5C8D2;
 }
 .input-field input::placeholder{
   color: #C5C8D2;
@@ -52,14 +52,15 @@ margin-bottom: 21px;
 }
 
 .mainform a{
-  font-size: 12px;
+  font-size: 20px;
+  padding: 10px 0px 20px 0px;
   display: block;
   text-decoration: none;
 }
 
 .mainform button{
   padding: 10px 20px;
-  font-size: 12px;
+  font-size: 20px;
   color: #FFFFFF;
   background: #3675B7;
   border: none;
@@ -68,16 +69,27 @@ margin-bottom: 21px;
   margin-top: 17px;
 }
 .left-form{
-  background-image: url("../assets/loginform.png");
+  background-image: url("../assets/loginform.png") ;
   background-color: #3675B7;
   height: 100vh;
-  background-position: center;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-repeat: round;
+  background-position: top;
 }
 
 .left-form img{
   width: 42%;
+}
+
+
+.form-heading{
+  color: #314A6C;
+  font-size: 43px;
+  line-height: 62.93px;
+  font-weight: 600;
+  padding-bottom: 30px;
+  margin-top: 20%;
 }

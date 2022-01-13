@@ -122,7 +122,7 @@ border: none !important;
        width: 26px;
       }
       .left_side{
-          margin-top: 55px;
+          /* margin-top: 55px; */
       }
       .left_side .first{
         background-color: #FFFFFF !important;

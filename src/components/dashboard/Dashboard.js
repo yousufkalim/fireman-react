@@ -8,7 +8,7 @@ import Commentaries from "../../assets/commentaries.png"
 import Technicalsupport from "../../assets/technicalsupport.png"
 import Fire from "../../assets/fire.png"
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import Implantation from "../Implantation";
+import Implantation from "../Implantation/Implantation";
 import SideBar from "../SideBar";
 import api from "../../api";
 import FireExtinguisherIcon from '@mui/icons-material/FireExtinguisher';

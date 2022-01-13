@@ -8,6 +8,10 @@ import { styled } from "@mui/material/styles";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
 import moment from "moment";
+import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import Rightarrow from "../../assets/rightarrow.png";
 import {
   Formik,
   Field,
@@ -24,6 +28,12 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
     backgroundColor: theme.palette.common.black,
   },
 }));
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const CreateHistoricalData = ({
   establishmentid,
   historicalDataEstablishment,
@@ -39,6 +49,8 @@ const CreateHistoricalData = ({
     urbanPlanningRef: val.urbanPlanningRef,
     details: val.details,
   }));
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
   useEffect(() => {
     api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
       setdropdownValue((pre) => {
@@ -60,13 +72,15 @@ const CreateHistoricalData = ({
     console.log("newarr",newarr);
     if(store.activeCase === "newcase") 
     {
-     alert("post");
     newarr.map((val) => {
       return new Promise((resolve, reject) => {
         api("post", "/api/v1/create_historicaldata_establishment", val)
           .then((res) => {
+            toast.success("Success!")
             if(res.status= 200){
-              toast.success("Success!")
+              setIconState(true);
+              setToggle(true);
+              focusPoint.current.style.display = "none";
             }
             let form_data = new FormData();
             form_data.append("docFile", val.image);
@@ -75,9 +89,7 @@ const CreateHistoricalData = ({
             if (val.image) {
               api("post", "/api/v1/upload_historicaldata_file", form_data)
                 .then((res) => {
-                  if(res.status= 200){
-                    toast.success("Success!")
-                  }
+                  toast.success("Successful!")
                   //console.log("imageres:", res);
                 })
                 .catch((err) => console.log(err));
@@ -89,17 +101,17 @@ const CreateHistoricalData = ({
   }
     if(store.activeCase === "currentcases") 
     {
-      alert("put");
-
-     { console.log("cfgvhjb",newarr)}
       newarr.map((val) => {
         { console.log("cfgvhjb",val.histDate)}
         return new Promise((resolve, reject) => {
           api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
               console.log("update",res);
+              toast.success("Success!")
               if(res.status= 200){
-                toast.success("Success!")
+                setIconState(true);
+                setToggle(true);
+                focusPoint.current.style.display = "none";
               }
               let form_data = new FormData();
               form_data.append("docFile", val.image);
@@ -108,8 +120,9 @@ const CreateHistoricalData = ({
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
+                    console.log(res);
                     if(res.status= 200){
-                      toast.success("Success!")
+                        toast.success("Successfully Saved");
                     }
                     //console.log("imageres:", res);
                   })
@@ -124,9 +137,36 @@ const CreateHistoricalData = ({
       
     const photo = values.repeatable.map((object) => object.image);
   };
+  const focusPoint = useRef(null);
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
   const store = Store();
   return (
     <>
+    <Box sx={{
+    display:"flex", 
+    justifyContent:"space-between", 
+    backgroundColor:"#3675B7", 
+    borderRadius:"5px", 
+   borderBottom:"1px solid #C5D3DB",
+    margin:"12px 4px",
+    padding:"10px",
+    color:"#ffffff"
+    }}
+    onClick={toggleSection}
+    > 
+     <Typography variant="h6">
+     Historique
+</Typography>
+<div>
+          {iconState ? <DoneIcon/> : null}
+        </div>
+        </Box>
+    <Item ref={focusPoint}  sx={{marginTop:"10px" , width:"97%", margin:"auto"}}> 
       {store.activeCase === "newcase" ? (
         <Formik
           onSubmit={(values) => onSubmit(values)}
@@ -783,11 +823,19 @@ const CreateHistoricalData = ({
                   </>
                 )}
               />
-              <Box sx={{ textAlign: "end", padding: "10px" }}>
-                <Button type="submit" variant="contained">
-                  Valider
-                </Button>
-              </Box>
+             <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
             </Form>
           )}
         />
@@ -1469,15 +1517,24 @@ const CreateHistoricalData = ({
                   </>
                 )}
               />
-              <Box sx={{ textAlign: "end", padding: "10px" }}>
-                <Button type="submit" variant="contained">
-                  Valider
-                </Button>
-              </Box>
+            <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
             </Form>
           )}
         />
       ) : null}
+      </Item>
     </>
   );
 };

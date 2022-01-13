@@ -105,7 +105,8 @@ text-align: center;
 .header_selection {
   padding-left: 10px;
   margin-bottom: 19px;
-  margin-top: 19px;
+  padding-top: 19px;
+  display: flex;
 }
 .header_selection a{
   padding: 0px 27px;

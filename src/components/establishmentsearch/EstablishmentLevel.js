@@ -6,9 +6,12 @@ import api from "../../api/index";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Description from "./Description";
 import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 import { Store } from "../../StoreContext";
+import { Typography } from "@mui/material"
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
+import DoneIcon from "@mui/icons-material/Done";
 const BootstrapTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} arrow classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -19,11 +22,19 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
     backgroundColor: theme.palette.common.black,
   },
 }));
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const EstablishmentLevel = ({  Values, description }) => {
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
-
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
+  const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/level/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -56,8 +67,11 @@ const EstablishmentLevel = ({  Values, description }) => {
      console.log("check",obj);
      if(store.activeCase === "newcase"){
       api("post", "/api/v1/create_description_data", obj).then((res) => {
+        toast.success("Success!")
         if(res.status= 200){
-          toast.success("Success!")
+          setIconState(true);
+          setToggle(true);
+          focusPoint.current.style.display = "none";
         }
       });
      }
@@ -70,9 +84,34 @@ const EstablishmentLevel = ({  Values, description }) => {
      }
    
   };
-
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
   return (
     <>
+     <Box sx={{
+       display:"flex", 
+       justifyContent:"space-between", 
+       backgroundColor:"#3675B7", 
+       borderRadius:"5px", 
+      borderBottom:"1px solid #C5D3DB",
+       margin:"12px 4px",
+       padding:"10px",
+       color:"#ffffff"
+        }}
+        onClick={toggleSection}
+        > 
+     <Typography variant="h6">
+     Descriptif
+</Typography>
+<div>
+          {iconState ? <DoneIcon/> : null}
+        </div>
+        </Box>
+    <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
       {store.activeCase === "newcase" ? (
         <Formik
           initialValues={{ repeatable: [] }}
@@ -474,6 +513,8 @@ const EstablishmentLevel = ({  Values, description }) => {
           )}
         />
       ) : null}
+
+</Item>
     </>
   );
 };

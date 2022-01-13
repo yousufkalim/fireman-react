@@ -4,7 +4,17 @@ import Button from "@mui/material/Button";
 import api from '../../api';
 import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
-
+import { Typography } from "@mui/material"
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import DoneIcon from "@mui/icons-material/Done";
+import Rightarrow from "../../assets/rightarrow.png";
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const Ranking = ({establishmentid}) => {
     const [dropdownValue, setdropdownValue] = useState({
         rankingorder: "",
@@ -19,7 +29,8 @@ const Ranking = ({establishmentid}) => {
         rankingOrderId:dropdownValue.apidropdowndata.rankingOrderId?dropdownValue.apidropdowndata.rankingOrderId: "",
         rankingClassificationId:dropdownValue.apidropdowndata.rankingClassificationId?dropdownValue.apidropdowndata.rankingClassificationId: "",
       });
-     
+      const [toggle, setToggle] = useState(false);
+      const [iconState, setIconState] = useState(false);
       const store = Store();
       useEffect(() => {
         api("get", "/api/v1/classification/dropdown").then((res) =>
@@ -87,6 +98,7 @@ const Ranking = ({establishmentid}) => {
           };
         });
       };
+      const focusPoint = useRef(null);
       const handleSubmit =(e)=>{
         e.preventDefault();
         const newObj={
@@ -96,22 +108,52 @@ const Ranking = ({establishmentid}) => {
 
         console.log(newObj);
        api("put","/api/v1/establishment_ranking_details",newObj).then((res)=>{
-
-        console.log(res);
+        toast.success("success")
           if(res.status===200){
-              toast.success("success")
+              setIconState(true);
+              setToggle(true);
+              focusPoint.current.style.display = "none";
           }
        })
         console.log(inputValues);
       }
       console.log(dropdownValue.apidropdowndata.rankingOrderId);
+      const toggleSection = () => {
+        setToggle(!toggle);
+        toggle
+          ? (focusPoint.current.style.display = "none")
+          : (focusPoint.current.style.display = "block");
+      };
     return (
         <>  
+        <Box sx={{display:"flex", 
+        justifyContent:"space-between",  
+        borderBottom:"1px solid #C5D3DB", 
+        margin:"12px 4px",
+        display:"flex", 
+        justifyContent:"space-between", 
+        backgroundColor:"#3675B7", 
+        borderRadius:"5px", 
+       borderBottom:"1px solid #C5D3DB",
+        margin:"12px 4px",
+        padding:"10px",
+        color:"#ffffff"
+      }}
+        onClick={toggleSection}
+        > 
+     <Typography variant="h6">
+     Classement
+</Typography>
+<div>
+          {iconState ? <DoneIcon/> : null}
+        </div>
+        </Box>
+        <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
            <form
                 className="establishment-form"
                 type="submit"
                 onSubmit={handleSubmit}
-              ></form>
+              >
            <select
                      className="select-input dropdown-ranking"
                       type="select"
@@ -168,12 +210,22 @@ const Ranking = ({establishmentid}) => {
                         </option>
                       ))}
                     </select>  
-                    <Box sx={{ textAlign: "end", padding: "10px" }}>
-        <Button onClick={handleSubmit} type="submit" variant="contained">
-          Valider
-        </Button>
-      </Box>
-                    <form/>
+                    <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
+                    </form>
+
+                    </Item>
         </>
     )
 }

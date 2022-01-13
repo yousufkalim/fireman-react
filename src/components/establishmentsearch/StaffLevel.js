@@ -12,18 +12,16 @@ import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import { Store } from "../../StoreContext";
 import { Formik, Field, Form, FieldArray } from "formik";
-
-const BootstrapTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-  },
+import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material"
+import DoneIcon from "@mui/icons-material/Done";
+import Rightarrow from "../../assets/rightarrow.png";
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
 }));
-
 const StaffLevel = ({ establishmentid }) => {
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
@@ -49,6 +47,8 @@ const StaffLevel = ({ establishmentid }) => {
       total: "",
     },
   ]);
+  const [toggle, setToggle] = useState(false);
+  const [iconState, setIconState] = useState(false);
   const store = Store();
   useEffect(() => {
     api("get", "/api/v1/stafflevel/dropdown").then((res) => {
@@ -85,8 +85,7 @@ const StaffLevel = ({ establishmentid }) => {
 
   
   const containerRef = useRef(null);
-
-  console.log("people", people)
+  const focusPoint = useRef(null);
   const handleSubmit = () => {
     console.log(people);
 
@@ -106,25 +105,53 @@ const StaffLevel = ({ establishmentid }) => {
       if(store.activeCase === "newcase"){
   api("post", "/api/v1/create_establishment_stafftable", newArr).then((res)=>{
     toast.success("Success!")
+    if(res.status===200){
+      setIconState(true);
+    setToggle(true);
+    focusPoint.current.style.display = "none";
+    }
+    
   }).catch((err)=>{
     toast.error(err?.statusText)
   })
 }
   if(store.activeCase === "currentcases"){
-    console.log("newarr", newArr)
     api("put", "/api/v1/update_establishment_stafftable", newArr).then((res)=>{
     if(res.data===true){
       toast.success("success")
     }
     })
   }
-  
-    console.log("newArr", newArr);
   };
-
+  const toggleSection = () => {
+    setToggle(!toggle);
+    toggle
+      ? (focusPoint.current.style.display = "none")
+      : (focusPoint.current.style.display = "block");
+  };
 
   return (
     <>
+    <Box sx={{
+       display:"flex", 
+       justifyContent:"space-between", 
+       backgroundColor:"#3675B7", 
+       borderRadius:"5px", 
+      borderBottom:"1px solid #C5D3DB",
+       margin:"12px 4px",
+       padding:"10px",
+       color:"#ffffff"
+    }}
+     onClick={toggleSection}
+     > 
+     <Typography  variant="h6">
+     Tableau des effectifs
+</Typography>
+<div>
+          {iconState ? <DoneIcon /> : null}
+        </div>
+        </Box>
+    <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
       {
       people?.map((p, i) => {
         return (
@@ -454,11 +481,21 @@ const StaffLevel = ({ establishmentid }) => {
           }}
         />
       </Box>
-      <Box sx={{ textAlign: "end", padding: "10px" }}>
-        <Button onClick={handleSubmit} type="submit" variant="contained">
-          Valider
-        </Button>
-      </Box>
+      <Box sx={{ textAlign: "right" }}>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    endIcon={<img className="" src={Rightarrow} />}
+                    sx={{
+                      background: "#3675B7",
+                      ":hover": { background: "#3675B7" },
+                    }}
+                    variant="contained"
+                  >
+                    Valider
+                  </Button>
+                </Box>
+      </Item>
     </>
   );
 };
