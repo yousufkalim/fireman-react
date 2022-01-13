@@ -73,7 +73,7 @@ const EstablishmentSearchVisitForm = ({
                 borderRadius:"5px", 
                 width: "96%",
                 margin: "10px auto",
-                padding: "10px 10px",
+                padding: "8px 10px",
                 color:"#ffffff"
               }}
               onClick={onClick}
@@ -87,6 +87,7 @@ const EstablishmentSearchVisitForm = ({
               
             </Box>
       <Item
+       ref={focusPoint}
         sx={{
           marginTop: "15px",
           borderRadius: "10px",
@@ -99,7 +100,7 @@ const EstablishmentSearchVisitForm = ({
           <Grid>
             <form onSubmit={handleSubmit}>
               <Box
-               ref={focusPoint}
+              
                 className={`${
                   CompName === "currentcases" && toggleUpdateTabs
                     ? "formhide"
@@ -110,17 +111,31 @@ const EstablishmentSearchVisitForm = ({
                   <>
                     <h5> {item.checkHeadingName}</h5>
                     {item?.chkList?.map((val) => (
-                      <div className="checkbox-container">
+                      <div class="container">
+                      <div class="group">
                         <input
-                          className="study-form-checkbox"
                           type="checkbox"
-                          name="checkbox"
                           defaultChecked={val.isSelected}
                           id={val.caseFileCheckListId}
                           onChange={handleChange}
                         />
-                        <label for={val.caseFileCheckListId}> {val.name}</label> <br />
+                        <label
+                          className="dropdown-checkbox"
+                          for={val.caseFileCheckListId}
+                        >
+                        </label>
                       </div>
+                      <Box sx={{
+                        width:"90%", 
+                        margin:"auto",
+                           fontWeight:"bold",
+                           fontSize:"15px",
+                           lineHeight:"22px",
+                            color:"#3675B7",
+                               }}>
+                      {val.name}
+                      </Box>
+                    </div>
                     ))}
                   </>
                 ))}
