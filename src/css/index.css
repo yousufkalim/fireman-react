@@ -6,7 +6,7 @@
 @import url("./etablissment.css");
 @import url("./leftbar.css");
 @import url("./opensearchfilterdata.css");
-
+@import url("./CreateHistoricalData.css");
 /* Defaults */
 * {
   padding: 0;

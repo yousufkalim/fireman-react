@@ -54,17 +54,10 @@
 }
 .dropdown {
   border-radius: 10px;
- appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  background-color: aliceblue;
 }
 
-.dropdown option{
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #27ae60;
-}
+
 .dropdown-townplanning{
   width: 95%;
 }
@@ -72,9 +65,6 @@
 .icon-validate{
   width: 20px;
 }
-
-
-
 .establishment-search-btn-submit {
   background: #24adfd;
   padding: 10px 50px;
@@ -123,8 +113,6 @@ border-radius: 10px;
   outline: none;
   cursor: pointer;
 }
-
-
  .checkbox-container {
 text-align: start;
 }

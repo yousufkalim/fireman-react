@@ -7,9 +7,7 @@ import ActiveTabHeader from "./ActiveTabHeader";
 import OpenSearchNewCases from "./openSearch/opensearchleftbar/opensearchnewcases/OpenSearchNewCases";
 import OpenSearchCurrentCases from "./openSearch/opensearchleftbar/opensearchcurrentcases/OpenSearchCurrentCases";
 import EstablishmentSearchContainer from './establishmentsearch/EstablishmentSearchContainer'
-import Navbar from './Navbar'
 import NavbarNew from './NavbarNew'
-import { styled } from "@mui/material/styles";
 import {Store} from '../StoreContext'
 
 const Body = () => {
