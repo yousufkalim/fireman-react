@@ -8,9 +8,10 @@ import Paper from "@mui/material/Paper";
 import CheckIcon from "@mui/icons-material/Check";
 import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import moment from "moment";
+import { fontWeight } from "@mui/system";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -67,7 +68,9 @@ const EstablishmentSearchStudyForm = ({
     origin: "",
     requesttype: "",
   });
-
+   useEffect(() => {
+    console.log(townplanning);
+   }, [townplanning])
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
@@ -106,6 +109,7 @@ const EstablishmentSearchStudyForm = ({
 
   const onClickdetailsObj = () => {
     setToggleUpdateTabstwo(!toggleUpdateTabstwo);
+    
   };
 
   useEffect(() => {
@@ -134,7 +138,6 @@ const EstablishmentSearchStudyForm = ({
       });
     });
   }, []);
-
   //////
   const handleChange = (e) => {
     const name = e.target.name;
@@ -149,9 +152,27 @@ const EstablishmentSearchStudyForm = ({
       setCheckboxObj((pre) => [...pre, obj]);
     }
     if (!checked) {
-      setCheckboxObj((pre) => [
-        ...pre.filter((item) => item.caseFileCheckListId !== id),
-      ]);
+      console.log(CompName)
+      console.log(compShow)
+      console.log("townplanning...>>>>>>>>.",townplanning)
+      console.log(id);
+      if(compShow){
+        setCheckboxObj((pre) => [
+          ...pre.filter((item) => item.caseFileCheckListId !== id),
+        ]);
+      }
+      if(CompName){
+        console.log("townplanning curr...>>>>>>>>.",townplanning)
+          const ab = townplanning.map((val)=>(
+           val.chkList.map((val)=>(
+              val.caseFileCheckListId==id
+                
+           ))
+          ))
+
+          console.log("dfff",ab);
+      }
+     
     }
     setFormValues((preVal) => {
       return {
@@ -206,22 +227,18 @@ const EstablishmentSearchStudyForm = ({
           display: "flex",
           justifyContent: "space-between",
           borderBottom: "0.6px solid #C5D3DB",
-          backgroundColor:"#3675B7", 
-          borderRadius:"5px", 
+          backgroundColor: "#3675B7",
+          borderRadius: "5px",
           width: "96%",
           margin: "10px auto",
-          padding: "10px 10px",
-          color:"#ffffff"
+          padding: "8px 10px",
+          color: "#ffffff",
         }}
       >
-        <Typography variant="h6">
-          Related town planning documents
-        </Typography>
+        <Typography variant="h6">Related town planning documents</Typography>
         <div>
-          {indexdata?.sectionindex === 1 ? (
-            <CheckIcon/>
-          ) : null}
-          {iconState ? <CheckIcon/> : null}
+          {indexdata?.sectionindex === 1 ? <CheckIcon /> : null}
+          {iconState ? <CheckIcon /> : null}
         </div>
       </Box>
       <Item
@@ -229,8 +246,8 @@ const EstablishmentSearchStudyForm = ({
           marginTop: "15px",
           borderRadius: "10px",
           boxShadow: "none",
-          width:"96%",
-          margin:"auto"
+          width: "96%",
+          margin: "auto",
         }}
         ref={focusPoint}
       >
@@ -240,7 +257,6 @@ const EstablishmentSearchStudyForm = ({
           }}
         >
           <Grid
-           
             className={`${
               CompName === "currentcases" && toggleUpdateTabs
                 ? "formhide"
@@ -411,74 +427,85 @@ const EstablishmentSearchStudyForm = ({
                       padding: "10px",
                     }}
                   ></Box>
-                  {townplanning?.map((item) => (
+                  {townplanning?.map((item, i) => (
                     <>
                       <h5> {item.checkHeadingName}</h5>
                       {item?.chkList?.map((val) => (
-                        <div className="checkbox-container">
-                           <div> 
-                          <input
-                            className="study-form-checkbox"
-                            type="checkbox"
-                            name="checkbox"
-                            for="checkbox"
-                            defaultChecked={val.isSelected}
-                            id={val.caseFileCheckListId}
-                            onChange={handleChange}
-                          />
+                        <div class="container">
+                          <div class="group">
+                            <input
+                              type="checkbox"
+                              defaultChecked={val.isSelected}
+                              id={val.caseFileCheckListId}
+                              onChange={handleChange}
+                            />
+                            <label
+                              className="dropdown-checkbox"
+                              for={val.caseFileCheckListId}
+                            >
+                            </label>
                           </div>
-                          <label className="checkbox-label" for="checkbox"> {val.name}</label> <br />
-                         
+                          
+                          <Box sx={{
+                            width:"90%", 
+                            margin:"auto",
+                               fontWeight:"bold",
+                               fontSize:"15px",
+                               lineHeight:"22px",
+                                color:"#3675B7",
+                                   }}>
+                          {val.name}
+                          </Box>
                         </div>
                       ))}
                     </>
                   ))}
-
                 </Grid>
               </Box>
-             
 
-              <Box sx={{textAlign:"right", padding:"10px"}}> 
-                    <Button   type="submit" endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
-                    Valider
-                          </Button>
-                    </Box>
+              <Box sx={{ textAlign: "right", padding: "10px" }}>
+                <Button
+                  type="submit"
+                  endIcon={<img className="" src={Rightarrow} />}
+                  sx={{
+                    background: "#3675B7",
+                    ":hover": { background: "#3675B7" },
+                  }}
+                  variant="contained"
+                >
+                  Valider
+                </Button>
+              </Box>
             </form>
           </Grid>
         </Box>
       </Item>
 
       <Box
-              onClick={onClickdetailsObj}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                borderBottom: "0.6px solid #C5D3DB",
-                padding: "10px 0px",
-                backgroundColor:"#3675B7", 
-                borderRadius:"5px", 
-                width: "96%",
-                margin: "10px auto",
-                padding: "10px 10px",
-                color:"#ffffff"
-              }}
-            >
-              <Typography variant="h6">
-              Details of the object
-        </Typography>
-              <div>
-                {detailobjiconstate ? (
-                  <CheckIcon/>
-                ) : null}
-              </div>
-            </Box>
+        onClick={onClickdetailsObj}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          borderBottom: "0.6px solid #C5D3DB",
+          padding: "10px 0px",
+          backgroundColor: "#3675B7",
+          borderRadius: "5px",
+          width: "96%",
+          margin: "10px auto",
+          padding: "8px 10px",
+          color: "#ffffff",
+        }}
+      >
+        <Typography variant="h6">Details of the object</Typography>
+        <div>{detailobjiconstate ? <CheckIcon /> : null}</div>
+      </Box>
       <Item
         sx={{
           marginTop: "15px",
           borderRadius: "10px",
           boxShadow: "none",
-          width:"96%",
-          margin:"auto"
+          width: "96%",
+          margin: "auto",
         }}
       >
         <Box>
@@ -495,26 +522,48 @@ const EstablishmentSearchStudyForm = ({
                   <>
                     <h5> {item.checkHeadingName}</h5>
                     {item?.chkList?.map((val) => (
-                      <div className="checkbox-container">
+                      <div class="container">
+                      <div class="group">
                         <input
-                          onChange={handleChange}
-                          className="study-form-checkbox"
-                          name="checkbox"
                           type="checkbox"
                           defaultChecked={val.isSelected}
                           id={val.caseFileCheckListId}
+                          onChange={handleChange}
                         />
-                        <label for="checkbox"> {val.name}</label> <br />
+                        <label
+                          className="dropdown-checkbox"
+                          for={val.caseFileCheckListId}
+                        >
+                        </label>
                       </div>
+                      <Box sx={{
+                        width:"90%", 
+                        margin:"auto",
+                           fontWeight:"bold",
+                           fontSize:"15px",
+                           lineHeight:"22px",
+                            color:"#3675B7",
+                               }}>
+                      {val.name}
+                      </Box>
+                    </div>
                     ))}
                   </>
                 ))}
               </Box>
-              <Box sx={{textAlign:"right", padding:"10px"}}> 
-                    <Button   type="submit" endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
-                    Valider
-                          </Button>
-                    </Box>
+              <Box sx={{ textAlign: "right", padding: "10px" }}>
+                <Button
+                  type="submit"
+                  endIcon={<img className="" src={Rightarrow} />}
+                  sx={{
+                    background: "#3675B7",
+                    ":hover": { background: "#3675B7" },
+                  }}
+                  variant="contained"
+                >
+                  Valider
+                </Button>
+              </Box>
             </form>
           </Grid>
         </Box>

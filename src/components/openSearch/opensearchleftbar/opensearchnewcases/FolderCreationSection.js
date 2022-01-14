@@ -287,13 +287,17 @@ const FolderCreationSection = ({
   };
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = () => {
+    console.log(checkboxObj,"checkboxObj.....>>>>>>>");
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
         setCheckBoxRes(res.status);
         toast.success("Success");
       })
       .catch((err) => toast.error(err?.statusText));
+      setCheckboxObj([]);
   };
+
+
   ///////////////////////////////
   useEffect(() => {
     setInputValues({
@@ -323,7 +327,7 @@ const FolderCreationSection = ({
               display: "flex",
               justifyContent: "space-between",
               borderBottom: "0.6px solid #C5D3DB",
-              padding: "10px 10px",
+              padding: "8px 10px",
               backgroundColor:"#3675B7", 
               borderRadius:"5px", 
               color:"#ffffff",
