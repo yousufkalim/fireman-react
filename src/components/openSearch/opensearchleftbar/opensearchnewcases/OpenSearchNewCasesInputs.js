@@ -89,6 +89,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    window.scroll({
+      top: document.body.offsetHeight,
+      left: 0, 
+      behavior: 'smooth',
+    });
     const obj = {
       ...inputValues,
       commune: inputValues.commune === "" ? 0 : inputValues.commune,
@@ -123,7 +128,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
         </Box>
       <Item
         sx={{
-          marginTop: "5px",
+          marginTop: "10px",
           borderRadius: "10px",
           fontSize:"20px",
           boxShadow:"none"
@@ -155,7 +160,9 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
               >
                 <Box sx={{display:"flex"}}> 
                 <div className="inputs-container">
-                <label> Etablissement existant</label>
+                  <Box sx={{fontSize:"20px"}}> 
+                <h5> Etablissement existant</h5>
+                </Box>
                   <div className="flex-form">
                     <label className="label-color"> Ref.</label>
                     <input
@@ -249,13 +256,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                 </Box>   
                 <Divider sx={{margin:"20px 0px"}}/>
                 <Box sx={{textAlign:"right"}}> 
-                    <Button   type="submit" endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
                     RECHERCHER
                           </Button>
-                    </Box>
-                                
+                    </Box>               
               </form>
-              
             </Item>
           </Grid>
         </Box>

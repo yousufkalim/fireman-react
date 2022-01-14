@@ -1,4 +1,4 @@
-import  React from "react";
+import  React,{useRef,useEffect} from "react";
 import {UpdateStore} from '../../../../StoreContext'
 import {Store} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
@@ -11,6 +11,21 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+  const messagesEndRef = useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+ 
+
+  useEffect(() => {
+    setTimeout(() => {
+      if(establishmentSearchData){
+        scrollToBottom()
+      }
+    }, 200);
+   
+  }, [establishmentSearchData])
+
   const updatestore = UpdateStore();
     const store = Store()
    const column = [ 
@@ -41,9 +56,9 @@ const onRowClick =(data, event)=>{
     <>
     <Item
      sx={{
-      marginTop: "10px",
+      margin: "10px 0px",
       borderRadius: "10px",
-      boxShadow:"none"
+      boxShadow:"none",
     }}
     > 
     <div style={{ height: "50vh", width: "100%" }}>
@@ -71,6 +86,7 @@ const onRowClick =(data, event)=>{
       
        />
     </div>
+    <div ref={messagesEndRef} />
     </Item>
      
     </>

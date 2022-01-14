@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import Rightarrow from "../../assets/rightarrow.png";
 const Description = ({ values, onSubmit, description }) => {
-  console.log("description",description);
   const [inputValues, setInputValues] = useState({
     site: description?.siteDescription ? description?.siteDescription : "",
     establishmentdescription: description?.description
@@ -42,7 +41,6 @@ const Description = ({ values, onSubmit, description }) => {
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(value);
     setInputValues((pre) => {
       return {
         ...pre,
@@ -53,7 +51,6 @@ const Description = ({ values, onSubmit, description }) => {
 
   
   const onSubmitFields = () => {
-    console.log("inputValuesfcgvjhbkn",inputValues);
     onSubmit(values, inputValues);
   };
   return (
@@ -130,7 +127,7 @@ const Description = ({ values, onSubmit, description }) => {
               <Box>
               <label>
                   {" "}
-                  Less Eight Meter {console.log(inputValues?.moreEightMeter)}
+                  Less Eight Meter 
                 </label>
                 <input
                   type="checkbox"
@@ -140,7 +137,7 @@ const Description = ({ values, onSubmit, description }) => {
                 />
                 <label>
                   {" "}
-                  More Eight Meter {console.log(inputValues?.moreEightMeter)}
+                  More Eight Meter 
                 </label>
                 <input
                   type="checkbox"
@@ -156,7 +153,7 @@ const Description = ({ values, onSubmit, description }) => {
                   <Button
                     type="submit"
                     onClick={onSubmitFields}
-                    endIcon={<img className="" src={Rightarrow} />}
+                    endIcon={<img className='icon-validate' src={Rightarrow} />}
                     sx={{
                       background: "#3675B7",
                       ":hover": { background: "#3675B7" },

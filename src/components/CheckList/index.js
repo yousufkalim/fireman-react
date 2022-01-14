@@ -2,13 +2,9 @@ import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
 import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked';
-import Pencil from "../../assets/pencil.png"
 import CreateIcon from '@mui/icons-material/Create';
 import parse from 'html-react-parser';
 import EditModal from "../Modals/EditCheckBox"
-
-
-
 
 const CheckList = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -16,7 +12,6 @@ const CheckList = (props) => {
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
     const handleOpen = (data,i) => {
         setOpen(true)
-        console.log("data",data)
         setChecklistdata({...data,id:i})
     };
     const handleClose = () => setOpen(false);
@@ -28,9 +23,6 @@ const CheckList = (props) => {
       }
       return data
     })
-    console.log(a)
-
-     console.log(sentence)
     }
     const [checked, setChacked] = React.useState("");
     return (
@@ -53,8 +45,6 @@ const CheckList = (props) => {
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
                                 <p>{parse(data.sentenceText)}</p>
-
-                                {/* <p>{props.accordionData.sentenceText}</p> */}
                             </div>
                             <div>
                                 <CreateIcon onClick={()=>handleOpen(data,props.accordionData.serialName + i)} sx={{ cursor: "pointer" }} />
