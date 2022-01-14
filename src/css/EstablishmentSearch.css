@@ -54,7 +54,19 @@
 }
 .dropdown {
   border-radius: 10px;
-  background-color: aliceblue;
+ appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select{
+  background: #314A6C;
+}
+.dropdown option{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #27ae60;
 }
 .dropdown-townplanning{
   width: 95%;
@@ -64,9 +76,7 @@
   width: 20px;
 }
 
-select.dropdown option.option2{
-  background-color: #007700;
-}
+
 
 .establishment-search-btn-submit {
   background: #24adfd;
@@ -149,7 +159,7 @@ text-align: start;
   height: 32px;
   position: absolute;
   left: 3px;
-  top: 22px;
+  top: 42px;
 
   transform: scale(0) rotateZ(180deg);
   transition: all 0.4s cubic-bezier(0.54, 0.01, 0, 1.49);
@@ -166,7 +176,7 @@ text-align: start;
   height: 24px;
   position: absolute;
   left: 4px;
-  top: 24px;
+  top: 44px;
   border-radius: 50%;
 }
 
@@ -178,7 +188,6 @@ line-height: 22px;
 color: #3675B7;
 padding-left: 1%;
 }
-
 
 
 /* .unactive{

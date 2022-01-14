@@ -11,7 +11,6 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import moment from "moment";
-import { fontWeight } from "@mui/system";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -29,6 +28,8 @@ const EstablishmentSearchStudyForm = ({
   postCheckboxesData,
   Studydata,
   currentcasescaseFileId,
+  setstate,
+  state,
 }) => {
   const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
     CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
@@ -38,6 +39,7 @@ const EstablishmentSearchStudyForm = ({
   );
   const [classState, setClassState] = useState(true);
   const [iconState, seticonState] = useState(false);
+  const [checkboxes, setcheckboxes] = useState();
   const [detailobjiconstate, setdetailobjiconstate] = useState(false);
   const [checkBoxesChecked, setCheckBoxesChecked] = useState([]);
   const [formValues, setFormValues] = useState({
@@ -68,9 +70,22 @@ const EstablishmentSearchStudyForm = ({
     origin: "",
     requesttype: "",
   });
-   useEffect(() => {
-    console.log(townplanning);
-   }, [townplanning])
+  useEffect(() => {
+    const ab = townplanning
+      .map((val) =>
+        val.chkList
+          .filter((item) => item.isSelected == true)
+          .map((val) => ({ caseFileCheckListId: val.caseFileCheckListId }))
+      )
+      .map((val) => val.filter((val) => val.caseFileCheckListId));
+    let merged = [].concat.apply([], ab);
+    setstate((pre) => {
+      return {
+        ...pre,
+        check: merged.map((val) => val.caseFileCheckListId),
+      };
+    });
+  }, [townplanning]);
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
@@ -109,7 +124,6 @@ const EstablishmentSearchStudyForm = ({
 
   const onClickdetailsObj = () => {
     setToggleUpdateTabstwo(!toggleUpdateTabstwo);
-    
   };
 
   useEffect(() => {
@@ -139,6 +153,7 @@ const EstablishmentSearchStudyForm = ({
     });
   }, []);
   //////
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -152,27 +167,19 @@ const EstablishmentSearchStudyForm = ({
       setCheckboxObj((pre) => [...pre, obj]);
     }
     if (!checked) {
-      console.log(CompName)
-      console.log(compShow)
-      console.log("townplanning...>>>>>>>>.",townplanning)
-      console.log(id);
-      if(compShow){
+      if (compShow) {
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId !== id),
         ]);
       }
-      if(CompName){
-        console.log("townplanning curr...>>>>>>>>.",townplanning)
-          const ab = townplanning.map((val)=>(
-           val.chkList.map((val)=>(
-              val.caseFileCheckListId==id
-                
-           ))
-          ))
-
-          console.log("dfff",ab);
+      if (CompName) {
+        setstate((pre) => {
+          return {
+            ...pre,
+            check: [...state.check.filter((val) => val != id)],
+          };
+        });
       }
-     
     }
     setFormValues((preVal) => {
       return {
@@ -183,11 +190,27 @@ const EstablishmentSearchStudyForm = ({
   };
   const handleSubmit = (e, data) => {
     e.preventDefault();
+    if (CompName === "currentcases") {
+      const arr = state.check.map((val) => {
+        return {
+          caseFileCheckListId: val,
+          casefileId: casefileId ? casefileId : currentcasescaseFileId,
+        };
+      });
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, arr)
+        .then((res) => {
+          toast.success("Successful");
+        })
+        .catch((err) => toast.error(err?.statusText));
+      setCheckboxObj([]);
+    }
+    if (compShow) {
+      postCheckboxesData();
+    }
     const formData = {
       ...formValues,
       casefileId: casefileId ? casefileId : currentcasescaseFileId,
     };
-    postCheckboxesData();
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
         toast.success("Success");
@@ -201,9 +224,6 @@ const EstablishmentSearchStudyForm = ({
         ) {
           seticonState(true);
         }
-        // if(res?.status===200 && data==="detailsobj"){
-        //   setdetailobjiconstate(true);
-        // }
         if (
           (compShow === "filestructure" || CompName === "currentcases") &&
           res?.status === 200
@@ -429,7 +449,12 @@ const EstablishmentSearchStudyForm = ({
                   ></Box>
                   {townplanning?.map((item, i) => (
                     <>
-                      <h5> {item.checkHeadingName}</h5>
+                      <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
+                        <label className="label-color">
+                          {item.checkHeadingName}
+                        </label>
+                      </Box>
+                      <Divider />
                       {item?.chkList?.map((val) => (
                         <div class="container">
                           <div class="group">
@@ -442,19 +467,30 @@ const EstablishmentSearchStudyForm = ({
                             <label
                               className="dropdown-checkbox"
                               for={val.caseFileCheckListId}
-                            >
-                            </label>
+                            ></label>
                           </div>
-                          
-                          <Box sx={{
-                            width:"90%", 
-                            margin:"auto",
-                               fontWeight:"bold",
-                               fontSize:"15px",
-                               lineHeight:"22px",
-                                color:"#3675B7",
-                                   }}>
-                          {val.name}
+                          <Box
+                            sx={{
+                              padding: "20px",
+                              border: "1px solid rgba(0, 31, 79, 0.1)",
+
+                              boxSizing: "border-box",
+                              boxShadow: "0px 6px 5px rgba(0, 0, 0, 0.03)",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                width: "90%",
+                                margin: "auto",
+                                fontWeight: "bold",
+                                fontSize: "15px",
+                                lineHeight: "22px",
+                                color: "#3675B7",
+                              }}
+                            >
+                              {val.name}
+                            </Box>
                           </Box>
                         </div>
                       ))}
@@ -466,7 +502,7 @@ const EstablishmentSearchStudyForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
-                  endIcon={<img className="" src={Rightarrow} />}
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
                     ":hover": { background: "#3675B7" },
@@ -520,33 +556,49 @@ const EstablishmentSearchStudyForm = ({
               >
                 {study?.map((item) => (
                   <>
-                    <h5> {item.checkHeadingName}</h5>
+                    <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
+                      <label className="label-color">
+                        {item.checkHeadingName}
+                      </label>
+                    </Box>
+                    <Divider />
                     {item?.chkList?.map((val) => (
                       <div class="container">
-                      <div class="group">
-                        <input
-                          type="checkbox"
-                          defaultChecked={val.isSelected}
-                          id={val.caseFileCheckListId}
-                          onChange={handleChange}
-                        />
-                        <label
-                          className="dropdown-checkbox"
-                          for={val.caseFileCheckListId}
+                        <div class="group">
+                          <input
+                            type="checkbox"
+                            defaultChecked={val.isSelected}
+                            id={val.caseFileCheckListId}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="dropdown-checkbox"
+                            for={val.caseFileCheckListId}
+                          ></label>
+                        </div>
+                        <Box
+                          sx={{
+                            padding: "20px",
+                            border: "1px solid rgba(0, 31, 79, 0.1)",
+                            boxSizing: "border-box",
+                            boxShadow: "0px 6px 5px rgba(0, 0, 0, 0.03)",
+                            borderRadius: "10px",
+                          }}
                         >
-                        </label>
+                          <Box
+                            sx={{
+                              width: "90%",
+                              margin: "auto",
+                              fontWeight: "bold",
+                              fontSize: "15px",
+                              lineHeight: "22px",
+                              color: "#3675B7",
+                            }}
+                          >
+                            {val.name}
+                          </Box>
+                        </Box>
                       </div>
-                      <Box sx={{
-                        width:"90%", 
-                        margin:"auto",
-                           fontWeight:"bold",
-                           fontSize:"15px",
-                           lineHeight:"22px",
-                            color:"#3675B7",
-                               }}>
-                      {val.name}
-                      </Box>
-                    </div>
                     ))}
                   </>
                 ))}
@@ -554,7 +606,7 @@ const EstablishmentSearchStudyForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
-                  endIcon={<img className="" src={Rightarrow} />}
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
                     ":hover": { background: "#3675B7" },

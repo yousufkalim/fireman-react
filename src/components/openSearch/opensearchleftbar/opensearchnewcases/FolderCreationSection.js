@@ -9,8 +9,8 @@ import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
 import Rightarrow from "../../../../assets/rightarrow.png";
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 import { Typography } from "@mui/material";
 
 import { Store } from "../../../../StoreContext";
@@ -51,14 +51,14 @@ const FolderCreationSection = ({
     /////
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) =>
+    api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
       setdropdownValue((preVal) => {
         return {
           ...preVal,
           inputsvalue: res,
         };
-      })
-    );
+      });
+    });
     api(
       "get",
       `/api/v1/casefiles/casefile_checklist/0/${
@@ -161,6 +161,7 @@ const FolderCreationSection = ({
     townObj: [],
     study: [],
     visit: [],
+    check: [],
   });
   const [inputValues, setInputValues] = useState({
     caseTypeId: "",
@@ -177,6 +178,22 @@ const FolderCreationSection = ({
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState();
   const focusPoint = useRef(null);
+  useEffect(() => {
+    setInputValues({
+      caseTypeId: currentcasescaseTypeId,
+      commisionTypeId: currentcasescommisionTypeId,
+      agent: dropdownValue?.inputsvalue?.data?.firstName,
+      studyTypeId: "",
+      visitTypeId: "",
+      group: dropdownValue?.inputsvalue?.data?.group,
+      service: dropdownValue?.inputsvalue?.data?.service,
+      caseFileId: "",
+      caseid: "",
+      commisionDate: currentcasescommisionDate
+        ? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD")
+        : "",
+    });
+  }, [dropdownValue]);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -287,34 +304,17 @@ const FolderCreationSection = ({
   };
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = () => {
-    console.log(checkboxObj,"checkboxObj.....>>>>>>>");
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
         setCheckBoxRes(res.status);
         toast.success("Success");
       })
       .catch((err) => toast.error(err?.statusText));
-      setCheckboxObj([]);
+    setCheckboxObj([]);
   };
 
-
   ///////////////////////////////
-  useEffect(() => {
-    setInputValues({
-      caseTypeId: currentcasescaseTypeId,
-      commisionTypeId: currentcasescommisionTypeId,
-      agent: dropdownValue?.inputsvalue?.data?.firstName,
-      studyTypeId: "",
-      visitTypeId: "",
-      group: dropdownValue?.inputsvalue?.data?.group,
-      service: dropdownValue?.inputsvalue?.data?.service,
-      caseFileId: "",
-      caseid: "",
-      commisionDate: currentcasescommisionDate
-        ? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD")
-        : "",
-    });
-  }, [dropdownValue]);
+
   const store = Store();
   return (
     <>
@@ -328,42 +328,41 @@ const FolderCreationSection = ({
               justifyContent: "space-between",
               borderBottom: "0.6px solid #C5D3DB",
               padding: "8px 10px",
-              backgroundColor:"#3675B7", 
-              borderRadius:"5px", 
-              color:"#ffffff",
+              backgroundColor: "#3675B7",
+              borderRadius: "5px",
+              color: "#ffffff",
               width: "96%",
-              margin: "auto"
+              margin: "auto",
             }}
           >
-            <Typography variant="h6">
-              Creation de dossier
-            </Typography>
+            <Typography variant="h6">Creation de dossier</Typography>
             <div>
               {doneIconState?.iconState || CompName === "currentcases" ? (
                 <DoneIcon />
               ) : null}
             </div>
           </Box>
-         
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "10px",
-              }}
-            >
-              {
-                //
-                <Grid ref={focusPoint} item md={12}>
-                  <Item sx={{ boxShadow: "none" }}>
-                    <form
-                      className="establishment-form"
-                      type="submit"
-                      onSubmit={handleSubmit}
-                    >
-                         <Box sx={{display:"flex"}}> 
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "10px",
+            }}
+          >
+            {
+              //
+              <Grid ref={focusPoint} item md={12}>
+                <Item sx={{ boxShadow: "none" }}>
+                  <form
+                    className="establishment-form"
+                    type="submit"
+                    onSubmit={handleSubmit}
+                  >
+                    <Box sx={{ display: "flex" }}>
                       <div className="inputs-container">
-                        <label className="label-color">Nauture dossier</label> <br />
+                        <label className="label-color">Nauture dossier</label>{" "}
+                        <br />
                         <div class="flex-form">
                           <select
                             className="dropdown"
@@ -409,52 +408,53 @@ const FolderCreationSection = ({
                       </div>
                       <div className="inputs-container">
                         {inputDisableState === "1" ? (
-                         <> 
-                         <label className="label-color"> Etude</label>
+                          <>
+                            <label className="label-color"> Etude</label>
 
-                          <div class="flex-form">
-                            <select
-                              className="dropdown"
-                              type="select"
-                              name="studyTypeId"
-                              onChange={handleChange}
-                              value={currentcasesstudyTypeId}
-                              required
-                            >
-                              <option value="">
-                                Choisissez s'il vous plaît
-                              </option>
-                              {dropdownValue.studytype.data?.map((item) => (
-                                <option value={item.value}>{item.text}</option>
-                              ))}
-                            </select>
-                          </div>
+                            <div class="flex-form">
+                              <select
+                                className="dropdown"
+                                type="select"
+                                name="studyTypeId"
+                                onChange={handleChange}
+                                value={currentcasesstudyTypeId}
+                                required
+                              >
+                                <option value="">
+                                  Choisissez s'il vous plaît
+                                </option>
+                                {dropdownValue.studytype.data?.map((item) => (
+                                  <option value={item.value}>
+                                    {item.text}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           </>
-
                         ) : null}
                         {inputDisableState === "2" ? (
-                          <> 
-                           <label className="label-color">Visite </label>
-                          <div class="flex-form">  
-                            <select
-                              className="dropdown"
-                              type="select"
-                              name="visitTypeId"
-                              onChange={handleChange}
-                              value={currentcasesvisitTypeId}
-                              required
-                            >
-                              {dropdownValue.visittype.data?.map((item) => (
-                                <option value={item.value}>{item.text}</option>
-                              ))}
-                            </select>
-                          </div>
+                          <>
+                            <label className="label-color">Visite </label>
+                            <div class="flex-form">
+                              <select
+                                className="dropdown"
+                                type="select"
+                                name="visitTypeId"
+                                onChange={handleChange}
+                                value={currentcasesvisitTypeId}
+                                required
+                              >
+                                {dropdownValue.visittype.data?.map((item) => (
+                                  <option value={item.value}>
+                                    {item.text}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           </>
                         ) : null}
-                         <label className="label-color">Date commission </label>
+                        <label className="label-color">Date commission </label>
                         <div class="flex-form">
-                         
-                         
                           <input
                             type="date"
                             onChange={handleChange}
@@ -465,8 +465,6 @@ const FolderCreationSection = ({
                         </div>
                         <label className="label-color">Groupement</label>
                         <div class="flex-form">
-                         
-                         
                           <input
                             type="search"
                             onChange={handleChange}
@@ -484,22 +482,30 @@ const FolderCreationSection = ({
                             value={inputValues.service}
                           />
                         </div>
-
-                       
                       </div>
-                   </Box>
-                   <Divider sx={{margin:"20px 0px"}}/>
-                   <Box sx={{textAlign:"right", padding:"10px"}}> 
-                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", fontSize:"16.97px", ':hover': { background: "#3675B7" } }} variant="contained">
-                    Valider
-                          </Button>
                     </Box>
-                    </form>
-                  </Item>
-                </Grid>
-              }
-            </Box>
-       
+                    <Divider sx={{ margin: "20px 0px" }} />
+                    <Box sx={{ textAlign: "right", padding: "10px" }}>
+                      <Button
+                        type="submit"
+                        endIcon={
+                          <img className="icon-validate" src={Rightarrow} />
+                        }
+                        sx={{
+                          background: "#3675B7",
+                          fontSize: "16.97px",
+                          ":hover": { background: "#3675B7" },
+                        }}
+                        variant="contained"
+                      >
+                        Valider
+                      </Button>
+                    </Box>
+                  </form>
+                </Item>
+              </Grid>
+            }
+          </Box>
 
           {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
             <OpenSearchStudyForm
@@ -513,7 +519,9 @@ const FolderCreationSection = ({
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
               Studydata={Studydata}
+              setstate={setstate}
               currentcasescaseFileId={currentcasescaseFileId}
+              state={state}
             />
           ) : null}
           {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (

@@ -105,8 +105,6 @@ const Ranking = ({establishmentid}) => {
             ...inputValues,
             establishmentId:establishmentid
         }
-
-        console.log(newObj);
        api("put","/api/v1/establishment_ranking_details",newObj).then((res)=>{
         toast.success("success")
           if(res.status===200){
@@ -115,9 +113,7 @@ const Ranking = ({establishmentid}) => {
               focusPoint.current.style.display = "none";
           }
        })
-        console.log(inputValues);
       }
-      console.log(dropdownValue.apidropdowndata.rankingOrderId);
       const toggleSection = () => {
         setToggle(!toggle);
         toggle
@@ -213,7 +209,7 @@ const Ranking = ({establishmentid}) => {
                     <Box sx={{ textAlign: "right" }}>
                   <Button
                     type="submit"
-                    endIcon={<img className="" src={Rightarrow} />}
+                    endIcon={<img className='icon-validate' src={Rightarrow} />}
                     sx={{
                       background: "#3675B7",
                       ":hover": { background: "#3675B7" },

@@ -10,7 +10,6 @@ import CreateHistoricalData from "./CreateHistoricalData";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
 import DialogBox from "../DialogBox";
-import { display } from "@mui/system";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
@@ -145,15 +144,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       "get",
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
     ).then((res) => {
-      console.log("historicaledataestab");
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
-  console.log("generalDataEstablishment", generalDataEstablishment);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(value);
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
@@ -166,7 +162,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
       );
     }
-
     if (
       inputValues.establishmentName !== store.establishmentname &&
       name === "establishmentName"
@@ -227,222 +222,216 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     <>
       <Box
         sx={{
-          display:"flex", 
-       justifyContent:"space-between", 
-       backgroundColor:"#3675B7", 
-       borderRadius:"5px", 
-      borderBottom:"1px solid #C5D3DB",
-       margin:"12px 4px",
-       padding:"10px",
-       color:"#ffffff",
+          display: "flex",
+          justifyContent: "space-between",
+          backgroundColor: "#3675B7",
+          borderRadius: "5px",
+          borderBottom: "1px solid #C5D3DB",
+          margin: "12px 4px",
+          padding: "10px",
+          color: "#ffffff",
         }}
         onClick={toggleSection}
       >
-        <Typography variant="h6">
-          Données générales
-        </Typography>
-        <div>
-          {iconState ? <DoneIcon/> : null}
-        </div>
+        <Typography variant="h6">Données générales</Typography>
+        <div>{iconState ? <DoneIcon /> : null}</div>
       </Box>
       <Item
         sx={{
           marginTop: "15px",
           borderRadius: "10px",
-           width:"97%",
-           margin:"auto"
+          width: "97%",
+          margin: "auto",
         }}
-        ref={focusPoint} 
+        ref={focusPoint}
       >
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             padding: "10px",
-           
           }}
         >
           <Grid item md={12}>
-         
-              <DialogBox
-                setOpen={setOpen}
-                messageText={messageText}
-                open={open}
-              />
-              <form
-                className="establishment-form"
-                type="submit"
-                onSubmit={handleSubmit}
-              >
-                <Box sx={{ display: "flex" }}>
-                  <div className="inputs-container">
-                    <label>Nom établissement </label>
+            <DialogBox
+              setOpen={setOpen}
+              messageText={messageText}
+              open={open}
+            />
+            <form
+              className="establishment-form"
+              type="submit"
+              onSubmit={handleSubmit}
+            >
+              <Box sx={{ display: "flex" }}>
+                <div className="inputs-container">
+                  <label>Nom établissement </label>
+                  <div className="flex-form">
+                    <input
+                      type="search"
+                      value={inputValues.establishmentName}
+                      onChange={handleChange}
+                      name="establishmentName"
+                      value={inputValues.establishmentName}
+                    />
+                  </div>
+
+                  <span> Adresse</span>
+                  <br />
+                  <label>Commune </label>
+                  <div className="flex-form">
+                    <select
+                      className="dropdown"
+                      type="select"
+                      name="cityId"
+                      value={inputValues.cityId}
+                      onChange={handleChange}
+                    >
+                      <option value="">Choisissez s'il vous plaît</option>
+                      {dropdownValue.cityId.data?.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex-form">
+                    <label>CP</label>
+                    <input
+                      type="search"
+                      onChange={handleChange}
+                      name="zipCode"
+                      value={inputValues.zipCode}
+                    />
+                  </div>
+                  <div className="establishment-nom-mobile-container">
                     <div className="flex-form">
+                      <span>Responsable de sécurité</span>
+                      <label>Nom </label>
                       <input
                         type="search"
-                        value={inputValues.establishmentName}
                         onChange={handleChange}
-                        name="establishmentName"
-                        value={inputValues.establishmentName}
+                        name="securityManagerLastName"
+                        value={inputValues.securityManagerLastName.toUpperCase()}
                       />
                     </div>
 
-                    <span> Adresse</span>
-                    <br />
-                    <label>Commune </label>
+                    <label>Mobile </label>
+                    <div className="flex-form">
+                      <input
+                        type="search"
+                        onChange={handleChange}
+                        name="securityManagerMobile"
+                        value={inputValues.securityManagerMobile}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="inputs-container">
+                  <label>Statut </label>
+                  <div className="flex-form">
+                    <select
+                      className="dropdown"
+                      type="select"
+                      name="statusId"
+                      onChange={handleChange}
+                      value={inputValues.statusId}
+                    >
+                      <option value="">Choisissez s'il vous plaît</option>
+                      {dropdownValue.status.data?.map((item) => (
+                        <option key={item.value} value={item.value}>
+                          {item.text}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="establishment-typenom-container">
+                    <label>Type voie </label>
                     <div className="flex-form">
                       <select
                         className="dropdown"
                         type="select"
-                        name="cityId"
-                        value={inputValues.cityId}
+                        name="trackTypeId"
                         onChange={handleChange}
+                        value={inputValues.trackTypeId}
                       >
                         <option value="">Choisissez s'il vous plaît</option>
-                        {dropdownValue.cityId.data?.map((item) => (
+                        {dropdownValue.tracktype.data?.map((item) => (
                           <option key={item.value} value={item.value}>
                             {item.text}
                           </option>
                         ))}
                       </select>
                     </div>
+
                     <div className="flex-form">
-                      <label>CP</label>
+                      <label>Nom voie</label>
                       <input
                         type="search"
                         onChange={handleChange}
-                        name="zipCode"
-                        value={inputValues.zipCode}
+                        name="channelName"
+                        value={inputValues.channelName.toUpperCase()}
                       />
                     </div>
-                    <div className="establishment-nom-mobile-container">
-                      <div className="flex-form">
-                        <span>Responsable de sécurité</span>
-                        <label>Nom </label>
-                        <input
-                          type="search"
-                          onChange={handleChange}
-                          name="securityManagerLastName"
-                          value={inputValues.securityManagerLastName.toUpperCase()}
-                        />
-                      </div>
-
-                      <label>Mobile </label>
-                      <div className="flex-form">
-                        <input
-                          type="search"
-                          onChange={handleChange}
-                          name="securityManagerMobile"
-                          value={inputValues.securityManagerMobile}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="inputs-container">
-                    <label>Statut </label>
-                    <div className="flex-form">
-                      <select
-                        className="dropdown"
-                        type="select"
-                        name="statusId"
-                        onChange={handleChange}
-                        value={inputValues.statusId}
-                      >
-                        <option value="">Choisissez s'il vous plaît</option>
-                        {dropdownValue.status.data?.map((item) => (
-                          <option key={item.value} value={item.value}>
-                            {item.text}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="establishment-typenom-container">
-                      <label>Type voie </label>
-                      <div className="flex-form">
-                        <select
-                          className="dropdown"
-                          type="select"
-                          name="trackTypeId"
-                          onChange={handleChange}
-                          value={inputValues.trackTypeId}
-                        >
-                          <option value="">Choisissez s'il vous plaît</option>
-                          {dropdownValue.tracktype.data?.map((item) => (
-                            <option key={item.value} value={item.value}>
-                              {item.text}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="flex-form">
-                        <label>Nom voie</label>
-                        <input
-                          type="search"
-                          onChange={handleChange}
-                          name="channelName"
-                          value={inputValues.channelName.toUpperCase()}
-                        />
-                      </div>
-                      <label>Numero</label>
-                      <div className="flex-form">
-                        <input
-                          type="search"
-                          onChange={handleChange}
-                          name="securityManagerMobile"
-                          value={inputValues.securityManagerMobile}
-                        />
-                      </div>
-                    </div>
-                    <label>Prénom</label>
+                    <label>Numero</label>
                     <div className="flex-form">
                       <input
                         type="search"
                         onChange={handleChange}
-                        name="securityManagerName"
-                        value={inputValues.securityManagerName}
-                      />
-                    </div>
-                    <label>Mail</label>
-                    <div className="flex-form">
-                      <input
-                        type="search"
-                        onChange={handleChange}
-                        name="securityManagerEmail"
-                        value={inputValues.securityManagerEmail}
+                        name="securityManagerMobile"
+                        value={inputValues.securityManagerMobile}
                       />
                     </div>
                   </div>
-                </Box>
-                <Divider sx={{ margin: "20px 0px" }} />
-                <Box sx={{ textAlign: "right" }}>
-                  <Button
-                    type="submit"
-                    endIcon={<img className="" src={Rightarrow} />}
-                    sx={{
-                      background: "#3675B7",
-                      ":hover": { background: "#3675B7" },
-                    }}
-                    variant="contained"
-                  >
-                    Valider
-                  </Button>
-                </Box>
-              </form>
-           
+                  <label>Prénom</label>
+                  <div className="flex-form">
+                    <input
+                      type="search"
+                      onChange={handleChange}
+                      name="securityManagerName"
+                      value={inputValues.securityManagerName}
+                    />
+                  </div>
+                  <label>Mail</label>
+                  <div className="flex-form">
+                    <input
+                      type="search"
+                      onChange={handleChange}
+                      name="securityManagerEmail"
+                      value={inputValues.securityManagerEmail}
+                    />
+                  </div>
+                </div>
+              </Box>
+              <Divider sx={{ margin: "20px 0px" }} />
+              <Box sx={{ textAlign: "right" }}>
+                <Button
+                  type="submit"
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
+                  sx={{
+                    background: "#3675B7",
+                    ":hover": { background: "#3675B7" },
+                  }}
+                  variant="contained"
+                >
+                  Valider
+                </Button>
+              </Box>
+            </form>
+
             {/* <Description/> */}
           </Grid>
         </Box>
       </Item>
       <CreateHistoricalData
-              historicalDataEstablishment={historicalDataEstablishment}
-              establishmentid={store.establishmentId}
-            />
-           
-            <EstablishmentLevel description={description} Values={Values} />
-            <StaffLevel establishmentid={store.establishmentId} />
-            <Ranking establishmentid={store.establishmentId} />
+        historicalDataEstablishment={historicalDataEstablishment}
+        establishmentid={store.establishmentId}
+      />
+
+      <EstablishmentLevel description={description} Values={Values} />
+      <StaffLevel establishmentid={store.establishmentId} />
+      <Ranking establishmentid={store.establishmentId} />
     </>
   );
 };
