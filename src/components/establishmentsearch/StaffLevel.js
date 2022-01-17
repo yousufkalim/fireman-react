@@ -608,7 +608,7 @@ const StaffLevel = ({ establishmentid }) => {
             }}
           />
         </Box>
-        <Box sx={{ textAlign: "right" }}>
+        <Box sx={{ textAlign: "right",padding:"10px" }}>
           <Button
             type="submit"
             onClick={handleSubmit}

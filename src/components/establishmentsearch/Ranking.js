@@ -210,7 +210,7 @@ const Ranking = ({establishmentid}) => {
                       ))}
                     </select>  
                     </Box>
-                    <Box sx={{ textAlign: "right" }}>
+                    <Box sx={{ textAlign: "right", padding:"10px" }}>
                   <Button
                     type="submit"
                     endIcon={<img className='icon-validate' src={Rightarrow} />}
