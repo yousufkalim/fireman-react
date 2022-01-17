@@ -28,7 +28,6 @@ export function StoreProvider({ children }) {
   });
 
   const updateStore = (data) => {
-    console.log(data,"data");
     setStore((prev) => {
       return {
         ...prev,

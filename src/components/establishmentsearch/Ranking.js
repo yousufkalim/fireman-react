@@ -150,8 +150,11 @@ const Ranking = ({establishmentid}) => {
                 type="submit"
                 onSubmit={handleSubmit}
               >
-           <select
-                     className="select-input dropdown-ranking"
+                <Box
+                sx={{textAlign:"start", padding:"10px"}}
+                > 
+                        <select
+                     className="field-width-ranking"
                       type="select"
                       name="rankingOrderId"
                       onChange={handleChange}
@@ -165,7 +168,7 @@ const Ranking = ({establishmentid}) => {
                       ))}
                     </select>
                     <select
-                     className="select-input dropdown-ranking"
+                     className="field-width-ranking"
                       type="select"
                       name="rankingStatusId"
                       onChange={handleChange}
@@ -179,7 +182,7 @@ const Ranking = ({establishmentid}) => {
                       ))}
                     </select>  
                     <select
-                     className="select-input dropdown-ranking"
+                     className="field-width-ranking"
                       type="select"
                       name="categoryRankingId"
                       value={inputValues.categoryRankingId}
@@ -193,7 +196,7 @@ const Ranking = ({establishmentid}) => {
                       ))}
                     </select>  
                     <select
-                     className="select-input dropdown-ranking"
+                     className="field-width-ranking"
                       type="select"
                       name="rankingClassificationId"
                       value={inputValues.rankingClassificationId}
@@ -206,7 +209,8 @@ const Ranking = ({establishmentid}) => {
                         </option>
                       ))}
                     </select>  
-                    <Box sx={{ textAlign: "right" }}>
+                    </Box>
+                    <Box sx={{ textAlign: "right", padding:"10px" }}>
                   <Button
                     type="submit"
                     endIcon={<img className='icon-validate' src={Rightarrow} />}

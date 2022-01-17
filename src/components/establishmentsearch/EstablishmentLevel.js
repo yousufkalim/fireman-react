@@ -108,7 +108,7 @@ const EstablishmentLevel = ({ Values, description }) => {
       >
         {store.activeCase === "newcase" ? (
           <Formik
-            initialValues={{ repeatable: [] }}
+            initialValues={{ repeatable: [{}] }}
             enableReinitialize
             render={({ values, setFieldValue }) => (
               <Form>
@@ -117,28 +117,121 @@ const EstablishmentLevel = ({ Values, description }) => {
                   enableReinitialize
                   render={(arrayHelpers) => (
                     <>
+                     <Box sx={{overflow:"auto"}}> 
+                    <table class="table">
+                            <thead>
+                            <Box>
+                              <tr class="row">
+                                <th class="header-label"> 
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"205px"
+                                }}>
+                                  Niveau 
+                                </Box>   
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"212px"
+                                }}>
+                                  Numéro cellule
+                                </Box>
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                Nom cellule
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                  Local
+                                   </Box>
+                                   </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"180px"
+                                }}> 
+                                 Non accessible au public 
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"8px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"120px"
+                                }}> 
+                                 Local à risques 
+                                  </Box>
+                                  </th>
+                                  <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"310px"
+                                }}> 
+                                 Commentaires
+                                  </Box>
+                                  </th>
+                              </tr>
+                              </Box>
+                              <Box>
+                                 </Box>
                       {values?.repeatable?.map((row, i) => (
-                        <div
-                          style={{
-                            display: "flex",
-                            textAlign: "start",
-                            paddingBottom: "15px",
-                          }}
-                        >
+                        <Box sx={{
+                          margin:"10px 0px",
+                          padding:"0px 10px 10px 10px",
+                          background: "#FFFFFF",
+                          border: "1px solid #EBEFF2",
+                           boxSizing:"border-box",
+                           borderRadius:"5px"
+                        }}> 
+                         <tr class="tr-inputs"> 
+                         <th>
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "10%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Niveau </label>
                             <Field
-                              //  onClick={addInputs}
+                             className="field-width-staff"
                               as="select"
-                              style={{ padding: "8px" }}
                               name={`repeatable.${i}.levelId`}
                             >
                               <option value="">
@@ -165,39 +258,34 @@ const EstablishmentLevel = ({ Values, description }) => {
                               +
                             </span>
                           </Box>
+                          </th>
+                          <th>
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Numéro cellule </label>
                             <Field
+                             className="field-width-staff"
                               type="number"
                               name={`repeatable.${i}.cellNumber`}
-                              style={{ padding: "10px" }}
                               value={row.cellNumber}
                             />
                           </Box>
-
+                          </th>
+                          <th>
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Nom cellule </label>
                             <Field
+                            className="field-width-staff"
                               name={`repeatable.${i}.cellName`}
-                              style={{ padding: "10px" }}
-                              //onClick={() => arrayHelpers.push({})}
-                              // onClick={addRowInputs}
                             />
                             <span
                               onClick={() => {
@@ -219,94 +307,85 @@ const EstablishmentLevel = ({ Values, description }) => {
                               +
                             </span>
                           </Box>
+                          </th>
+                          <th>                        
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Local </label>
                             <Field
+                            className="field-width-staff"
                               name={`repeatable.${i}.details`}
-                              style={{ padding: "10px" }}
                             />
                           </Box>
-
+                          </th>
+                          <th>
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "10px",
                             }}
                           >
-                            <span> Non accessible au public </span>
                             <Box
-                              sx={{ textAlign: "center", paddingTop: "10px" }}
+                              sx={{ textAlign: "start", paddingTop: "10px" }}
                             >
                               <Field
+                              className="checkbox-width-establishment-level"
                                 type="checkbox"
-                                style={{ padding: "10px", zoom: "2" }}
                                 name={`repeatable.${i}.isPublic`}
                               />
                             </Box>
                           </Box>
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
+                    
                               fontSize: "12px",
                             }}
                           >
-                            <span> Local à risques </span>
                             <Box
-                              sx={{ textAlign: "center", paddingTop: "8px" }}
+                              sx={{ textAlign: "start", paddingTop: "8px" }}
                             >
                               <Field
+                               className="checkbox-width-establishment-level"
                                 type="checkbox"
-                                style={{ padding: "10px", zoom: "2" }}
                                 name={`repeatable.${i}.isRisk`}
                               />
                             </Box>
                           </Box>
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
+                    
                               fontSize: "12px",
                             }}
                           >
-                            {/* <label>Référence d’urbanisme </label> */}
-                            <BootstrapTooltip title=" Inscrire le numéro de la demande correspondante (PC, AT, courrier...).">
-                              <Button
-                                sx={{
-                                  padding: "1px 2px",
-                                  fontSize: "8px",
-                                  color: "dimgray",
-                                }}
-                              >
-                                Commentaires
-                              </Button>
-                            </BootstrapTooltip>
+                          
 
                             <Field
+                               className="field-width"
                               style={{ padding: "10px" }}
                               name={`repeatable.${i}.comments`}
                             />
                           </Box>
-                        </div>
+                          </th>
+                          </tr>
+                        </Box>
                       ))}
                       <Box sx={{ textAlign: "start", padding: "5px" }}>
                         <AddIcon onClick={() => arrayHelpers.push({})} />
                       </Box>
+                      </thead>
+                          </table>
+                          </Box>
                     </>
                   )}
                 />
@@ -327,25 +406,120 @@ const EstablishmentLevel = ({ Values, description }) => {
                   enableReinitialize
                   render={(arrayHelpers) => (
                     <>
+                     <Box sx={{overflow:"auto"}}> 
+                    <table class="table">
+                            <thead>
+                            <Box>
+                              <tr class="row">
+                                <th class="header-label"> 
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"205px"
+                                }}>
+                                  Niveau 
+                                </Box>   
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"212px"
+                                }}>
+                                  Numéro cellule
+                                </Box>
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                Nom cellule
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                  Local
+                                   </Box>
+                                   </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"180px"
+                                }}> 
+                                 Non accessible au public 
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"8px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"120px"
+                                }}> 
+                                 Local à risques 
+                                  </Box>
+                                  </th>
+                                  <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"310px"
+                                }}> 
+                                 Commentaires
+                                  </Box>
+                                  </th>
+                              </tr>
+                              </Box>
+                              <Box>
+                                 </Box>
                       {values?.repeatable?.map((row, i) => (
-                        <div
-                          style={{
-                            display: "flex",
-                            textAlign: "start",
-                            paddingBottom: "15px",
-                          }}
-                        >
+                         <Box sx={{
+                          margin:"10px 0px",
+                          padding:"0px 10px 10px 10px",
+                          background: "#FFFFFF",
+                          border: "1px solid #EBEFF2",
+                           boxSizing:"border-box",
+                           borderRadius:"5px"
+                        }}> 
+                         <tr class="tr-inputs">
+                         <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "10%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Niveau </label>
                             <Field
+                             className="field-width-staff"
                               as="select"
                               style={{ padding: "8px" }}
                               name={`repeatable.${i}.levelId`}
@@ -374,39 +548,36 @@ const EstablishmentLevel = ({ Values, description }) => {
                               +
                             </span>
                           </Box>
+                          </th>
+                          <th>
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Numéro cellule </label>
                             <Field
+                             className="field-width-staff"
                               type="number"
                               name={`repeatable.${i}.cellNumber`}
                               style={{ padding: "10px" }}
                               value={row.cellNumber}
                             />
                           </Box>
-
+                          </th>
+                         <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Nom cellule </label>
                             <Field
+                             className="field-width-staff"
                               name={`repeatable.${i}.cellName`}
                               style={{ padding: "10px" }}
-                              //onClick={() => arrayHelpers.push({})}
-                              // onClick={addRowInputs}
                             />
                             <span
                               onClick={() => {
@@ -428,96 +599,88 @@ const EstablishmentLevel = ({ Values, description }) => {
                               +
                             </span>
                           </Box>
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <label>Local </label>
                             <Field
+                             className="field-width-staff"
                               name={`repeatable.${i}.details`}
                               style={{ padding: "10px" }}
                             />
                           </Box>
-
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "10px",
                             }}
                           >
-                            <span> Non accessible au public </span>
                             <Box
                               sx={{ textAlign: "center", paddingTop: "10px" }}
                             >
                               <Field
+                               className="checkbox-width-establishment-level"
                                 type="checkbox"
-                                style={{ padding: "10px", zoom: "2" }}
                                 name={`repeatable.${i}.isPublic`}
                               />
                             </Box>
                           </Box>
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <span> Local à risques </span>
                             <Box
                               sx={{ textAlign: "center", paddingTop: "8px" }}
                             >
                               <Field
+                              className="checkbox-width-establishment-level"
                                 type="checkbox"
-                                style={{ padding: "10px", zoom: "2" }}
                                 name={`repeatable.${i}.isRisk`}
                               />
                             </Box>
                           </Box>
+                          </th>
+                          <th> 
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
                               fontSize: "12px",
                             }}
                           >
-                            <BootstrapTooltip title=" Inscrire le numéro de la demande correspondante (PC, AT, courrier...).">
-                              <Button
-                                sx={{
-                                  padding: "1px 2px",
-                                  fontSize: "8px",
-                                  color: "dimgray",
-                                }}
-                              >
-                                Commentaires
-                              </Button>
-                            </BootstrapTooltip>
-
                             <Field
-                              style={{ padding: "10px" }}
+                             className="field-width-staff"
                               name={`repeatable.${i}.comments`}
                             />
                           </Box>
-                        </div>
+                          </th>
+                          </tr>
+                        </Box>
                       ))}
                       <Box sx={{ textAlign: "start", padding: "5px" }}>
                         <AddIcon onClick={() => arrayHelpers.push({})} />
                       </Box>
+                      </thead>
+                          </table>
+                          </Box>
                     </>
                   )}
                 />
+
+
                 <Description
                   onSubmit={onSubmit}
                   description={description}

@@ -150,30 +150,139 @@ const StaffLevel = ({ establishmentid }) => {
         ref={focusPoint}
         sx={{ boxShadow: "none", width: "97%", margin: "auto" }}
       >
+       <Box sx={{overflow:"auto"}}> 
+       <table class="table">
+                            <thead>
+                          <Box>
+                              <tr class="row">
+                                <th class="header-label"> 
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"205px"
+                                }}>
+                                 Niveau
+                                </Box>   
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"212px"
+                                }}>
+                                 Cellule
+                                </Box>
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                 Local / Espace / Type de public
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                  Surface accessible au public
+                                   </Box>
+                                   </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"192px"
+                                }}> 
+                                 Règle de calcul X
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                 Public
+                                  </Box>
+                                  </th>
+                                  <th class="header-label">
+                                  <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                 Personnel
+                                  </Box>
+                                  </th>
+                                  <th>
+                                  <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"215px"
+                                }}> 
+                                 Total
+                                  </Box>
+                                  </th>
+                              </tr>
+                              </Box>
+                              <Box>
+                                 </Box>
         {people?.map((p, i) => {
           return (
-            <div
+            <Box
               ref={containerRef}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                width: "100%",
+              sx={{
+                margin:"10px 0px",
+                          padding:"0px 10px 10px 10px",
+                          background: "#FFFFFF",
+                          border: "1px solid #EBEFF2",
+                           boxSizing:"border-box",
+                           borderRadius:"5px"
               }}
             >
+              <tr class="tr-inputs">
+              <th>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  width: "10%",
-                  paddingRight: "5px",
                   fontSize: "12px",
                 }}
               >
-                <label>Niveau </label>
                 <select
                   defaultValue={p?.tableOfStaffDetailsId}
-                  className="select-input"
+                  className="field-width-staff"
                   key={p.id}
                   onChange={(e) => {
                     const slcttext = e.target.selectedOptions[0];
@@ -246,12 +355,10 @@ const StaffLevel = ({ establishmentid }) => {
                       containerRef.current.innerHTML = `
                     
                  <div class="total"> 
-                 <h1 class="txt">   
-                 ${people[i - 1]?.textselect}  
-                 ${isNaN(pblic) ? 0 : pblic}  
-                 ${isNaN(personnel) ? 0 : personnel} 
-                 ${isNaN(total) ? 0 : total}  
-                 </h1>
+               <div class="sum-block">   ${people[i - 1]?.textselect}  </div>
+               <div class="sum-block">  ${isNaN(pblic) ? 0 : pblic}   </div>
+               <div class="sum-block">    ${isNaN(personnel) ? 0 : personnel}  </div>
+               <div class="sum-block">   ${isNaN(total) ? 0 : total}   </div>
                    </div>`;
                     }
                   }}
@@ -263,18 +370,19 @@ const StaffLevel = ({ establishmentid }) => {
                     ))}
                 </select>
               </Box>
+              </th>
+              <th>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  width: "10%",
-                  paddingRight: "5px",
                   fontSize: "10px",
                 }}
               >
-                <label>Cellule </label>
+               
                 {
-                  <TextField
+                  <input
+                  className="field-width-staff"
                     defaultValue={p.cellNumber}
                     onChange={(e) => {
                       setpeople((curr) =>
@@ -292,18 +400,21 @@ const StaffLevel = ({ establishmentid }) => {
                   />
                 }
               </Box>
+              </th>
               {
+                <th>
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     width: "20%",
-                    paddingRight: "5px",
+
                     fontSize: "10px",
                   }}
                 >
-                  <label>Local / Espace / Type de public </label>
-                  <TextField
+                 
+                  <input
+                   className="field-width-staff"
                     defaultValue={p?.localData}
                     onChange={(e) => {
                       setpeople((curr) =>
@@ -320,19 +431,22 @@ const StaffLevel = ({ establishmentid }) => {
                     type="text"
                   />
                 </Box>
-              }
+             </th>
+            }
               {
+                <th> 
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     width: "15%",
-                    paddingRight: "5px",
+
                     fontSize: "8px",
                   }}
                 >
-                  <label>Surface accessible au public </label>
-                  <TextField
+                
+                  <input
+                     className="field-width-staff"
                     defaultValue={p?.areaAccesibleToPublic}
                     type="text"
                     onChange={(e) => {
@@ -349,21 +463,24 @@ const StaffLevel = ({ establishmentid }) => {
                     }}
                   />
                 </Box>
+                </th>
               }
               {
-                <Box
+                <th>
+
+<Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     width: "10%",
-                    paddingRight: "5px",
+
                     fontSize: "8px",
                   }}
                 >
-                  <label>Règle de calcul X </label>
+                
                   <select
                     defaultValue={p?.staffLevelRuleId}
-                    className="select-input"
+                    className="field-width-staff"
                     onChange={(e) => {
                       setpeople((curr) =>
                         curr.map((x) =>
@@ -383,18 +500,25 @@ const StaffLevel = ({ establishmentid }) => {
                       ))}
                   </select>
                 </Box>
+
+
+
+
+                </th>
+               
               }
+              <th>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   width: "10%",
-                  paddingRight: "5px",
                   fontSize: "12px",
                 }}
               >
-                <label>Public </label>
-                <TextField
+               
+                <input
+                   className="field-width-staff"
                   defaultValue={p?.publicInfo}
                   onChange={(e) => {
                     setpeople((curr) =>
@@ -411,18 +535,20 @@ const StaffLevel = ({ establishmentid }) => {
                   type="number"
                 />
               </Box>
+              </th>
+              <th> 
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   width: "10%",
-                  paddingRight: "5px",
                   fontSize: "12px",
                 }}
               >
-                <label>Personnel </label>
-                <TextField
-                  defaultValue={p?.staffInfo}
+               
+                <input
+                className="field-width-staff"
+                 defaultValue={p?.staffInfo}
                   onChange={(e) => {
                     setpeople((curr) =>
                       curr.map((x) =>
@@ -441,26 +567,34 @@ const StaffLevel = ({ establishmentid }) => {
                   type="number"
                 />
               </Box>{" "}
+              </th>
+              <th> 
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   width: "10%",
-                  paddingRight: "5px",
                   fontSize: "12px",
                 }}
               >
-                <label>Total </label>
-
-                <TextField
+                <input
+                   className="field-width-staff"
                   value={parseInt(p?.publicInfo) + parseInt(p.staffInfo)}
                   type="number"
                 />
               </Box>
-            </div>
+              </th>
+              </tr>
+            </Box>
+         
           );
         })}
-        {}
+          <Box sx={{margin:"10px 0px"}}>
+                              </Box>
+                              
+                      </thead>
+                          </table>
+        </Box>
         <Box sx={{ textAlign: "start", padding: "5px" }}>
           <AddIcon
             onClick={() => {
@@ -474,7 +608,7 @@ const StaffLevel = ({ establishmentid }) => {
             }}
           />
         </Box>
-        <Box sx={{ textAlign: "right" }}>
+        <Box sx={{ textAlign: "right",padding:"10px" }}>
           <Button
             type="submit"
             onClick={handleSubmit}

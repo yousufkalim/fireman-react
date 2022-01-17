@@ -24,7 +24,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const column = [
     {
       field: "typeref",
-      headerName: "typeref.",
+      headerName: "Type Ref",
       minWidth: 100,
       color: "#8D919D",
     },

@@ -1,6 +1,5 @@
 import  React,{useRef,useEffect} from "react";
 import {UpdateStore} from '../../../../StoreContext'
-import {Store} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -27,7 +26,6 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   }, [establishmentSearchData])
 
   const updatestore = UpdateStore();
-    const store = Store()
    const column = [ 
      { field: "ref", headerName: "Ref.", minWidth: 100, color: "#8D919D"},
    { field: "commune", headerName: "Commune", minWidth: 150, color: "#8D919D"},
