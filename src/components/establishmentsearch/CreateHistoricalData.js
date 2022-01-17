@@ -988,6 +988,12 @@ const CreateHistoricalData = ({
                             display: "flex",
                             textAlign: "start",
                             paddingBottom: "15px",
+                            margin:"10px 0px",
+                            padding:"0px 10px 10px 10px",
+                            background: "#FFFFFF",
+                            border: "1px solid #EBEFF2",
+                             boxSizing:"border-box",
+                             borderRadius:"5px"
                           }}
                         >
                            <tr class="tr-inputs">   
