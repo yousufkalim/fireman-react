@@ -46,10 +46,11 @@
   }
    */
 
-
-   table {
+   
+   
+   
+   .table {
     width: 100%;  
-    padding: 10px 0px; 
     border-collapse: collapse;
 }
 
@@ -57,7 +58,31 @@
   text-align: start;
 }
 .row{
-  border-bottom: 0.6px solid #C5D3DB;
+  border-bottom: 1px solid #C5D3DB;
 }
 
+.field-width{
+  width:300px;
+  padding: 10px;
+  border: 1px solid #C5D3DB;
+  border-radius:5px;
+}
+.date-field{
+  width:300px;
+  padding: 8px;
+ border: 1px solid #C5D3DB;
+ border-radius:5px;
+}
 
+.tr-inputs>*{
+  padding-right: 5px;
+  padding-top: 10px;
+}
+
+input{
+  color: #8D919D;
+}
+
+select{
+  color: #8D919D;
+}

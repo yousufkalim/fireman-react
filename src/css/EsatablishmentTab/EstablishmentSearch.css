@@ -122,9 +122,7 @@ text-align: start;
   text-align: start;
 }
 
-.container .group {
-  margin: 8px;
-}
+
 
 .container input[type="checkbox"] {
   display: none;
@@ -137,14 +135,14 @@ text-align: start;
 
 .dropdown-checkbox::before {
   content: "";
-  background: url("../assets/check-circle.svg");
+  background: url("../../assets/check-circle.svg");
   background-position: center;
   background-size: contain;
   width: 32px;
   height: 32px;
   position: absolute;
-  left: 3px;
-  top: 42px;
+  left: 13px;
+  top: 35px;
 
   transform: scale(0) rotateZ(180deg);
   transition: all 0.4s cubic-bezier(0.54, 0.01, 0, 1.49);
@@ -160,8 +158,8 @@ text-align: start;
   width: 24px;
   height: 24px;
   position: absolute;
-  left: 4px;
-  top: 44px;
+  left: 14px;
+  top: 37px;
   border-radius: 50%;
 }
 
@@ -246,17 +244,6 @@ margin-right: 5px;
 /*fgchvjk*/
 .input-historical{
     padding: 30px 0px;
-}
-
-
-.select-input{
-  height: 54px;
-}
-
-.total{
-  background-color: lightblue;
-  width: 95%;
-    text-align: end;
 }
 
 

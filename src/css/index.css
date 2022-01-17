@@ -2,11 +2,16 @@
 @import url("./Header.css");
 @import url("./login.css");
 @import url("./signup.css");
-@import url("./EstablishmentSearch.css");
-@import url("./etablissment.css");
+@import url("./EsatablishmentTab/EstablishmentSearch.css");
+@import url("./EsatablishmentTab/etablissment.css");
 @import url("./leftbar.css");
 @import url("./opensearchfilterdata.css");
-@import url("./CreateHistoricalData.css");
+@import url("./EsatablishmentTab/CreateHistoricalData.css");
+@import url("./EsatablishmentTab/StaffLevel.css");
+@import url("./EsatablishmentTab/Ranking.css");
+@import url("./EsatablishmentTab/EstablishmentLevel.css");
+@import url("./EsatablishmentTab/Description.css");
+
 /* Defaults */
 * {
   padding: 0;

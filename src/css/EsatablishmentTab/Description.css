@@ -1,0 +1,12 @@
+.textarea-width{
+    width: 600px;
+     height: 200px;
+      padding: 30px;
+    background:aliceblue;
+    border-radius: 5px;
+}
+
+.checkbox{
+    margin-left: 5px;
+    zoom: 2;
+}

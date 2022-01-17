@@ -56,13 +56,13 @@ const Description = ({ values, onSubmit, description }) => {
   return (
     <>
       <Box
-        style={{
-          backgroundColor: "#3675b7",
+        sx={{
           padding: "10px",
           marginTop: "20px",
+          color:"#C5D3DB"
         }}
      >
-        <Accordion sx={{ backgroundColor: "lightskyblue" }}>
+        <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -76,6 +76,7 @@ const Description = ({ values, onSubmit, description }) => {
               minRows={3}
               name="site"
               value={inputValues.site}
+              className="textarea-width"
               placeholder="Rappel: un site est un ensemble d’établissements isolés exploités par la même personne physique ou morale.
               Exemple: Lycée dont l’internat, l’externat, le gymnase et le restaurant scolaire sont des établissements isolés.
               Exemple de rédaction du descriptif d’un site : 
@@ -83,12 +84,12 @@ const Description = ({ values, onSubmit, description }) => {
               - l’établissement ECOLE PRIMAIRE, de type R de 3ecatégorie;
               - L’établissement ECOLE MATERNELLE, de type R de 3ecatégorie;
               - L’établissement RESTAURANT SCOLAIRE, de type N de 4ecatégorie. "
-              style={{ width: 600, height: 200, padding: "30px" }}
+              sx={{ width: 600, height: 200, padding: "30px", background:"aliceblue" }}
               onChange={onChange}
             />
           </AccordionDetails>
         </Accordion>
-        <Accordion sx={{ backgroundColor: "lightskyblue" }}>
+        <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -109,12 +110,12 @@ const Description = ({ values, onSubmit, description }) => {
               Ex: Il s’agit d’un EHPAD de 80 lits dans un bâtiment du type R+4. 
               GROUPEMENT D’ETABLISSEMENT
               Ex: Il s’agit d’un groupement d’établissements comprenant xx cellules (commerces, cabinet médical, bureaux). Le bâtiment est du type R+1-1."
-              style={{ width: 600, height: 200, padding: "30px" }}
+              className="textarea-width"
               onChange={onChange}
             />
           </AccordionDetails>
         </Accordion>
-        <Accordion sx={{ backgroundColor: "lightskyblue" }}>
+        <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -123,33 +124,42 @@ const Description = ({ values, onSubmit, description }) => {
             <Typography>Plancher bas du dernier niveau accessible</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ textAlign: "start" }}>
-            <div>
-              <Box>
+           
+              <Box sx={{
+                display:"flex",
+                paddingBottom:"10px"
+            }}>
               <label>
                   {" "}
                   Less Eight Meter 
                 </label>
                 <input
+                  className="checkbox"
                   type="checkbox"
                   name="lessEightMeter"
                   defaultChecked={description?.lessEightMeter}
                   onChange={onChange}
                 />
+                </Box>
+                <Box
+                sx={{display:"flex"}}
+                >
                 <label>
                   {" "}
                   More Eight Meter 
                 </label>
                 <input
+                  className="checkbox"
                   type="checkbox"
                   name="moreEightMeter"
                   defaultChecked={description?.moreEightMeter}
                   onChange={onChange}
                 />
               </Box>
-            </div>
+           
           </AccordionDetails>
         </Accordion>
-        <Box sx={{ textAlign: "right" }}>
+        <Box sx={{ textAlign: "right", padding:"10px" }}>
                   <Button
                     type="submit"
                     onClick={onSubmitFields}

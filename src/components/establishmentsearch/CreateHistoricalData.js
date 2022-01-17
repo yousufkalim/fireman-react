@@ -151,7 +151,7 @@ const CreateHistoricalData = ({
 
       <Item
         ref={focusPoint}
-        sx={{ marginTop: "10px", width: "97%", margin: "auto" }}
+        sx={{ marginTop: "10px", width: "97%", margin: "auto",  borderRadius: "5px", }}
       >
         {store.activeCase === "newcase" ? (
           <Formik
@@ -166,91 +166,98 @@ const CreateHistoricalData = ({
                     <Box sx={{overflow:"auto"}}> 
                     <table class="table">
                             <thead>
+                          <Box>
                               <tr class="row">
                                 <th class="header-label"> 
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
+                                  borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
-                                margin:"25px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"325px"
                                 }}>Date 
                                 </Box>   
                                 </th>
                                 <th class="header-label">
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
+                                  borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
-                                margin:"25px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"290px"
                                 }}>Objet
                                 </Box>
                                 </th>
                                 <th class="header-label">
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
+                                  borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
-                                margin:"25px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"295px"
                                 }}> 
                                   Avis
                                   </Box>
                                   </th>
                                 <th class="header-label">
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
+                                  borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
-                                margin:"25px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"315px"
                                 }}> 
                                    Précisions – Apparaitra dans le rapport
                                    </Box>
                                    </th>
                                 <th class="header-label">
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
+                                  borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
-                                margin:"25px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"310px"
                                 }}> 
                                   Référence d’urbanisme
                                   </Box>
                                   </th>
                                 <th class="header-label">
                                 <Box sx={{
-                                  borderRight: "1px solid #C5D3DB", 
-                                height:"12px",
-                                margin:"25px 0px",
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"8px",
+                                margin:"30px 0px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px"
+                                padding:"0px 5px",
+                                width:"308px"
                                 }}> 
                                   Pièce jointe
                                   </Box>
                                   </th>
                               </tr>
-                              <Box >
-                                   
+                              </Box>
+                              <Box>
                                  </Box>
                       {values.repeatable.map((r, i) => (
-                                
-                             
-                              <tr class="tr-inputs">
-                               
+                        <Box sx={{
+                          margin:"10px 0px",
+                          padding:"0px 10px 10px 10px",
+                          background: "#FFFFFF",
+                          border: "1px solid #EBEFF2",
+                           boxSizing:"border-box",
+                           borderRadius:"5px"
+                        }}> 
+                              <tr class="tr-inputs">   
                                 <th>
                                   <div>
                                     {" "}
                                     <Field
-                                      style={{ padding: "8px" }}
+                                     className="date-field"
                                       type="date"
                                       name={`repeatable.${i}.dateEvent`}
                                     />
@@ -259,9 +266,10 @@ const CreateHistoricalData = ({
                                 <th>
                                   <div>
                                     <Field
+                                      className="field-width"
                                       as="select"
                                       name={`repeatable.${i}.historicalObjectId`}
-                                      style={{ padding: "10px"}}
+                                     
                                     >
                                       <option value="">
                                         Choisissez s'il vous plaît
@@ -279,9 +287,9 @@ const CreateHistoricalData = ({
                                 <th>
                                   <div>
                                     <Field
+                                     className="field-width"
                                       as="select"
                                       name={`repeatable.${i}.historicalOpinionId`}
-                                      style={{ padding: "10px" }}
                                     >
                                       <option value="">
                                         Choisissez s'il vous plaît
@@ -297,8 +305,7 @@ const CreateHistoricalData = ({
                                 <th>
                                   <div>
                                     <Field
-                                      style={{ padding: "10px" }}
-                                      //value={values.repeatable[i].details}
+                                      className="field-width"
                                       value={
                                         values.repeatable[i]
                                           .historicalObjectId === "4" &&
@@ -818,7 +825,7 @@ const CreateHistoricalData = ({
                                 <th>
                                   <div>
                                     <Field
-                                      style={{ padding: "10px" }}
+                                       className="field-width"
                                       name={`repeatable.${i}.urbanplanningreference`}
                                     />
                                   </div>
@@ -826,7 +833,7 @@ const CreateHistoricalData = ({
                                 <th>
                                   <div>
                                     <input
-                                      style={{ padding: "10px" }}
+                                      className="field-width"
                                       name={`repeatable.${i}.image`}
                                       type="file"
                                       onChange={(event) => {
@@ -838,19 +845,23 @@ const CreateHistoricalData = ({
                                     />
                                   </div>
                                 </th>
-                              </tr>
-                             
+                              </tr>   
+                              </Box>
                       ))}
+                      
+                              <Box sx={{margin:"10px 0px"}}>
+                              </Box>
+                              
                       </thead>
                           </table>
                           </Box>
-                      <Box sx={{ textAlign: "start", padding: "5px" }}>
+                      <Box sx={{ textAlign: "start"}}>
                         <AddIcon onClick={() => arrayHelpers.push({})} />
                       </Box>
                     </>
                   )}
                 />
-                <Box sx={{ textAlign: "right" }}>
+                <Box sx={{ textAlign: "right", padding:"10px" }}>
                   <Button
                     type="submit"
                     endIcon={<img className="icon-validate" src={Rightarrow} />}
@@ -867,6 +878,7 @@ const CreateHistoricalData = ({
             )}
           />
         ) : null}
+
         {store.activeCase === "currentcases" ? (
           <Formik
             onSubmit={(values) => onSubmit(values)}
@@ -890,26 +902,98 @@ const CreateHistoricalData = ({
                   enableReinitialize
                   render={(arrayHelpers) => (
                     <>
+                     <Box sx={{overflow:"auto"}}> 
+                    <table class="table">
+                            <thead>
+                          <Box>
+                              <tr class="row">
+                                <th class="header-label"> 
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"310px"
+                                }}>Date 
+                                </Box>   
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"290px"
+                                }}>Objet
+                                </Box>
+                                </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"295px"
+                                }}> 
+                                  Avis
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"315px"
+                                }}> 
+                                   Précisions – Apparaitra dans le rapport
+                                   </Box>
+                                   </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"12px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"310px"
+                                }}> 
+                                  Référence d’urbanisme
+                                  </Box>
+                                  </th>
+                                <th class="header-label">
+                                <Box sx={{
+                                  borderRight: "2px solid #C5D3DB", 
+                                height:"8px",
+                                margin:"30px 0px",
+                                display:"flex",
+                                alignItems:"center",
+                                padding:"0px 5px",
+                                width:"308px"
+                                }}> 
+                                  Pièce jointe
+                                  </Box>
+                                  </th>
+                              </tr>
+                              </Box>
+                              <Box>
+                                 </Box>
                       {values.repeatable.map((r, i) => (
-                        <div
-                          style={{
+                        < Box
+                          sx={{
                             display: "flex",
                             textAlign: "start",
                             paddingBottom: "15px",
                           }}
                         >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <label>Date </label>
+                           <tr class="tr-inputs">   
+                          <th>
                             <input
-                              style={{ padding: "8px" }}
+                              className="date-field"
                               type="date"
                               name={`repeatable.${i}.histDate`}
                               defaultValue={r.histDate}
@@ -920,22 +1004,13 @@ const CreateHistoricalData = ({
                                 );
                               }}
                             />
-                          </Box>
+                          </th>
 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <label>Objet </label>
+                          <th>
                             <Field
                               as="select"
                               name={`repeatable.${i}.historicalObjectId`}
-                              style={{ padding: "10px" }}
+                              className="field-width"
                             >
                               <option value="">
                                 Choisissez s'il vous plaît
@@ -948,22 +1023,13 @@ const CreateHistoricalData = ({
                                 )
                               )}
                             </Field>
-                          </Box>
+                          </th>
 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <label>Avis </label>
+                          <th>
                             <Field
                               as="select"
                               name={`repeatable.${i}.historicalOpinionId`}
-                              style={{ padding: "10px" }}
+                              className="field-width"
                             >
                               <option value="">
                                 Choisissez s'il vous plaît
@@ -972,22 +1038,10 @@ const CreateHistoricalData = ({
                               <option value="1">Avis défavorable</option>
                               <option value="2">Sans avis</option>
                             </Field>
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "30%",
-                              paddingRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <label>
-                              Précisions – Apparaitra dans le rapport{" "}
-                            </label>
+                          </th>
+                          <th>
                             <Field
-                              style={{ padding: "10px" }}
-                              //value={values.repeatable[i].details}
+                              className="field-width"
                               defaultValue={r.details}
                               value={
                                 values.repeatable[i].historicalObjectId ===
@@ -1509,44 +1563,17 @@ const CreateHistoricalData = ({
                               }
                               name={`repeatable.${i}.details`}
                             />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              paddingRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            {/* <label>Référence d’urbanisme </label> */}
-                            <BootstrapTooltip title=" Inscrire le numéro de la demande correspondante (PC, AT, courrier...).">
-                              <Button
-                                sx={{
-                                  padding: "1px 2px",
-                                  fontSize: "8px",
-                                  color: "dimgray",
-                                }}
-                              >
-                                Référence d’urbanisme
-                              </Button>
-                            </BootstrapTooltip>
+                          </th>
+                          <th>
+                           
                             <Field
-                              style={{ padding: "10px" }}
+                              className="field-width"
                               name={`repeatable.${i}.urbanPlanningRef`}
                             />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "15%",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <label>Pièce jointe </label>
+                          </th>
+                          <th>
                             <input
-                              style={{ padding: "10px" }}
+                              className="field-width"
                               name={`repeatable.${i}.image`}
                               type="file"
                               onChange={(event) => {
@@ -1556,9 +1583,19 @@ const CreateHistoricalData = ({
                                 );
                               }}
                             />
-                          </Box>
-                        </div>
+                          </th>
+                        
+                        
+                        
+                          </tr>   
+                        </Box>
                       ))}
+                       <Box sx={{margin:"10px 0px"}}>
+                              </Box>
+                              
+                      </thead>
+                          </table>
+                          </Box>
                       <Box sx={{ textAlign: "start", padding: "5px" }}>
                         <AddIcon onClick={() => arrayHelpers.push({})} />
                       </Box>

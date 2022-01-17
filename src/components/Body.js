@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Paper from "@mui/material/Paper";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import LeftBarTab from "../components/LeftBarTab";
 import RightBarTab from "../components/RightBarTab";
@@ -9,12 +8,19 @@ import OpenSearchCurrentCases from "./openSearch/opensearchleftbar/opensearchcur
 import EstablishmentSearchContainer from './establishmentsearch/EstablishmentSearchContainer'
 import NavbarNew from './NavbarNew'
 import {Store} from '../StoreContext'
-
+import {UpdateStore} from '../StoreContext'
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
     setResponseData(data);
   };
+  const updatestore = UpdateStore()
+ useEffect(() => {
+  updatestore({
+    activeCase:"newcase"
+  })
+ }, [])
+
  const store = Store()
   return (
     <>
