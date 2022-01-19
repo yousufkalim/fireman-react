@@ -14,30 +14,10 @@ const Description = ({ values, onSubmit, description }) => {
     establishmentdescription: description?.description
       ? description?.description
       : "",
-    lessEightMeter: description?.lessEightMeter
-      ? description?.lessEightMeter
-      : "",
-    moreEightMeter: description?.moreEightMeter
-      ? description?.moreEightMeter
-      : "",
+    lessEightMeter:description?.lessEightMeter?description?.lessEightMeter: "",
+    moreEightMeter: description?.moreEightMeter?description?.moreEightMeter: "",
   });
 
-  useEffect(() => {
-    setInputValues(() => {
-      return {
-        site: description?.siteDescription ? description?.siteDescription : "",
-        establishmentdescription: description?.description
-          ? description?.description
-          : "",
-        lessEightMeter: description?.lessEightMeter
-          ? description?.lessEightMeter
-          : "",
-        moreEightMeter: description?.moreEightMeter
-          ? description?.moreEightMeter
-          : "",
-      };
-    });
-  }, [description]);
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -49,6 +29,17 @@ const Description = ({ values, onSubmit, description }) => {
     });
   };
 
+  const onChangeCheckBox =(e)=>{
+    const name = e.target.name;
+    const checked= e.target.checked;
+    setInputValues((pre) => {
+      return {
+        ...pre,
+        [name]: checked,
+      };
+    });
+  }
+  console.log(inputValues);
   
   const onSubmitFields = () => {
     onSubmit(values, inputValues);
@@ -138,7 +129,7 @@ const Description = ({ values, onSubmit, description }) => {
                   type="checkbox"
                   name="lessEightMeter"
                   defaultChecked={description?.lessEightMeter}
-                  onChange={onChange}
+                  onChange={onChangeCheckBox}
                 />
                 </Box>
                 <Box
@@ -153,7 +144,7 @@ const Description = ({ values, onSubmit, description }) => {
                   type="checkbox"
                   name="moreEightMeter"
                   defaultChecked={description?.moreEightMeter}
-                  onChange={onChange}
+                  onChange={onChangeCheckBox}
                 />
               </Box>
            

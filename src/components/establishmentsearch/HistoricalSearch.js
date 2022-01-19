@@ -136,9 +136,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       })
     );
-    api("get", "/api/v1/get_description_data/2").then((res) => {
+    api("get", `/api/v1/get_description_data/${store.establishmentId}`).then((res) => {
       setLevelData(res.data.levels);
       setDescription(res.data.descriptions);
+     console.log(res);
     });
     api(
       "get",

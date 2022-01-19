@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import Button from "@mui/material/Button";
+import CloseIcon from '@mui/icons-material/Close';
 import Box from "@mui/material/Box";
 import api from "../../api/index";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
@@ -33,6 +33,10 @@ const EstablishmentLevel = ({ Values, description }) => {
     leveldropdown: "",
   });
   const [toggle, setToggle] = useState(false);
+  const [columnState, setColumnState] = useState({
+    cellname:true,
+    cellnumber:true
+  })
   const [iconState, setIconState] = useState(false);
   const focusPoint = useRef(null);
   useEffect(() => {
@@ -47,13 +51,13 @@ const EstablishmentLevel = ({ Values, description }) => {
   }, []);
   const store = Store();
   const onSubmit = (values, data) => {
-    let establishmentid = localStorage.getItem("establishmentid");
+    console.log(data);
     const newarr = values.repeatable.map((object) => ({
       ...object,
     }));
     const newdescriptions = {
-      lessEightMeter: data.lessEightMeter === "" ? false : true,
-      moreEightMeter: data.moreEightMeter === "" ? false : true,
+      lessEightMeter: data.lessEightMeter,
+      moreEightMeter: data.moreEightMeter,
       siteDescription: data.site,
       description: data.establishmentdescription,
     };
@@ -73,6 +77,7 @@ const EstablishmentLevel = ({ Values, description }) => {
       });
     }
     if (store.activeCase === "currentcases") {
+      console.log(">>>>>>", obj);
       api("put", "/api/v1/update_description_data", obj).then((res) => {
         console.log("update:", res);
       });
@@ -84,6 +89,16 @@ const EstablishmentLevel = ({ Values, description }) => {
       ? (focusPoint.current.style.display = "none")
       : (focusPoint.current.style.display = "block");
   };
+  const handleClose =(column)=>{
+    setColumnState((pre)=>{
+      return{
+         ...pre,
+         [column]:false
+      }
+    })
+  }
+
+  console.log(">>>>>",Values);
   return (
     <>
       <Box
@@ -134,30 +149,52 @@ const EstablishmentLevel = ({ Values, description }) => {
                                   Niveau 
                                 </Box>   
                                 </th>
-                                <th class="header-label">
-                                <Box sx={{
+                                {
+                                  columnState.cellnumber?(
+                                    <th class="header-label">
+                                    <Box sx={{
+                                      borderRight: "2px solid #C5D3DB", 
+                                    height:"12px",
+                                    display:"flex",
+                                    justifyContent:"space-between",
+                                    alignItems:"center",
+                                    padding:"0px 5px",
+                                    width:"212px"
+                                    }}>
+                                     <span>Numéro cellule</span> 
+                                    <CloseIcon
+                                    onClick={()=>handleClose("cellnumber")}
+                                    sx={{width: "0.5em"}}
+                                    />
+                                    </Box>
+                                    </th>
+                                  ):null
+                                }
+                                {
+                                 columnState.cellname?(
+                                  <th class="header-label">
+                                <Box
+                                
+                                sx={{
                                   borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
                                 display:"flex",
                                 alignItems:"center",
-                                padding:"0px 5px",
-                                width:"212px"
-                                }}>
-                                  Numéro cellule
-                                </Box>
-                                </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
+                                justifyContent:"space-between",
                                 padding:"0px 5px",
                                 width:"215px"
                                 }}> 
-                                Nom cellule
+                                <span> Nom cellule</span> 
+                                <CloseIcon
+                                onClick={()=>handleClose("cellname")}
+                                sx={{width: "0.5em"}}
+                                />
                                   </Box>
                                   </th>
+                                 ):null 
+                                }
+                               
+
                                 <th class="header-label">
                                 <Box sx={{
                                   borderRight: "2px solid #C5D3DB", 
@@ -259,13 +296,17 @@ const EstablishmentLevel = ({ Values, description }) => {
                             </span>
                           </Box>
                           </th>
-                          <th>
+                         {  
+                         columnState.cellnumber?(
+                          <th 
+                          >
                           <Box
                             sx={{
                               display: "flex",
                               flexDirection: "column",
                               fontSize: "12px",
                             }}
+                           
                           >
                             <Field
                              className="field-width-staff"
@@ -275,39 +316,47 @@ const EstablishmentLevel = ({ Values, description }) => {
                             />
                           </Box>
                           </th>
-                          <th>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                            className="field-width-staff"
-                              name={`repeatable.${i}.cellName`}
-                            />
-                            <span
-                              onClick={() => {
-                                arrayHelpers.push({});
-                                setFieldValue(
-                                  `repeatable.${i + 1}.levelId`,
-                                  values.repeatable[i].levelId
-                                );
-                                setFieldValue(
-                                  `repeatable.${i + 1}.cellNumber`,
-                                  values.repeatable[i].cellNumber
-                                );
-                                setFieldValue(
-                                  `repeatable.${i + 1}.cellName`,
-                                  values.repeatable[i].cellName
-                                );
-                              }}
-                            >
-                              +
-                            </span>
-                          </Box>
-                          </th>
+                         ):null
+                            }
+                            {
+                              columnState.cellname?(
+                                <th
+                                >
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  <Field
+                                  className="field-width-staff"
+                                    name={`repeatable.${i}.cellName`}
+                                  />
+                                  <span
+                                    onClick={() => {
+                                      arrayHelpers.push({});
+                                      setFieldValue(
+                                        `repeatable.${i + 1}.levelId`,
+                                        values.repeatable[i].levelId
+                                      );
+                                      setFieldValue(
+                                        `repeatable.${i + 1}.cellNumber`,
+                                        values.repeatable[i].cellNumber
+                                      );
+                                      setFieldValue(
+                                        `repeatable.${i + 1}.cellName`,
+                                        values.repeatable[i].cellName
+                                      );
+                                    }}
+                                  >
+                                    +
+                                  </span>
+                                </Box>
+                                </th>
+                              ):null
+                            }
+                          
                           <th>                        
                           <Box
                             sx={{
@@ -423,30 +472,51 @@ const EstablishmentLevel = ({ Values, description }) => {
                                   Niveau 
                                 </Box>   
                                 </th>
-                                <th class="header-label">
+                                {
+                                 columnState.cellnumber?(
+                                  <th class="header-label">
                                 <Box sx={{
                                   borderRight: "2px solid #C5D3DB", 
                                 height:"12px",
                                 display:"flex",
+                                justifyContent:"space-between",
                                 alignItems:"center",
                                 padding:"0px 5px",
                                 width:"212px"
                                 }}>
-                                  Numéro cellule
+                                   <span>Numéro cellule</span> 
+                                    <CloseIcon
+                                    onClick={()=>handleClose("cellnumber")}
+                                    sx={{width: "0.5em"}}
+                                    />
                                 </Box>
                                 </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"215px"
-                                }}> 
-                                Nom cellule
-                                  </Box>
-                                  </th>
+                                 ) :null
+                                }
+                               {
+                                 columnState.cellname?(
+                                  <th class="header-label">
+                                  <Box sx={{
+                                    borderRight: "2px solid #C5D3DB", 
+                                  height:"12px",
+                                  display:"flex",
+                                  justifyContent:"space-between",
+                                  alignItems:"center",
+                                  padding:"0px 5px",
+                                  width:"215px"
+                                  }}> 
+                                 <span> Nom cellule</span> 
+                                <CloseIcon
+                                onClick={()=>handleClose("cellname")}
+                                sx={{width: "0.5em"}}
+                                />
+                                    </Box>
+                                    </th>
+                                 ):null
+                               }
+                               
+
+
                                 <th class="header-label">
                                 <Box sx={{
                                   borderRight: "2px solid #C5D3DB", 
@@ -549,7 +619,9 @@ const EstablishmentLevel = ({ Values, description }) => {
                             </span>
                           </Box>
                           </th>
-                          <th>
+                          {
+                            columnState.cellnumber?(
+                              <th>
                           <Box
                             sx={{
                               display: "flex",
@@ -566,40 +638,48 @@ const EstablishmentLevel = ({ Values, description }) => {
                             />
                           </Box>
                           </th>
-                         <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              name={`repeatable.${i}.cellName`}
-                              style={{ padding: "10px" }}
-                            />
-                            <span
-                              onClick={() => {
-                                arrayHelpers.push({});
-                                setFieldValue(
-                                  `repeatable.${i + 1}.levelId`,
-                                  values.repeatable[i].levelId
-                                );
-                                setFieldValue(
-                                  `repeatable.${i + 1}.cellNumber`,
-                                  values.repeatable[i].cellNumber
-                                );
-                                setFieldValue(
-                                  `repeatable.${i + 1}.cellName`,
-                                  values.repeatable[i].cellName
-                                );
+                            ):null
+                          }
+                         {
+                          columnState.cellname?(
+                            <th> 
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                fontSize: "12px",
                               }}
                             >
-                              +
-                            </span>
-                          </Box>
-                          </th>
+                              <Field
+                               className="field-width-staff"
+                                name={`repeatable.${i}.cellName`}
+                                style={{ padding: "10px" }}
+                              />
+                              <span
+                                onClick={() => {
+                                  arrayHelpers.push({});
+                                  setFieldValue(
+                                    `repeatable.${i + 1}.levelId`,
+                                    values.repeatable[i].levelId
+                                  );
+                                  setFieldValue(
+                                    `repeatable.${i + 1}.cellNumber`,
+                                    values.repeatable[i].cellNumber
+                                  );
+                                  setFieldValue(
+                                    `repeatable.${i + 1}.cellName`,
+                                    values.repeatable[i].cellName
+                                  );
+                                }}
+                              >
+                                +
+                              </span>
+                            </Box>
+                            </th>
+                          ) :null
+                         }
+                        
+
                           <th> 
                           <Box
                             sx={{
@@ -680,13 +760,16 @@ const EstablishmentLevel = ({ Values, description }) => {
                   )}
                 />
 
-
-                <Description
+                {
+                  description && <Description
                   onSubmit={onSubmit}
                   description={description}
                   values={values}
                 />
+                }
+                
               </Form>
+              
             )}
           />
         ) : null}
