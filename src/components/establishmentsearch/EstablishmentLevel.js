@@ -56,8 +56,8 @@ const EstablishmentLevel = ({ Values, description }) => {
       ...object,
     }));
     const newdescriptions = {
-      lessEightMeter: data.lessEightMeter,
-      moreEightMeter: data.moreEightMeter,
+      lessEightMeter: data.lessEightMeter? data.lessEightMeter:false,
+      moreEightMeter: data.moreEightMeter? data.moreEightMeter:false,
       siteDescription: data.site,
       description: data.establishmentdescription,
     };
@@ -77,9 +77,8 @@ const EstablishmentLevel = ({ Values, description }) => {
       });
     }
     if (store.activeCase === "currentcases") {
-      console.log(">>>>>>", obj);
       api("put", "/api/v1/update_description_data", obj).then((res) => {
-        console.log("update:", res);
+        toast.success("Success");
       });
     }
   };
