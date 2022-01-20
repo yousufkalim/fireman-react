@@ -42,7 +42,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
     },
   ]);
 const onRowClick =(data, event)=>{
-  alert(data.id)
+ 
   event.defaultMuiPrevented = true;
  updatestore({
    establishmentId:data.id,
