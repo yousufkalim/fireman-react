@@ -10,6 +10,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+  console.log(establishmentSearchData);
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })

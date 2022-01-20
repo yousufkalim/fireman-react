@@ -116,14 +116,15 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
               })}
 
                         </div>
+                       <Box sx={{width:"100%"}}> 
                         <MobileStepper
                             variant="progress"
                             steps={8}
                             position="static"
                             activeStep={steps}
-                            sx={{ width: "79%", flexGrow: 1, margin:"8px", padding:"0" }}
+                            sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%" }}
                         />
-                       
+                     </Box>
                     </Grid>
       <OpenSearchInputHeader />
     </>

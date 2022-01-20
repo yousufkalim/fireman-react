@@ -1,10 +1,8 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import CheckIcon from "@mui/icons-material/Check";
-import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Rightarrow from "../../../../assets/rightarrow.png";
@@ -24,13 +22,9 @@ const EstablishmentSearchVisitForm = ({
   setCheckboxObj,
   postCheckboxesData,
   currentcasescaseFileId,
+  Toggler
 }) => {
-  const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
-    CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
-  );
-  const [iconState, seticonState] = useState(false);
-  const [classState, setClassState] = useState(true);
-  const focusPoint = useRef(null);
+  
   const handleChange = (e) => {
     const checked = e.target.checked;
     const id = e.target.id;
@@ -48,46 +42,14 @@ const EstablishmentSearchVisitForm = ({
     }
   };
 
-  const onClick = () => {
-    setToggleUpdateTabs(!toggleUpdateTabs);
-    if (compShow === "filestructure") {
-      classState
-        ? (focusPoint.current.style.display = "block")
-        : (focusPoint.current.style.display = "none");
-    }
-    setClassState(!classState);
-  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    postCheckboxesData();
-    if (checkBoxRes === 200 && compShow === "filestructure") {
-      focusPoint.current.style.display = "none";
-    }
-    seticonState(true);
+    postCheckboxesData("visit");
   };
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: "0.6px solid #C5D3DB",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          width: "96%",
-          margin: "10px auto",
-          padding: "8px 10px",
-          color: "#ffffff",
-        }}
-        onClick={onClick}
-      >
-        <Typography variant="h6">Detail of the object</Typography>
-        <div>
-          {iconState ? <CheckIcon /> : null}
-        </div>
-      </Box>
       <Item
-        ref={focusPoint}
         sx={{
           marginTop: "15px",
           borderRadius: "10px",
@@ -100,11 +62,6 @@ const EstablishmentSearchVisitForm = ({
           <Grid>
             <form onSubmit={handleSubmit}>
               <Box
-                className={`${
-                  CompName === "currentcases" && toggleUpdateTabs
-                    ? "formhide"
-                    : "formdisplay"
-                }`}
               >
                 {visit?.map((item) => (
                   <>

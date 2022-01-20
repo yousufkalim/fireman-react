@@ -6,6 +6,7 @@ import ActiveTabHeader from "./ActiveTabHeader";
 import OpenSearchNewCases from "./openSearch/opensearchleftbar/opensearchnewcases/OpenSearchNewCases";
 import OpenSearchCurrentCases from "./openSearch/opensearchleftbar/opensearchcurrentcases/OpenSearchCurrentCases";
 import EstablishmentSearchContainer from './establishmentsearch/EstablishmentSearchContainer'
+import Implantation from './Implantation/index'
 import NavbarNew from './NavbarNew'
 import {Store} from '../StoreContext'
 import {UpdateStore} from '../StoreContext'
@@ -41,8 +42,9 @@ const Body = () => {
         <Grid item xs={8}>
           {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
           {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
-          {/* {store.activeNavbarTab==="currentcases" && store.activeNavbarTab===1?  <OpenSearchCurrentCases currentcasesData={responseData} />:null} */}
+          {store.activeNavbarTab===2?  <Implantation/>:null}
           {store.activeNavbarTab==="newcases" || store.activeNavbarTab===0? <OpenSearchNewCases/>:null}
+
         </Grid>
         <Grid item xs={3}>
           <RightBarTab />
