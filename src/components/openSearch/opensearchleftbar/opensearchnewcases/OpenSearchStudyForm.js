@@ -11,6 +11,11 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import moment from "moment";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import DoneIcon from "@mui/icons-material/Done";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -18,7 +23,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchStudyForm = ({
-  indexdata,
   compShow,
   CompName,
   townplanning,
@@ -30,18 +34,11 @@ const EstablishmentSearchStudyForm = ({
   currentcasescaseFileId,
   setstate,
   state,
+  setToggler,
+  Toggler,
+  setIcon,
+  Icon
 }) => {
-  const [toggleUpdateTabs, setToggleUpdateTabs] = useState(
-    CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
-  );
-  const [toggleUpdateTabstwo, setToggleUpdateTabstwo] = useState(
-    CompName === "currentcases" && indexdata.sectionindex === 1 ? true : false
-  );
-  const [classState, setClassState] = useState(true);
-  const [iconState, seticonState] = useState(false);
-  const [checkboxes, setcheckboxes] = useState();
-  const [detailobjiconstate, setdetailobjiconstate] = useState(false);
-  const [checkBoxesChecked, setCheckBoxesChecked] = useState([]);
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
     caseAverageId: Studydata?.data?.caseAverageId
@@ -111,21 +108,6 @@ const EstablishmentSearchStudyForm = ({
       email: Studydata?.data?.email ? Studydata?.data?.email : "",
     });
   }, [Studydata]);
-  const focusPoint = useRef(null);
-  const onClickTownPlanning = () => {
-    setToggleUpdateTabs(!toggleUpdateTabs);
-    if (compShow === "filestructure" || CompName === "currentcases") {
-      classState
-        ? (focusPoint.current.style.display = "block")
-        : (focusPoint.current.style.display = "none");
-    }
-    setClassState(!classState);
-  };
-
-  const onClickdetailsObj = () => {
-    setToggleUpdateTabstwo(!toggleUpdateTabstwo);
-  };
-
   useEffect(() => {
     api("get", "/api/v1/averagetype/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -214,53 +196,63 @@ const EstablishmentSearchStudyForm = ({
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
         toast.success("Success");
-        if (res?.status === 200 && compShow === "filestructure") {
-          seticonState(true);
-        }
-        if (
-          res?.status === 200 &&
-          CompName === "currentcases" &&
-          indexdata.sectionindex != 1
-        ) {
-          seticonState(true);
-        }
-        if (
-          (compShow === "filestructure" || CompName === "currentcases") &&
-          res?.status === 200
-        ) {
-          focusPoint.current.style.display = "none";
-        }
+        setToggler((pre)=>{
+          return{
+           ...pre,
+            togglerstudy:false,
+            togglerstudytwo:true
+          }
+        })
+        setIcon((pre)=>{
+          return{
+            ...pre,
+            iconstudy:true,
+            iconstudytwo:false
+          }
+        });
       })
       .catch((err) => toast.error(err?.statusText));
   };
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
-    postCheckboxesData();
-    setdetailobjiconstate(true);
+    postCheckboxesData("studytwo");
   };
   return (
     <>
-      <Box
-        onClick={onClickTownPlanning}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: "0.6px solid #C5D3DB",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          width: "96%",
-          margin: "10px auto",
-          padding: "8px 10px",
-          color: "#ffffff",
-        }}
-      >
-        <Typography variant="h6">Related town planning documents</Typography>
-        <div>
-          {indexdata?.sectionindex === 1 ? <CheckIcon /> : null}
-          {iconState ? <CheckIcon /> : null}
-        </div>
-      </Box>
+       <Box
+          onClick={()=>{setToggler((pre)=>{
+            return{
+              ...pre,
+              togglerstudy: !Toggler.togglerstudy
+            }
+         })}}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            borderBottom: "0.6px solid #C5D3DB",
+            backgroundColor: "#3675B7",
+            borderRadius: "5px",
+            width: "96%",
+            margin: "10px auto",
+            padding: "8px 10px",
+            color: "#ffffff",
+          }}
+        >
+        
+          <Typography variant="h6">Documents d'urbanisme associés</Typography>
+          { Icon.iconstudy? <DoneIcon /> : null}
+        </Box>
+        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudy? true: false}>
+        <AccordionSummary
+        sx={{display:"none"}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
       <Item
         sx={{
           marginTop: "15px",
@@ -269,7 +261,6 @@ const EstablishmentSearchStudyForm = ({
           width: "96%",
           margin: "auto",
         }}
-        ref={focusPoint}
       >
         <Box
           sx={{
@@ -277,11 +268,6 @@ const EstablishmentSearchStudyForm = ({
           }}
         >
           <Grid
-            className={`${
-              CompName === "currentcases" && toggleUpdateTabs
-                ? "formhide"
-                : "formdisplay"
-            }`}
           >
             <form
               className="establishment-form"
@@ -516,25 +502,41 @@ const EstablishmentSearchStudyForm = ({
           </Grid>
         </Box>
       </Item>
-
+      </AccordionDetails>
+      </Accordion> 
       <Box
-        onClick={onClickdetailsObj}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: "0.6px solid #C5D3DB",
-          padding: "10px 0px",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          width: "96%",
-          margin: "10px auto",
-          padding: "8px 10px",
-          color: "#ffffff",
-        }}
-      >
-        <Typography variant="h6">Details of the object</Typography>
-        <div>{detailobjiconstate ? <CheckIcon /> : null}</div>
-      </Box>
+          onClick={()=>{ 
+          setToggler((pre)=>{
+            return{
+              ...pre,
+              togglerstudytwo: !Toggler.togglerstudytwo
+            }
+         })}}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            borderBottom: "0.6px solid #C5D3DB",
+            backgroundColor: "#3675B7",
+            borderRadius: "5px",
+            width: "96%",
+            margin: "10px auto",
+            padding: "8px 10px",
+            color: "#ffffff",
+          }}
+        >
+          <Typography variant="h6">Détails de l'objet</Typography>
+          { Icon.iconstudytwo? <DoneIcon /> : null}
+        </Box>
+        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudytwo? true: false}>
+        <AccordionSummary
+        sx={{display:"none"}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
       <Item
         sx={{
           marginTop: "15px",
@@ -548,11 +550,6 @@ const EstablishmentSearchStudyForm = ({
           <Grid>
             <form onSubmit={(e) => handleSubmitdetailsobj(e, "detailsobj")}>
               <Box
-                className={`${
-                  CompName === "currentcases" && toggleUpdateTabstwo
-                    ? "formdisplay"
-                    : "formdisplay"
-                }`}
               >
                 {study?.map((item) => (
                   <>
@@ -620,6 +617,8 @@ const EstablishmentSearchStudyForm = ({
           </Grid>
         </Box>
       </Item>
+      </AccordionDetails>
+      </Accordion> 
     </>
   );
 };

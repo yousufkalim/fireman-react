@@ -59,7 +59,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionComponent=(props)=>{
-
+   
 
     return(
         <>

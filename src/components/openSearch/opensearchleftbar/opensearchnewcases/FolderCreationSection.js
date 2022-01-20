@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
 import { toast } from "react-toastify";
@@ -11,7 +10,11 @@ import OpenSearchVisitForm from "./OpenSearchVisitForm";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import { Typography } from "@mui/material";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Store } from "../../../../StoreContext";
 import moment from "moment";
@@ -41,14 +44,19 @@ const FolderCreationSection = ({
     commissiondate: "",
     inputsvalue: {},
   });
+  const [Toggler, setToggler] = useState({
+    togglermain: compShow? true:false,
+    togglerstudy:compShow||indexdata?.sectionindex === 0? true:false,
+    togglerstudytwo:compShow||indexdata?.sectionindex === 0?true:false,
+    togglervisit:compShow? true:false
+  })
+  const [Icon, setIcon] = useState({
+    iconmain:CompName === "currentcases"||indexdata?.sectionindex === 1? true:false,
+    iconstudy:CompName === "currentcases"&&indexdata?.sectionindex === 1?true:false,
+    iconstudytwo:CompName === "currentcases"&&indexdata?.sectionindex === 1?true:false,
+    iconvisit:CompName==="currentcases"&&indexdata?.sectionindex === 1?true:false
+  })
   useEffect(() => {
-    doneIconState.accordianState &&
-    CompName === "currentcases" &&
-    (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
-    activeLink === 0 ///////////set display none when user in current cases
-      ? (focusPoint.current.style.display = "none")
-      : (focusPoint.current.style.display = "block");
-    /////
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -132,7 +140,7 @@ const FolderCreationSection = ({
     );
     api(
       "get",
-      `/api/v1/casefiles/get_open_foldercreation/${store.establishmentId}/${
+      `/api/v1/casefiles/get_open_foldercreation/${indexdata?.establishmentId? indexdata?.establishmentId: store.establishmentId}/${
         currentcasescaseFileId ? currentcasescaseFileId : 0
       }`
     ).then((res) =>
@@ -146,17 +154,7 @@ const FolderCreationSection = ({
   }, []);
   const [checkboxObj, setCheckboxObj] = useState([]);
   const [activeLink, setActiveLink] = useState(0);
-  const [doneIconState, setdoneIconState] = useState({
-    iconState: false,
-    accordianState:
-      CompName === "currentcases" &&
-      (indexdata.sectionindex === 0 || indexdata.sectionindex === 1) &&
-      activeLink === 0
-        ? true
-        : false,
-  });
   //////
-
   const [state, setstate] = useState({
     townObj: [],
     study: [],
@@ -177,7 +175,6 @@ const FolderCreationSection = ({
   });
   const [inputDisableState, setInputDisableState] = useState("");
   const [checkBoxRes, setCheckBoxRes] = useState();
-  const focusPoint = useRef(null);
   useEffect(() => {
     setInputValues({
       caseTypeId: currentcasescaseTypeId,
@@ -230,25 +227,30 @@ const FolderCreationSection = ({
       };
       api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
-          setInputValues((preVal) => {
-            return {
-              ...preVal,
-              caseid: res.data,
-            };
-          });
-          if (res.status === 200) {
-            setdoneIconState(() => {
-              return {
-                accordianState: !doneIconState.accordianState,
-                iconState: true,
-              };
-            });
-            doneIconState.accordianState
-              ? (focusPoint.current.style.display = "block")
-              : (focusPoint.current.style.display = "none");
-          }
-
+          console.log(res)
+            setInputValues((preVal) => {
+                return {
+                  ...preVal,
+                  caseid: res.data,
+                };
+              });
           toast.success("Successfully Saved");
+          setToggler((pre)=>{
+            return{
+              togglermain:false,
+              togglerstudy:true,
+              togglervisit:true,
+              togglerstudytwo:true
+            }
+          })
+          
+          
+          setIcon((pre)=>{
+            return{
+              ...pre,
+              iconmain:true
+            }
+          });
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -264,25 +266,22 @@ const FolderCreationSection = ({
         visitTypeId: currentcasesvisitTypeId,
         commisionDate: currentcasescommisionDate,
       };
+      console.log(updatedObj);
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
-          if (res.status === 200) {
+          console.log(res);
             setInputValues((preVal) => {
               return {
                 ...preVal,
                 caseid: res.data,
               };
             });
-            setdoneIconState(() => {
-              return {
-                accordianState: !doneIconState.accordianState,
-                iconState: true,
-              };
-            });
-            doneIconState.accordianState
-              ? (focusPoint.current.style.display = "block")
-              : (focusPoint.current.style.display = "none");
-          }
+            setToggler((pre)=>{
+              return{
+                ...pre,
+                togglermain:false,
+              }
+            })
         })
         .catch((err) => {
           console.log("updateerr", err);
@@ -290,27 +289,44 @@ const FolderCreationSection = ({
     }
   };
 
-  /////////////////
-  const onClickDoneIcon = () => {
-    setdoneIconState((preVal) => {
-      return {
-        ...preVal,
-        accordianState: !doneIconState.accordianState,
-      };
-    });
-    doneIconState.accordianState
-      ? (focusPoint.current.style.display = "block")
-      : (focusPoint.current.style.display = "none");
-  };
   ////////////////// passed to study form visit form for getting checkedboxes id
-  const postCheckboxesData = () => {
+  const postCheckboxesData = (data) => {
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
+         console.log()
         setCheckBoxRes(res.status);
-        toast.success("Success");
+        if(data==="studytwo"){
+          setToggler((pre)=>{
+            return{
+             ...pre,
+             togglerstudytwo:false,
+            }
+          })
+          setIcon((pre)=>{
+            return{
+              ...pre,
+              iconstudytwo:true
+            }
+          });
+        }
+       if(data==="visit"){
+        setToggler((pre)=>{
+          return{
+           ...pre,
+           togglervisit:false,
+          }
+        })
+        setIcon((pre)=>{
+          return{
+            ...pre,
+            iconvisit:true
+          }
+        });
+       }
+        toast.success("Successfully saved");
       })
       .catch((err) => toast.error(err?.statusText));
-    setCheckboxObj([]);
+    //setCheckboxObj([]);
   };
 
   ///////////////////////////////
@@ -321,8 +337,14 @@ const FolderCreationSection = ({
       {(activeLink === 0 && CompName === "currentcases") ||
       compShow === "filestructure" ? (
         <>
-          <Box
-            onClick={onClickDoneIcon}
+         <div>
+         <Box
+           onClick={()=>{setToggler((pre)=>{
+              return{
+                ...pre,
+                togglermain: !Toggler.togglermain
+              }
+           })}}
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -336,24 +358,16 @@ const FolderCreationSection = ({
             }}
           >
             <Typography variant="h6">Creation de dossier</Typography>
-            <div>
-              {doneIconState?.iconState || CompName === "currentcases" ? (
-                <DoneIcon />
-              ) : null}
-            </div>
+           { Icon.iconmain? <DoneIcon /> : null}
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "10px",
-            }}
-          >
-            {
-              //
-              <Grid ref={focusPoint} item md={12}>
-                <Item sx={{ boxShadow: "none" }}>
+      <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglermain? true: false}>
+        <AccordionSummary sx={{display:"none"}}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+        </AccordionSummary>
+        <AccordionDetails>
+        <Item sx={{ boxShadow: "none" }}>
                   <form
                     className="establishment-form"
                     type="submit"
@@ -503,12 +517,11 @@ const FolderCreationSection = ({
                     </Box>
                   </form>
                 </Item>
-              </Grid>
-            }
-          </Box>
-
-          {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
-            <OpenSearchStudyForm
+        </AccordionDetails>
+      </Accordion>
+      {inputDisableState === "1" || currentcasescaseTypeId === 1? (
+      <> 
+              <OpenSearchStudyForm
               compShow={compShow}
               CompName={CompName}
               indexdata={indexdata}
@@ -522,10 +535,50 @@ const FolderCreationSection = ({
               setstate={setstate}
               currentcasescaseFileId={currentcasescaseFileId}
               state={state}
+              Toggler={Toggler}
+              setToggler={setToggler}
+              setIcon={setIcon}
+              Icon={Icon}
             />
-          ) : null}
-          {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
-            <OpenSearchVisitForm
+      </>
+      ):null}
+
+      {inputDisableState === "2" || currentcasescaseTypeId === 2? (
+      <> 
+           <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          borderBottom: "0.6px solid #C5D3DB",
+          backgroundColor: "#3675B7",
+          borderRadius: "5px",
+          width: "96%",
+          margin: "10px auto",
+          padding: "8px 10px",
+          color: "#ffffff",
+        }}
+        onClick={()=>{setToggler((pre)=>{
+          return{
+            ...pre,
+            togglervisit: !Toggler.togglervisit
+          }
+       })}}
+      >
+        <Typography variant="h6">Détail de l'objet</Typography>
+        { Icon.iconvisit? <DoneIcon /> : null}
+      </Box>
+      <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglervisit? true: false}>
+        <AccordionSummary
+        sx={{display:"none"}}
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          
+        <OpenSearchVisitForm
               compShow={compShow}
               CompName={CompName}
               indexdata={indexdata}
@@ -536,7 +589,11 @@ const FolderCreationSection = ({
               checkBoxRes={checkBoxRes}
               currentcasescaseFileId={currentcasescaseFileId}
             />
-          ) : null}
+        </AccordionDetails>
+      </Accordion> 
+      </>
+      ):null}
+    </div>
         </>
       ) : null}
     </>

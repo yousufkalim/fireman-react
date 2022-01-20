@@ -38,7 +38,7 @@ const CreateHistoricalData = ({
     objectDropdown: "",
   });
   const newarr = historicalDataEstablishment?.map((val) => ({
-    histDate: moment(val.histDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
+    dateEvent: moment(val.histDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
     historicalObjectId: val.historicalObjectId,
     historicalOpinionId: val.historicalOpinionId,
     urbanPlanningRef: val.urbanPlanningRef,
@@ -57,14 +57,19 @@ const CreateHistoricalData = ({
     });
   }, []);
   const onSubmit = (values) => {
+    console.log("....",values)
     const newarr = values.repeatable.map((object) => ({
       ...object,
       historicalEventid: object.historicalEventId,
       establishmentId: establishmentid,
+      dateEvent:object.histDate
     }));
     if (store.activeCase === "newcase") {
+      console.log(">>>>", newarr)
       newarr.map((val) => {
+        
         return new Promise((resolve, reject) => {
+          
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               toast.success("Success!");
@@ -92,9 +97,10 @@ const CreateHistoricalData = ({
     if (store.activeCase === "currentcases") {
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
+          console.log(">>>>", val)
           api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
-              toast.success("Success!");
+              toast.success("Success");
               if ((res.status = 200)) {
                 setIconState(true);
                 setToggle(true);

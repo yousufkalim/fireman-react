@@ -11,6 +11,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [indexdata, setIndexdata] = useState({
     sectionindex: "",
     tabindex: "",
+    establishmentId:""
   });
   const [CompName, setCompName] = useState("");
   const [sortModel, setSortModel] = React.useState([
@@ -54,6 +55,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     },
     { field: "refnum", headerName: "refnum", minWidth: 130, color: "#8D919D" },
   ];
+  console.log(currentcasesData);
   const onRowClick = (params) => {
     setCompName("currentcases");
     if (params.row.val.sectionIndex === 2 && params.row.val.tabIndex === 1) {
@@ -67,6 +69,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       return {
         sectionindex: params.row.val.sectionIndex,
         tabindex: params.row.val.tabIndex,
+        establishmentId: params.row.val.establishmentId
       };
     });
     api(
