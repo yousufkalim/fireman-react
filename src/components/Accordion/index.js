@@ -59,11 +59,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionComponent=(props)=>{
-   
-
+    
     return(
         <>
-      
             <Accordion expanded={props.expanded === props.panelname} onChange={props.handleChange(props.panelname)}>
             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                 <p className='section_id'>451</p>

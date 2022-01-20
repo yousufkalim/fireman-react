@@ -18,6 +18,8 @@ const Implantation = (props) => {
     const [expand, setExpand] = React.useState(false);
 
     const handleChange = (panel) => (event, isExpanded) => {
+       
+        console.log(panel, isExpanded);
         setExpanded(isExpanded ? panel : false);
     };
     return (

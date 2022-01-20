@@ -85,7 +85,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                   
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>props.saveChanges(sentence)}>
+                    <Button autoFocus onClick={()=>{props.saveChanges(sentence); props.setOpen(false)}}>
                         Save changes
                     </Button>
                 </DialogActions>

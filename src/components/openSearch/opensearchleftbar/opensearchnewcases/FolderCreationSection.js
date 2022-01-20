@@ -47,16 +47,19 @@ const FolderCreationSection = ({
   const [Toggler, setToggler] = useState({
     togglermain: compShow? true:false,
     togglerstudy:compShow||indexdata?.sectionindex === 0? true:false,
-    togglerstudytwo:compShow||indexdata?.sectionindex === 0?true:false,
+    togglerstudytwo:compShow||(indexdata?.sectionindex === 0||indexdata?.sectionindex === 1)?true:false,
     togglervisit:compShow? true:false
   })
   const [Icon, setIcon] = useState({
     iconmain:CompName === "currentcases"||indexdata?.sectionindex === 1? true:false,
-    iconstudy:CompName === "currentcases"&&indexdata?.sectionindex === 1?true:false,
-    iconstudytwo:CompName === "currentcases"&&indexdata?.sectionindex === 1?true:false,
+    iconstudy:CompName === "currentcases"&&(indexdata?.sectionindex === 1||indexdata?.sectionindex ===2)?true:false,
+    iconstudytwo:CompName === "currentcases"&&indexdata?.sectionindex === 2?true:false,
     iconvisit:CompName==="currentcases"&&indexdata?.sectionindex === 1?true:false
   })
+  const store = Store();
   useEffect(() => {
+     console.log(store);
+     console.log(">>>>>>>>>>",indexdata);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -69,7 +72,7 @@ const FolderCreationSection = ({
     });
     api(
       "get",
-      `/api/v1/casefiles/casefile_checklist/0/${
+      `/api/v1/casefiles/casefile_checklist/0/${store.establishmentId?store.establishmentId:indexdata.establishmentId}/${
         currentcasescaseFileId ? currentcasescaseFileId : 0
       }`
     ).then((res) => {
@@ -82,7 +85,7 @@ const FolderCreationSection = ({
     });
     api(
       "get",
-      `/api/v1/casefiles/casefile_checklist/1/${
+      `/api/v1/casefiles/casefile_checklist/1/${store.establishmentId?store.establishmentId:indexdata.establishmentId}/${
         currentcasescaseFileId ? currentcasescaseFileId : 0
       }`
     ).then((res) => {
@@ -95,7 +98,7 @@ const FolderCreationSection = ({
     });
     api(
       "get",
-      `/api/v1/casefiles/casefile_checklist/2/${
+      `/api/v1/casefiles/casefile_checklist/2/${store.establishmentId?store.establishmentId:indexdata.establishmentId}/${
         currentcasescaseFileId ? currentcasescaseFileId : 0
       }`
     ).then((res) => {
@@ -194,6 +197,7 @@ const FolderCreationSection = ({
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(value);
     if (
       (value === "1" && name === "caseTypeId") ||
       (value === "2" && name === "caseTypeId") ||
@@ -208,6 +212,7 @@ const FolderCreationSection = ({
       };
     });
   };
+  console.log(inputValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     ////////////for new cases//////////
@@ -264,7 +269,7 @@ const FolderCreationSection = ({
         caseTypeId: currentcasescaseTypeId,
         commisionTypeId: currentcasescommisionTypeId,
         visitTypeId: currentcasesvisitTypeId,
-        commisionDate: currentcasescommisionDate,
+        commisionDate: inputValues.commisionDate?inputValues.commisionDate: currentcasescommisionDate,
       };
       console.log(updatedObj);
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
@@ -291,9 +296,10 @@ const FolderCreationSection = ({
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
+    console.log(checkboxObj)
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
-         console.log()
+         console.log(res)
         setCheckBoxRes(res.status);
         if(data==="studytwo"){
           setToggler((pre)=>{
@@ -326,12 +332,12 @@ const FolderCreationSection = ({
         toast.success("Successfully saved");
       })
       .catch((err) => toast.error(err?.statusText));
-    //setCheckboxObj([]);
+    setCheckboxObj([]);
   };
 
   ///////////////////////////////
 
-  const store = Store();
+  
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||

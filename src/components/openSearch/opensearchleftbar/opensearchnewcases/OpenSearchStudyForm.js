@@ -446,7 +446,7 @@ const EstablishmentSearchStudyForm = ({
                           <div class="group">
                             <input
                               type="checkbox"
-                              defaultChecked={val.isSelected}
+                              defaultChecked={CompName?val.isSelected:""}
                               id={val.caseFileCheckListId}
                               onChange={handleChange}
                             />
@@ -564,7 +564,7 @@ const EstablishmentSearchStudyForm = ({
                         <div class="group">
                           <input
                             type="checkbox"
-                            defaultChecked={val.isSelected}
+                            defaultChecked={CompName? val.isSelected:""}
                             id={val.caseFileCheckListId}
                             onChange={handleChange}
                           />

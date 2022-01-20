@@ -121,7 +121,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
        color:"#ffffff"
        }}> 
      <Typography variant="h6">
-     Creation de dossier
+     Pour quel établissement le dossier va-t-il être créé ?a
 </Typography>
 <Typography sx={{color:"#A2AABE"}} variant="span">
 </Typography>
