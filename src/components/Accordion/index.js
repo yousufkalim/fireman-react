@@ -59,8 +59,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionComponent=(props)=>{
-       console.log(props.expanded,props.panelname);
-    //alert(props.expanded === props.panelname)
+    
     return(
         <>
             <Accordion expanded={props.expanded === props.panelname} onChange={props.handleChange(props.panelname)}>
