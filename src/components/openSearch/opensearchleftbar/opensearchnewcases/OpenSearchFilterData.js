@@ -29,11 +29,11 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   const updatestore = UpdateStore();
    const column = [ 
      { field: "ref", headerName: "Ref.", minWidth: 100, color: "#8D919D"},
-   { field: "commune", headerName: "Commune", minWidth: 150, color: "#8D919D"},
-   { field: "nom", headerName: "Nom", minWidth: 190, color: "#8D919D"},
-   { field: "statut", headerName: "Statut", minWidth: 150, color: "#8D919D"},
-   { field: "type", headerName: "Type", minWidth: 130, color: "#8D919D"},
-   { field: "CAT", headerName: "CAT", minWidth: 130, color: "#8D919D"}
+   { field: "commune", headerName: "Commune", minWidth: 200, color: "#8D919D"},
+   { field: "nom", headerName: "Nom", minWidth: 200, color: "#8D919D"},
+   { field: "statut", headerName: "Statut", minWidth: 160, color: "#8D919D"},
+   { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},
+   { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"}
   ]
   const [sortModel, setSortModel] = React.useState([
     {
@@ -42,6 +42,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
     },
   ]);
 const onRowClick =(data, event)=>{
+  alert(data.id)
   event.defaultMuiPrevented = true;
  updatestore({
    establishmentId:data.id,

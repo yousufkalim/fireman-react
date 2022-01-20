@@ -26,10 +26,32 @@
   font-size: 17px !important;
   line-height: 17px !important;
 }
+/* for build */
+.css-um056b{
+  color: #485372 !important;
+  font-family: Inter !important;
+  font-weight: 500 !important;
+  font-size: 17px !important;
+  line-height: 17px !important;
+}
+
 .css-rtrcn9-MuiTablePagination-root:last-child{
     color: #485372 !important;
     font-family: Inter !important;
     font-weight: 500 !important;
     font-size: 14px !important;
     line-height: 17px !important;
+}
+/* for build */
+.css-157y7ev .MuiDataGrid-row {
+  border: 1px solid #ebeff2 !important;
+  border-radius: 5px !important;
+  margin: 10px 0px;
+  width: 99% !important;
+  color: #8d919d !important;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 15px;
 }

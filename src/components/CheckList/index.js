@@ -16,6 +16,8 @@ const CheckList = (props) => {
     };
     const handleClose = () => setOpen(false);
     const saveChanges=(sentence)=>{
+        console.log(sentence);
+        console.log(">>>>", checklists);
    let a= checklists.map((data,i)=>{
        let dat={}
       if((props.accordionData.serialName+i)==checklistdata.id){
@@ -53,7 +55,7 @@ const CheckList = (props) => {
                     )
                 })
             }
-          <EditModal saveChanges={saveChanges} accordionData={checklistdata} open={open} handleClose={handleClose} />
+          <EditModal saveChanges={saveChanges} accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} />
 
         </>
     )
