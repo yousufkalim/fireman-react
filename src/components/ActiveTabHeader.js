@@ -5,14 +5,12 @@ import Toolbar from "@mui/material/Toolbar";
 import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import {UpdateStore} from '../StoreContext'
 import {Store} from '../StoreContext'
-
 import { dividerClasses, Grid, Paper } from "@mui/material"
 import MobileStepper from '@mui/material/MobileStepper';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import { useTranslation, Trans } from "react-i18next";
 const EstablishmentSearchActivePanel = ({setActiveLink}) => {
+  const { t, i18n } = useTranslation();
+  const { language } = i18n;
   const [activeTab, setActiveTab] = useState(0);
   const updatestore = UpdateStore()
   const store = Store()
@@ -21,25 +19,22 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   console.log(store.activeNavbarTab);
   const items = [
     {
-      text: "Ouverture",
+      text: "Opening",
     },
     {
-      text: "Etablissement",
+      text: "Establishment",
     },
     {
-      text: "Implantation",
-    },
-    {
-      text: "Construction",
+      text: "Location",
     },
     {
       text: "Construction",
     },
     {
-      text: "Dégagement",
+      text: "Clearance",
     },
     {
-      text: "Categorie",
+      text: "Category",
     },
   ];
   const onClick = (activetabindex) => {
@@ -110,7 +105,7 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
                     
                     
                   >
-                    <a onClick={() => onClick(index)}> {item.text} </a>
+                    <a onClick={() => onClick(index)}> {t(item.text)} </a>
                   </div>
                 );
               })}

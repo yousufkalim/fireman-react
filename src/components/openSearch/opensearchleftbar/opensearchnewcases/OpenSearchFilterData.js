@@ -3,6 +3,7 @@ import {UpdateStore} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -10,6 +11,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+  const { t, i18n } = useTranslation();
   console.log(establishmentSearchData);
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
@@ -28,10 +30,10 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
 
   const updatestore = UpdateStore();
    const column = [ 
-     { field: "ref", headerName: "Ref.", minWidth: 100, color: "#8D919D"},
-   { field: "commune", headerName: "Commune", minWidth: 200, color: "#8D919D"},
-   { field: "nom", headerName: "Nom", minWidth: 200, color: "#8D919D"},
-   { field: "statut", headerName: "Statut", minWidth: 160, color: "#8D919D"},
+     { field: "ref", headerName: `${t("Ref.")}`, minWidth: 100, color: "#8D919D"},
+   { field: "commune", headerName: `${t("City")}`, minWidth: 200, color: "#8D919D"},
+   { field: "nom", headerName: `${t("Name")}`, minWidth: 200, color: "#8D919D"},
+   { field: "statut", headerName: `${t("Status")}`, minWidth: 160, color: "#8D919D"},
    { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},
    { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"}
   ]

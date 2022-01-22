@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
+import { useTranslation, Trans } from "react-i18next";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [Studydata, setStudydata] = useState([]);
@@ -13,6 +14,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     tabindex: "",
     establishmentId:""
   });
+  const { t, i18n } = useTranslation();
   const [CompName, setCompName] = useState("");
   const [sortModel, setSortModel] = React.useState([
     {
@@ -20,40 +22,44 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       sort: "asc",
     },
   ]);
-
+  console.log("currentcasesData",currentcasesData)
   const updatestore = UpdateStore();
   const column = [
     {
       field: "typeref",
       headerName: "Type Ref",
-      minWidth: 100,
+      minWidth: 120,
       color: "#8D919D",
     },
     {
-      field: "caseaveragename",
-      headerName: "caseaveragename",
-      minWidth: 180,
-      color: "#8D919D",
-    },
-    {
-      field: "commisionDate",
-      headerName: "commisionDate",
-      minWidth: 190,
-      color: "#8D919D",
-    },
-    {
-      field: "createdAt",
-      headerName: "createdAt",
+      field: "commisionName",
+      headerName: "Commision",
       minWidth: 150,
       color: "#8D919D",
     },
     {
-      field: "employeename",
-      headerName: "employeename",
+      field: "commisionDate",
+      headerName: "Date COM.",
+      minWidth: 150,
+      color: "#8D919D",
+    },
+    {
+      field: "establishmentName",
+      headerName: `${t("Name Of Establishment Ref")}`,
+      minWidth: 220,
+      color: "#8D919D",
+    },
+    {
+      field: "cityName",
+      headerName: `${t("City")}`,
       minWidth: 130,
       color: "#8D919D",
     },
-    { field: "refnum", headerName: "refnum", minWidth: 130, color: "#8D919D" },
+    { 
+      field: "state", 
+      headerName: `${t("State")}`, 
+      minWidth: 100, 
+      color: "#8D919D" },
   ];
   console.log(currentcasesData);
   const onRowClick = (params) => {
@@ -127,11 +133,11 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
               rows={currentcasesData.data?.map((val, index) => ({
                 id: val.caseFileId,
                 typeref: val.caseTypeName,
-                caseaveragename: val.caseAverageName,
+                commisionName: val.commisionName,
                 commisionDate: val.commisionDate,
-                createdAt: val.createdAt,
-                employeename: val.employeeName,
-                refnum: val.refNum,
+                establishmentName: val.establishmentName,
+                cityName: val.cityName,
+                state: val.state,
                 sectionindex: val.sectionIndex,
                 tabindex: val.tabIndex,
                 val: val,

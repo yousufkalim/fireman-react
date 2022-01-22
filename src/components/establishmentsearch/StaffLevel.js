@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -18,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const StaffLevel = ({ establishmentid }) => {
+  const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
     rules: "",
@@ -95,7 +97,7 @@ const [state, setstate] = useState(false)
     if (store.activeCase === "newcase") {
       api("post", "/api/v1/create_establishment_stafftable", newArr)
         .then((res) => {
-          toast.success("Success!");
+          {toast.success(t("Successfull"))};
           if (res.status === 200) {
             setIconState(true);
             setToggle(true);
@@ -110,7 +112,7 @@ const [state, setstate] = useState(false)
       api("put", "/api/v1/update_establishment_stafftable", newArr).then(
         (res) => {
           if (res.data === true) {
-            toast.success("success");
+            {toast.success(t("Successfull"))};
           }
         }
       );
@@ -138,12 +140,12 @@ const [state, setstate] = useState(false)
         }}
         onClick={toggleSection}
       >
-        <Typography variant="h6">Tableau des effectifs</Typography>
+        <Typography variant="h6">{t("Staff table")}</Typography>
         <div>{iconState ? <DoneIcon /> : null}</div>
       </Box>
       <Item
         ref={focusPoint}
-        sx={{ boxShadow: "none", width: "97%", margin: "auto" }}
+        sx={{ boxShadow: "none", width: "97%",maxHeight:"16%", overflow:"scroll", margin: "auto" }}
       >
         <Box sx={{ overflow: "auto" }}>
           <table class="table">
@@ -161,7 +163,7 @@ const [state, setstate] = useState(false)
                         width: "205px",
                       }}
                     >
-                      Niveau
+                    {t("Level")}
                     </Box>
                   </th>
                   <th class="header-label">
@@ -175,7 +177,7 @@ const [state, setstate] = useState(false)
                         width: "212px",
                       }}
                     >
-                      Cellule
+                     {t("Cell")}
                     </Box>
                   </th>
                   <th class="header-label">
@@ -189,7 +191,7 @@ const [state, setstate] = useState(false)
                         width: "215px",
                       }}
                     >
-                      Local / Espace / Type de public
+                     {t("Local / Space / Type of audience")}
                     </Box>
                   </th>
                   <th class="header-label">
@@ -203,7 +205,7 @@ const [state, setstate] = useState(false)
                         width: "215px",
                       }}
                     >
-                      Surface accessible au public
+                     {t("Surface accessible to the public")}
                     </Box>
                   </th>
                   <th class="header-label">
@@ -217,7 +219,7 @@ const [state, setstate] = useState(false)
                         width: "192px",
                       }}
                     >
-                      Règle de calcul X
+                   {t("Calculation rule X")}
                     </Box>
                   </th>
                   <th class="header-label">
@@ -247,7 +249,7 @@ const [state, setstate] = useState(false)
                         width: "215px",
                       }}
                     >
-                      Personnel
+                     {t("Staff")}
                     </Box>
                   </th>
                   <th>
@@ -388,7 +390,7 @@ const [state, setstate] = useState(false)
                               }
                             }}
                           >
-                            <option value="">Choisissez s'il vous plaît</option>
+                            <option value="">{t("Please choose")}</option>
                             {dropdownValue.leveldropdown &&
                               dropdownValue.leveldropdown?.map((item) => (
                                 <option value={item.value}>{item.text}</option>
@@ -634,7 +636,7 @@ const [state, setstate] = useState(false)
             }}
             variant="contained"
           >
-            Valider
+            {t("VALIDATE")}
           </Button>
         </Box>
       </Item>

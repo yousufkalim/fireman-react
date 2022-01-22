@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -16,6 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const Ranking = ({establishmentid}) => {
+  const { t, i18n } = useTranslation();
     const [dropdownValue, setdropdownValue] = useState({
         rankingorder: "",
         status: "",
@@ -106,7 +108,7 @@ const Ranking = ({establishmentid}) => {
             establishmentId:establishmentid
         }
        api("put","/api/v1/establishment_ranking_details",newObj).then((res)=>{
-        toast.success("success")
+        {toast.success(t("Successfull"))};
           if(res.status===200){
               setIconState(true);
               setToggle(true);
@@ -138,13 +140,65 @@ const Ranking = ({establishmentid}) => {
         onClick={toggleSection}
         > 
      <Typography variant="h6">
-     Classement
+     {t("Ranking")}
 </Typography>
 <div>
           {iconState ? <DoneIcon/> : null}
         </div>
         </Box>
+     
+
         <Item ref={focusPoint} sx={{ boxShadow: "none", width:"97%", margin:"auto" }}> 
+        <Box sx={{display:"flex",  borderBottom: "1px solid #C5D3DB", padding:"10px 0px"}}> 
+        <Box
+                      sx={{
+                        borderRight: "2px solid #C5D3DB",
+                        height: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0px 5px",
+                        width: "205px",
+                      }}
+                    >
+                    {t("Status")}
+                    </Box>
+                    <Box
+                      sx={{
+                        borderRight: "2px solid #C5D3DB",
+                        height: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0px 5px",
+                        width: "205px",
+                      }}
+                    >
+                    {t("Level")}
+                    </Box>
+                    <Box
+                      sx={{
+                        borderRight: "2px solid #C5D3DB",
+                        height: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0px 5px",
+                        width: "205px",
+                      }}
+                    >
+                    {t("Level")}
+                    </Box>
+                    <Box
+                      sx={{
+                        borderRight: "2px solid #C5D3DB",
+                        height: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "0px 5px",
+                        width: "205px",
+                      }}
+                    >
+                    {t("Level")}
+                    </Box>
+                    </Box>
            <form
                 className="establishment-form"
                 type="submit"
@@ -160,7 +214,7 @@ const Ranking = ({establishmentid}) => {
                       onChange={handleChange}
                       value={inputValues.rankingOrderId}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.rankingorder.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -174,7 +228,7 @@ const Ranking = ({establishmentid}) => {
                       onChange={handleChange}
                       value={inputValues.rankingStatusId}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.status.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -188,7 +242,7 @@ const Ranking = ({establishmentid}) => {
                       value={inputValues.categoryRankingId}
                       onChange={handleChange}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.ranking.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -202,7 +256,7 @@ const Ranking = ({establishmentid}) => {
                       value={inputValues.rankingClassificationId}
                       onChange={handleChange}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.classification.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -220,7 +274,7 @@ const Ranking = ({establishmentid}) => {
                     }}
                     variant="contained"
                   >
-                    Valider
+                   {t("VALIDATE")}
                   </Button>
                 </Box>
                     </form>

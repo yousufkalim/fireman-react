@@ -13,6 +13,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 export default function Navbar() {
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -21,7 +22,7 @@ export default function Navbar() {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -102,6 +103,8 @@ export default function Navbar() {
   );
 
   return (
+    <> 
+    
     <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
       <AppBar
         sx={{
@@ -111,6 +114,8 @@ export default function Navbar() {
         }}
         position="static"
       >
+        
+         
         <Toolbar>
           <IconButton
             size="large"
@@ -149,9 +154,13 @@ export default function Navbar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
+                
               <Badge badgeContent={17} color="error">
+
+           
                 <NotificationsIcon />
               </Badge>
+
             </IconButton>
             <IconButton
               size="large"
@@ -186,5 +195,6 @@ export default function Navbar() {
       {renderMobileMenu}
       {renderMenu}
     </Box>
+    </>
   );
 }

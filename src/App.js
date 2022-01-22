@@ -21,6 +21,7 @@ function App() {
         autoClose={3000}
         hideProgressBar={true}
         transition={Flip}
+        limit={1}
       />
       {/* Routes */}
       <Index />

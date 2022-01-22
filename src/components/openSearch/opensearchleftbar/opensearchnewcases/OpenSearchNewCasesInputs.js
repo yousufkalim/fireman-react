@@ -10,6 +10,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Rightarrow from "../../../../assets/rightarrow.png";
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -27,6 +28,7 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
 }));
 const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
+  const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     city: "",
     status: "",
@@ -121,7 +123,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
        color:"#ffffff"
        }}> 
      <Typography variant="h6">
-     Pour quel établissement le dossier va-t-il être créé ?a
+     {t("For which institution will the file be created?")}
 </Typography>
 <Typography sx={{color:"#A2AABE"}} variant="span">
 </Typography>
@@ -140,9 +142,9 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
         <Box
         sx={{textAlign:"start", display:"flex", paddingLeft:"16px"}}
         >
-          <h5>Establissement nouveau</h5>
+          <h5>{t("New Establishment")}</h5>
           <BootstrapTooltip title="Sera mis en œuvre plus tard">
-        <Button sx={{padding:"2px 2px"}}>Creer</Button>
+        <Button sx={{padding:"2px 2px"}}>{("Create")}</Button>
       </BootstrapTooltip>
         </Box>
         <Box
@@ -162,10 +164,10 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                 <Box sx={{display:"flex"}}> 
                 <div className="inputs-container">
                   <Box sx={{fontSize:"20px"}}> 
-                <h5> Etablissement existant</h5>
+                <h5> {t("Existing establishment")}</h5>
                 </Box>
                   <div className="flex-form">
-                    <label className="label-color"> Ref.</label>
+                    <label className="label-color"> {t("Ref.")}</label>
                     <input
                       type="search"
                       onChange={handleChange}
@@ -173,19 +175,19 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     />
                   </div>
                   <div className="flex-form">
-                    <label className="label-color"> Nom</label>
+                    <label className="label-color"> {t("Name")}</label>
                     <input type="search" onChange={handleChange} name="name" />
                   </div>
                   <div className="flex-form">
                   
-                    <label className="label-color"> Commune</label>
+                    <label className="label-color"> {t("City")}</label>
                     <select
                       className="dropdown"
                       type="select"
                       name="commune"
                       onChange={handleChange}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.city.data?.map((item) => (
                         <option class="option2" key={item.value} value={item.value}>
                           {item.text}
@@ -194,20 +196,20 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <label className="label-color"> Rue/Avenue</label>
+                    <label className="label-color"> {t("Streel/Avenue")}</label>
                     <input type="search" onChange={handleChange} name="steet" />
                   </div>
                 </div>
                 <div className="inputs-container input-container-search">
                   <div className="flex-form">
-                    <label className="label-color"> Statut</label>
+                    <label className="label-color"> {t("Status")}</label>
                     <select
                       className="dropdown"
                       type="select"
                       name="statut"
                       onChange={handleChange}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.status.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -216,14 +218,14 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <label className="label-color"> Classement Type</label>
+                    <label className="label-color"> {t("Type Classification")}</label>
                     <select
                       className="dropdown"
                       type="select"
                       name="classification"
                       onChange={handleChange}
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.classification.data?.map((item) => (
                         <option key={item.value} value={item.value}>
                           {item.text}
@@ -235,14 +237,14 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                   <Box>
                     <div className="flex-form">
                    
-                      <label className="label-color"> Classement CAT</label>
+                      <label className="label-color"> {t("CAT Ranking")}</label>
                       <select
                         className="dropdown"
                         type="select"
                         name="ranking"
                         onChange={handleChange}
                       >
-                        <option value="">Choisissez s'il vous plaît</option>
+                        <option value="">{t("Please choose")}</option>
                         {dropdownValue.ranking.data?.map((item) => (
                           <option key={item.value} value={item.value}>
                             {item.text}
@@ -258,7 +260,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                 <Divider sx={{margin:"20px 0px"}}/>
                 <Box sx={{textAlign:"right"}}> 
                     <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
-                    RECHERCHER
+                   {t("Search")}
                           </Button>
                     </Box>               
               </form>

@@ -12,16 +12,8 @@ import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
 import DoneIcon from "@mui/icons-material/Done";
-const BootstrapTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-  },
-}));
+import { useTranslation, Trans } from "react-i18next";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -29,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentLevel = ({ Values, description }) => {
+  const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
@@ -68,7 +61,7 @@ const EstablishmentLevel = ({ Values, description }) => {
     };
     if (store.activeCase === "newcase") {
       api("post", "/api/v1/create_description_data", obj).then((res) => {
-        toast.success("Success!");
+        {toast.success(t("Successfull"))};
         if ((res.status = 200)) {
           setIconState(true);
           setToggle(true);
@@ -78,7 +71,7 @@ const EstablishmentLevel = ({ Values, description }) => {
     }
     if (store.activeCase === "currentcases") {
       api("put", "/api/v1/update_description_data", obj).then((res) => {
-        toast.success("Success");
+        {toast.success(t("Successfull"))};
       });
     }
   };
@@ -113,12 +106,12 @@ const EstablishmentLevel = ({ Values, description }) => {
         }}
         onClick={toggleSection}
       >
-        <Typography variant="h6">Descriptif</Typography>
+        <Typography variant="h6">{t("Description")}</Typography>
         <div>{iconState ? <DoneIcon /> : null}</div>
       </Box>
       <Item
         ref={focusPoint}
-        sx={{ boxShadow: "none", width: "97%", margin: "auto" }}
+        sx={{ boxShadow: "none", width: "97%", maxHeight:"25%", overflow:"scroll", margin: "auto" }}
       >
         {store.activeCase === "newcase" ? (
           <Formik
@@ -145,7 +138,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"205px"
                                 }}>
-                                  Niveau 
+                                  {t("Level")} 
                                 </Box>   
                                 </th>
                                 {
@@ -160,7 +153,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                     padding:"0px 5px",
                                     width:"212px"
                                     }}>
-                                     <span>Numéro cellule</span> 
+                                     <span>{t("Cell number")}</span> 
                                     <CloseIcon
                                     onClick={()=>handleClose("cellnumber")}
                                     sx={{width: "0.5em"}}
@@ -183,7 +176,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"215px"
                                 }}> 
-                                <span> Nom cellule</span> 
+                                <span> {t("Cell name")}</span> 
                                 <CloseIcon
                                 onClick={()=>handleClose("cellname")}
                                 sx={{width: "0.5em"}}
@@ -215,7 +208,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"180px"
                                 }}> 
-                                 Non accessible au public 
+                               {t("Not accessible to the public")}
                                   </Box>
                                   </th>
                                 <th class="header-label">
@@ -228,7 +221,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"120px"
                                 }}> 
-                                 Local à risques 
+                                {t("Local at risk")}
                                   </Box>
                                   </th>
                                   <th class="header-label">
@@ -240,7 +233,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"310px"
                                 }}> 
-                                 Commentaires
+                               {t("Comments")}
                                   </Box>
                                   </th>
                               </tr>
@@ -271,7 +264,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                               name={`repeatable.${i}.levelId`}
                             >
                               <option value="">
-                                Choisissez s'il vous plaît
+                               {t("Please choose")}
                               </option>
                               {dropdownValue?.leveldropdown?.data?.map(
                                 (item) => (
@@ -468,7 +461,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"205px"
                                 }}>
-                                  Niveau 
+                                  {t("Level")} 
                                 </Box>   
                                 </th>
                                 {
@@ -483,7 +476,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"212px"
                                 }}>
-                                   <span>Numéro cellule</span> 
+                                   <span>{t("Cell number")}</span> 
                                     <CloseIcon
                                     onClick={()=>handleClose("cellnumber")}
                                     sx={{width: "0.5em"}}
@@ -504,7 +497,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                   padding:"0px 5px",
                                   width:"215px"
                                   }}> 
-                                 <span> Nom cellule</span> 
+                                 <span> {t("Cell name")}</span> 
                                 <CloseIcon
                                 onClick={()=>handleClose("cellname")}
                                 sx={{width: "0.5em"}}
@@ -537,7 +530,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"180px"
                                 }}> 
-                                 Non accessible au public 
+                                   {t("Not accessible to the public")}
                                   </Box>
                                   </th>
                                 <th class="header-label">
@@ -550,7 +543,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"120px"
                                 }}> 
-                                 Local à risques 
+                                {t("Local at risk")}
                                   </Box>
                                   </th>
                                   <th class="header-label">
@@ -562,7 +555,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                                 padding:"0px 5px",
                                 width:"310px"
                                 }}> 
-                                 Commentaires
+                               {t("Comments")}
                                   </Box>
                                   </th>
                               </tr>
@@ -594,7 +587,7 @@ const EstablishmentLevel = ({ Values, description }) => {
                               name={`repeatable.${i}.levelId`}
                             >
                               <option value="">
-                                Choisissez s'il vous plaît
+                               {t("Please choose")}
                               </option>
                               {dropdownValue?.leveldropdown?.data?.map(
                                 (item) => (
