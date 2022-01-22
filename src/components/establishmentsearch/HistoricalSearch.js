@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
 import EstablishmentLevel from "./EstablishmentLevel";
 import StaffLevel from "./StaffLevel";
+import { useTranslation, Trans } from "react-i18next";
 import Ranking from "./Ranking";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -23,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const HistoricalSearch = ({ generalDataEstablishment }) => {
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [iconState, setIconState] = useState(false);
@@ -154,14 +156,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
-        "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
-      );
+        `${t("You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.")}`);
     }
     if (inputValues.statusId !== "2" && value === "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
-        "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
-      );
+        `${t("You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group")}`);
     }
     if (
       inputValues.establishmentName !== store.establishmentname &&
@@ -169,10 +169,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     ) {
       setOpen(true);
       setMessageText(
-        `You are about to change the name of an establishment or a group of 
-        establishments. The history of establishment XX and the reference will now be 
-        linked to this new name.`
-      );
+        `${t("You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.")}`);
     }
     setInputValues((preVal) => {
       return {
@@ -193,7 +190,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       api("post", `/api/v1/create_generaldata_establishment`, updatedObj)
         .then((res) => {
           if (res.status === 200) {
-            toast.success("Successfully Saved");
+            {toast.success(t("Successfull"))};
             setIconState(true);
             setToggle(true);
             focusPoint.current.style.display = "none";
@@ -234,12 +231,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         }}
         onClick={toggleSection}
       >
-        <Typography variant="h6">Données générales</Typography>
+        <Typography variant="h6">{t("General data")}</Typography>
         <div>{iconState ? <DoneIcon /> : null}</div>
       </Box>
       <Item
         sx={{
-          marginTop: "15px",
           borderRadius: "10px",
           width: "97%",
           margin: "auto",
@@ -266,7 +262,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
             >
               <Box sx={{ display: "flex" }}>
                 <div className="inputs-container">
-                  <label>Nom établissement </label>
+                  <label className="label-color">{t("Name Establishment")}</label>
                   <div className="flex-form">
                     <input
                       type="search"
@@ -279,7 +275,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
 
                   <span> Adresse</span>
                   <br />
-                  <label>Commune </label>
+                  <label className="label-color">{t("City")} </label>
                   <div className="flex-form">
                     <select
                       className="dropdown"
@@ -297,7 +293,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                     </select>
                   </div>
                   <div className="flex-form">
-                    <label>CP</label>
+                    <label className="label-color">CP</label>
                     <input
                       type="search"
                       onChange={handleChange}
@@ -308,7 +304,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   <div className="establishment-nom-mobile-container">
                     <div className="flex-form">
                       <span>Responsable de sécurité</span>
-                      <label>Nom </label>
+                      <label className="label-color">{t("Name")} </label>
                       <input
                         type="search"
                         onChange={handleChange}
@@ -317,10 +313,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       />
                     </div>
 
-                    <label>Mobile </label>
+                    <label className="label-color">Mobile </label>
                     <div className="flex-form">
                       <input
-                        type="search"
+                        type="number"
                         onChange={handleChange}
                         name="securityManagerMobile"
                         value={inputValues.securityManagerMobile}
@@ -329,7 +325,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </div>
                 </div>
                 <div className="inputs-container">
-                  <label>Statut </label>
+                  <label className="label-color">{t("Status")} </label>
                   <div className="flex-form">
                     <select
                       className="dropdown"
@@ -348,7 +344,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </div>
 
                   <div className="establishment-typenom-container">
-                    <label>Type voie </label>
+                    <label className="label-color">{t("Channel type")} </label>
                     <div className="flex-form">
                       <select
                         className="dropdown"
@@ -367,7 +363,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                     </div>
 
                     <div className="flex-form">
-                      <label>Nom voie</label>
+                      <label className="label-color">{t("Channel name")}</label>
                       <input
                         type="search"
                         onChange={handleChange}
@@ -375,7 +371,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         value={inputValues.channelName.toUpperCase()}
                       />
                     </div>
-                    <label>Numero</label>
+                    <label className="label-color">{t("Number")}</label>
                     <div className="flex-form">
                       <input
                         type="search"
@@ -385,7 +381,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       />
                     </div>
                   </div>
-                  <label>Prénom</label>
+                  <label className="label-color">{t("First name")}</label>
                   <div className="flex-form">
                     <input
                       type="search"
@@ -394,10 +390,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       value={inputValues.securityManagerName}
                     />
                   </div>
-                  <label>Mail</label>
+                  <label className="label-color">Mail</label>
                   <div className="flex-form">
                     <input
-                      type="search"
+                      type="email"
                       onChange={handleChange}
                       name="securityManagerEmail"
                       value={inputValues.securityManagerEmail}
@@ -416,7 +412,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   }}
                   variant="contained"
                 >
-                  Valider
+                 {t("VALIDATE")}
                 </Button>
               </Box>
             </form>

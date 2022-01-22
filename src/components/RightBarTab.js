@@ -11,6 +11,7 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -18,6 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchRightBar = () => {
+  const { t, i18n } = useTranslation();
+  const { language } = i18n;
   return (
     <>
       {/* <Item
@@ -101,8 +104,8 @@ const EstablishmentSearchRightBar = () => {
                                     </div>
                                 </div>
                                 <div style={{ marginBottom: "20px" }} className="logo_flex">
-                                    <p>Garde-feu Entraînement</p>
-                                    <p>Extincteur d'incendie Entraînement</p>
+                                    <p>{t("Fireguard Training")}</p>
+                                    <p>{t("Fire Extinguisher Training")}</p>
                                 </div>
                                 <div className="logo_flex align">
                                     <div className="logo">
@@ -115,30 +118,30 @@ const EstablishmentSearchRightBar = () => {
                                     </div>
                                 </div>
                                 <div className="logo_flex">
-                                    <p>Sensibilisation au feu Entraînement</p>
-                                    <p>Alarme incendie Entraînement</p>
+                                    <p>{t("Fire Awareness Training")}</p>
+                                    <p>{t("Fire alarm Drive")}</p>
                                 </div>
                                 <img className="firecart" src={Firecart} />
                             </div>
                             <div className="Compagnon">
-                             <h4>Compagnon</h4>
+                             <h4>{t("Companion")}</h4>
                              <div className="Compagnon_icons">
                              <img src={Commentaries} />
-                             <p>Commentaires</p>
+                             <p>{t("Comments")}</p>
                              </div>
                              <div className="Compagnon_icons">
                              <SlowMotionVideoIcon sx={{color:"#9095A2"}} />
-                             <p>Tutoriel vidéo</p>
+                             <p>{t("Video tutorial")}</p>
                              </div>
                             </div>
                             <div style={{paddingLeft:"29px"}}  className="Compagnon">
                              <div className="notes">
                                  <DescriptionOutlinedIcon sx={{color:"#9095A2"}} />
-                                 <p>Notes</p>
+                                 <p>{t("Notes")}</p>
                              </div>
                              <div className="notes notes_border">
                                  <ForumOutlinedIcon sx={{color:"#9095A2"}} />
-                                 <p>Chat</p>
+                                 <p>{t("Chat")}</p>
                              </div>
                              <div className="notes">
                                  <img src={Technicalsupport}  />

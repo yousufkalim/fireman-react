@@ -9,6 +9,7 @@ import EditModal from "../Modals/EditCheckBox"
 const CheckList = (props) => {
     const [open, setOpen] = React.useState(false);
     const [checklistdata,setChecklistdata] = React.useState({});
+    const [index, setIndex] = React.useState("");
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
     const handleOpen = (data,i) => {
         setOpen(true)
@@ -16,15 +17,19 @@ const CheckList = (props) => {
     };
     const handleClose = () => setOpen(false);
     const saveChanges=(sentence)=>{
-        console.log(sentence);
+        console.log(sentence, index);
         console.log(">>>>", checklists);
-   let a= checklists.map((data,i)=>{
-       let dat={}
-      if((props.accordionData.serialName+i)==checklistdata.id){
-          dat={...data,sentenceText:sentence}
-      }
-      return data
-    })
+       const objIndex = checklists.findIndex((obj => obj.sectionSentencesId === index+1));
+        checklists[objIndex].sentenceText = sentence
+//    let a= checklists.map((data,i)=>{
+//        let dat={}
+//       if((props.accordionData.serialName+i)==checklistdata.id){
+//           dat={...data,sentenceText:sentence}
+//       }
+//       return data
+//     })
+      console.log(checklists);
+    
     }
     const [checked, setChacked] = React.useState("");
     return (
@@ -49,7 +54,7 @@ const CheckList = (props) => {
                                 <p>{parse(data.sentenceText)}</p>
                             </div>
                             <div>
-                                <CreateIcon onClick={()=>handleOpen(data,props.accordionData.serialName + i)} sx={{ cursor: "pointer" }} />
+                                <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); setIndex(i)}} sx={{ cursor: "pointer" }} />
                             </div>
                         </div>
                     )

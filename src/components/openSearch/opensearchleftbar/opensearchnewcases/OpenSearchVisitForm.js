@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Rightarrow from "../../../../assets/rightarrow.png";
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -24,7 +25,7 @@ const EstablishmentSearchVisitForm = ({
   currentcasescaseFileId,
   Toggler
 }) => {
-  
+  const { t, i18n } = useTranslation();
   const handleChange = (e) => {
     const checked = e.target.checked;
     const id = e.target.id;
@@ -66,8 +67,8 @@ const EstablishmentSearchVisitForm = ({
                 {visit?.map((item) => (
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
-                      <label className="label-color">
-                        {item.checkHeadingName}
+                      <label className="checklist-heading">
+                        {t(item.checkHeadingName)}
                       </label>
                     </Box>
                     <Divider />
@@ -104,7 +105,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                            {t(val.name)}
                           </Box>
                         </Box>
                       </div>
@@ -122,7 +123,7 @@ const EstablishmentSearchVisitForm = ({
                   }}
                   variant="contained"
                 >
-                  Valider
+                  {t("VALIDATE")}
                 </Button>
               </Box>
             </form>

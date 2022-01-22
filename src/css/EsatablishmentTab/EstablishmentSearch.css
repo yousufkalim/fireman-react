@@ -37,6 +37,14 @@
      border-radius: 10px;
   background-color: aliceblue;
 }
+.flex-form input[type="email"] {
+  border-radius: 10px;
+background-color: aliceblue;
+}
+.flex-form input[type="number"] {
+  border-radius: 10px;
+background-color: aliceblue;
+}
 .flex-form input[type="date"] {
   border-radius: 10px;
   background-color: aliceblue;

@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Button from '@mui/material/Button';
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -12,13 +12,18 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 ;import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/Vector.png"
-
+import { useTranslation, Trans } from "react-i18next";
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const { t, i18n } = useTranslation();
+  const { language } = i18n;
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let user = localStorage.getItem("user");
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -122,6 +127,13 @@ export default function Navbar() {
             <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
           </div>
           <Box sx={{ flexGrow: 1 }} />
+          <Box>
+          <Button variant="outlined"  onClick={() =>
+                changeLanguage(`${language == "en" ? "fr" : "en"}`)
+              }>
+            {language == "fr" ? "English" : "French"}
+            </Button>
+          </Box>
           <div className="bellIcon" style={{display:"flex"}}>
             <IconButton
               size="large"

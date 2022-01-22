@@ -15,8 +15,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import { useTranslation, Trans } from "react-i18next";
 import { Store } from "../../../../StoreContext";
+import { UpdateStore } from "../../../../StoreContext";
 import moment from "moment";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -36,6 +37,7 @@ const FolderCreationSection = ({
   currentcasescommisionDate,
   Studydata,
 }) => {
+  const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -57,6 +59,7 @@ const FolderCreationSection = ({
     iconvisit:CompName==="currentcases"&&indexdata?.sectionindex === 1?true:false
   })
   const store = Store();
+  const updatestore = UpdateStore()
   useEffect(() => {
      console.log(store);
      console.log(">>>>>>>>>>",indexdata);
@@ -239,7 +242,7 @@ const FolderCreationSection = ({
                   caseid: res.data,
                 };
               });
-          toast.success("Successfully Saved");
+              {toast.success(t("Successfull"))};
           setToggler((pre)=>{
             return{
               togglermain:false,
@@ -296,7 +299,6 @@ const FolderCreationSection = ({
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    console.log(checkboxObj)
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
          console.log(res)
@@ -314,6 +316,7 @@ const FolderCreationSection = ({
               iconstudytwo:true
             }
           });
+          updatestore({activeNavbarTab:1})
         }
        if(data==="visit"){
         setToggler((pre)=>{
@@ -328,8 +331,9 @@ const FolderCreationSection = ({
             iconvisit:true
           }
         });
+        updatestore({activeNavbarTab:1})
        }
-        toast.success("Successfully saved");
+       {toast.success(t("Successfull"))};
       })
       .catch((err) => toast.error(err?.statusText));
     setCheckboxObj([]);
@@ -363,7 +367,7 @@ const FolderCreationSection = ({
               margin: "auto",
             }}
           >
-            <Typography variant="h6">Creation de dossier</Typography>
+            <Typography variant="h6">{t("Folder creation")}</Typography>
            { Icon.iconmain? <DoneIcon /> : null}
           </Box>
       <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglermain? true: false}>
@@ -381,7 +385,7 @@ const FolderCreationSection = ({
                   >
                     <Box sx={{ display: "flex" }}>
                       <div className="inputs-container">
-                        <label className="label-color">Nauture dossier</label>{" "}
+                        <label className="label-color">Type</label>{" "}
                         <br />
                         <div class="flex-form">
                           <select
@@ -392,7 +396,7 @@ const FolderCreationSection = ({
                             value={inputValues.caseTypeId}
                             required
                           >
-                            <option value="">Choisissez s'il vous plaît</option>
+                            <option value="">{t("Please choose")}</option>
                             {dropdownValue.casetype.data?.map((item, i) => (
                               <option value={item.value}>{item.text}</option>
                             ))}
@@ -409,7 +413,7 @@ const FolderCreationSection = ({
                             value={inputValues.commisionTypeId}
                             required
                           >
-                            <option value="">Choisissez s'il vous plaît</option>
+                            <option value="">{t("Please choose")}</option>
                             {dropdownValue.commission.data?.map((item) => (
                               <option value={item.value}>{item.text}</option>
                             ))}
@@ -441,7 +445,7 @@ const FolderCreationSection = ({
                                 required
                               >
                                 <option value="">
-                                  Choisissez s'il vous plaît
+                                  {t("Please choose")}
                                 </option>
                                 {dropdownValue.studytype.data?.map((item) => (
                                   <option value={item.value}>
@@ -493,7 +497,7 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
-                        <label className="label-color">Service</label>
+                        <label className="label-color">{t("Service")}</label>
                         <div class="flex-form">
                           <input
                             type="search"
@@ -518,7 +522,7 @@ const FolderCreationSection = ({
                         }}
                         variant="contained"
                       >
-                        Valider
+                        {t("VALIDATE")}
                       </Button>
                     </Box>
                   </form>
@@ -570,7 +574,7 @@ const FolderCreationSection = ({
           }
        })}}
       >
-        <Typography variant="h6">Détail de l'objet</Typography>
+        <Typography variant="h6">{t("Details Of Object")}</Typography>
         { Icon.iconvisit? <DoneIcon /> : null}
       </Box>
       <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglervisit? true: false}>

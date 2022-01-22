@@ -5,7 +5,6 @@ import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import { toast } from "react-toastify";
 import Paper from "@mui/material/Paper";
-import CheckIcon from "@mui/icons-material/Check";
 import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
@@ -16,6 +15,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import DoneIcon from "@mui/icons-material/Done";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -39,6 +39,7 @@ const EstablishmentSearchStudyForm = ({
   setIcon,
   Icon
 }) => {
+  const { t, i18n } = useTranslation();
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
     caseAverageId: Studydata?.data?.caseAverageId
@@ -68,6 +69,15 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
+    console.log(">>>>>",townplanning?.map((val) =>(
+      val.chkList.map((item)=>(
+item
+))
+      ))
+     
+     )
+    ;
+    
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -181,7 +191,7 @@ const EstablishmentSearchStudyForm = ({
       });
       api("post", `/api/v1/casefiles/save_casefile_checklist`, arr)
         .then((res) => {
-          toast.success("Successful");
+          {toast.success(t("Successfull"))};
         })
         .catch((err) => toast.error(err?.statusText));
       setCheckboxObj([]);
@@ -195,7 +205,6 @@ const EstablishmentSearchStudyForm = ({
     };
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
-        toast.success("Success");
         setToggler((pre)=>{
           return{
            ...pre,
@@ -240,7 +249,7 @@ const EstablishmentSearchStudyForm = ({
           }}
         >
         
-          <Typography variant="h6">Documents d'urbanisme associés</Typography>
+          <Typography variant="h6">{t("Town Planning Documents")}</Typography>
           { Icon.iconstudy? <DoneIcon /> : null}
         </Box>
         <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudy? true: false}>
@@ -274,7 +283,7 @@ const EstablishmentSearchStudyForm = ({
               onSubmit={(e) => handleSubmit(e, "townplanning")}
             >
               <Box sx={{ textAlign: "start" }}>
-                <label className="label-color">Saisie</label>
+                <label className="checklist-heading">{t("Capture")}</label>
               </Box>
               <Divider sx={{ margin: "15px 0px" }} />
               <Box sx={{ display: "flex" }}></Box>
@@ -282,7 +291,7 @@ const EstablishmentSearchStudyForm = ({
               <Box>
                 <Box sx={{ display: "flex", textAlign: "start" }}>
                   <div className="flex-form">
-                    <label className="label-color"> Origine</label>
+                    <label className="label-color"> {t("Origin")}</label>
                     <select
                       className="dropdown dropdown-townplanning"
                       type="select"
@@ -291,7 +300,7 @@ const EstablishmentSearchStudyForm = ({
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue?.origin?.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -299,7 +308,7 @@ const EstablishmentSearchStudyForm = ({
                   </div>
 
                   <div className="flex-form">
-                    <label className="label-color"> Moyen</label>
+                    <label className="label-color"> {t("Average")}</label>
                     <select
                       className="dropdown dropdown-townplanning"
                       type="select"
@@ -308,7 +317,7 @@ const EstablishmentSearchStudyForm = ({
                       onChange={handleChange}
                       required
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.average.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -318,7 +327,7 @@ const EstablishmentSearchStudyForm = ({
 
                 <Box sx={{ display: "flex", textAlign: "start" }}>
                   <div className="flex-form">
-                    <label className="label-color">Date</label>
+                    <label className="label-color">{t("Date")}</label>
                     <input
                       className="dropdown-townplanning"
                       onChange={handleChange}
@@ -347,13 +356,13 @@ const EstablishmentSearchStudyForm = ({
                     />
                   </div>
                 </Box>
-                <Box sx={{ textAlign: "start" }}>
-                  <label className="label-color">Références d’urbanisme</label>
+                <Box sx={{ textAlign: "start", fontSize:"20px", color: "#314A6C" }}>
+                  <label className="checklist-heading">{t("Urban planning references")}</label>
                 </Box>
                 <Divider sx={{ margin: "15px 0px" }} />
                 <Box sx={{ display: "flex", textAlign: "start" }}>
                   <div className="flex-form">
-                    <label className="label-color">Type demande </label>
+                    <label className="label-color">{t("Request Type")} </label>
 
                     <select
                       className="dropdown dropdown-townplanning"
@@ -363,7 +372,7 @@ const EstablishmentSearchStudyForm = ({
                       value={formValues.requestTypeId}
                       required
                     >
-                      <option value="">Choisissez s'il vous plaît</option>
+                      <option value="">{t("Please choose")}</option>
                       {dropdownValue.requesttype.data?.map((item) => (
                         <option value={item.value}>{item.text}</option>
                       ))}
@@ -382,12 +391,12 @@ const EstablishmentSearchStudyForm = ({
                   </div>
                 </Box>
                 <Box sx={{ textAlign: "start" }}>
-                  <label className="label-color">Demandeur</label>
+                  <label className="label-color">{t("Applicant")}</label>
                 </Box>
                 <Divider sx={{ margin: "15px 0px" }} />
-                <Box sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex", textAlign:"start" }}>
                   <div class="flex-form">
-                    <label className="label-color">Nom </label>
+                    <label className="label-color">{t("Name")} </label>
                     <input
                       className="dropdown-townplanning"
                       type="search"
@@ -399,9 +408,9 @@ const EstablishmentSearchStudyForm = ({
                   </div>
 
                   <div class="flex-form">
-                    <label className="label-color"> Téléphone</label>
+                    <label className="label-color"> {t("Phone")}</label>
                     <input
-                      type="search"
+                      type="number"
                       onChange={handleChange}
                       name="mobile"
                       value={formValues.mobile}
@@ -409,11 +418,11 @@ const EstablishmentSearchStudyForm = ({
                     />
                   </div>
                 </Box>
-                <Box sx={{ dispaly: "flex", width: "50%" }}>
+                <Box sx={{ dispaly: "flex", width: "50%",textAlign:"start" }}>
                   <div class="flex-form">
-                    <label className="label-color"> E-mail</label>
+                    <label className="label-color">Mail</label>
                     <input
-                      type="search"
+                      type="email"
                       onChange={handleChange}
                       name="email"
                       value={formValues.email}
@@ -436,8 +445,8 @@ const EstablishmentSearchStudyForm = ({
                   {townplanning?.map((item, i) => (
                     <>
                       <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
-                        <label className="label-color">
-                          {item.checkHeadingName}
+                        <label className="checklist-heading">
+                          {t(item.checkHeadingName)}
                         </label>
                       </Box>
                       <Divider />
@@ -475,7 +484,7 @@ const EstablishmentSearchStudyForm = ({
                                 color: "#3675B7",
                               }}
                             >
-                              {val.name}
+                              {t(val.name)}
                             </Box>
                           </Box>
                         </div>
@@ -495,7 +504,7 @@ const EstablishmentSearchStudyForm = ({
                   }}
                   variant="contained"
                 >
-                  Valider
+                  {t("VALIDATE")}
                 </Button>
               </Box>
             </form>
@@ -524,7 +533,7 @@ const EstablishmentSearchStudyForm = ({
             color: "#ffffff",
           }}
         >
-          <Typography variant="h6">Détails de l'objet</Typography>
+          <Typography variant="h6">{t("Details Of Object")}</Typography>
           { Icon.iconstudytwo? <DoneIcon /> : null}
         </Box>
         <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudytwo? true: false}>
@@ -554,8 +563,8 @@ const EstablishmentSearchStudyForm = ({
                 {study?.map((item) => (
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
-                      <label className="label-color">
-                        {item.checkHeadingName}
+                      <label className="checklist-heading">
+                        {t(item.checkHeadingName)}
                       </label>
                     </Box>
                     <Divider />
@@ -592,7 +601,7 @@ const EstablishmentSearchStudyForm = ({
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                            {t(val.name)}
                           </Box>
                         </Box>
                       </div>
@@ -610,7 +619,7 @@ const EstablishmentSearchStudyForm = ({
                   }}
                   variant="contained"
                 >
-                  Valider
+                 {t("VALIDATE")}
                 </Button>
               </Box>
             </form>

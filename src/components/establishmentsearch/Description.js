@@ -8,7 +8,9 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
 import Rightarrow from "../../assets/rightarrow.png";
+import { useTranslation, Trans } from "react-i18next";
 const Description = ({ values, onSubmit, description }) => {
+  const { t, i18n } = useTranslation();
   const [inputValues, setInputValues] = useState({
     site: description?.siteDescription ? description?.siteDescription : "",
     establishmentdescription: description?.description
@@ -59,7 +61,7 @@ const Description = ({ values, onSubmit, description }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Site (si concerné)</Typography>
+            <Typography>{t("Site (if applicable)")}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextareaAutosize
@@ -87,7 +89,7 @@ const Description = ({ values, onSubmit, description }) => {
             id="panel2a-header"
           >
             <Typography>
-              Descriptif présentant l’établissement et les activités
+            {t("Description presenting the establishment and the activities")}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -112,7 +114,7 @@ const Description = ({ values, onSubmit, description }) => {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>Plancher bas du dernier niveau accessible</Typography>
+            <Typography>{t("Low floor of the last accessible level")}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ textAlign: "start" }}>
            
@@ -122,7 +124,7 @@ const Description = ({ values, onSubmit, description }) => {
             }}>
               <label>
                   {" "}
-                  Less Eight Meter 
+                 {t("Less Eight Meter")}
                 </label>
                 <input
                   className="checkbox"
@@ -137,7 +139,7 @@ const Description = ({ values, onSubmit, description }) => {
                 >
                 <label>
                   {" "}
-                  More Eight Meter 
+                 {t("More Eight Meter")}
                 </label>
                 <input
                   className="checkbox"
@@ -161,7 +163,7 @@ const Description = ({ values, onSubmit, description }) => {
                     }}
                     variant="contained"
                   >
-                    Valider
+                    {t("VALIDATE")}
                   </Button>
                 </Box>
       </Box>
