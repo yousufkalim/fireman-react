@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -23,8 +23,42 @@ const EstablishmentSearchVisitForm = ({
   setCheckboxObj,
   postCheckboxesData,
   currentcasescaseFileId,
+  state,
+  setstate,
   Toggler
 }) => {
+  useEffect(() => {
+    const ab =visit?.map((val) =>
+      val.chkList.filter((item) => item.isSelected == true)
+        .map((val) => {
+          return{ 
+          caseFileCheckListId: val.caseFileCheckListId, 
+          sectionType:val.sectionType, 
+          casefileId: casefileId ? casefileId : currentcasescaseFileId,
+        }})
+    ).map((val) => val.filter((val) =>{ 
+      return{
+        caseFileCheckListId: val.caseFileCheckListId,
+        sectionType: val.sectionType, 
+        casefileId: val.casefileId 
+      }
+    }));
+  let merged = [].concat.apply([], ab);
+  setstate((pre) => {
+    return {
+      ...pre,
+      visitcheck: merged.map((val) => {
+        return{
+          caseFileCheckListId: val.caseFileCheckListId,
+          sectionType: val.sectionType, 
+          casefileId: val.casefileId 
+        }
+      }
+      ),
+    };
+  });
+  }, [visit]);
+  
   const { t, i18n } = useTranslation();
   const handleChange = (e,sectiontype) => {
     const checked = e.target.checked;
@@ -44,7 +78,7 @@ const EstablishmentSearchVisitForm = ({
     }
   };
 
-  
+   console.log("visitcheck",state.visitcheck);
   const handleSubmit = (e) => {
     e.preventDefault();
     postCheckboxesData("visit");

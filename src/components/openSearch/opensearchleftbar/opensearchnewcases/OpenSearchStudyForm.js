@@ -70,7 +70,7 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
-    console.log(">>>town",townplanning);
+    ///////for townplanning checkboxes
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -95,15 +95,52 @@ const EstablishmentSearchStudyForm = ({
         check: merged.map((val) => {
           return{
             caseFileCheckListId: val.caseFileCheckListId,
+            sectionType: val.sectionType, 
+            casefileId: val.casefileId 
           }
         }
         ),
       };
     });
-     console.log(">>>av", ab);
+ ///////for townplanning checkboxes
+
+
+ const studycheckboxes = study?.map((val) =>
+        val.chkList
+          .filter((item) => item.isSelected == true)
+          .map((val) => {
+            return{ 
+            caseFileCheckListId: val.caseFileCheckListId, 
+            sectionType:val.sectionType, 
+            casefileId: casefileId ? casefileId : currentcasescaseFileId,
+          }})
+      ).map((val) => val.filter((val) =>{ 
+        return{
+          caseFileCheckListId: val.caseFileCheckListId,
+          sectionType: val.sectionType, 
+          casefileId: val.casefileId 
+        }
+      }));
+    let mergedstudy = [].concat.apply([], studycheckboxes);
+    setstate((pre) => {
+      return {
+        ...pre,
+        studycheck: mergedstudy.map((val) => {
+          return{
+            caseFileCheckListId: val.caseFileCheckListId,
+            sectionType: val.sectionType, 
+            casefileId: val.casefileId 
+          }
+        }
+        ),
+      };
+    });
   }, [townplanning]);
+  
+
+  console.log("studyfiltered",state.studycheck);
+  console.log("check",state.check);
   useEffect(() => {
-   
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
       caseAverageId: Studydata?.data?.caseAverageId
@@ -167,20 +204,45 @@ const EstablishmentSearchStudyForm = ({
       casefileId: casefileId ? casefileId : currentcasescaseFileId,
       sectionType:sectiontype
     };
-    setstate((pre) => {
-      return {
-        ...pre,
-        check: [...state.check.map((val) => {
-          return{
-            caseFileCheckListId:parseInt(val.caseFileCheckListId),
-            casefileId: casefileId ? casefileId : currentcasescaseFileId,
-            sectionType:sectiontype
-          }
-        }), 
-        obj],
-      };
-    });
+     //////for current cases add checkboxes
+    if (CompName && sectiontype===0) {
+      setstate((pre) => {
+        return {
+          ...pre,
+          check: [...state.check.map((val) => {
+            return{
+              caseFileCheckListId:parseInt(val.caseFileCheckListId),
+              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              sectionType:sectiontype
+            }
+          }), 
+          obj],
+        };
+      });
+    }
+    /////
+    if (CompName && sectiontype===2) {
+      setstate((pre) => {
+        return {
+          ...pre,
+          studycheck: [...state.studycheck.map((val) => {
+            return{
+              caseFileCheckListId:parseInt(val.caseFileCheckListId),
+              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              sectionType:sectiontype
+            }
+          }), 
+          obj],
+        };
+      });
+    }
+
+
+    //////for new cases add checkboxes
+    if (compShow) {
       setCheckboxObj((pre) => [...pre, obj]);
+    }
+
     }
     if (!checked) {
       if (compShow) {
@@ -188,11 +250,19 @@ const EstablishmentSearchStudyForm = ({
           ...pre.filter((item) => item.caseFileCheckListId !== id),
         ]);
       }
-      if (CompName) {
+      if (CompName && sectiontype===0) {
         setstate((pre) => {
           return {
             ...pre,
-            check: [...state.check.filter((val) => val != id)],
+            check: [...state.check.filter((val) => val.caseFileCheckListId != id)],
+          };
+        });
+      }
+      if (CompName && sectiontype===2) {
+        setstate((pre) => {
+          return {
+            ...pre,
+            studycheck: [...state.studycheck.filter((val) => val.caseFileCheckListId != id)],
           };
         });
       }
@@ -205,18 +275,18 @@ const EstablishmentSearchStudyForm = ({
     });
   };
 
-  console.log(">>>><<<<", state.check);
   const handleSubmit = (e, data) => {
+    console.log(state);
     e.preventDefault();
-    if (CompName === "currentcases") {
+    // if (CompName === "currentcases") {
     
-         console.log("state", state.check);
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.check)
-        .then((res) => {
-          {toast.success(t("Successfull"))};
-        })
-        .catch((err) => toast.error(err?.statusText));
-    }
+    //      console.log("state", state.check);
+    //   api("post", `/api/v1/casefiles/save_casefile_checklist`, state.check)
+    //     .then((res) => {
+    //       {toast.success(t("Successfull"))};
+    //     })
+    //     .catch((err) => toast.error(err?.statusText));
+    // }
     if(compShow){
       postCheckboxesData("townplanning");
     }
@@ -581,7 +651,7 @@ const EstablishmentSearchStudyForm = ({
             <form onSubmit={(e) => handleSubmitdetailsobj(e, "detailsobj")}>
               <Box
               >
-                {study?.map((item) => (
+                {study && study?.map((item) => (
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                       <label className="checklist-heading">

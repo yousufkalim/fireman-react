@@ -165,6 +165,8 @@ const FolderCreationSection = ({
     study: [],
     visit: [],
     check: [],
+    studycheck:[],
+    visitcheck:[]
   });
   const [inputValues, setInputValues] = useState({
     caseTypeId: "",
@@ -588,6 +590,8 @@ const FolderCreationSection = ({
         <AccordionDetails>
           
         <OpenSearchVisitForm
+         state={state}
+        setstate={setstate}
               compShow={compShow}
               CompName={CompName}
               indexdata={indexdata}
