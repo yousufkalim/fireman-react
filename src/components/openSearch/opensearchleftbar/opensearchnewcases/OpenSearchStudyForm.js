@@ -75,11 +75,20 @@ const EstablishmentSearchStudyForm = ({
       .map((val) =>
         val.chkList
           .filter((item) => item.isSelected == true)
-          .map((val) => ({ caseFileCheckListId: val.caseFileCheckListId }))
-      )
-      .map((val) => val.filter((val) => val.caseFileCheckListId));
+          .map((val) => {
+            return{ 
+            caseFileCheckListId: val.caseFileCheckListId, 
+            sectionType:val.sectionType, 
+            casefileId: casefileId ? casefileId : currentcasescaseFileId,
+          }})
+      ).map((val) => val.filter((val) =>{ 
+        return{
+          caseFileCheckListId: val.caseFileCheckListId,
+          sectionType: val.sectionType, 
+          casefileId: val.casefileId 
+        }
+      }));
     let merged = [].concat.apply([], ab);
-    console.log("merged", merged);
     setstate((pre) => {
       return {
         ...pre,
@@ -200,7 +209,7 @@ const EstablishmentSearchStudyForm = ({
   const handleSubmit = (e, data) => {
     e.preventDefault();
     if (CompName === "currentcases") {
-      alert("current")
+    
          console.log("state", state.check);
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.check)
         .then((res) => {
