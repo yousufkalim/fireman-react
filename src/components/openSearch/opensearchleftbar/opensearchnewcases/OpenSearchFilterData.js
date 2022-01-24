@@ -3,7 +3,7 @@ import {UpdateStore} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -11,8 +11,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
-  const { t, i18n } = useTranslation();
-  console.log(establishmentSearchData);
+  const { t } = useTranslation();
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })

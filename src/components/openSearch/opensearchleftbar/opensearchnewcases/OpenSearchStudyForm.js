@@ -29,7 +29,6 @@ const EstablishmentSearchStudyForm = ({
   study,
   casefileId,
   setCheckboxObj,
-  checkboxObj,
   postCheckboxesData,
   Studydata,
   currentcasescaseFileId,
@@ -40,7 +39,7 @@ const EstablishmentSearchStudyForm = ({
   setIcon,
   Icon
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
     caseAverageId: Studydata?.data?.caseAverageId
@@ -104,42 +103,39 @@ const EstablishmentSearchStudyForm = ({
     });
  ///////for townplanning checkboxes
 
-
- const studycheckboxes = study?.map((val) =>
-        val.chkList
-          .filter((item) => item.isSelected == true)
-          .map((val) => {
-            return{ 
-            caseFileCheckListId: val.caseFileCheckListId, 
-            sectionType:val.sectionType, 
-            casefileId: casefileId ? casefileId : currentcasescaseFileId,
-          }})
-      ).map((val) => val.filter((val) =>{ 
-        return{
-          caseFileCheckListId: val.caseFileCheckListId,
-          sectionType: val.sectionType, 
-          casefileId: val.casefileId 
-        }
-      }));
-    let mergedstudy = [].concat.apply([], studycheckboxes);
-    setstate((pre) => {
-      return {
-        ...pre,
-        studycheck: mergedstudy.map((val) => {
-          return{
-            caseFileCheckListId: val.caseFileCheckListId,
-            sectionType: val.sectionType, 
-            casefileId: val.casefileId 
-          }
-        }
-        ),
-      };
-    });
   }, [townplanning]);
-  
-
-  console.log("studyfiltered",state.studycheck);
-  console.log("check",state.check);
+  useEffect(() => {
+    const studycheckboxes = study?.map((val) =>
+    val.chkList
+      .filter((item) => item.isSelected == true)
+      .map((val) => {
+        return{ 
+        caseFileCheckListId: val.caseFileCheckListId, 
+        sectionType:val.sectionType, 
+        casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      }})
+  ).map((val) => val.filter((val) =>{ 
+    return{
+      caseFileCheckListId: val.caseFileCheckListId,
+      sectionType: val.sectionType, 
+      casefileId: val.casefileId 
+    }
+  }));
+let mergedstudy = [].concat.apply([], studycheckboxes);
+setstate((pre) => {
+  return {
+    ...pre,
+    studycheck: mergedstudy.map((val) => {
+      return{
+        caseFileCheckListId: val.caseFileCheckListId,
+        sectionType: val.sectionType, 
+        casefileId: val.casefileId 
+      }
+    }
+    ),
+  };
+});
+  }, [study]);
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
@@ -247,7 +243,7 @@ const EstablishmentSearchStudyForm = ({
     if (!checked) {
       if (compShow) {
         setCheckboxObj((pre) => [
-          ...pre.filter((item) => item.caseFileCheckListId !== id),
+          ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
       }
       if (CompName && sectiontype===0) {
@@ -274,19 +270,16 @@ const EstablishmentSearchStudyForm = ({
       };
     });
   };
-
-  const handleSubmit = (e, data) => {
-    console.log(state);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // if (CompName === "currentcases") {
-    
-    //      console.log("state", state.check);
-    //   api("post", `/api/v1/casefiles/save_casefile_checklist`, state.check)
-    //     .then((res) => {
-    //       {toast.success(t("Successfull"))};
-    //     })
-    //     .catch((err) => toast.error(err?.statusText));
-    // }
+    if (CompName === "currentcases") {
+
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
+        .then((res) => {
+          {toast.success(t("Successfull"))};
+        })
+        .catch((err) => toast.error(err?.statusText));
+    }
     if(compShow){
       postCheckboxesData("townplanning");
     }
@@ -316,7 +309,17 @@ const EstablishmentSearchStudyForm = ({
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
-    postCheckboxesData("studytwo");
+    if (CompName === "currentcases") {
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck)
+        .then((res) => {
+          {toast.success(t("Successfull"))};
+        })
+        .catch((err) => toast.error(err?.statusText));
+    }
+    if(compShow){
+      postCheckboxesData("studytwo");
+    }
+   
   };
   return (
     <>

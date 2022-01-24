@@ -16,10 +16,7 @@ import AccordionComponent from '../Accordion';
 const Implantation = (props) => {
     const [expanded, setExpanded] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
-
     const handleChange = (panel) => (event, isExpanded) => {
-       
-        console.log(panel, isExpanded);
         setExpanded(isExpanded ? panel : false);
     };
     return (
