@@ -10,6 +10,9 @@ import Implantation from './Implantation/index'
 import NavbarNew from './NavbarNew'
 import {Store} from '../StoreContext'
 import {UpdateStore} from '../StoreContext'
+import Dashboard from './dashboard/Dashboard';
+;
+
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
@@ -43,8 +46,8 @@ const Body = () => {
           {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
           {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
           {store.activeNavbarTab===2?  <Implantation/>:null}
-          {store.activeNavbarTab==="newcases" || store.activeNavbarTab===0? <OpenSearchNewCases/>:null}
-
+          {store.activeNavbarTab==="newcases"? <OpenSearchNewCases/>:null}
+          {store.activeNavbarTab==="termine"|| store.activeNavbarTab===0? <Dashboard/>:null}
         </Grid>
         <Grid item xs={3}>
           <RightBarTab />

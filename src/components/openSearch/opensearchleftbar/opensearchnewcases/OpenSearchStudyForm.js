@@ -29,6 +29,7 @@ const EstablishmentSearchStudyForm = ({
   study,
   casefileId,
   setCheckboxObj,
+  checkboxObj,
   postCheckboxesData,
   Studydata,
   currentcasescaseFileId,
@@ -69,15 +70,7 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
-    console.log(">>>>>",townplanning?.map((val) =>(
-      val.chkList.map((item)=>(
-item
-))
-      ))
-     
-     )
-    ;
-    
+    console.log(">>>town",townplanning);
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -86,14 +79,22 @@ item
       )
       .map((val) => val.filter((val) => val.caseFileCheckListId));
     let merged = [].concat.apply([], ab);
+    console.log("merged", merged);
     setstate((pre) => {
       return {
         ...pre,
-        check: merged.map((val) => val.caseFileCheckListId),
+        check: merged.map((val) => {
+          return{
+            caseFileCheckListId: val.caseFileCheckListId,
+          }
+        }
+        ),
       };
     });
+     console.log(">>>av", ab);
   }, [townplanning]);
   useEffect(() => {
+   
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
       caseAverageId: Studydata?.data?.caseAverageId
@@ -146,16 +147,30 @@ item
   }, []);
   //////
 
-  const handleChange = (e) => {
+  const handleChange = (e, sectiontype) => {
     const name = e.target.name;
     const value = e.target.value;
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {
-      const obj = {
-        caseFileCheckListId: id,
-        casefileId: casefileId ? casefileId : currentcasescaseFileId,
+    const obj = {
+      caseFileCheckListId: parseInt(id),
+      casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      sectionType:sectiontype
+    };
+    setstate((pre) => {
+      return {
+        ...pre,
+        check: [...state.check.map((val) => {
+          return{
+            caseFileCheckListId:parseInt(val.caseFileCheckListId),
+            casefileId: casefileId ? casefileId : currentcasescaseFileId,
+            sectionType:sectiontype
+          }
+        }), 
+        obj],
       };
+    });
       setCheckboxObj((pre) => [...pre, obj]);
     }
     if (!checked) {
@@ -180,24 +195,21 @@ item
       };
     });
   };
+
+  console.log(">>>><<<<", state.check);
   const handleSubmit = (e, data) => {
     e.preventDefault();
     if (CompName === "currentcases") {
-      const arr = state.check.map((val) => {
-        return {
-          caseFileCheckListId: val,
-          casefileId: casefileId ? casefileId : currentcasescaseFileId,
-        };
-      });
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, arr)
+      alert("current")
+         console.log("state", state.check);
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.check)
         .then((res) => {
           {toast.success(t("Successfull"))};
         })
         .catch((err) => toast.error(err?.statusText));
-      setCheckboxObj([]);
     }
-    if (compShow) {
-      postCheckboxesData();
+    if(compShow){
+      postCheckboxesData("townplanning");
     }
     const formData = {
       ...formValues,
@@ -252,7 +264,7 @@ item
           <Typography variant="h6">{t("Town Planning Documents")}</Typography>
           { Icon.iconstudy? <DoneIcon /> : null}
         </Box>
-        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudy? true: false}>
+        <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudy? true: false}>
         <AccordionSummary
         sx={{display:"none"}}
           expandIcon={<ExpandMoreIcon />}
@@ -356,7 +368,7 @@ item
                     />
                   </div>
                 </Box>
-                <Box sx={{ textAlign: "start", fontSize:"20px", color: "#314A6C" }}>
+                <Box sx={{ textAlign: "start" }}>
                   <label className="checklist-heading">{t("Urban planning references")}</label>
                 </Box>
                 <Divider sx={{ margin: "15px 0px" }} />
@@ -446,7 +458,7 @@ item
                     <>
                       <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                         <label className="checklist-heading">
-                          {t(item.checkHeadingName)}
+                          {item.checkHeadingName}
                         </label>
                       </Box>
                       <Divider />
@@ -457,7 +469,7 @@ item
                               type="checkbox"
                               defaultChecked={CompName?val.isSelected:""}
                               id={val.caseFileCheckListId}
-                              onChange={handleChange}
+                              onChange={(e)=>handleChange(e,val.sectionType)}
                             />
                             <label
                               className="dropdown-checkbox"
@@ -484,7 +496,7 @@ item
                                 color: "#3675B7",
                               }}
                             >
-                              {t(val.name)}
+                              {val.name}
                             </Box>
                           </Box>
                         </div>
@@ -536,7 +548,7 @@ item
           <Typography variant="h6">{t("Details Of Object")}</Typography>
           { Icon.iconstudytwo? <DoneIcon /> : null}
         </Box>
-        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudytwo? true: false}>
+        <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudytwo? true: false}>
         <AccordionSummary
         sx={{display:"none"}}
           expandIcon={<ExpandMoreIcon />}
@@ -564,7 +576,7 @@ item
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                       <label className="checklist-heading">
-                        {t(item.checkHeadingName)}
+                        {item.checkHeadingName}
                       </label>
                     </Box>
                     <Divider />
@@ -575,7 +587,7 @@ item
                             type="checkbox"
                             defaultChecked={CompName? val.isSelected:""}
                             id={val.caseFileCheckListId}
-                            onChange={handleChange}
+                            onChange={(e)=>handleChange(e,val.sectionType)}
                           />
                           <label
                             className="dropdown-checkbox"
@@ -601,7 +613,7 @@ item
                               color: "#3675B7",
                             }}
                           >
-                            {t(val.name)}
+                            {val.name}
                           </Box>
                         </Box>
                       </div>

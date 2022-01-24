@@ -26,13 +26,14 @@ const EstablishmentSearchVisitForm = ({
   Toggler
 }) => {
   const { t, i18n } = useTranslation();
-  const handleChange = (e) => {
+  const handleChange = (e,sectiontype) => {
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {
       const obj = {
         caseFileCheckListId: id,
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
+        sectionType:sectiontype
       };
       setCheckboxObj((pre) => [...pre, obj]);
     }
@@ -68,7 +69,7 @@ const EstablishmentSearchVisitForm = ({
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                       <label className="checklist-heading">
-                        {t(item.checkHeadingName)}
+                        {item.checkHeadingName}
                       </label>
                     </Box>
                     <Divider />
@@ -79,7 +80,7 @@ const EstablishmentSearchVisitForm = ({
                             type="checkbox"
                             defaultChecked={CompName?val.isSelected:""}
                             id={val.caseFileCheckListId}
-                            onChange={handleChange}
+                            onChange={(e)=>handleChange(e,val.sectionType)}
                           />
                           <label
                             className="dropdown-checkbox"
@@ -105,7 +106,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                            {t(val.name)}
+                            {val.name}
                           </Box>
                         </Box>
                       </div>

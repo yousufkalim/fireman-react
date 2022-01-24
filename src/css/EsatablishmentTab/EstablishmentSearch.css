@@ -181,12 +181,12 @@ padding-left: 1%;
 }
 
 
-/* .unactive{
-  background-color: #ffffff;
+.unactive{
+  fill: #ddd;
 }
 .active{
-  background-color: lightblue !important;
-} */
+  /* background-color: #24adfd; */
+}
 
  ::placeholder {
   color: #000000;
@@ -231,7 +231,7 @@ margin-top: 20px;
 
 }
 .establishment-nom-mobile-container{
-margin-top: 38px;
+margin-top: 47px;
 }
 .dropdown-historical{
 width: 15%;

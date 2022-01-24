@@ -13,7 +13,9 @@ import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import { Formik, Field, Form, FieldArray } from "formik";
 import { useTranslation, Trans } from "react-i18next";
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -23,6 +25,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const CreateHistoricalData = ({
   establishmentid,
   historicalDataEstablishment,
+  setToggler,
+  Toggler,
+  setIcon,
+  Icon,
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
@@ -39,6 +45,7 @@ const CreateHistoricalData = ({
   const [iconState, setIconState] = useState(false);
   useEffect(() => {
     api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
+      console.log("hu",res);
       setdropdownValue((pre) => {
         return {
           ...pre,
@@ -54,22 +61,34 @@ const CreateHistoricalData = ({
       establishmentId: establishmentid,
       dateEvent:object.histDate
     }));
+    //////for new cases
     if (store.activeCase === "newcase") {
       newarr.map((val) => {
         return new Promise((resolve, reject) => {  
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {  
-                setIconState(true);
-                setToggle(true);
-                focusPoint.current.style.display = "none";
-                {toast.success(t("Successfull"))};
+              setToggler((pre)=>{
+                return{
+                  ...pre,
+                  // togglerhistoricalsearch:false,
+                  createhistoricaldata:false,
+                  // togglervisit:true,
+                  // togglerstudytwo:true
+                }
+              })
+              setIcon((pre)=>{
+                return{
+                  ...pre,
+                  createhistoricaldata:true
+                }
+              });
+              {toast.success(t("Successfull"))};
               let form_data = new FormData();
               form_data.append("docFile", val.image);
               form_data.append("HistoricalEventId", "23");
               form_data.append("HistoricalEventFilesId", "0");
              
               if (val.image) {
-               
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
                     console.log("success");
@@ -81,15 +100,25 @@ const CreateHistoricalData = ({
         });
       });
     }
+    //////for currentcases
     if (store.activeCase === "currentcases") {
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          console.log(">>>>", val)
           api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
-                setIconState(true);
-                setToggle(true);
-                focusPoint.current.style.display = "none";
+              setToggler((pre)=>{
+                return{
+                  ...pre,
+                  createhistoricaldata:false,
+                }
+              })
+              setIcon((pre)=>{
+                return{
+                  ...pre,
+                  createhistoricaldata:true
+                }
+              }); 
+              {toast.success(t("Successfull"))};
               let form_data = new FormData();
               form_data.append("docFile", val.image);
               form_data.append("HistoricalEventId", "23");
@@ -109,36 +138,48 @@ const CreateHistoricalData = ({
 
     const photo = values.repeatable.map((object) => object.image);
   };
-  const focusPoint = useRef(null);
-  const toggleSection = () => {
-    setToggle(!toggle);
-    toggle
-      ? (focusPoint.current.style.display = "none")
-      : (focusPoint.current.style.display = "block");
-  };
   const store = Store();
   return (
     <>
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          borderBottom: "1px solid #C5D3DB",
-          margin: "12px 4px",
-          padding: "10px",
-          color: "#ffffff",
-        }}
-        onClick={toggleSection}
-      >
-        <Typography variant="h6">{t("Historical")}</Typography>
-        <div>{iconState ? <DoneIcon /> : null}</div>
-      </Box>
-
+           onClick={()=>{setToggler((pre)=>{
+              return{
+                ...pre,
+                createhistoricaldata: !Toggler.createhistoricaldata
+              }
+           })}}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              borderBottom: "0.6px solid #C5D3DB",
+              padding: "8px 10px",
+              backgroundColor: "#3675B7",
+              borderRadius: "5px",
+              color: "#ffffff",
+              width: "96%",
+              margin: "auto",
+            }}
+          >
+            <Typography variant="h6">{t("Historical")}</Typography>
+           { Icon.createhistoricaldata? <DoneIcon /> : null}
+          </Box>
+          <Accordion  sx={{ margin: "10px 10px !important",borderRadius:"10px"}} expanded={ Toggler.createhistoricaldata? true: false}>
+        <AccordionSummary sx={{display:"none"}}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+        </AccordionSummary>
+        <AccordionDetails>
       <Item
-        ref={focusPoint}
-        sx={{ marginTop: "10px", width: "97%",maxHeight:"16%", overflow:"scroll", margin: "auto",  borderRadius: "5px", }}
+        sx={{ 
+          marginTop: "10px", 
+          width: "97%",
+          maxHeight:"16%", 
+          overflow:"scroll", 
+          margin: "auto",  
+          borderRadius: "5px", 
+          boxShadow:"none"
+        }}
       >
         {store.activeCase === "newcase" ? (
           <Formik
@@ -294,6 +335,7 @@ const CreateHistoricalData = ({
                                   <div>
                                     <Field
                                       className="field-width"
+                                      name={`repeatable.${i}.details`}
                                       value={
                                         values.repeatable[i]
                                           .historicalObjectId === "4" &&
@@ -672,7 +714,6 @@ const CreateHistoricalData = ({
                                             ].details = t(`If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...`))
                                           : null
                                       }
-                                      name={`repeatable.${i}.details`}
                                     />
                                   </div>
                                 </th>
@@ -1341,6 +1382,8 @@ const CreateHistoricalData = ({
           />
         ) : null}
       </Item>
+      </AccordionDetails>
+      </Accordion>
     </>
   );
 };

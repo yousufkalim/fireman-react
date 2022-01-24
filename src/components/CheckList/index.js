@@ -5,11 +5,20 @@ import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked';
 import CreateIcon from '@mui/icons-material/Create';
 import parse from 'html-react-parser';
 import EditModal from "../Modals/EditCheckBox"
+import Subchecklist from './Subchecklist';
+;
 
 const CheckList = (props) => {
     const [open, setOpen] = React.useState(false);
     const [checklistdata,setChecklistdata] = React.useState({});
+    const [subcheckData,setSubCheckData] = React.useState();
     const [index, setIndex] = React.useState("");
+    const [checked, setChacked] = React.useState("");
+    const [sentenceStatus, setSentenceStatus] = React.useState({
+        complete:false,
+        incomplete:false,
+        subcheck:false
+    });
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
     const handleOpen = (data,i) => {
         setOpen(true)
@@ -18,7 +27,7 @@ const CheckList = (props) => {
     const handleClose = () => setOpen(false);
     const saveChanges=(sentence)=>{
         console.log(sentence, index);
-        console.log(">>>>", checklists);
+       
        const objIndex = checklists.findIndex((obj => obj.sectionSentencesId === index+1));
         checklists[objIndex].sentenceText = sentence
 //    let a= checklists.map((data,i)=>{
@@ -28,10 +37,8 @@ const CheckList = (props) => {
 //       }
 //       return data
 //     })
-      console.log(checklists);
-    
     }
-    const [checked, setChacked] = React.useState("");
+    console.log("checklists>>>>", checklists);
     return (
         <>
             <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
@@ -48,10 +55,23 @@ const CheckList = (props) => {
                                         color: `${data.sentenceColor}`,
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
-                                    onClick={() => setChacked(props.accordionData.serialName + i)}
+                                    onClick={() => {
+                                        setChacked(props.accordionData.serialName + i)
+                                        setSentenceStatus(()=>{
+                                          return{
+                                            complete:data.sentenceNature===0? true:false,
+                                            incomplete:data.sentenceNature===1? true:false,
+                                            subcheck:data.sentenceNature===2? true:false
+                                              
+                                          }
+                                        })
+                                        setSubCheckData(data.subchecks)
+                                    }
+                                }
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
                                 <p>{parse(data.sentenceText)}</p>
+                                {/* {sentenceStatus.subcheck? <Subchecklist subcheckData={subcheckData}/>:null} */}
                             </div>
                             <div>
                                 <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); setIndex(i)}} sx={{ cursor: "pointer" }} />

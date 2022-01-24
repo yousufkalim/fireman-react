@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import Description from "./Description";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -12,6 +11,9 @@ import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
 import DoneIcon from "@mui/icons-material/Done";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 import { useTranslation, Trans } from "react-i18next";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,18 +22,22 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const EstablishmentLevel = ({ Values, description }) => {
+const EstablishmentLevel = ({
+  Values,
+  description,
+  setToggler = { setToggler },
+  Toggler = { Toggler },
+  setIcon = { setIcon },
+  Icon = { Icon },
+}) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
-  const [toggle, setToggle] = useState(false);
   const [columnState, setColumnState] = useState({
-    cellname:true,
-    cellnumber:true
-  })
-  const [iconState, setIconState] = useState(false);
-  const focusPoint = useRef(null);
+    cellname: true,
+    cellnumber: true,
+  });
   useEffect(() => {
     api("get", "/api/v1/level/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -49,8 +55,8 @@ const EstablishmentLevel = ({ Values, description }) => {
       ...object,
     }));
     const newdescriptions = {
-      lessEightMeter: data.lessEightMeter? data.lessEightMeter:false,
-      moreEightMeter: data.moreEightMeter? data.moreEightMeter:false,
+      lessEightMeter: data.lessEightMeter ? data.lessEightMeter : false,
+      moreEightMeter: data.moreEightMeter ? data.moreEightMeter : false,
       siteDescription: data.site,
       description: data.establishmentdescription,
     };
@@ -61,711 +67,790 @@ const EstablishmentLevel = ({ Values, description }) => {
     };
     if (store.activeCase === "newcase") {
       api("post", "/api/v1/create_description_data", obj).then((res) => {
-        {toast.success(t("Successfull"))};
-        if ((res.status = 200)) {
-          setIconState(true);
-          setToggle(true);
-          focusPoint.current.style.display = "none";
+        {
+          toast.success(t("Successfull"));
         }
+        setToggler((pre) => {
+          return {
+            ...pre,
+            establishmentlevel: false,
+          };
+        });
+        setIcon((pre) => {
+          return {
+            ...pre,
+            establishmentlevel: true,
+          };
+        });
       });
     }
     if (store.activeCase === "currentcases") {
       api("put", "/api/v1/update_description_data", obj).then((res) => {
-        {toast.success(t("Successfull"))};
+        {
+          toast.success(t("Successfull"));
+        }
+        setToggler((pre) => {
+          return {
+            ...pre,
+            establishmentlevel: false,
+          };
+        });
+        setIcon((pre) => {
+          return {
+            ...pre,
+            establishmentlevel: true,
+          };
+        });
       });
     }
   };
-  const toggleSection = () => {
-    setToggle(!toggle);
-    toggle
-      ? (focusPoint.current.style.display = "none")
-      : (focusPoint.current.style.display = "block");
-  };
-  const handleClose =(column)=>{
-    setColumnState((pre)=>{
-      return{
-         ...pre,
-         [column]:false
-      }
-    })
-  }
 
-  console.log(">>>>>",Values);
+  const handleClose = (column) => {
+    setColumnState((pre) => {
+      return {
+        ...pre,
+        [column]: false,
+      };
+    });
+  };
   return (
     <>
       <Box
+        onClick={() => {
+          setToggler((pre) => {
+            return {
+              ...pre,
+              establishmentlevel: !Toggler.establishmentlevel,
+            };
+          });
+        }}
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          borderBottom: "0.6px solid #C5D3DB",
+          padding: "8px 10px",
           backgroundColor: "#3675B7",
           borderRadius: "5px",
-          borderBottom: "1px solid #C5D3DB",
-          margin: "12px 4px",
-          padding: "10px",
           color: "#ffffff",
+          width: "96%",
+          margin: "auto",
         }}
-        onClick={toggleSection}
       >
         <Typography variant="h6">{t("Description")}</Typography>
-        <div>{iconState ? <DoneIcon /> : null}</div>
+        {Icon.establishmentlevel ? <DoneIcon /> : null}
       </Box>
-      <Item
-        ref={focusPoint}
-        sx={{ boxShadow: "none", width: "97%", maxHeight:"25%", overflow:"scroll", margin: "auto" }}
+      <Accordion
+        sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
+        expanded={Toggler.establishmentlevel ? true : false}
       >
-        {store.activeCase === "newcase" ? (
-          <Formik
-            initialValues={{ repeatable: [{}] }}
-            enableReinitialize
-            render={({ values, setFieldValue }) => (
-              <Form>
-                <FieldArray
-                  name="repeatable"
-                  enableReinitialize
-                  render={(arrayHelpers) => (
-                    <>
-                     <Box sx={{overflow:"auto"}}> 
-                    <table class="table">
-                            <thead>
-                            <Box>
-                              <tr class="row">
-                                <th class="header-label"> 
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"205px"
-                                }}>
-                                  {t("Level")} 
-                                </Box>   
-                                </th>
-                                {
-                                  columnState.cellnumber?(
+        <AccordionSummary
+          sx={{ display: "none" }}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        ></AccordionSummary>
+        <AccordionDetails>
+          <Item
+            sx={{
+              boxShadow: "none",
+              width: "97%",
+              maxHeight: "700px",
+              overflow: "scroll",
+              margin: "auto",
+            }}
+          >
+            {store.activeCase === "newcase" ? (
+              <Formik
+                initialValues={{ repeatable: [{}] }}
+                enableReinitialize
+                render={({ values, setFieldValue }) => (
+                  <Form>
+                    <FieldArray
+                      name="repeatable"
+                      enableReinitialize
+                      render={(arrayHelpers) => (
+                        <>
+                          <Box sx={{ overflow: "auto" }}>
+                            <table class="table">
+                              <thead>
+                                <Box>
+                                  <tr class="row">
                                     <th class="header-label">
-                                    <Box sx={{
-                                      borderRight: "2px solid #C5D3DB", 
-                                    height:"12px",
-                                    display:"flex",
-                                    justifyContent:"space-between",
-                                    alignItems:"center",
-                                    padding:"0px 5px",
-                                    width:"212px"
-                                    }}>
-                                     <span>{t("Cell number")}</span> 
-                                    <CloseIcon
-                                    onClick={()=>handleClose("cellnumber")}
-                                    sx={{width: "0.5em"}}
-                                    />
-                                    </Box>
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "205px",
+                                        }}
+                                      >
+                                        {t("Level")}
+                                      </Box>
                                     </th>
-                                  ):null
-                                }
-                                {
-                                 columnState.cellname?(
-                                  <th class="header-label">
-                                <Box
-                                
-                                sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                justifyContent:"space-between",
-                                padding:"0px 5px",
-                                width:"215px"
-                                }}> 
-                                <span> {t("Cell name")}</span> 
-                                <CloseIcon
-                                onClick={()=>handleClose("cellname")}
-                                sx={{width: "0.5em"}}
-                                />
-                                  </Box>
-                                  </th>
-                                 ):null 
-                                }
-                               
+                                    {columnState.cellnumber ? (
+                                      <th class="header-label">
+                                        <Box
+                                          sx={{
+                                            borderRight: "2px solid #C5D3DB",
+                                            height: "12px",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            padding: "0px 5px",
+                                            width: "212px",
+                                          }}
+                                        >
+                                          <span>{t("Cell number")}</span>
+                                          <CloseIcon
+                                            onClick={() =>
+                                              handleClose("cellnumber")
+                                            }
+                                            sx={{ width: "0.5em" }}
+                                          />
+                                        </Box>
+                                      </th>
+                                    ) : null}
+                                    {columnState.cellname ? (
+                                      <th class="header-label">
+                                        <Box
+                                          sx={{
+                                            borderRight: "2px solid #C5D3DB",
+                                            height: "12px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            padding: "0px 5px",
+                                            width: "215px",
+                                          }}
+                                        >
+                                          <span> {t("Cell name")}</span>
+                                          <CloseIcon
+                                            onClick={() =>
+                                              handleClose("cellname")
+                                            }
+                                            sx={{ width: "0.5em" }}
+                                          />
+                                        </Box>
+                                      </th>
+                                    ) : null}
 
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"215px"
-                                }}> 
-                                  Local
-                                   </Box>
-                                   </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"180px"
-                                }}> 
-                               {t("Not accessible to the public")}
-                                  </Box>
-                                  </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"8px",
-                                margin:"30px 0px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"120px"
-                                }}> 
-                                {t("Local at risk")}
-                                  </Box>
-                                  </th>
-                                  <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"310px"
-                                }}> 
-                               {t("Comments")}
-                                  </Box>
-                                  </th>
-                              </tr>
-                              </Box>
-                              <Box>
-                                 </Box>
-                      {values?.repeatable?.map((row, i) => (
-                        <Box sx={{
-                          margin:"10px 0px",
-                          padding:"0px 10px 10px 10px",
-                          background: "#FFFFFF",
-                          border: "1px solid #EBEFF2",
-                           boxSizing:"border-box",
-                           borderRadius:"5px"
-                        }}> 
-                         <tr class="tr-inputs"> 
-                         <th>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              as="select"
-                              name={`repeatable.${i}.levelId`}
-                            >
-                              <option value="">
-                               {t("Please choose")}
-                              </option>
-                              {dropdownValue?.leveldropdown?.data?.map(
-                                (item) => (
-                                  <option value={item.value}>
-                                    {item.text}
-                                  </option>
-                                )
-                              )}
-                            </Field>
-                            <span
-                              onClick={() => {
-                                arrayHelpers.push({});
-                                setFieldValue(
-                                  `repeatable.${i + 1}.levelId`,
-                                  values.repeatable[i].levelId
-                                );
-                              }}
-                            >
-                              {" "}
-                              +
-                            </span>
-                          </Box>
-                          </th>
-                         {  
-                         columnState.cellnumber?(
-                          <th 
-                          >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                           
-                          >
-                            <Field
-                             className="field-width-staff"
-                              type="number"
-                              name={`repeatable.${i}.cellNumber`}
-                              value={row.cellNumber}
-                            />
-                          </Box>
-                          </th>
-                         ):null
-                            }
-                            {
-                              columnState.cellname?(
-                                <th
-                                >
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    fontSize: "12px",
-                                  }}
-                                >
-                                  <Field
-                                  className="field-width-staff"
-                                    name={`repeatable.${i}.cellName`}
-                                  />
-                                  <span
-                                    onClick={() => {
-                                      arrayHelpers.push({});
-                                      setFieldValue(
-                                        `repeatable.${i + 1}.levelId`,
-                                        values.repeatable[i].levelId
-                                      );
-                                      setFieldValue(
-                                        `repeatable.${i + 1}.cellNumber`,
-                                        values.repeatable[i].cellNumber
-                                      );
-                                      setFieldValue(
-                                        `repeatable.${i + 1}.cellName`,
-                                        values.repeatable[i].cellName
-                                      );
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "215px",
+                                        }}
+                                      >
+                                        Local
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "180px",
+                                        }}
+                                      >
+                                        {t("Not accessible to the public")}
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "8px",
+                                          margin: "30px 0px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "120px",
+                                        }}
+                                      >
+                                        {t("Local at risk")}
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "310px",
+                                        }}
+                                      >
+                                        {t("Comments")}
+                                      </Box>
+                                    </th>
+                                  </tr>
+                                </Box>
+                                <Box></Box>
+                                {values?.repeatable?.map((row, i) => (
+                                  <Box
+                                    sx={{
+                                      margin: "10px 0px",
+                                      padding: "0px 10px 10px 10px",
+                                      background: "#FFFFFF",
+                                      border: "1px solid #EBEFF2",
+                                      boxSizing: "border-box",
+                                      borderRadius: "5px",
                                     }}
                                   >
-                                    +
-                                  </span>
-                                </Box>
-                                </th>
-                              ):null
-                            }
-                          
-                          <th>                        
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                            className="field-width-staff"
-                              name={`repeatable.${i}.details`}
-                            />
-                          </Box>
-                          </th>
-                          <th>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "10px",
-                            }}
-                          >
-                            <Box
-                              sx={{ textAlign: "start", paddingTop: "10px" }}
-                            >
-                              <Field
-                              className="checkbox-width-establishment-level"
-                                type="checkbox"
-                                name={`repeatable.${i}.isPublic`}
-                              />
-                            </Box>
-                          </Box>
-                          </th>
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                    
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Box
-                              sx={{ textAlign: "start", paddingTop: "8px" }}
-                            >
-                              <Field
-                               className="checkbox-width-establishment-level"
-                                type="checkbox"
-                                name={`repeatable.${i}.isRisk`}
-                              />
-                            </Box>
-                          </Box>
-                          </th>
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                    
-                              fontSize: "12px",
-                            }}
-                          >
-                          
+                                    <tr class="tr-inputs">
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width-staff"
+                                            as="select"
+                                            name={`repeatable.${i}.levelId`}
+                                          >
+                                            <option value="">
+                                              {t("Please choose")}
+                                            </option>
+                                            {dropdownValue?.leveldropdown?.data?.map(
+                                              (item) => (
+                                                <option value={item.value}>
+                                                  {item.text}
+                                                </option>
+                                              )
+                                            )}
+                                          </Field>
+                                          <span
+                                            onClick={() => {
+                                              arrayHelpers.push({});
+                                              setFieldValue(
+                                                `repeatable.${i + 1}.levelId`,
+                                                values.repeatable[i].levelId
+                                              );
+                                            }}
+                                          >
+                                            {" "}
+                                            +
+                                          </span>
+                                        </Box>
+                                      </th>
+                                      {columnState.cellnumber ? (
+                                        <th>
+                                          <Box
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="field-width-staff"
+                                              type="number"
+                                              name={`repeatable.${i}.cellNumber`}
+                                              value={row.cellNumber}
+                                            />
+                                          </Box>
+                                        </th>
+                                      ) : null}
+                                      {columnState.cellname ? (
+                                        <th>
+                                          <Box
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="field-width-staff"
+                                              name={`repeatable.${i}.cellName`}
+                                            />
+                                            <span
+                                              onClick={() => {
+                                                arrayHelpers.push({});
+                                                setFieldValue(
+                                                  `repeatable.${i + 1}.levelId`,
+                                                  values.repeatable[i].levelId
+                                                );
+                                                setFieldValue(
+                                                  `repeatable.${
+                                                    i + 1
+                                                  }.cellNumber`,
+                                                  values.repeatable[i]
+                                                    .cellNumber
+                                                );
+                                                setFieldValue(
+                                                  `repeatable.${
+                                                    i + 1
+                                                  }.cellName`,
+                                                  values.repeatable[i].cellName
+                                                );
+                                              }}
+                                            >
+                                              +
+                                            </span>
+                                          </Box>
+                                        </th>
+                                      ) : null}
 
-                            <Field
-                               className="field-width"
-                              style={{ padding: "10px" }}
-                              name={`repeatable.${i}.comments`}
-                            />
-                          </Box>
-                          </th>
-                          </tr>
-                        </Box>
-                      ))}
-                      <Box sx={{ textAlign: "start", padding: "5px" }}>
-                        <AddIcon onClick={() => arrayHelpers.push({})} />
-                      </Box>
-                      </thead>
-                          </table>
-                          </Box>
-                    </>
-                  )}
-                />
-                <Description onSubmit={onSubmit} values={values} />
-              </Form>
-            )}
-          />
-        ) : null}
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width-staff"
+                                            name={`repeatable.${i}.details`}
+                                          />
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "10px",
+                                          }}
+                                        >
+                                          <Box
+                                            sx={{
+                                              textAlign: "start",
+                                              paddingTop: "10px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="checkbox-width-establishment-level"
+                                              type="checkbox"
+                                              name={`repeatable.${i}.isPublic`}
+                                            />
+                                          </Box>
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
 
-        {store.activeCase === "currentcases" ? (
-          <Formik
-            initialValues={{ repeatable: Values ? Values : "loading..." }}
-            enableReinitialize
-            render={({ values, setFieldValue }) => (
-              <Form>
-                <FieldArray
-                  name="repeatable"
-                  enableReinitialize
-                  render={(arrayHelpers) => (
-                    <>
-                     <Box sx={{overflow:"auto"}}> 
-                    <table class="table">
-                            <thead>
-                            <Box>
-                              <tr class="row">
-                                <th class="header-label"> 
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"205px"
-                                }}>
-                                  {t("Level")} 
-                                </Box>   
-                                </th>
-                                {
-                                 columnState.cellnumber?(
-                                  <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                justifyContent:"space-between",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"212px"
-                                }}>
-                                   <span>{t("Cell number")}</span> 
-                                    <CloseIcon
-                                    onClick={()=>handleClose("cellnumber")}
-                                    sx={{width: "0.5em"}}
-                                    />
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Box
+                                            sx={{
+                                              textAlign: "start",
+                                              paddingTop: "8px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="checkbox-width-establishment-level"
+                                              type="checkbox"
+                                              name={`repeatable.${i}.isRisk`}
+                                            />
+                                          </Box>
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width"
+                                            style={{ padding: "10px" }}
+                                            name={`repeatable.${i}.comments`}
+                                          />
+                                        </Box>
+                                      </th>
+                                    </tr>
+                                  </Box>
+                                ))}
+                                <Box
+                                  sx={{ textAlign: "start", padding: "5px" }}
+                                >
+                                  <AddIcon
+                                    onClick={() => arrayHelpers.push({})}
+                                  />
                                 </Box>
-                                </th>
-                                 ) :null
-                                }
-                               {
-                                 columnState.cellname?(
-                                  <th class="header-label">
-                                  <Box sx={{
-                                    borderRight: "2px solid #C5D3DB", 
-                                  height:"12px",
-                                  display:"flex",
-                                  justifyContent:"space-between",
-                                  alignItems:"center",
-                                  padding:"0px 5px",
-                                  width:"215px"
-                                  }}> 
-                                 <span> {t("Cell name")}</span> 
-                                <CloseIcon
-                                onClick={()=>handleClose("cellname")}
-                                sx={{width: "0.5em"}}
-                                />
-                                    </Box>
+                              </thead>
+                            </table>
+                          </Box>
+                        </>
+                      )}
+                    />
+                    <Description onSubmit={onSubmit} values={values} />
+                  </Form>
+                )}
+              />
+            ) : null}
+
+            {store.activeCase === "currentcases" ? (
+              <Formik
+                initialValues={{ repeatable: Values ? Values : "loading..." }}
+                enableReinitialize
+                render={({ values, setFieldValue }) => (
+                  <Form>
+                    <FieldArray
+                      name="repeatable"
+                      enableReinitialize
+                      render={(arrayHelpers) => (
+                        <>
+                          <Box sx={{ overflow: "auto" }}>
+                            <table class="table">
+                              <thead>
+                                <Box>
+                                  <tr class="row">
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "205px",
+                                        }}
+                                      >
+                                        {t("Level")}
+                                      </Box>
                                     </th>
-                                 ):null
-                               }
-                               
+                                    {columnState.cellnumber ? (
+                                      <th class="header-label">
+                                        <Box
+                                          sx={{
+                                            borderRight: "2px solid #C5D3DB",
+                                            height: "12px",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            padding: "0px 5px",
+                                            width: "212px",
+                                          }}
+                                        >
+                                          <span>{t("Cell number")}</span>
+                                          <CloseIcon
+                                            onClick={() =>
+                                              handleClose("cellnumber")
+                                            }
+                                            sx={{ width: "0.5em" }}
+                                          />
+                                        </Box>
+                                      </th>
+                                    ) : null}
+                                    {columnState.cellname ? (
+                                      <th class="header-label">
+                                        <Box
+                                          sx={{
+                                            borderRight: "2px solid #C5D3DB",
+                                            height: "12px",
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            padding: "0px 5px",
+                                            width: "215px",
+                                          }}
+                                        >
+                                          <span> {t("Cell name")}</span>
+                                          <CloseIcon
+                                            onClick={() =>
+                                              handleClose("cellname")
+                                            }
+                                            sx={{ width: "0.5em" }}
+                                          />
+                                        </Box>
+                                      </th>
+                                    ) : null}
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "215px",
+                                        }}
+                                      >
+                                        Local
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "180px",
+                                        }}
+                                      >
+                                        {t("Not accessible to the public")}
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "8px",
+                                          margin: "30px 0px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "120px",
+                                        }}
+                                      >
+                                        {t("Local at risk")}
+                                      </Box>
+                                    </th>
+                                    <th class="header-label">
+                                      <Box
+                                        sx={{
+                                          borderRight: "2px solid #C5D3DB",
+                                          height: "12px",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0px 5px",
+                                          width: "310px",
+                                        }}
+                                      >
+                                        {t("Comments")}
+                                      </Box>
+                                    </th>
+                                  </tr>
+                                </Box>
+                                <Box></Box>
+                                {values?.repeatable?.map((row, i) => (
+                                  <Box
+                                    sx={{
+                                      margin: "10px 0px",
+                                      padding: "0px 10px 10px 10px",
+                                      background: "#FFFFFF",
+                                      border: "1px solid #EBEFF2",
+                                      boxSizing: "border-box",
+                                      borderRadius: "5px",
+                                    }}
+                                  >
+                                    <tr class="tr-inputs">
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width-staff"
+                                            as="select"
+                                            style={{ padding: "8px" }}
+                                            name={`repeatable.${i}.levelId`}
+                                          >
+                                            <option value="">
+                                              {t("Please choose")}
+                                            </option>
+                                            {dropdownValue?.leveldropdown?.data?.map(
+                                              (item) => (
+                                                <option value={item.value}>
+                                                  {item.text}
+                                                </option>
+                                              )
+                                            )}
+                                          </Field>
+                                          <span
+                                            onClick={() => {
+                                              arrayHelpers.push({});
+                                              setFieldValue(
+                                                `repeatable.${i + 1}.levelId`,
+                                                values.repeatable[i].levelId
+                                              );
+                                            }}
+                                          >
+                                            {" "}
+                                            +
+                                          </span>
+                                        </Box>
+                                      </th>
+                                      {columnState.cellnumber ? (
+                                        <th>
+                                          <Box
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="field-width-staff"
+                                              type="number"
+                                              name={`repeatable.${i}.cellNumber`}
+                                              style={{ padding: "10px" }}
+                                              value={row.cellNumber}
+                                            />
+                                          </Box>
+                                        </th>
+                                      ) : null}
+                                      {columnState.cellname ? (
+                                        <th>
+                                          <Box
+                                            sx={{
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              fontSize: "12px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="field-width-staff"
+                                              name={`repeatable.${i}.cellName`}
+                                              style={{ padding: "10px" }}
+                                            />
+                                            <span
+                                              onClick={() => {
+                                                arrayHelpers.push({});
+                                                setFieldValue(
+                                                  `repeatable.${i + 1}.levelId`,
+                                                  values.repeatable[i].levelId
+                                                );
+                                                setFieldValue(
+                                                  `repeatable.${
+                                                    i + 1
+                                                  }.cellNumber`,
+                                                  values.repeatable[i]
+                                                    .cellNumber
+                                                );
+                                                setFieldValue(
+                                                  `repeatable.${
+                                                    i + 1
+                                                  }.cellName`,
+                                                  values.repeatable[i].cellName
+                                                );
+                                              }}
+                                            >
+                                              +
+                                            </span>
+                                          </Box>
+                                        </th>
+                                      ) : null}
 
-
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"215px"
-                                }}> 
-                                  Local
-                                   </Box>
-                                   </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"180px"
-                                }}> 
-                                   {t("Not accessible to the public")}
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width-staff"
+                                            name={`repeatable.${i}.details`}
+                                            style={{ padding: "10px" }}
+                                          />
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "10px",
+                                          }}
+                                        >
+                                          <Box
+                                            sx={{
+                                              textAlign: "center",
+                                              paddingTop: "10px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="checkbox-width-establishment-level"
+                                              type="checkbox"
+                                              name={`repeatable.${i}.isPublic`}
+                                            />
+                                          </Box>
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Box
+                                            sx={{
+                                              textAlign: "center",
+                                              paddingTop: "8px",
+                                            }}
+                                          >
+                                            <Field
+                                              className="checkbox-width-establishment-level"
+                                              type="checkbox"
+                                              name={`repeatable.${i}.isRisk`}
+                                            />
+                                          </Box>
+                                        </Box>
+                                      </th>
+                                      <th>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            fontSize: "12px",
+                                          }}
+                                        >
+                                          <Field
+                                            className="field-width-staff"
+                                            name={`repeatable.${i}.comments`}
+                                          />
+                                        </Box>
+                                      </th>
+                                    </tr>
                                   </Box>
-                                  </th>
-                                <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"8px",
-                                margin:"30px 0px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"120px"
-                                }}> 
-                                {t("Local at risk")}
-                                  </Box>
-                                  </th>
-                                  <th class="header-label">
-                                <Box sx={{
-                                  borderRight: "2px solid #C5D3DB", 
-                                height:"12px",
-                                display:"flex",
-                                alignItems:"center",
-                                padding:"0px 5px",
-                                width:"310px"
-                                }}> 
-                               {t("Comments")}
-                                  </Box>
-                                  </th>
-                              </tr>
-                              </Box>
-                              <Box>
-                                 </Box>
-                      {values?.repeatable?.map((row, i) => (
-                         <Box sx={{
-                          margin:"10px 0px",
-                          padding:"0px 10px 10px 10px",
-                          background: "#FFFFFF",
-                          border: "1px solid #EBEFF2",
-                           boxSizing:"border-box",
-                           borderRadius:"5px"
-                        }}> 
-                         <tr class="tr-inputs">
-                         <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              as="select"
-                              style={{ padding: "8px" }}
-                              name={`repeatable.${i}.levelId`}
-                            >
-                              <option value="">
-                               {t("Please choose")}
-                              </option>
-                              {dropdownValue?.leveldropdown?.data?.map(
-                                (item) => (
-                                  <option value={item.value}>
-                                    {item.text}
-                                  </option>
-                                )
-                              )}
-                            </Field>
-                            <span
-                              onClick={() => {
-                                arrayHelpers.push({});
-                                setFieldValue(
-                                  `repeatable.${i + 1}.levelId`,
-                                  values.repeatable[i].levelId
-                                );
-                              }}
-                            >
-                              {" "}
-                              +
-                            </span>
+                                ))}
+                                <Box
+                                  sx={{ textAlign: "start", padding: "5px" }}
+                                >
+                                  <AddIcon
+                                    onClick={() => arrayHelpers.push({})}
+                                  />
+                                </Box>
+                              </thead>
+                            </table>
                           </Box>
-                          </th>
-                          {
-                            columnState.cellnumber?(
-                              <th>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              type="number"
-                              name={`repeatable.${i}.cellNumber`}
-                              style={{ padding: "10px" }}
-                              value={row.cellNumber}
-                            />
-                          </Box>
-                          </th>
-                            ):null
-                          }
-                         {
-                          columnState.cellname?(
-                            <th> 
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <Field
-                               className="field-width-staff"
-                                name={`repeatable.${i}.cellName`}
-                                style={{ padding: "10px" }}
-                              />
-                              <span
-                                onClick={() => {
-                                  arrayHelpers.push({});
-                                  setFieldValue(
-                                    `repeatable.${i + 1}.levelId`,
-                                    values.repeatable[i].levelId
-                                  );
-                                  setFieldValue(
-                                    `repeatable.${i + 1}.cellNumber`,
-                                    values.repeatable[i].cellNumber
-                                  );
-                                  setFieldValue(
-                                    `repeatable.${i + 1}.cellName`,
-                                    values.repeatable[i].cellName
-                                  );
-                                }}
-                              >
-                                +
-                              </span>
-                            </Box>
-                            </th>
-                          ) :null
-                         }
-                        
+                        </>
+                      )}
+                    />
 
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              name={`repeatable.${i}.details`}
-                              style={{ padding: "10px" }}
-                            />
-                          </Box>
-                          </th>
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "10px",
-                            }}
-                          >
-                            <Box
-                              sx={{ textAlign: "center", paddingTop: "10px" }}
-                            >
-                              <Field
-                               className="checkbox-width-establishment-level"
-                                type="checkbox"
-                                name={`repeatable.${i}.isPublic`}
-                              />
-                            </Box>
-                          </Box>
-                          </th>
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Box
-                              sx={{ textAlign: "center", paddingTop: "8px" }}
-                            >
-                              <Field
-                              className="checkbox-width-establishment-level"
-                                type="checkbox"
-                                name={`repeatable.${i}.isRisk`}
-                              />
-                            </Box>
-                          </Box>
-                          </th>
-                          <th> 
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              fontSize: "12px",
-                            }}
-                          >
-                            <Field
-                             className="field-width-staff"
-                              name={`repeatable.${i}.comments`}
-                            />
-                          </Box>
-                          </th>
-                          </tr>
-                        </Box>
-                      ))}
-                      <Box sx={{ textAlign: "start", padding: "5px" }}>
-                        <AddIcon onClick={() => arrayHelpers.push({})} />
-                      </Box>
-                      </thead>
-                          </table>
-                          </Box>
-                    </>
-                  )}
-                />
-
-                {
-                  description && <Description
-                  onSubmit={onSubmit}
-                  description={description}
-                  values={values}
-                />
-                }
-                
-              </Form>
-              
-            )}
-          />
-        ) : null}
-      </Item>
+                    {description && (
+                      <Description
+                        onSubmit={onSubmit}
+                        description={description}
+                        values={values}
+                      />
+                    )}
+                  </Form>
+                )}
+              />
+            ) : null}
+          </Item>
+        </AccordionDetails>
+      </Accordion>
     </>
   );
 };

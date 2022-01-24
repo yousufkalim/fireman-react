@@ -61,8 +61,7 @@ const FolderCreationSection = ({
   const store = Store();
   const updatestore = UpdateStore()
   useEffect(() => {
-     console.log(store);
-     console.log(">>>>>>>>>>",indexdata);
+    console.log(currentcasesstudyTypeId,currentcasesvisitTypeId);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -215,7 +214,6 @@ const FolderCreationSection = ({
       };
     });
   };
-  console.log(inputValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     ////////////for new cases//////////
@@ -245,14 +243,13 @@ const FolderCreationSection = ({
               {toast.success(t("Successfull"))};
           setToggler((pre)=>{
             return{
+              ...pre,
               togglermain:false,
-              togglerstudy:true,
-              togglervisit:true,
-              togglerstudytwo:true
+              // togglerstudy:true,
+              // togglervisit:true,
+              // togglerstudytwo:true
             }
           })
-          
-          
           setIcon((pre)=>{
             return{
               ...pre,
@@ -299,6 +296,7 @@ const FolderCreationSection = ({
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
+    console.log(checkboxObj);
     api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
       .then((res) => {
          console.log(res)
@@ -370,7 +368,7 @@ const FolderCreationSection = ({
             <Typography variant="h6">{t("Folder creation")}</Typography>
            { Icon.iconmain? <DoneIcon /> : null}
           </Box>
-      <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglermain? true: false}>
+      <Accordion sx={{margin:"10px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglermain? true: false}>
         <AccordionSummary sx={{display:"none"}}
           aria-controls="panel1a-content"
           id="panel1a-header"
@@ -431,7 +429,7 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                       <div className="inputs-container">
-                        {inputDisableState === "1" ? (
+                        {inputDisableState === "1" || currentcasesstudyTypeId ? (
                           <>
                             <label className="label-color"> Etude</label>
 
@@ -456,7 +454,7 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                        {inputDisableState === "2" ? (
+                        {inputDisableState === "2" || currentcasesvisitTypeId ? (
                           <>
                             <label className="label-color">Visite </label>
                             <div class="flex-form">
@@ -539,6 +537,7 @@ const FolderCreationSection = ({
               study={state.study}
               casefileId={inputValues.caseid}
               setCheckboxObj={setCheckboxObj}
+              checkboxObj={checkboxObj}
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
               Studydata={Studydata}
@@ -577,7 +576,7 @@ const FolderCreationSection = ({
         <Typography variant="h6">{t("Details Of Object")}</Typography>
         { Icon.iconvisit? <DoneIcon /> : null}
       </Box>
-      <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglervisit? true: false}>
+      <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglervisit? true: false}>
         <AccordionSummary
         sx={{display:"none"}}
           expandIcon={<ExpandMoreIcon />}
@@ -595,6 +594,7 @@ const FolderCreationSection = ({
               visit={state.visit}
               casefileId={inputValues.caseid}
               setCheckboxObj={setCheckboxObj}
+              checkboxObj={checkboxObj}
               postCheckboxesData={postCheckboxesData}
               checkBoxRes={checkBoxRes}
               currentcasescaseFileId={currentcasescaseFileId}

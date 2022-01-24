@@ -88,12 +88,17 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
         return (
           <>
           <Box
-            className={`unactive leftbar-icon-text ${className}`}
+           
              onClick = {()=>onClick(item.id)}
              sx={{justifyContent:"center"}}
           >
             <div className="leftbar-icon-text">
-              {item.icon}
+             {/* <span  className={`unactive leftbar-icon-text ${className}`}>{item.icon} </span> */}
+             <a href="#">
+  <div>
+  {item.icon}
+  </div>
+</a> 
               <span id={item.id} >
                 {t(item.text)}
               </span>

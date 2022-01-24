@@ -35,7 +35,8 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
    { field: "nom", headerName: `${t("Name")}`, minWidth: 200, color: "#8D919D"},
    { field: "statut", headerName: `${t("Status")}`, minWidth: 160, color: "#8D919D"},
    { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},
-   { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"}
+   { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"},
+   { field: "refnum", headerName: "refnum", minWidth: 140, color: "#8D919D"}
   ]
   const [sortModel, setSortModel] = React.useState([
     {
