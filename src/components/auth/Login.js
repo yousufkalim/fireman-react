@@ -62,11 +62,11 @@ console.log("set",formInputs)
                             <form onSubmit={handleSubmit}>
                             <div className="input-field">
                                 <label className="login-label">Adresse e-mail</label>
-                                <input  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
+                                <input required  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
                             </div>
                             <div className="input-field">
                                 <label className="login-label">Mot de passe</label>
-                                <input name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
+                                <input required name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
                             </div>
                             <a >Mot de passe oublié ?</a>
                             {loading}

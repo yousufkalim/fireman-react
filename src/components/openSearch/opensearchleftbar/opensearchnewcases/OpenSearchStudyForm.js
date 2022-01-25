@@ -71,7 +71,6 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
-    console.log(".,,.",buttonEnability);
     ///////for townplanning checkboxes
     const ab = townplanning
       .map((val) =>
@@ -293,8 +292,10 @@ setstate((pre) => {
           postCheckboxesData("townplanning");
         }
         if (CompName === "currentcases") {
-
-          api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
+          api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check.length===0? ([{
+            caseFileId:currentcasescaseFileId,
+             sectionType:0
+          }]):(state.check))
             .then((res) => {
               {toast.success(t("Successfull"))};
             })
@@ -322,7 +323,10 @@ setstate((pre) => {
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
     if (CompName === "currentcases") {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck)
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck.length===0?([{
+        caseFileId:currentcasescaseFileId,
+        sectionType:2
+      }]):(state.studycheck))
         .then((res) => {
           {toast.success(t("Successfull"))};
         })

@@ -50,17 +50,17 @@ const FolderCreationSection = ({
     togglermain: compShow ? true : false,
     togglerstudy: compShow || indexdata?.sectionindex === 1 ? true : false,
     togglerstudytwo: compShow || indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2? true: false,
-    togglervisit: compShow ? true : false,
+    togglervisit: compShow || indexdata?.sectionindex === 1  ? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
-      CompName === "currentcases"? true: false,
+    currentcasescaseTypeId ===1? true: false,
     iconstudy:
       CompName === "currentcases" && (indexdata?.sectionindex === 2|| indexdata?.sectionindex === 3)? true: false,
     iconstudytwo:
       CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
     iconvisit:
-      CompName === "currentcases" && indexdata?.sectionindex === 1? true: false,
+      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
         townplanningbutton:compShow||indexdata.sectionindex===1? true:false,
@@ -197,9 +197,10 @@ const FolderCreationSection = ({
     caseid: "",
     commisionDate: currentcasescommisionDate ? currentcasescommisionDate : "",
   });
-  const [inputDisableState, setInputDisableState] = useState("");
+  const [inputDisableState, setInputDisableState] = useState(CompName==="currentcases"? currentcasescaseTypeId.toString():"");
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
+    console.log(currentcasescaseTypeId,"<><>");
     setInputValues({
       caseTypeId: currentcasescaseTypeId,
       commisionTypeId: currentcasescommisionTypeId,
@@ -453,8 +454,8 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                       <div className="inputs-container">
-                        {inputDisableState === "1" ||
-                        currentcasesstudyTypeId ? (
+                        {console.log("df", inputDisableState)}
+                        {inputDisableState === "1"? (
                           <>
                             <label className="label-color"> Etude</label>
 
@@ -477,8 +478,8 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                        {inputDisableState === "2" ||
-                        currentcasesvisitTypeId ? (
+                         {console.log("visit", inputDisableState)}
+                        {inputDisableState === "2"? (
                           <>
                             <label className="label-color">Visite </label>
                             <div class="flex-form">
@@ -556,7 +557,7 @@ const FolderCreationSection = ({
                 </Item>
               </AccordionDetails>
             </Accordion>
-            {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
+            {inputDisableState === "1" ? (
               <>
                 <OpenSearchStudyForm
                   compShow={compShow}
@@ -583,7 +584,7 @@ const FolderCreationSection = ({
               </>
             ) : null}
 
-            {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
+            {inputDisableState === "2"? (
               <>
                 <Box
                   sx={{

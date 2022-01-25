@@ -147,7 +147,10 @@ const EstablishmentSearchVisitForm = ({
         .catch((err) => toast.error(err?.statusText));
     }
     if (CompName) {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck)
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
+        caseFileId:currentcasescaseFileId,
+        sectionType:1
+      }]):(state.visitcheck))
         .then((res) => {
           {
             toast.success(t("Successfull"));

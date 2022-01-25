@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const Loader = () => {
   return (
       <>
-      <CircularProgress color="inherit" size={200} sx={{position:"absolute", top:"25%", height:"500px"}}/>
+      <CircularProgress color="inherit" size={50} sx={{position:"absolute", top:"52%", left:"65%", height:"500px"}}/>
       </>
   )
 };

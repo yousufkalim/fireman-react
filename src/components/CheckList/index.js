@@ -42,7 +42,7 @@ const CheckList = (props) => {
 //       return data
 //     })
     }
-    console.log("checklists>>>>", checklists);
+
     return (
         <>
             <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
