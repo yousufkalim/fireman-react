@@ -6,7 +6,11 @@ import CreateIcon from '@mui/icons-material/Create';
 import parse from 'html-react-parser';
 import EditModal from "../Modals/EditCheckBox"
 import Subchecklist from './Subchecklist';
-;
+import Button from '@mui/material/Button';
+import Rightarrow from "../../assets/rightarrow.png";
+import Leftarrow from "../../assets/leftarrow.png";
+import Floppy from "../../assets/floppy.png";
+import { IconButton } from '@mui/material';
 
 const CheckList = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -81,7 +85,7 @@ const CheckList = (props) => {
                 })
             }
           <EditModal saveChanges={saveChanges} accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} />
-
+         
         </>
     )
 }

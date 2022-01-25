@@ -272,24 +272,26 @@ setstate((pre) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (CompName === "currentcases") {
-
-      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
-        .then((res) => {
-          {toast.success(t("Successfull"))};
-        })
-        .catch((err) => toast.error(err?.statusText));
-    }
-    if(compShow){
-      postCheckboxesData("townplanning");
-    }
+   
+    
     const formData = {
       ...formValues,
       casefileId: casefileId ? casefileId : currentcasescaseFileId,
     };
     api("post", `/api/v1/casefiles/open_townplanning`, formData)
       .then((res) => {
-        setToggler((pre)=>{
+        if(compShow){
+          postCheckboxesData("townplanning");
+        }
+        if (CompName === "currentcases") {
+
+          api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
+            .then((res) => {
+              {toast.success(t("Successfull"))};
+            })
+            .catch((err) => toast.error(err?.statusText));
+        }
+        setToggler((pre)=>{  
           return{
            ...pre,
             togglerstudy:false,
@@ -305,6 +307,7 @@ setstate((pre) => {
         });
       })
       .catch((err) => toast.error(err?.statusText));
+
   };
 
   const handleSubmitdetailsobj = (e) => {
@@ -591,6 +594,7 @@ setstate((pre) => {
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                 
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

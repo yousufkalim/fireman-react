@@ -48,35 +48,27 @@ const FolderCreationSection = ({
   });
   const [Toggler, setToggler] = useState({
     togglermain: compShow ? true : false,
-    togglerstudy: compShow || indexdata?.sectionindex === 0 ? true : false,
-    togglerstudytwo:
-      compShow || indexdata?.sectionindex === 0 || indexdata?.sectionindex === 1
-        ? true
-        : false,
+    togglerstudy: compShow || indexdata?.sectionindex === 1 ? true : false,
+    togglerstudytwo: compShow || indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2? true: false,
     togglervisit: compShow ? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
-      CompName === "currentcases" || indexdata?.sectionindex === 1
-        ? true
-        : false,
+      CompName === "currentcases"? true: false,
     iconstudy:
-      CompName === "currentcases" &&
-      (indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2)
-        ? true
-        : false,
+      CompName === "currentcases" && (indexdata?.sectionindex === 2|| indexdata?.sectionindex === 3)? true: false,
     iconstudytwo:
-      CompName === "currentcases" && indexdata?.sectionindex === 2
-        ? true
-        : false,
+      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
     iconvisit:
-      CompName === "currentcases" && indexdata?.sectionindex === 1
-        ? true
-        : false,
+      CompName === "currentcases" && indexdata?.sectionindex === 1? true: false,
+  });
+  const [buttonEnability, setButtonEnability] = useState({
+        townplanningbutton:false,   
   });
   const store = Store();
   const updatestore = UpdateStore();
   useEffect(() => {
+    console.log("<>", indexdata);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -342,21 +334,6 @@ const FolderCreationSection = ({
           });
           updatestore({ activeNavbarTab: 1 });
         }
-        if (data === "visit") {
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglervisit: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconvisit: true,
-            };
-          });
-          updatestore({ activeNavbarTab: 1 });
-        }
         {
           toast.success(t("Successfull"));
         }
@@ -506,6 +483,10 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
+                        <Box  >
+                        </Box>
+                        <Box className={`${inputDisableState ==1 ||inputDisableState ==2? "more":"less"}`}> 
+                        {console.log("<>",inputDisableState)}
                         <label className="label-color">Date commission </label>
                         <div class="flex-form">
                           <input
@@ -516,6 +497,7 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
+                        </Box>
                         <label className="label-color">Groupement</label>
                         <div class="flex-form">
                           <input
@@ -636,6 +618,10 @@ const FolderCreationSection = ({
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
                       currentcasescaseFileId={currentcasescaseFileId}
+                      Toggler={Toggler}
+                      setToggler={setToggler}
+                      setIcon={setIcon}
+                      Icon={Icon}
                     />
                   </AccordionDetails>
                 </Accordion>

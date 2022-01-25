@@ -125,7 +125,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
             boxShadow: "none",
           }}
         >
-          <div style={{ height: "50vh", width: "100%" }}>
+          <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
               sx={{ border: "none" }}
               onCellClick={(params, event) => onRowClick(params, event)}

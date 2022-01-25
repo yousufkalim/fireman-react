@@ -38,9 +38,11 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
     },
   ];
   const onClick = (activetabindex) => {
+    console.log("<>", store.activeNavbarTab);
+    updatestore({activeNavbarTab:activetabindex})
     setSteps(activetabindex+1)
     setActiveTab(activetabindex)
-    updatestore({activeNavbarTab:activetabindex})
+    
   };
   
   return (
