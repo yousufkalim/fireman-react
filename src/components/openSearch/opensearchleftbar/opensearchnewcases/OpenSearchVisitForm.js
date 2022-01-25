@@ -29,7 +29,9 @@ const EstablishmentSearchVisitForm = ({
   Toggler,
   setToggler,
   setIcon,
-  Icon
+  Icon,
+  buttonEnability,
+  setButtonEnability
 }) => {
   useEffect(() => {
     const ab = visit
@@ -221,6 +223,7 @@ const EstablishmentSearchVisitForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                  disabled={buttonEnability.visitbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

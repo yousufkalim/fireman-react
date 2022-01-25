@@ -37,7 +37,9 @@ const EstablishmentSearchStudyForm = ({
   setToggler,
   Toggler,
   setIcon,
-  Icon
+  Icon,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState({
@@ -69,6 +71,7 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
+    console.log(".,,.",buttonEnability);
     ///////for townplanning checkboxes
     const ab = townplanning
       .map((val) =>
@@ -278,8 +281,14 @@ setstate((pre) => {
       ...formValues,
       casefileId: casefileId ? casefileId : currentcasescaseFileId,
     };
-    api("post", `/api/v1/casefiles/open_townplanning`, formData)
+    api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
       .then((res) => {
+        setButtonEnability((pre)=>{
+          return{
+           ...pre,
+           detailsobject:false
+          }
+        })
         if(compShow){
           postCheckboxesData("townplanning");
         }
@@ -594,7 +603,7 @@ setstate((pre) => {
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
-                 
+                 disabled={buttonEnability.townplanningbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
@@ -709,6 +718,7 @@ setstate((pre) => {
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
+                disabled={buttonEnability.detailsobject}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

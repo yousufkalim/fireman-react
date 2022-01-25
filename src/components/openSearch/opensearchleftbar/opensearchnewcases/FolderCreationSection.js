@@ -63,7 +63,9 @@ const FolderCreationSection = ({
       CompName === "currentcases" && indexdata?.sectionindex === 1? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:false,   
+        townplanningbutton:compShow||indexdata.sectionindex===1? true:false,
+        detailsobject:true,
+        visitbutton:true  
   });
   const store = Store();
   const updatestore = UpdateStore();
@@ -258,6 +260,13 @@ const FolderCreationSection = ({
           {
             toast.success(t("Successfull"));
           }
+          setButtonEnability((pre)=>{
+            return{
+             ...pre,
+             townplanningbutton:false,
+             visitbutton:false
+            }
+          })
           setToggler((pre) => {
             return {
               ...pre,
@@ -295,6 +304,13 @@ const FolderCreationSection = ({
               caseid: res.data,
             };
           });
+          setButtonEnability((pre)=>{
+            return{
+             ...pre,
+             townplanningbutton:false,
+             visitbutton:false
+            }
+          })
           setToggler((pre) => {
             return {
               ...pre,
@@ -561,6 +577,8 @@ const FolderCreationSection = ({
                   setToggler={setToggler}
                   setIcon={setIcon}
                   Icon={Icon}
+                  buttonEnability={buttonEnability}
+                  setButtonEnability={setButtonEnability}
                 />
               </>
             ) : null}
@@ -622,6 +640,8 @@ const FolderCreationSection = ({
                       setToggler={setToggler}
                       setIcon={setIcon}
                       Icon={Icon}
+                      buttonEnability={buttonEnability} 
+                      setButtonEnability={setButtonEnability}
                     />
                   </AccordionDetails>
                 </Accordion>

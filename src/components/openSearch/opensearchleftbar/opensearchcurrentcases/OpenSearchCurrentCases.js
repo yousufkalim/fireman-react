@@ -70,7 +70,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   console.log(currentcasesData);
   const onRowClick = (params) => {
     setCompName("currentcases");
-    if (params.row.val.sectionIndex === 2 && params.row.val.tabIndex === 1) {
+    if (params.row.val.sectionIndex === 3 && params.row.val.tabIndex === 1) {
       updatestore({
         activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
