@@ -39,7 +39,7 @@ const EstablishmentSearchStudyForm = ({
   setIcon,
   Icon
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
     caseAverageId: Studydata?.data?.caseAverageId
@@ -69,30 +69,73 @@ const EstablishmentSearchStudyForm = ({
     requesttype: "",
   });
   useEffect(() => {
-    console.log(">>>>>",townplanning?.map((val) =>(
-      val.chkList.map((item)=>(
-item
-))
-      ))
-     
-     )
-    ;
-    
+    ///////for townplanning checkboxes
     const ab = townplanning
       .map((val) =>
         val.chkList
           .filter((item) => item.isSelected == true)
-          .map((val) => ({ caseFileCheckListId: val.caseFileCheckListId }))
-      )
-      .map((val) => val.filter((val) => val.caseFileCheckListId));
+          .map((val) => {
+            return{ 
+            caseFileCheckListId: val.caseFileCheckListId, 
+            sectionType:val.sectionType, 
+            casefileId: casefileId ? casefileId : currentcasescaseFileId,
+          }})
+      ).map((val) => val.filter((val) =>{ 
+        return{
+          caseFileCheckListId: val.caseFileCheckListId,
+          sectionType: val.sectionType, 
+          casefileId: val.casefileId 
+        }
+      }));
     let merged = [].concat.apply([], ab);
     setstate((pre) => {
       return {
         ...pre,
-        check: merged.map((val) => val.caseFileCheckListId),
+        check: merged.map((val) => {
+          return{
+            caseFileCheckListId: val.caseFileCheckListId,
+            sectionType: val.sectionType, 
+            casefileId: val.casefileId 
+          }
+        }
+        ),
       };
     });
+ ///////for townplanning checkboxes
+
   }, [townplanning]);
+  useEffect(() => {
+    const studycheckboxes = study?.map((val) =>
+    val.chkList
+      .filter((item) => item.isSelected == true)
+      .map((val) => {
+        return{ 
+        caseFileCheckListId: val.caseFileCheckListId, 
+        sectionType:val.sectionType, 
+        casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      }})
+  ).map((val) => val.filter((val) =>{ 
+    return{
+      caseFileCheckListId: val.caseFileCheckListId,
+      sectionType: val.sectionType, 
+      casefileId: val.casefileId 
+    }
+  }));
+let mergedstudy = [].concat.apply([], studycheckboxes);
+setstate((pre) => {
+  return {
+    ...pre,
+    studycheck: mergedstudy.map((val) => {
+      return{
+        caseFileCheckListId: val.caseFileCheckListId,
+        sectionType: val.sectionType, 
+        casefileId: val.casefileId 
+      }
+    }
+    ),
+  };
+});
+  }, [study]);
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
@@ -146,29 +189,76 @@ item
   }, []);
   //////
 
-  const handleChange = (e) => {
+  const handleChange = (e, sectiontype) => {
     const name = e.target.name;
     const value = e.target.value;
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {
-      const obj = {
-        caseFileCheckListId: id,
-        casefileId: casefileId ? casefileId : currentcasescaseFileId,
-      };
+    const obj = {
+      caseFileCheckListId: parseInt(id),
+      casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      sectionType:sectiontype
+    };
+     //////for current cases add checkboxes
+    if (CompName && sectiontype===0) {
+      setstate((pre) => {
+        return {
+          ...pre,
+          check: [...state.check.map((val) => {
+            return{
+              caseFileCheckListId:parseInt(val.caseFileCheckListId),
+              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              sectionType:sectiontype
+            }
+          }), 
+          obj],
+        };
+      });
+    }
+    /////
+    if (CompName && sectiontype===2) {
+      setstate((pre) => {
+        return {
+          ...pre,
+          studycheck: [...state.studycheck.map((val) => {
+            return{
+              caseFileCheckListId:parseInt(val.caseFileCheckListId),
+              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              sectionType:sectiontype
+            }
+          }), 
+          obj],
+        };
+      });
+    }
+
+
+    //////for new cases add checkboxes
+    if (compShow) {
       setCheckboxObj((pre) => [...pre, obj]);
+    }
+
     }
     if (!checked) {
       if (compShow) {
         setCheckboxObj((pre) => [
-          ...pre.filter((item) => item.caseFileCheckListId !== id),
+          ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
       }
-      if (CompName) {
+      if (CompName && sectiontype===0) {
         setstate((pre) => {
           return {
             ...pre,
-            check: [...state.check.filter((val) => val != id)],
+            check: [...state.check.filter((val) => val.caseFileCheckListId != id)],
+          };
+        });
+      }
+      if (CompName && sectiontype===2) {
+        setstate((pre) => {
+          return {
+            ...pre,
+            studycheck: [...state.studycheck.filter((val) => val.caseFileCheckListId != id)],
           };
         });
       }
@@ -180,24 +270,18 @@ item
       };
     });
   };
-  const handleSubmit = (e, data) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (CompName === "currentcases") {
-      const arr = state.check.map((val) => {
-        return {
-          caseFileCheckListId: val,
-          casefileId: casefileId ? casefileId : currentcasescaseFileId,
-        };
-      });
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, arr)
+
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
         .then((res) => {
           {toast.success(t("Successfull"))};
         })
         .catch((err) => toast.error(err?.statusText));
-      setCheckboxObj([]);
     }
-    if (compShow) {
-      postCheckboxesData();
+    if(compShow){
+      postCheckboxesData("townplanning");
     }
     const formData = {
       ...formValues,
@@ -225,7 +309,17 @@ item
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
-    postCheckboxesData("studytwo");
+    if (CompName === "currentcases") {
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck)
+        .then((res) => {
+          {toast.success(t("Successfull"))};
+        })
+        .catch((err) => toast.error(err?.statusText));
+    }
+    if(compShow){
+      postCheckboxesData("studytwo");
+    }
+   
   };
   return (
     <>
@@ -252,7 +346,7 @@ item
           <Typography variant="h6">{t("Town Planning Documents")}</Typography>
           { Icon.iconstudy? <DoneIcon /> : null}
         </Box>
-        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudy? true: false}>
+        <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudy? true: false}>
         <AccordionSummary
         sx={{display:"none"}}
           expandIcon={<ExpandMoreIcon />}
@@ -356,7 +450,7 @@ item
                     />
                   </div>
                 </Box>
-                <Box sx={{ textAlign: "start", fontSize:"20px", color: "#314A6C" }}>
+                <Box sx={{ textAlign: "start" }}>
                   <label className="checklist-heading">{t("Urban planning references")}</label>
                 </Box>
                 <Divider sx={{ margin: "15px 0px" }} />
@@ -446,7 +540,7 @@ item
                     <>
                       <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                         <label className="checklist-heading">
-                          {t(item.checkHeadingName)}
+                          {item.checkHeadingName}
                         </label>
                       </Box>
                       <Divider />
@@ -457,7 +551,7 @@ item
                               type="checkbox"
                               defaultChecked={CompName?val.isSelected:""}
                               id={val.caseFileCheckListId}
-                              onChange={handleChange}
+                              onChange={(e)=>handleChange(e,val.sectionType)}
                             />
                             <label
                               className="dropdown-checkbox"
@@ -484,7 +578,7 @@ item
                                 color: "#3675B7",
                               }}
                             >
-                              {t(val.name)}
+                              {val.name}
                             </Box>
                           </Box>
                         </div>
@@ -536,7 +630,7 @@ item
           <Typography variant="h6">{t("Details Of Object")}</Typography>
           { Icon.iconstudytwo? <DoneIcon /> : null}
         </Box>
-        <Accordion sx={{margin:"3px 10px !important"}} expanded={ Toggler.togglerstudytwo? true: false}>
+        <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudytwo? true: false}>
         <AccordionSummary
         sx={{display:"none"}}
           expandIcon={<ExpandMoreIcon />}
@@ -560,11 +654,11 @@ item
             <form onSubmit={(e) => handleSubmitdetailsobj(e, "detailsobj")}>
               <Box
               >
-                {study?.map((item) => (
+                {study && study?.map((item) => (
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                       <label className="checklist-heading">
-                        {t(item.checkHeadingName)}
+                        {item.checkHeadingName}
                       </label>
                     </Box>
                     <Divider />
@@ -575,7 +669,7 @@ item
                             type="checkbox"
                             defaultChecked={CompName? val.isSelected:""}
                             id={val.caseFileCheckListId}
-                            onChange={handleChange}
+                            onChange={(e)=>handleChange(e,val.sectionType)}
                           />
                           <label
                             className="dropdown-checkbox"
@@ -601,7 +695,7 @@ item
                               color: "#3675B7",
                             }}
                           >
-                            {t(val.name)}
+                            {val.name}
                           </Box>
                         </Box>
                       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -16,8 +16,12 @@ const Description = ({ values, onSubmit, description }) => {
     establishmentdescription: description?.description
       ? description?.description
       : "",
-    lessEightMeter:description?.lessEightMeter?description?.lessEightMeter: "",
-    moreEightMeter: description?.moreEightMeter?description?.moreEightMeter: "",
+    lessEightMeter: description?.lessEightMeter
+      ? description?.lessEightMeter
+      : "",
+    moreEightMeter: description?.moreEightMeter
+      ? description?.moreEightMeter
+      : "",
   });
 
   const onChange = (e) => {
@@ -30,19 +34,16 @@ const Description = ({ values, onSubmit, description }) => {
       };
     });
   };
-
-  const onChangeCheckBox =(e)=>{
+  const onChangeCheckBox = (e) => {
     const name = e.target.name;
-    const checked= e.target.checked;
+    const checked = e.target.checked;
     setInputValues((pre) => {
       return {
         ...pre,
         [name]: checked,
       };
     });
-  }
-  console.log(inputValues);
-  
+  };
   const onSubmitFields = () => {
     onSubmit(values, inputValues);
   };
@@ -52,9 +53,9 @@ const Description = ({ values, onSubmit, description }) => {
         sx={{
           padding: "10px",
           marginTop: "20px",
-          color:"#C5D3DB"
+          color: "#C5D3DB",
         }}
-     >
+      >
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -77,7 +78,12 @@ const Description = ({ values, onSubmit, description }) => {
               - l’établissement ECOLE PRIMAIRE, de type R de 3ecatégorie;
               - L’établissement ECOLE MATERNELLE, de type R de 3ecatégorie;
               - L’établissement RESTAURANT SCOLAIRE, de type N de 4ecatégorie. "
-              sx={{ width: 600, height: 200, padding: "30px", background:"aliceblue" }}
+              sx={{
+                width: 600,
+                height: 200,
+                padding: "30px",
+                background: "aliceblue",
+              }}
               onChange={onChange}
             />
           </AccordionDetails>
@@ -89,7 +95,7 @@ const Description = ({ values, onSubmit, description }) => {
             id="panel2a-header"
           >
             <Typography>
-            {t("Description presenting the establishment and the activities")}
+              {t("Description presenting the establishment and the activities")}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -114,58 +120,52 @@ const Description = ({ values, onSubmit, description }) => {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>{t("Low floor of the last accessible level")}</Typography>
+            <Typography>
+              {t("Low floor of the last accessible level")}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ textAlign: "start" }}>
-           
-              <Box sx={{
-                display:"flex",
-                paddingBottom:"10px"
-            }}>
-              <label>
-                  {" "}
-                 {t("Less Eight Meter")}
-                </label>
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  name="lessEightMeter"
-                  defaultChecked={description?.lessEightMeter}
-                  onChange={onChangeCheckBox}
-                />
-                </Box>
-                <Box
-                sx={{display:"flex"}}
-                >
-                <label>
-                  {" "}
-                 {t("More Eight Meter")}
-                </label>
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  name="moreEightMeter"
-                  defaultChecked={description?.moreEightMeter}
-                  onChange={onChangeCheckBox}
-                />
-              </Box>
-           
+            <Box
+              sx={{
+                display: "flex",
+                paddingBottom: "10px",
+              }}
+            >
+              <label> {t("Less Eight Meter")}</label>
+              <input
+                className="checkbox"
+                type="checkbox"
+                name="lessEightMeter"
+                defaultChecked={description?.lessEightMeter}
+                onChange={onChangeCheckBox}
+              />
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              <label> {t("More Eight Meter")}</label>
+              <input
+                className="checkbox"
+                type="checkbox"
+                name="moreEightMeter"
+                defaultChecked={description?.moreEightMeter}
+                onChange={onChangeCheckBox}
+              />
+            </Box>
           </AccordionDetails>
         </Accordion>
-        <Box sx={{ textAlign: "right", padding:"10px" }}>
-                  <Button
-                    type="submit"
-                    onClick={onSubmitFields}
-                    endIcon={<img className='icon-validate' src={Rightarrow} />}
-                    sx={{
-                      background: "#3675B7",
-                      ":hover": { background: "#3675B7" },
-                    }}
-                    variant="contained"
-                  >
-                    {t("VALIDATE")}
-                  </Button>
-                </Box>
+        <Box sx={{ textAlign: "right", padding: "10px" }}>
+          <Button
+            type="submit"
+            onClick={onSubmitFields}
+            endIcon={<img className="icon-validate" src={Rightarrow} />}
+            sx={{
+              background: "#3675B7",
+              ":hover": { background: "#3675B7" },
+            }}
+            variant="contained"
+          >
+            {t("VALIDATE")}
+          </Button>
+        </Box>
       </Box>
     </>
   );

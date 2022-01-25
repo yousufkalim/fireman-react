@@ -60,6 +60,12 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       headerName: `${t("State")}`, 
       minWidth: 100, 
       color: "#8D919D" },
+      { 
+        field: "refNum", 
+        headerName: `${t("refNum")}`, 
+        minWidth: 100, 
+        color: "#8D919D" },
+      
   ];
   console.log(currentcasesData);
   const onRowClick = (params) => {
@@ -140,6 +146,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
                 state: val.state,
                 sectionindex: val.sectionIndex,
                 tabindex: val.tabIndex,
+                refNum:val.refNum,
                 val: val,
               }))}
             />

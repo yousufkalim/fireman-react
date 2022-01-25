@@ -17,6 +17,9 @@ import EstablishmentLevel from "./EstablishmentLevel";
 import StaffLevel from "./StaffLevel";
 import { useTranslation, Trans } from "react-i18next";
 import Ranking from "./Ranking";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -25,9 +28,21 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const HistoricalSearch = ({ generalDataEstablishment }) => {
   const { t, i18n } = useTranslation();
+  const [Toggler, setToggler] = useState({
+    togglerhistoricalsearch: true,
+    createhistoricaldata: true,
+    establishmentlevel: true,
+    togglerstafflevel: true,
+    togglerranking: true,
+  });
+  const [Icon, setIcon] = useState({
+    iconhistoricalsearch: false,
+    createhistoricaldata: false,
+    establishmentlevel: false,
+    iconstafflevel: false,
+    iconranking: false,
+  });
   const [open, setOpen] = useState(false);
-  const [toggle, setToggle] = useState(false);
-  const [iconState, setIconState] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [dropdownValue, setdropdownValue] = useState({
     tracktype: "",
@@ -112,7 +127,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         : "",
     });
   }, [generalDataEstablishment]);
-  const focusPoint = useRef(null);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -138,11 +152,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       })
     );
-    api("get", `/api/v1/get_description_data/${store.establishmentId}`).then((res) => {
-      setLevelData(res.data.levels);
-      setDescription(res.data.descriptions);
-     console.log(res);
-    });
+    api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
+      (res) => {
+        setLevelData(res.data.levels);
+        setDescription(res.data.descriptions);
+        console.log(res);
+      }
+    );
     api(
       "get",
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
@@ -156,12 +172,18 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
-        `${t("You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.")}`);
+        `${t(
+          "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
+        )}`
+      );
     }
     if (inputValues.statusId !== "2" && value === "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
-        `${t("You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group")}`);
+        `${t(
+          "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
+        )}`
+      );
     }
     if (
       inputValues.establishmentName !== store.establishmentname &&
@@ -169,7 +191,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     ) {
       setOpen(true);
       setMessageText(
-        `${t("You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.")}`);
+        `${t(
+          "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name."
+        )}`
+      );
     }
     setInputValues((preVal) => {
       return {
@@ -178,10 +203,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       };
     });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const updatedObj = {
       ...inputValues,
       establishmentId: store.establishmentId,
@@ -189,12 +212,21 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (store.activeCase === "newcase") {
       api("post", `/api/v1/create_generaldata_establishment`, updatedObj)
         .then((res) => {
-          if (res.status === 200) {
-            {toast.success(t("Successfull"))};
-            setIconState(true);
-            setToggle(true);
-            focusPoint.current.style.display = "none";
+          {
+            toast.success(t("Successfull"));
           }
+          setToggler((pre) => {
+            return {
+              ...pre,
+              togglerhistoricalsearch: false,
+            };
+          });
+          setIcon((pre) => {
+            return {
+              ...pre,
+              iconhistoricalsearch: true,
+            };
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -202,233 +234,292 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     }
 
     if (store.activeCase === "currentcases") {
-      api("put", "/api/v1/update_generaldata_establishment", updatedObj).then(
-        (res) => {
-          console.log("update", res);
-        }
-      );
+      api("put", "/api/v1/update_generaldata_establishment", updatedObj)
+        .then((res) => {
+          {
+            toast.success(t("Successfull"));
+          }
+          setToggler((pre) => {
+            return {
+              togglerhistoricalsearch: false,
+              createhistoricaldata: true,
+              togglervisit: true,
+              togglerstudytwo: true,
+            };
+          });
+          setIcon((pre) => {
+            return {
+              ...pre,
+              iconhistoricalsearch: true,
+            };
+          });
+        })
+        .catch((err) => console.log(err));
     }
-  };
-
-  const toggleSection = () => {
-    setToggle(!toggle);
-    toggle
-      ? (focusPoint.current.style.display = "none")
-      : (focusPoint.current.style.display = "block");
   };
   return (
     <>
       <Box
+        onClick={() => {
+          setToggler((pre) => {
+            return {
+              ...pre,
+              togglerhistoricalsearch: !Toggler.togglerhistoricalsearch,
+            };
+          });
+        }}
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          borderBottom: "0.6px solid #C5D3DB",
+          padding: "8px 10px",
           backgroundColor: "#3675B7",
           borderRadius: "5px",
-          borderBottom: "1px solid #C5D3DB",
-          margin: "12px 4px",
-          padding: "10px",
           color: "#ffffff",
-        }}
-        onClick={toggleSection}
-      >
-        <Typography variant="h6">{t("General data")}</Typography>
-        <div>{iconState ? <DoneIcon /> : null}</div>
-      </Box>
-      <Item
-        sx={{
-          borderRadius: "10px",
-          width: "97%",
+          width: "96%",
           margin: "auto",
         }}
-        ref={focusPoint}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "10px",
-          }}
-        >
-          <Grid item md={12}>
-            <DialogBox
-              setOpen={setOpen}
-              messageText={messageText}
-              open={open}
-            />
-            <form
-              className="establishment-form"
-              type="submit"
-              onSubmit={handleSubmit}
+        <Typography variant="h6">{t("General data")}</Typography>
+        {Icon.iconhistoricalsearch ? <DoneIcon /> : null}
+      </Box>
+      <Accordion
+        sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
+        expanded={Toggler.togglerhistoricalsearch ? true : false}
+      >
+        <AccordionSummary
+          sx={{ display: "none" }}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        ></AccordionSummary>
+        <AccordionDetails>
+          <Item
+            sx={{
+              borderRadius: "10px",
+              width: "97%",
+              margin: "auto",
+              boxShadow: "none",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "10px",
+              }}
             >
-              <Box sx={{ display: "flex" }}>
-                <div className="inputs-container">
-                  <label className="label-color">{t("Name Establishment")}</label>
-                  <div className="flex-form">
-                    <input
-                      type="search"
-                      value={inputValues.establishmentName}
-                      onChange={handleChange}
-                      name="establishmentName"
-                      value={inputValues.establishmentName}
-                    />
-                  </div>
-
-                  <span> Adresse</span>
-                  <br />
-                  <label className="label-color">{t("City")} </label>
-                  <div className="flex-form">
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="cityId"
-                      value={inputValues.cityId}
-                      onChange={handleChange}
-                    >
-                      <option value="">Choisissez s'il vous plaît</option>
-                      {dropdownValue.cityId.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex-form">
-                    <label className="label-color">CP</label>
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="zipCode"
-                      value={inputValues.zipCode}
-                    />
-                  </div>
-                  <div className="establishment-nom-mobile-container">
-                    <div className="flex-form">
-                      <span>Responsable de sécurité</span>
-                      <label className="label-color">{t("Name")} </label>
-                      <input
-                        type="search"
-                        onChange={handleChange}
-                        name="securityManagerLastName"
-                        value={inputValues.securityManagerLastName.toUpperCase()}
-                      />
-                    </div>
-
-                    <label className="label-color">Mobile </label>
-                    <div className="flex-form">
-                      <input
-                        type="number"
-                        onChange={handleChange}
-                        name="securityManagerMobile"
-                        value={inputValues.securityManagerMobile}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="inputs-container">
-                  <label className="label-color">{t("Status")} </label>
-                  <div className="flex-form">
-                    <select
-                      className="dropdown"
-                      type="select"
-                      name="statusId"
-                      onChange={handleChange}
-                      value={inputValues.statusId}
-                    >
-                      <option value="">Choisissez s'il vous plaît</option>
-                      {dropdownValue.status.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="establishment-typenom-container">
-                    <label className="label-color">{t("Channel type")} </label>
-                    <div className="flex-form">
-                      <select
-                        className="dropdown"
-                        type="select"
-                        name="trackTypeId"
-                        onChange={handleChange}
-                        value={inputValues.trackTypeId}
-                      >
-                        <option value="">Choisissez s'il vous plaît</option>
-                        {dropdownValue.tracktype.data?.map((item) => (
-                          <option key={item.value} value={item.value}>
-                            {item.text}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="flex-form">
-                      <label className="label-color">{t("Channel name")}</label>
-                      <input
-                        type="search"
-                        onChange={handleChange}
-                        name="channelName"
-                        value={inputValues.channelName.toUpperCase()}
-                      />
-                    </div>
-                    <label className="label-color">{t("Number")}</label>
-                    <div className="flex-form">
-                      <input
-                        type="search"
-                        onChange={handleChange}
-                        name="securityManagerMobile"
-                        value={inputValues.securityManagerMobile}
-                      />
-                    </div>
-                  </div>
-                  <label className="label-color">{t("First name")}</label>
-                  <div className="flex-form">
-                    <input
-                      type="search"
-                      onChange={handleChange}
-                      name="securityManagerName"
-                      value={inputValues.securityManagerName}
-                    />
-                  </div>
-                  <label className="label-color">Mail</label>
-                  <div className="flex-form">
-                    <input
-                      type="email"
-                      onChange={handleChange}
-                      name="securityManagerEmail"
-                      value={inputValues.securityManagerEmail}
-                    />
-                  </div>
-                </div>
-              </Box>
-              <Divider sx={{ margin: "20px 0px" }} />
-              <Box sx={{ textAlign: "right" }}>
-                <Button
+              <Grid item md={12}>
+                <DialogBox
+                  setOpen={setOpen}
+                  messageText={messageText}
+                  open={open}
+                />
+                <form
+                  className="establishment-form"
                   type="submit"
-                  endIcon={<img className="icon-validate" src={Rightarrow} />}
-                  sx={{
-                    background: "#3675B7",
-                    ":hover": { background: "#3675B7" },
-                  }}
-                  variant="contained"
+                  onSubmit={handleSubmit}
                 >
-                 {t("VALIDATE")}
-                </Button>
-              </Box>
-            </form>
+                  <Box sx={{ display: "flex" }}>
+                    <div className="inputs-container">
+                      <label className="label-color">
+                        {t("Name Establishment")}
+                      </label>
+                      <div className="flex-form">
+                        <input
+                          type="search"
+                          value={inputValues.establishmentName}
+                          onChange={handleChange}
+                          name="establishmentName"
+                          value={inputValues.establishmentName}
+                        />
+                      </div>
+                      <label className="checklist-heading"> Adresse</label>
+                      <br />
+                      <label className="label-color">{t("City")} </label>
+                      <div className="flex-form">
+                        <select
+                          className="dropdown"
+                          type="select"
+                          name="cityId"
+                          value={inputValues.cityId}
+                          onChange={handleChange}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.cityId.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-form">
+                        <label className="label-color">CP</label>
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="zipCode"
+                          value={inputValues.zipCode}
+                        />
+                      </div>
+                      <div className="establishment-nom-mobile-container">
+                        <label className="checklist-heading">
+                          Responsable de sécurité
+                        </label>
+                        <div className="flex-form">
+                          <label className="label-color">{t("Name")} </label>
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="securityManagerLastName"
+                            value={inputValues.securityManagerLastName.toUpperCase()}
+                          />
+                        </div>
 
-            {/* <Description/> */}
-          </Grid>
-        </Box>
-      </Item>
+                        <label className="label-color">Mobile </label>
+                        <div className="flex-form">
+                          <input
+                            type="number"
+                            onChange={handleChange}
+                            name="securityManagerMobile"
+                            value={inputValues.securityManagerMobile}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="inputs-container">
+                      <label className="label-color">{t("Status")} </label>
+                      <div className="flex-form">
+                        <select
+                          className="dropdown"
+                          type="select"
+                          name="statusId"
+                          onChange={handleChange}
+                          value={inputValues.statusId}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.status.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="establishment-typenom-container">
+                        <label className="label-color">
+                          {t("Channel type")}{" "}
+                        </label>
+                        <div className="flex-form">
+                          <select
+                            className="dropdown"
+                            type="select"
+                            name="trackTypeId"
+                            onChange={handleChange}
+                            value={inputValues.trackTypeId}
+                          >
+                            <option value="">Choisissez s'il vous plaît</option>
+                            {dropdownValue.tracktype.data?.map((item) => (
+                              <option key={item.value} value={item.value}>
+                                {item.text}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="flex-form">
+                          <label className="label-color">
+                            {t("Channel name")}
+                          </label>
+                          <input
+                            type="search"
+                            onChange={handleChange}
+                            name="channelName"
+                            value={inputValues.channelName.toUpperCase()}
+                          />
+                        </div>
+                        <label className="label-color">{t("Number")}</label>
+                        <div className="flex-form">
+                          <input
+                            type="number"
+                            onChange={handleChange}
+                            name="securityManagerMobile"
+                            value={inputValues.securityManagerMobile}
+                          />
+                        </div>
+                      </div>
+                      <label className="label-color">{t("First name")}</label>
+                      <div className="flex-form">
+                        <input
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerName"
+                          value={inputValues.securityManagerName}
+                        />
+                      </div>
+                      <label className="label-color">Mail</label>
+                      <div className="flex-form">
+                        <input
+                          type="email"
+                          onChange={handleChange}
+                          name="securityManagerEmail"
+                          value={inputValues.securityManagerEmail}
+                        />
+                      </div>
+                    </div>
+                  </Box>
+                  <Divider sx={{ margin: "20px 0px" }} />
+                  <Box sx={{ textAlign: "right" }}>
+                    <Button
+                      type="submit"
+                      endIcon={
+                        <img className="icon-validate" src={Rightarrow} />
+                      }
+                      sx={{
+                        background: "#3675B7",
+                        ":hover": { background: "#3675B7" },
+                      }}
+                      variant="contained"
+                    >
+                      {t("VALIDATE")}
+                    </Button>
+                  </Box>
+                </form>
+              </Grid>
+            </Box>
+          </Item>
+        </AccordionDetails>
+      </Accordion>
       <CreateHistoricalData
         historicalDataEstablishment={historicalDataEstablishment}
         establishmentid={store.establishmentId}
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
       />
 
-      <EstablishmentLevel description={description} Values={Values} />
-      <StaffLevel establishmentid={store.establishmentId} />
-      <Ranking establishmentid={store.establishmentId} />
+      <EstablishmentLevel
+        description={description}
+        Values={Values}
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
+      />
+      <StaffLevel
+        establishmentid={store.establishmentId}
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
+      />
+      <Ranking
+        establishmentid={store.establishmentId}
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
+      />
     </>
   );
 };
