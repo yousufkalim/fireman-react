@@ -37,7 +37,9 @@ const EstablishmentSearchStudyForm = ({
   setToggler,
   Toggler,
   setIcon,
-  Icon
+  Icon,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState({
@@ -272,24 +274,34 @@ setstate((pre) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (CompName === "currentcases") {
-
-      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check)
-        .then((res) => {
-          {toast.success(t("Successfull"))};
-        })
-        .catch((err) => toast.error(err?.statusText));
-    }
-    if(compShow){
-      postCheckboxesData("townplanning");
-    }
+   
+    
     const formData = {
       ...formValues,
       casefileId: casefileId ? casefileId : currentcasescaseFileId,
     };
-    api("post", `/api/v1/casefiles/open_townplanning`, formData)
+    api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
       .then((res) => {
-        setToggler((pre)=>{
+        setButtonEnability((pre)=>{
+          return{
+           ...pre,
+           detailsobject:false
+          }
+        })
+        if(compShow){
+          postCheckboxesData("townplanning");
+        }
+        if (CompName === "currentcases") {
+          api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check.length===0? ([{
+            caseFileId:currentcasescaseFileId,
+             sectionType:0
+          }]):(state.check))
+            .then((res) => {
+              {toast.success(t("Successfull"))};
+            })
+            .catch((err) => toast.error(err?.statusText));
+        }
+        setToggler((pre)=>{  
           return{
            ...pre,
             togglerstudy:false,
@@ -305,12 +317,16 @@ setstate((pre) => {
         });
       })
       .catch((err) => toast.error(err?.statusText));
+
   };
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
     if (CompName === "currentcases") {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck)
+      api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck.length===0?([{
+        caseFileId:currentcasescaseFileId,
+        sectionType:2
+      }]):(state.studycheck))
         .then((res) => {
           {toast.success(t("Successfull"))};
         })
@@ -591,6 +607,7 @@ setstate((pre) => {
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                 disabled={buttonEnability.townplanningbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
@@ -705,6 +722,7 @@ setstate((pre) => {
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
+                disabled={buttonEnability.detailsobject}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

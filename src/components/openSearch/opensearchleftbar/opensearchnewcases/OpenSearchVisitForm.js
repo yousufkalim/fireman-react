@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import api from "../../../../api/index";
 import { toast } from "react-toastify";
+import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -25,6 +26,12 @@ const EstablishmentSearchVisitForm = ({
   currentcasescaseFileId,
   state,
   setstate,
+  Toggler,
+  setToggler,
+  setIcon,
+  Icon,
+  buttonEnability,
+  setButtonEnability
 }) => {
   useEffect(() => {
     const ab = visit
@@ -114,6 +121,7 @@ const EstablishmentSearchVisitForm = ({
       }
     }
   };
+  const updatestore = UpdateStore();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (compShow) {
@@ -121,12 +129,28 @@ const EstablishmentSearchVisitForm = ({
         .then((res) => {
           {
             toast.success(t("Successfull"));
+            setToggler((pre)=>{
+              return{
+               ...pre,
+               togglervisit:false,
+              }
+            })
+            setIcon((pre)=>{
+              return{
+                ...pre,
+                iconvisit:true,
+              }
+            });
+            updatestore({ activeNavbarTab: 1 });
           }
         })
         .catch((err) => toast.error(err?.statusText));
     }
     if (CompName) {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck)
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
+        caseFileId:currentcasescaseFileId,
+        sectionType:1
+      }]):(state.visitcheck))
         .then((res) => {
           {
             toast.success(t("Successfull"));
@@ -202,6 +226,7 @@ const EstablishmentSearchVisitForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                  disabled={buttonEnability.visitbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

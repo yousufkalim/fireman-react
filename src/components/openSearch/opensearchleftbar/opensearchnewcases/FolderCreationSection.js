@@ -48,35 +48,29 @@ const FolderCreationSection = ({
   });
   const [Toggler, setToggler] = useState({
     togglermain: compShow ? true : false,
-    togglerstudy: compShow || indexdata?.sectionindex === 0 ? true : false,
-    togglerstudytwo:
-      compShow || indexdata?.sectionindex === 0 || indexdata?.sectionindex === 1
-        ? true
-        : false,
-    togglervisit: compShow ? true : false,
+    togglerstudy: compShow || indexdata?.sectionindex === 1 ? true : false,
+    togglerstudytwo: compShow || indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2? true: false,
+    togglervisit: compShow || indexdata?.sectionindex === 1  ? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
-      CompName === "currentcases" || indexdata?.sectionindex === 1
-        ? true
-        : false,
+    currentcasescaseTypeId ===1? true: false,
     iconstudy:
-      CompName === "currentcases" &&
-      (indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2)
-        ? true
-        : false,
+      CompName === "currentcases" && (indexdata?.sectionindex === 2|| indexdata?.sectionindex === 3)? true: false,
     iconstudytwo:
-      CompName === "currentcases" && indexdata?.sectionindex === 2
-        ? true
-        : false,
+      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
     iconvisit:
-      CompName === "currentcases" && indexdata?.sectionindex === 1
-        ? true
-        : false,
+      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
+  });
+  const [buttonEnability, setButtonEnability] = useState({
+        townplanningbutton:compShow||indexdata.sectionindex===1? true:false,
+        detailsobject:true,
+        visitbutton:true  
   });
   const store = Store();
   const updatestore = UpdateStore();
   useEffect(() => {
+    console.log("<>", indexdata);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -203,9 +197,10 @@ const FolderCreationSection = ({
     caseid: "",
     commisionDate: currentcasescommisionDate ? currentcasescommisionDate : "",
   });
-  const [inputDisableState, setInputDisableState] = useState("");
+  const [inputDisableState, setInputDisableState] = useState(CompName==="currentcases"? currentcasescaseTypeId.toString():"");
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
+    console.log(currentcasescaseTypeId,"<><>");
     setInputValues({
       caseTypeId: currentcasescaseTypeId,
       commisionTypeId: currentcasescommisionTypeId,
@@ -266,6 +261,13 @@ const FolderCreationSection = ({
           {
             toast.success(t("Successfull"));
           }
+          setButtonEnability((pre)=>{
+            return{
+             ...pre,
+             townplanningbutton:false,
+             visitbutton:false
+            }
+          })
           setToggler((pre) => {
             return {
               ...pre,
@@ -303,6 +305,13 @@ const FolderCreationSection = ({
               caseid: res.data,
             };
           });
+          setButtonEnability((pre)=>{
+            return{
+             ...pre,
+             townplanningbutton:false,
+             visitbutton:false
+            }
+          })
           setToggler((pre) => {
             return {
               ...pre,
@@ -338,21 +347,6 @@ const FolderCreationSection = ({
             return {
               ...pre,
               iconstudytwo: true,
-            };
-          });
-          updatestore({ activeNavbarTab: 1 });
-        }
-        if (data === "visit") {
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglervisit: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconvisit: true,
             };
           });
           updatestore({ activeNavbarTab: 1 });
@@ -460,8 +454,8 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                       <div className="inputs-container">
-                        {inputDisableState === "1" ||
-                        currentcasesstudyTypeId ? (
+                        {console.log("df", inputDisableState)}
+                        {inputDisableState === "1"? (
                           <>
                             <label className="label-color"> Etude</label>
 
@@ -484,8 +478,8 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                        {inputDisableState === "2" ||
-                        currentcasesvisitTypeId ? (
+                         {console.log("visit", inputDisableState)}
+                        {inputDisableState === "2"? (
                           <>
                             <label className="label-color">Visite </label>
                             <div class="flex-form">
@@ -506,6 +500,10 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
+                        <Box  >
+                        </Box>
+                        <Box className={`${inputDisableState ==1 ||inputDisableState ==2? "more":"less"}`}> 
+                        {console.log("<>",inputDisableState)}
                         <label className="label-color">Date commission </label>
                         <div class="flex-form">
                           <input
@@ -516,6 +514,7 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
+                        </Box>
                         <label className="label-color">Groupement</label>
                         <div class="flex-form">
                           <input
@@ -558,7 +557,7 @@ const FolderCreationSection = ({
                 </Item>
               </AccordionDetails>
             </Accordion>
-            {inputDisableState === "1" || currentcasescaseTypeId === 1 ? (
+            {inputDisableState === "1" ? (
               <>
                 <OpenSearchStudyForm
                   compShow={compShow}
@@ -579,11 +578,13 @@ const FolderCreationSection = ({
                   setToggler={setToggler}
                   setIcon={setIcon}
                   Icon={Icon}
+                  buttonEnability={buttonEnability}
+                  setButtonEnability={setButtonEnability}
                 />
               </>
             ) : null}
 
-            {inputDisableState === "2" || currentcasescaseTypeId === 2 ? (
+            {inputDisableState === "2"? (
               <>
                 <Box
                   sx={{
@@ -636,6 +637,12 @@ const FolderCreationSection = ({
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
                       currentcasescaseFileId={currentcasescaseFileId}
+                      Toggler={Toggler}
+                      setToggler={setToggler}
+                      setIcon={setIcon}
+                      Icon={Icon}
+                      buttonEnability={buttonEnability} 
+                      setButtonEnability={setButtonEnability}
                     />
                   </AccordionDetails>
                 </Accordion>

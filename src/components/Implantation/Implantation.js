@@ -20,6 +20,7 @@ const Implantation = (props) => {
         setExpanded(isExpanded ? panel : false);
     };
     return (
+        <> 
         <div className="etablissement">
             <div className='chapter'>
                 <h3>{props.accordionData.chapterName}</h3>
@@ -46,6 +47,8 @@ const Implantation = (props) => {
            ""
             }
         </div>
+        
+        </>
     )
 }
 export default Implantation;
