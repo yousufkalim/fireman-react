@@ -9,8 +9,8 @@ import Signup from "../components/auth/Signup";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import OpenSearch from "../containers/OpenSearch";
 import Body from '../components/Body'
-import Dashboard from '../components/dashboard/Dashboard';
-;
+import Dashboard from '../components/dashboard/Dashboardtwo';
+import Accuceil from "../components/Accuceil";
 
 const index = () => {
   let userdata = localStorage.getItem("userData");
@@ -38,6 +38,11 @@ const index = () => {
            exact
            path="/dashboard"
            component={Dashboard}
+         />
+           <Route
+           exact
+           path="/accuceil"
+           component={Accuceil}
          />
          
          <Redirect from="*" to="/body" />

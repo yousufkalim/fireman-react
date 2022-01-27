@@ -12,6 +12,10 @@
 @import url("./EsatablishmentTab/EstablishmentLevel.css");
 @import url("./EsatablishmentTab/Description.css");
 @import url("./OpenSearch/studyform.css");
+@import url("./home.css");
+@import url("./profile.css");
+
+
 /* Defaults */
 * {
   padding: 0;

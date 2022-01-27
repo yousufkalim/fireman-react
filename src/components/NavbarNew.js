@@ -13,12 +13,15 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 ;import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/Vector.png"
 import { useTranslation, Trans } from "react-i18next";
+import {UpdateStore} from '../StoreContext'
+
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { t, i18n } = useTranslation();
   const { language } = i18n;
   const isMenuOpen = Boolean(anchorEl);
+  const update = UpdateStore()
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let user = localStorage.getItem("user");
   const changeLanguage = (lng) => {
@@ -155,7 +158,7 @@ export default function Navbar() {
             >
               <AccountCircle />
             </IconButton>
-            <Box className="navbar_user" sx={{ padding: "25px 10px" }}>
+            <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" }}>
               <p>{user}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>

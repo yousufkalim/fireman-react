@@ -28,7 +28,7 @@ const [formInputs,setFormInputs]=useState({email:"",password:""});
                     userid: res?.data?.userId,
                   };
                   localStorage.setItem("userData", JSON.stringify(dataObj));
-                   window.location = "/openSearch";
+                   window.location = "/accuceil";
                 })
                 .catch((err) => console.log(err));
         }else{

@@ -1,0 +1,86 @@
+
+import Termines from "../../assets/termines.png"
+import Travail1 from "../../assets/travail1.png"
+import Travail2 from "../../assets/travail2.png"
+import Folder from "../../assets/Folder.png"
+import api from "../../api/index"
+import { useEffect, useState } from "react"
+
+
+
+const HomeLeft = ()=>{
+let[box,setBox]=useState(false)
+let[counts,setCount]=useState({})
+    useEffect(()=>{
+      CountsData()
+    },[])
+    const CountsData=()=>{
+        let userId = localStorage.getItem("userData");
+        userId = JSON.parse(userId);
+          api("get", `/api/v1/dashboard/casefiles_userwise_count_frontend/${userId?.userid}`).then((res) => {
+              console.log("faisl",res);
+              if (res.status == 200) {
+                  setCount(res.data)
+              }
+          })
+    }
+    return(
+        <>
+        <div className="accueilHome">
+            <p className="heading1">Bonjour Ludovic, vous avez : </p>
+            <div className="countData">
+               <div style={{marginRight:"80px"}}>
+                   <p className="count">{counts.completed}</p>
+                   <p className="count_des">projets terminés</p>
+                   </div>
+                   <div>
+                       <p className="count">{counts.inProgress}</p>
+                       <p className="count_des">projets en cours</p>
+                       </div> 
+            </div>
+            {
+                box ?
+                <>
+                <p className="heading2">PROJETS TERMINÉS <div></div></p>
+                <div className="hoverbox" onMouseLeave={()=>{setBox(false)}}>
+
+                {[1,1,1,1,1].map((data)=>{
+                    return(
+                        <div className="recre">
+                        <img src={Folder} />
+                        <div className="text">
+                        <p style={{fontSize:"14px"}}>Lieusaint - Etude</p>
+                        <p style={{fontSize:"18px",fontWeight:"600"}}>LA GRANDE RECRE</p>
+                        </div>
+                        <p className="date">Dernière modification le 12/03/21</p>
+                        </div>
+                    )
+                })}
+                <div className="voirtout">
+                <p>Voir Tout</p>
+                </div>
+                
+             </div>
+
+                </>
+                :
+                <>
+                <p className="heading2">TRAVAIL ACCOMPLIS <div></div></p>
+                <div onMouseEnter={()=>{setBox(true)}} className="travail">
+                <div className="termines_text">
+                <img src={Termines} />
+                <div className="text">DOSSIERS TERMINÉS</div>
+                </div>
+                <div style={{marginTop:"10px"}}>
+                <img style={{marginRight:"15px"}} src={Travail1} />
+                <img src={Travail2} />
+                </div>
+                </div>
+                </>
+            }
+        </div>
+        </>
+    )
+}
+
+export default HomeLeft
