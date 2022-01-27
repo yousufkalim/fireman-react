@@ -54,7 +54,6 @@ const Subchecklist = ({
   subcheckData
 }) => {
   useEffect(() => {
-    console.log(subcheckData);
     setOpen(true)
   }, []);
   

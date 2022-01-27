@@ -93,7 +93,6 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
   }, []);
 
   useEffect(() => {
-    console.log("[]",dropdownValue.apidropdowndata);
     setInputValues(() => {
       return {
         categoryRankingId: dropdownValue.apidropdowndata.categoryRankingId
