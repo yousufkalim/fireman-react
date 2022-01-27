@@ -38,12 +38,14 @@ const FolderCreationSection = ({
   Studydata,
 }) => {
   const { t } = useTranslation();
+  const [loading, setloading] = useState(true);
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
     casetype: "",
     commission: "",
-    commissiondate: "",
+    foldercreationvalues: "",
+    townplanningValues:"",
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
@@ -70,7 +72,7 @@ const FolderCreationSection = ({
   const store = Store();
   const updatestore = UpdateStore();
   useEffect(() => {
-    console.log("<>", indexdata);
+    console.log(indexdata);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -158,22 +160,42 @@ const FolderCreationSection = ({
         };
       })
     );
+    setloading(true);
     api(
-      "get",
-      `/api/v1/casefiles/get_open_foldercreation/${
+      "get",`/api/v1/casefiles/get_open_foldercreation/${
         indexdata?.establishmentId
           ? indexdata?.establishmentId
           : store.establishmentId
       }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
-    ).then((res) =>
+    ).then((res) =>{
+      setloading(false)
       setdropdownValue((preVal) => {
         return {
           ...preVal,
-          commissiondate: res,
+          foldercreationvalues: res,
         };
       })
+    }
+    );
+    api(
+      "get",`/api/v1/casefiles/get_open_townplanning/${
+        indexdata?.establishmentId
+          ? indexdata?.establishmentId
+          : store.establishmentId
+      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+    ).then((res) =>{
+     
+      setdropdownValue((preVal) => {
+        return {
+          ...preVal,
+          townplanningValues: res.data,
+        };
+      })
+    }
     );
   }, []);
+
+  
   const [checkboxObj, setCheckboxObj] = useState([]);
   const [activeLink, setActiveLink] = useState(0);
   //////
@@ -197,25 +219,26 @@ const FolderCreationSection = ({
     caseid: "",
     commisionDate: currentcasescommisionDate ? currentcasescommisionDate : "",
   });
-  const [inputDisableState, setInputDisableState] = useState(CompName==="currentcases"? currentcasescaseTypeId.toString():"");
+
+  const [inputDisableState, setInputDisableState] = useState('');
+  
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
-    console.log(currentcasescaseTypeId,"<><>");
     setInputValues({
-      caseTypeId: currentcasescaseTypeId,
-      commisionTypeId: currentcasescommisionTypeId,
+      caseTypeId: currentcasescaseTypeId?currentcasescaseTypeId:dropdownValue?.foldercreationvalues?.data?.caseTypeId,
+      commisionTypeId: currentcasescommisionTypeId?currentcasescommisionTypeId:dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
       agent: dropdownValue?.inputsvalue?.data?.firstName,
-      studyTypeId: "",
-      visitTypeId: "",
+      studyTypeId:currentcasesstudyTypeId?currentcasesstudyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
+      visitTypeId:currentcasesvisitTypeId?currentcasesvisitTypeId: dropdownValue?.foldercreationvalues?.data?.visitTypeId,
       group: dropdownValue?.inputsvalue?.data?.group,
       service: dropdownValue?.inputsvalue?.data?.service,
       caseFileId: "",
       caseid: "",
-      commisionDate: currentcasescommisionDate
-        ? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD")
-        : "",
+      commisionDate: currentcasescommisionDate? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"): moment(dropdownValue?.foldercreationvalues?.data?.commisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
     });
+    setInputDisableState(CompName==="currentcases"?currentcasescaseTypeId?.toString():dropdownValue?.foldercreationvalues.data&&dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString())
   }, [dropdownValue]);
+  
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -252,6 +275,7 @@ const FolderCreationSection = ({
       };
       api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
+          updatestore({ caseFileId: res.data });
           setInputValues((preVal) => {
             return {
               ...preVal,
@@ -454,7 +478,7 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                       <div className="inputs-container">
-                        {console.log("df", inputDisableState)}
+                       
                         {inputDisableState === "1"? (
                           <>
                             <label className="label-color"> Etude</label>
@@ -465,7 +489,7 @@ const FolderCreationSection = ({
                                 type="select"
                                 name="studyTypeId"
                                 onChange={handleChange}
-                                value={currentcasesstudyTypeId}
+                                value={inputValues?.studyTypeId}
                                 required
                               >
                                 <option value="">{t("Please choose")}</option>
@@ -478,7 +502,6 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                         {console.log("visit", inputDisableState)}
                         {inputDisableState === "2"? (
                           <>
                             <label className="label-color">Visite </label>
@@ -488,7 +511,7 @@ const FolderCreationSection = ({
                                 type="select"
                                 name="visitTypeId"
                                 onChange={handleChange}
-                                value={currentcasesvisitTypeId}
+                                value={inputValues?.visitTypeId}
                                 required
                               >
                                 {dropdownValue.visittype.data?.map((item) => (
@@ -502,8 +525,7 @@ const FolderCreationSection = ({
                         ) : null}
                         <Box  >
                         </Box>
-                        <Box className={`${inputDisableState ==1 ||inputDisableState ==2? "more":"less"}`}> 
-                        {console.log("<>",inputDisableState)}
+                        <Box className={`${inputDisableState ==="1" || inputDisableState ==="2"? "more":"less"}`}> 
                         <label className="label-color">Date commission </label>
                         <div class="flex-form">
                           <input
@@ -571,6 +593,7 @@ const FolderCreationSection = ({
                   postCheckboxesData={postCheckboxesData}
                   checkBoxRes={checkBoxRes}
                   Studydata={Studydata}
+                  townplanningValues={dropdownValue.townplanningValues}
                   setstate={setstate}
                   currentcasescaseFileId={currentcasescaseFileId}
                   state={state}

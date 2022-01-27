@@ -39,31 +39,36 @@ const EstablishmentSearchStudyForm = ({
   setIcon,
   Icon,
   buttonEnability,
-  setButtonEnability
+  setButtonEnability,
+  townplanningValues
 }) => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState({
-    originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
+    originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
     caseAverageId: Studydata?.data?.caseAverageId
       ? Studydata?.data?.caseAverageId
-      : "",
+      : townplanningValues?.caseAverageId,
     townPlanningDate: Studydata?.data?.townPlanningDate
       ? moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format(
           "YYYY-MM-DD"
         )
-      : "",
+      : moment(townplanningValues?.townPlanningDate, "YYYY-MM-DD").format(
+        "YYYY-MM-DD"
+      ),
     receptionServiceDate: Studydata?.data?.receptionServiceDate
       ? moment(Studydata?.data?.receptionServiceDate, "YYYY-MM-DD").format(
           "YYYY-MM-DD"
         )
-      : "",
+      : moment(townplanningValues?.receptionServiceDate, "YYYY-MM-DD").format(
+        "YYYY-MM-DD"
+      ),
     requestTypeId: Studydata?.data?.requestTypeId
       ? Studydata?.data?.requestTypeId
-      : "",
-    refNum: Studydata?.data?.refNum ? Studydata?.data?.refNum : "",
-    applicant: Studydata?.data?.applicant ? Studydata?.data?.applicant : "",
-    mobile: Studydata?.data?.mobile ? Studydata?.data?.mobile : "",
-    email: Studydata?.data?.email ? Studydata?.data?.email : "",
+      : townplanningValues.requestTypeId,
+    refNum: Studydata?.data?.refNum ? Studydata?.data?.refNum : townplanningValues.refNum,
+    applicant: Studydata?.data?.applicant ? Studydata?.data?.applicant : townplanningValues.applicant,
+    mobile: Studydata?.data?.mobile ? Studydata?.data?.mobile : townplanningValues.mobile,
+    email: Studydata?.data?.email ? Studydata?.data?.email : townplanningValues.email,
   });
   const [dropdownValue, setdropdownValue] = useState({
     average: "",
@@ -140,27 +145,31 @@ setstate((pre) => {
   }, [study]);
   useEffect(() => {
     setFormValues({
-      originId: Studydata?.data?.originId ? Studydata?.data?.originId : "",
+      originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
       caseAverageId: Studydata?.data?.caseAverageId
         ? Studydata?.data?.caseAverageId
-        : "",
+        : townplanningValues?.caseAverageId,
       townPlanningDate: Studydata?.data?.townPlanningDate
         ? moment(Studydata?.data?.townPlanningDate, "YYYY-MM-DD").format(
             "YYYY-MM-DD"
           )
-        : "",
+        : moment(townplanningValues?.townPlanningDate, "YYYY-MM-DD").format(
+          "YYYY-MM-DD"
+        ),
       receptionServiceDate: Studydata?.data?.receptionServiceDate
         ? moment(Studydata?.data?.receptionServiceDate, "YYYY-MM-DD").format(
             "YYYY-MM-DD"
           )
-        : "",
+        : moment(townplanningValues?.receptionServiceDate, "YYYY-MM-DD").format(
+          "YYYY-MM-DD"
+        ),
       requestTypeId: Studydata?.data?.requestTypeId
         ? Studydata?.data?.requestTypeId
-        : "",
-      refNum: Studydata?.data?.refNum ? Studydata?.data?.refNum : "",
-      applicant: Studydata?.data?.applicant ? Studydata?.data?.applicant : "",
-      mobile: Studydata?.data?.mobile ? Studydata?.data?.mobile : "",
-      email: Studydata?.data?.email ? Studydata?.data?.email : "",
+        : townplanningValues.requestTypeId,
+      refNum: Studydata?.data?.refNum ? Studydata?.data?.refNum : townplanningValues.refNum,
+      applicant: Studydata?.data?.applicant ? Studydata?.data?.applicant : townplanningValues.applicant,
+      mobile: Studydata?.data?.mobile ? Studydata?.data?.mobile : townplanningValues.mobile,
+      email: Studydata?.data?.email ? Studydata?.data?.email : townplanningValues.email,
     });
   }, [Studydata]);
   useEffect(() => {
@@ -406,7 +415,7 @@ setstate((pre) => {
                       className="dropdown dropdown-townplanning"
                       type="select"
                       name="originId"
-                      value={formValues.originId}
+                      value={formValues?.originId}
                       onChange={handleChange}
                       required
                     >
@@ -423,7 +432,7 @@ setstate((pre) => {
                       className="dropdown dropdown-townplanning"
                       type="select"
                       name="caseAverageId"
-                      value={formValues.caseAverageId}
+                      value={formValues?.caseAverageId}
                       onChange={handleChange}
                       required
                     >
@@ -442,7 +451,7 @@ setstate((pre) => {
                       className="dropdown-townplanning"
                       onChange={handleChange}
                       name="townPlanningDate"
-                      value={formValues.townPlanningDate}
+                      value={formValues?.townPlanningDate}
                       type="date"
                       required
                     />
@@ -455,8 +464,8 @@ setstate((pre) => {
                       name="receptionServiceDate"
                       type="date"
                       value={
-                        formValues.receptionServiceDate
-                          ? formValues.receptionServiceDate
+                        formValues?.receptionServiceDate
+                          ? formValues?.receptionServiceDate
                           : moment(
                               Studydata?.data?.receptionServiceDate,
                               "YYYY-MM-DD"
@@ -479,7 +488,7 @@ setstate((pre) => {
                       type="select"
                       name="requestTypeId"
                       onChange={handleChange}
-                      value={formValues.requestTypeId}
+                      value={formValues?.requestTypeId}
                       required
                     >
                       <option value="">{t("Please choose")}</option>
@@ -495,7 +504,7 @@ setstate((pre) => {
                       type="search"
                       onChange={handleChange}
                       name="refNum"
-                      value={formValues.refNum}
+                      value={formValues?.refNum}
                       required
                     />
                   </div>
@@ -511,7 +520,7 @@ setstate((pre) => {
                       className="dropdown-townplanning"
                       type="search"
                       onChange={handleChange}
-                      value={formValues.applicant}
+                      value={formValues?.applicant}
                       name="applicant"
                       required
                     />
@@ -523,7 +532,7 @@ setstate((pre) => {
                       type="number"
                       onChange={handleChange}
                       name="mobile"
-                      value={formValues.mobile}
+                      value={formValues?.mobile}
                       required
                     />
                   </div>
@@ -535,7 +544,7 @@ setstate((pre) => {
                       type="email"
                       onChange={handleChange}
                       name="email"
-                      value={formValues.email}
+                      value={formValues?.email}
                       required
                     />
                   </div>

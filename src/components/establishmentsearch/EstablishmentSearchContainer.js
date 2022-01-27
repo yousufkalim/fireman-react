@@ -6,6 +6,7 @@ import api from "../../api";
 const EstablishmentSearchContainer = () => {
     const [generalDataEstablishment, setgeneralDataEstablishment] = useState([])   //////data passed to child
     const store = Store()
+    console.log("><",store);
      useEffect(() => {
         api("get",`/api/v1/get_generaldata_establishment/${store.establishmentId}`).then((res)=>{
             setgeneralDataEstablishment(res.data)

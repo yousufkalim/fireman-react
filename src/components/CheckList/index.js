@@ -42,7 +42,7 @@ const CheckList = (props) => {
 //       return data
 //     })
     }
-
+   console.log("checklists<<>>>",props.accordionData.checkList);
     return (
         <>
             <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
@@ -60,6 +60,7 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
+                                        console.log("data.subchecks",data.subchecks);
                                         setChacked(props.accordionData.serialName + i)
                                         setSentenceStatus(()=>{
                                           return{
@@ -75,7 +76,7 @@ const CheckList = (props) => {
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
                                 <p>{parse(data.sentenceText)}</p>
-                                {/* {sentenceStatus.subcheck? <Subchecklist subcheckData={subcheckData}/>:null} */}
+                                 {sentenceStatus.subcheck? <Subchecklist subcheckData={subcheckData} sentenceStatus={sentenceStatus} setSentenceStatus={setSentenceStatus} setOpen={setOpen} open={open} handleClose={handleClose}  subcheckData={subcheckData}/>:null} 
                             </div>
                             <div>
                                 <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); setIndex(i)}} sx={{ cursor: "pointer" }} />

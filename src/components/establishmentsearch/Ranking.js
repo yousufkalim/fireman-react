@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon }) => {
+const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     rankingorder: "",
@@ -78,7 +78,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon }) => {
       });
     });
 
-    if (store.activeCase === "currentcases") {
+    
       api("get", `/api/v1/get_establishment_ranking/${establishmentid}`).then(
         (res) => {
           setdropdownValue((pre) => {
@@ -89,10 +89,11 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon }) => {
           });
         }
       );
-    }
+    
   }, []);
 
   useEffect(() => {
+    console.log("[]",dropdownValue.apidropdowndata);
     setInputValues(() => {
       return {
         categoryRankingId: dropdownValue.apidropdowndata.categoryRankingId
@@ -126,6 +127,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon }) => {
     const newObj = {
       ...inputValues,
       establishmentId: establishmentid,
+      caseFileId:casefileId
     };
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
       {

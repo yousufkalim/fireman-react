@@ -216,12 +216,12 @@ i18n
             "Pour quel établissement le dossier va-t-il être créé ?",
           "Status": "Statut",
           "Name": "Nom",
-          "Type Classification": "Classement Type",
+          "Type Classification": "Classification",
           "City": "Commune",
           "CAT Ranking": "Classement CAT",
           "Streel/Avenue": "Rue/Avenue",
           "Existing establishment": "Etablissement existant",
-          "New Establishment": "Establissement nouveau",
+          "New Establishment": "Nouvel établissement",
           "Create": "CREER",
           "Search": "RECHERCHER",
           // navbar, sidebars
@@ -235,19 +235,19 @@ i18n
           "Location": "Implantation",
           "Clearance": "Dégagement",
           "Category": "Categorie",
-          "Fireguard Training": "Garde-feu Entraînement",
-          "Fire Extinguisher Training": "Extincteur d'incendie Entraînement",
-          "Fire Awareness Training": "Sensibilisation au feu Entraînement",
-          "Fire alarm Drive": "Alarme incendie Entraînement",
+          "Fireguard Training": "Entraînement",
+          "Fire Extinguisher Training": "Extincteur incendie",
+          "Fire Awareness Training": "Sensibilisation au feu",
+          "Fire alarm Drive": "Alarme incendie",
           "Companion": "Compagnon",
           "Comments": "Commentaires",
           "Video tutorial": "Tutoriel vidéo",
           "Notes": "Remarques",
-          "Chat": "Discuter",
+          "Chat": "Messagerie",
           "Assistance": "Assistance",
           "Please choose": "Choisissez s'il vous plaît",
           //opentab
-          "Folder creation": "Creation de dossier",
+          "Folder creation": "Création de dossier",
           "VALIDATE": "VALIDER",
           "Town Planning Documents": "Documents d’urbanisme rattachés",
           "Details Of Object": "Précisions relatives à l’objet",
@@ -255,11 +255,11 @@ i18n
           "Capture": "Saisie",
           "Origin": "Origine",
           "Average": "Moyen",
-          "Date": "Dated",
+          "Date": "Date",
           "Urban planning references": "Références d’urbanisme",
-          "Request Type": "Type demande",
+          "Request Type": "Type de demande",
           "Applicant": "Demandeur",
-          "Phone": "Mobile",
+          "Phone": "Numéro mobile",
           //checkboxesSentences
           "Written pieces": "Pièces écrites",
           "Application for a building permit dated ___ / ___ / ___;":
@@ -322,7 +322,7 @@ i18n
           "Study - exceptional use of premises":
             "Etude - utilisation exceptionnelle des locaux",
           "Study - specifications for hazardous work in the presence of the public":
-            "Etude - cahier des charges travaux dangereux en présence de public",
+            "Etude - cahier des charges pour travaux dangereux en présence de public",
           "Study - request for exemption": "Etude - demande de dérogation",
           //visit
           "The visit concerns the following construction site: _______________.":
@@ -332,17 +332,17 @@ i18n
           "Visit of the worksite": "Visite du chantier",
           "Visit - open to the public": "Visite - ouvert au public",
           //establishmenttab
-          "Name Of Establishment Ref": "Nom Establissement Ref",
+          "Name Of Establishment Ref": "Nom de l'établissement",
           "City": "Commune",
           "State": "Etat",
           "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.":
-            "Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'histoire et la référence du groupe XX seront désormais liées à ce nouvel établissement.",
+            "Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe XX seront désormais liées à ce nouvel établissement.",
           "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group":
             "Vous êtes sur le point de transformer un établissement en groupement d'établissements L'historique et la référence de l'établissement XX seront désormais liés à ce nouveau groupe",
           "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.":
-            "Vous êtes sur le point de changer le nom d'un établissement ou d'un groupe deétablissements. L'histoire de l'établissement XX et la référence seront désormais lié à ce nouveau nom.",
+            "Vous êtes sur le point de changer le nom d'un établissement ou d'un groupe deétablissements. L'historique de l'établissement XX et la référence seront désormais lié à ce nouveau nom.",
           "General data": "Données générales",
-          "Name Establishment": "Nom établissement",
+          "Name Establishment": "Nom de l'établissement",
           "Channel type": "Type voie",
           "Channel name": "Nom voie",
           "First name": "Prénom",
@@ -379,7 +379,7 @@ i18n
           "Classification ERP TYPE": "Classement ERP TYPE",
           "ERP CAT ranking": "Classement ERP CAT",
           "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.  The box in the PRECISIONS column begins with It's about ...":
-            "Si nécessaire, donnez quelques précisions sur la nature dué tablissement proposé. EX : Il s'agit d'un EHPAD (82 logements) dans un immeuble de type R-1+3.La case de la colonne PRECISIONS commence par It's about ...",
+            "Si nécessaire, donnez quelques précisions sur la nature due l'établissement proposé. EX : Il s'agit d'un EHPAD (82 logements) dans un immeuble de type R-1+3.La case de la colonne PRECISIONS commence par It's about ...",
           "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...":
             "Si nécessaire, donnez quelques précisions sur la nature de l'établissement proposé. EX : Il s'agit d'un EHPAD (82 logements) dans un immeuble de type R-1+3. Puis donner les raisons de l'avis défavorable. EX : L'avis défavorable est motivé par :- la non-conformité des installations de désenfumage de circulation ;- l'absence de formalisation des consignes d'évacuation. La case de la colonne PRECISIONS commence par Il s'agit de... puis après un espace L'avis défavorable est basé sur :...",
           "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports.The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:...":

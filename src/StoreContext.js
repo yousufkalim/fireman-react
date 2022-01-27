@@ -24,7 +24,8 @@ export function StoreProvider({ children }) {
     establishmentId:null,
     establishmentname:null,
     activeNavbarTab:0,
-    activeCase:""
+    activeCase:"",
+    caseFileId:""
   });
 
   const updateStore = (data) => {

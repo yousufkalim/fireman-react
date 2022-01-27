@@ -105,7 +105,6 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       ranking: inputValues.ranking === "" ? 0 : inputValues.ranking,
     };
     api("post", `/api/v1/establishment/search`, obj).then((res) => {
-      console.log(res);
       setEstablishmentSearchData(res);
     });
   };
