@@ -50,7 +50,7 @@ const Login = () => {
           userid: res?.data?.userId,
         };
         localStorage.setItem("userData", JSON.stringify(dataObj)); 
-         window.location = "/accuceil";
+         window.location = "/body";
       })
       .catch((err) => console.log(err));
   };

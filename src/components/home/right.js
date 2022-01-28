@@ -8,14 +8,27 @@ import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css"
 import {Store} from '../../StoreContext'
 import {UpdateStore} from '../../StoreContext'
+import api from "../../api/index"
+
 
 
 
 const HomeRight = () => {
     let [box, setBox] = useState(false)
+    let[projects,setProjects]=useState([])
+
     const update = UpdateStore();
-
-
+    useEffect(()=>{
+        getLatest()
+      },[])
+    const getLatest=()=>{
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0`).then((res) => {
+            console.log("faisl",res);
+            if (res.status == 200) {
+                setProjects(res.data)
+            }
+        })
+    }
     return (
         <>
             <div className="accueilHome_right">
@@ -29,7 +42,7 @@ const HomeRight = () => {
                             </div>
                             <div onMouseLeave={() => { setBox(false) }} className="hoverbox" >
 
-                                {[1, 1, 1, 1, 1].map((data) => {
+                                {projects && projects.map((data) => {
                                     return (
                                         <div className="recre">
                                             <img src={Folder} />
@@ -46,7 +59,7 @@ const HomeRight = () => {
                                     )
                                 })}
                                 <div className="voirtout">
-                                    <p>Voir Tout</p>
+                                    <p  onClick={()=>{update({activeNavbarTab:"currentcases"})}} >Voir Tout</p>
                                 </div>
                             </div>
 
@@ -71,7 +84,7 @@ const HomeRight = () => {
                 }
             </div>
 
-            <div style={{ marginTop: "40px" }} className="accueilHome_right_bottom">
+            <div style={{ marginTop: "30px" }} className="accueilHome_right_bottom">
                 <div onClick={()=>{update({activeNavbarTab:"newcases"})}} className="allonys">
                     <img style={{ marginLeft: "50px" }} src={Cours4} />
                     <div className="text">UN NOUVEAU DOSSIER ? C’EST PARTI !</div>

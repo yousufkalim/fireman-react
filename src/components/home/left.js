@@ -5,14 +5,21 @@ import Travail2 from "../../assets/travail2.png"
 import Folder from "../../assets/Folder.png"
 import api from "../../api/index"
 import { useEffect, useState } from "react"
+import {UpdateStore} from '../../StoreContext'
+
 
 
 
 const HomeLeft = ()=>{
 let[box,setBox]=useState(false)
 let[counts,setCount]=useState({})
+let[projects,setProjects]=useState([])
+
+const update = UpdateStore();
+
     useEffect(()=>{
       CountsData()
+      getLatest()
     },[])
     const CountsData=()=>{
         let userId = localStorage.getItem("userData");
@@ -23,6 +30,15 @@ let[counts,setCount]=useState({})
                   setCount(res.data)
               }
           })
+    }
+
+    const getLatest=()=>{
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/1`).then((res) => {
+            console.log("faisl",res);
+            if (res.status == 200) {
+                setProjects(res.data)
+            }
+        })
     }
     return(
         <>
@@ -44,7 +60,7 @@ let[counts,setCount]=useState({})
                 <p className="heading2">PROJETS TERMINÉS <div></div></p>
                 <div className="hoverbox" onMouseLeave={()=>{setBox(false)}}>
 
-                {[1,1,1,1,1].map((data)=>{
+                {projects && projects.map((data)=>{
                     return(
                         <div className="recre">
                         <img src={Folder} />
@@ -57,7 +73,7 @@ let[counts,setCount]=useState({})
                     )
                 })}
                 <div className="voirtout">
-                <p>Voir Tout</p>
+                <p onClick={()=>{update({activeNavbarTab:"newcases"})}}>Voir Tout</p>
                 </div>
                 
              </div>
