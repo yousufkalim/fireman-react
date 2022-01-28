@@ -224,6 +224,7 @@ const FolderCreationSection = ({
   
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
+    console.log(currentcasescaseTypeId,"<><>");
     setInputValues({
       caseTypeId: currentcasescaseTypeId?currentcasescaseTypeId:dropdownValue?.foldercreationvalues?.data?.caseTypeId,
       commisionTypeId: currentcasescommisionTypeId?currentcasescommisionTypeId:dropdownValue?.foldercreationvalues?.data?.commisionTypeId,

@@ -30,7 +30,7 @@ const CreateHistoricalData = ({
   setIcon,
   Icon,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
   });
@@ -45,7 +45,6 @@ const CreateHistoricalData = ({
   const [iconState, setIconState] = useState(false);
   useEffect(() => {
     api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
-      console.log("hu",res);
       setdropdownValue((pre) => {
         return {
           ...pre,
@@ -70,10 +69,7 @@ const CreateHistoricalData = ({
               setToggler((pre)=>{
                 return{
                   ...pre,
-                  // togglerhistoricalsearch:false,
                   createhistoricaldata:false,
-                  // togglervisit:true,
-                  // togglerstudytwo:true
                 }
               })
               setIcon((pre)=>{

@@ -70,7 +70,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     setCompName("currentcases");
     if (params.row.val.tabIndex === 2) {
       updatestore({
-        activeNavbarTab: 1,
+        // activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
         activeCase: "currentcases",
       });

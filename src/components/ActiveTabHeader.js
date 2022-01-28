@@ -16,7 +16,6 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const store = Store()
   let [steps, setSteps] = useState(1)
   let [accordionData, setAccordionData] = useState([])
-  console.log(store.activeNavbarTab);
   const items = [
     {
       text: "Opening",
@@ -38,9 +37,10 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
     },
   ];
   const onClick = (activetabindex) => {
+    updatestore({activeNavbarTab:activetabindex})
     setSteps(activetabindex+1)
     setActiveTab(activetabindex)
-    updatestore({activeNavbarTab:activetabindex})
+    
   };
   
   return (

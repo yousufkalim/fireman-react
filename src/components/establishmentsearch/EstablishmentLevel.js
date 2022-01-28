@@ -50,7 +50,6 @@ const EstablishmentLevel = ({
   }, []);
   const store = Store();
   const onSubmit = (values, data) => {
-    console.log(data);
     const newarr = values.repeatable.map((object) => ({
       ...object,
     }));
