@@ -32,7 +32,7 @@ const [loading, setloading] = useState(false);
                     userid: res?.data?.userId,
                   };
                   localStorage.setItem("userData", JSON.stringify(dataObj));
-                   window.location = "/accuceil";
+                   window.location = "/body";
                 })
                 .catch((err) => console.log(err));
         }else{
