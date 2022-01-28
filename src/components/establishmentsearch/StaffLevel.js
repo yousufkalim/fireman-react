@@ -27,6 +27,7 @@ const StaffLevel = ({
   Toggler,
   setIcon,
   Icon,
+  casefileId
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
@@ -59,7 +60,6 @@ const StaffLevel = ({
         };
       });
     });
-    if (store.activeCase === "currentcases") {
       api(
         "get",
         `/api/v1/get_establishment_stafftable/${
@@ -75,7 +75,7 @@ const StaffLevel = ({
           })
         );
       });
-    }
+    
     api("get", "/api/v1/stafflevel_rule/dropdown").then((res) => {
       setdropdownValue((pre) => {
         return {
@@ -100,6 +100,7 @@ const StaffLevel = ({
         staffLevelId: parseInt(val.staffLevelId),
         staffLevelRuleId: parseInt(val.staffLevelRuleId),
         tableOfStaffDetailsId: val.tableOfStaffDetailsId,
+        caseFileId:casefileId?casefileId:0
       }));
     if (store.activeCase === "newcase") {
       api("post", "/api/v1/create_establishment_stafftable", newArr)
@@ -342,25 +343,40 @@ const StaffLevel = ({
                               }}
                             >
                               <select
-                                defaultValue={p?.tableOfStaffDetailsId}
+                                defaultValue={p?.staffLevelId}
                                 className="field-width-staff"
                                 key={p.id}
                                 onChange={(e) => {
+                                 const a  = people.map((val)=>{
+                                   return{
+                                     id: val.staffLevelId,
+                                   }
+                                 }   
+                                 ).filter((val)=>(
+                                       val.id!=""
+                                 )).map((value)=>{
+                                   return value.id
+                                 }).at(-1)
+                                 const b = dropdownValue.leveldropdown.filter((val)=>(
+                                           val.value==a
+                                 )).map((val)=>(
+                                      val.text
+                                 ))
                                   const slcttext = e.target.selectedOptions[0];
                                   const selecttext = slcttext.text;
                                   if (
                                     people[i - 1]?.staffLevelId ===
-                                      e.target.value ||
+                                      parseInt(e.target.value) ||
                                     people[i - 1]?.staffLevelId === undefined ||
                                     people[i - 1]?.staffLevelId === "" ||
-                                    e.target.value === ""
+                                    parseInt(e.target.value) === ""
                                   ) {
                                     setpeople((curr) =>
                                       curr.map((x) =>
                                         x.id === p.id
                                           ? {
                                               ...x,
-                                              staffLevelId: e.target.value,
+                                              staffLevelId: parseInt(e.target.value),
                                               textselect: selecttext,
                                             }
                                           : x
@@ -368,7 +384,7 @@ const StaffLevel = ({
                                     );
                                   } else if (
                                     people[i - 1]?.staffLevelId !==
-                                    e.target.value
+                                    parseInt(e.target.value)
                                   ) {
                                     setpeople((curr) =>
                                       curr.map((x) =>
@@ -425,7 +441,7 @@ const StaffLevel = ({
                                     containerRef.current.innerHTML = `
                     
                  <div class="total"> 
-               <div class="sum-block">   ${people[i - 1]?.textselect}  </div>
+               <div class="sum-block">   ${people.length!=0? b[0]:people[i - 1]?.textselect}  </div>
                <div class="sum-block">  ${isNaN(pblic) ? 0 : pblic}   </div>
                <div class="sum-block">    ${
                  isNaN(personnel) ? 0 : personnel

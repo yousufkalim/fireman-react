@@ -22,7 +22,6 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       sort: "asc",
     },
   ]);
-  console.log("currentcasesData",currentcasesData)
   const updatestore = UpdateStore();
   const column = [
     {
@@ -67,12 +66,11 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
         color: "#8D919D" },
       
   ];
-  console.log(currentcasesData);
   const onRowClick = (params) => {
     setCompName("currentcases");
-    if (params.row.val.sectionIndex === 3 && params.row.val.tabIndex === 1) {
+    if (params.row.val.tabIndex === 2) {
       updatestore({
-        // activeNavbarTab: 1,
+        activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
         activeCase: "currentcases",
       });

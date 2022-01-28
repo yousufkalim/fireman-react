@@ -43,8 +43,6 @@ const [loading, setloading] = useState(false);
 const onChange=(e)=>{
 setFormInputs({...formInputs,[e.target.name]:e.target.value})
 }
-console.log("set",formInputs)
-
     return (
         <Grid container spacing={0} columns={20}>
             <Grid item xs={8}>

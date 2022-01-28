@@ -180,6 +180,15 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
         }
       );
     }
+    if (activelefttab === "newcases") {
+      let userId = localStorage.getItem("userData");
+      userId = JSON.parse(userId);
+      api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
+        (res) => {
+          getResponse(res);
+        }
+      );
+    }
   };
 
   return (

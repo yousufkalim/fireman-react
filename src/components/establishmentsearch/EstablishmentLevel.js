@@ -25,10 +25,11 @@ const Item = styled(Paper)(({ theme }) => ({
 const EstablishmentLevel = ({
   Values,
   description,
-  setToggler = { setToggler },
-  Toggler = { Toggler },
-  setIcon = { setIcon },
-  Icon = { Icon },
+  setToggler,
+  Toggler,
+  setIcon,
+  Icon,
+  casefileId
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
@@ -48,6 +49,8 @@ const EstablishmentLevel = ({
       });
     });
   }, []);
+
+  console.log("level",Values);
   const store = Store();
   const onSubmit = (values, data) => {
     const newarr = values.repeatable.map((object) => ({
@@ -63,6 +66,7 @@ const EstablishmentLevel = ({
       establishmentId: store.establishmentId,
       levels: newarr,
       descriptions: newdescriptions,
+      caseFileId:casefileId
     };
     if (store.activeCase === "newcase") {
       api("post", "/api/v1/create_description_data", obj).then((res) => {
@@ -159,7 +163,7 @@ const EstablishmentLevel = ({
           >
             {store.activeCase === "newcase" ? (
               <Formik
-                initialValues={{ repeatable: [{}] }}
+                initialValues={{ repeatable: Values ? Values : "loading..." }}
                 enableReinitialize
                 render={({ values, setFieldValue }) => (
                   <Form>

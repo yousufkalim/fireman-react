@@ -19,7 +19,6 @@ const Implantation = (props) => {
     }, [])
     const TabClick = () => {
         api("get", `/api/v1/checkList/tabs_checklist/${1}`).then((res) => {
-            console.log(res);
             if (res.status == 200) {
                 setAccordionData(res.data)
             }

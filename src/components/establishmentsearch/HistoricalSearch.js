@@ -89,7 +89,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       ? generalDataEstablishment.securityManagerEmail
       : "",
   });
-
   useEffect(() => {
     setInputValues({
       establishmentName: generalDataEstablishment.establishmentName
@@ -156,7 +155,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       (res) => {
         setLevelData(res.data.levels);
         setDescription(res.data.descriptions);
-        console.log(res);
       }
     );
     api(
@@ -208,9 +206,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     const updatedObj = {
       ...inputValues,
       establishmentId: store.establishmentId,
+      caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
-      api("post", `/api/v1/create_generaldata_establishment`, updatedObj)
+      api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
           {
             toast.success(t("Successfull"));
@@ -492,6 +491,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       <CreateHistoricalData
         historicalDataEstablishment={historicalDataEstablishment}
         establishmentid={store.establishmentId}
+        casefileId={store.caseFileId}
         setToggler={setToggler}
         Toggler={Toggler}
         setIcon={setIcon}
@@ -505,6 +505,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
+        casefileId={store.caseFileId}
       />
       <StaffLevel
         establishmentid={store.establishmentId}
@@ -512,6 +513,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
+        casefileId={store.caseFileId}
       />
       <Ranking
         establishmentid={store.establishmentId}
@@ -519,6 +521,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
+        casefileId={store.caseFileId}
       />
     </>
   );

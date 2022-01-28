@@ -11,7 +11,9 @@ import NavbarNew from './NavbarNew'
 import {Store} from '../StoreContext'
 import {UpdateStore} from '../StoreContext'
 import Dashboard from './dashboard/Dashboard';
+import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/EndedCases';
 ;
+
 
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
@@ -46,8 +48,9 @@ const Body = () => {
           {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
           {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
           {store.activeNavbarTab===2?  <Implantation/>:null}
-          {store.activeNavbarTab==="newcases"? <OpenSearchNewCases/>:null}
+          {store.activeNavbarTab==="multimedia"? <OpenSearchNewCases/>:null}
           {store.activeNavbarTab==="termine"|| store.activeNavbarTab===0? <Dashboard/>:null}
+          {store.activeNavbarTab==="newcases"? <EndedCases endedcases={responseData} />:null}
         </Grid>
         <Grid item xs={3}>
           <RightBarTab />
