@@ -12,7 +12,7 @@ import {Store} from '../StoreContext'
 import {UpdateStore} from '../StoreContext'
 import Dashboard from './dashboard/Dashboard';
 import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/EndedCases';
-;
+
 
 
 const Body = () => {
@@ -28,9 +28,11 @@ const Body = () => {
  }, [])
 
  const store = Store()
+ console.log(store);
   return (
     <>
       <NavbarNew/>
+      <> 
       <Grid item xs={12} sx={{background:"aliceblue"}}>
       <ActiveTabHeader/>
       </Grid>
@@ -56,6 +58,9 @@ const Body = () => {
           <RightBarTab />
         </Grid>
       </Grid>
+      </>
+    
+
     </>
   );
 };

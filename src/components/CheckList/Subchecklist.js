@@ -56,8 +56,11 @@ BootstrapDialogTitle.propTypes = {
 };
 const Subchecklist = ({
   sentenceStatus,
-  setSentenceStatus,
-  subcheckData
+  subcheckData,
+  subCheck,
+  setSubcheck,
+  subcheckIndex,
+  setSubCheckIndex
 }) => {
     useEffect(() => {
       setOpen(true)
@@ -66,11 +69,11 @@ const Subchecklist = ({
      
   
   const [open, setOpen] = React.useState(sentenceStatus.subcheck===2?true: false);
-  const handleOpen = () => setOpen(true);
+  
   const handleClose = () => {
     setOpen(false); 
 }
-console.log("subcheckData",subcheckData, sentenceStatus);  
+console.log("subcheckData",  subcheckData);  
   return (
 
   <>
@@ -88,7 +91,7 @@ console.log("subcheckData",subcheckData, sentenceStatus);
                 </BootstrapDialogTitle>
                 <DialogContent  dividers>
 
-                    {sentenceStatus.subcheck===2 &&  subcheckData?.map((val)=>(
+                    {subcheckData?.map((val)=>(
                       <> 
                       <Box sx={{display:"flex", alignItems:"center"}}> 
                       <Checkbox
@@ -97,8 +100,8 @@ console.log("subcheckData",subcheckData, sentenceStatus);
                                     style={{
                                         color: `${val.sentenceColor}`,
                                     }}
-                                    checked={false}
-                                    // onClick={()=>{  }}
+                                    checked={subCheck==val.sectionSubSentencesId}
+                                     onClick={()=>{console.log(val); setSubcheck(val.sectionSubSentencesId); setSubCheckIndex(subcheckIndex)  }}
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
                     <p>{val.subSentenceText}</p>
@@ -106,38 +109,13 @@ console.log("subcheckData",subcheckData, sentenceStatus);
                      
                     </>
                     ))}
-                    
-                    {
-                      
-                      sentenceStatus.incomplete===1? (
-                        subcheckData?.map((value)=>(
-                          <CKEditor
-                          editor={ClassicEditor}
-                          data={value.sentenceText}
-                          config={{
-                              toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
-                          }}
-                          onReady={editor => {
-                              console.log('Editor is ready to use!', editor);
-                          }}
-                          // onChange={(event, editor) => {
-                          //     const data = editor.getData();
-                          //     setSentence(data)
-                          // }}
-                      />
-                        ))
-                      ):null
-                    }
-                    
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus >
+                    <Button  onClick={()=>{setOpen(false)}}  autoFocus >
                         Save changes
                     </Button>
                 </DialogActions>
             </BootstrapDialog>
-    
-   
 }
   </>
   

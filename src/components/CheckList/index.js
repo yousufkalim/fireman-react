@@ -16,11 +16,13 @@ const CheckList = (props) => {
     const [open, setOpen] = React.useState(false);
     const [checklistdata,setChecklistdata] = React.useState({});
     const [subcheckData,setSubCheckData] = React.useState();
+    const [subcheckIndex,setSubCheckIndex] = React.useState();
     const [index, setIndex] = React.useState("");
     const [checked, setChacked] = React.useState("");
+    const [subCheck, setSubcheck] = React.useState("");
     const [sentenceStatus, setSentenceStatus] = React.useState({
         complete:false,
-        incomplete:false,
+        incomplete:"",
         subcheck:""
     });
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
@@ -30,9 +32,17 @@ const CheckList = (props) => {
     };
     const handleClose = () => setOpen(false);
     const saveChanges=(sentence)=>{
-       
-       const objIndex = checklists.findIndex((obj => obj.sectionSentencesId === index+1));
-        checklists[objIndex].sentenceText = sentence
+         console.log(index);
+         console.log(checklists);  
+       const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === index+1));
+      
+       checklists[objIndex].sentenceText = sentence
+       console.log(checklists[7].sentenceText);
+
+    //    const a = parse(sentence)
+    //     checklists[objIndex].sentenceText = a
+       //console.log(checklists[7].sentenceText=sentence);
+       //console.log(checklists[objIndex].sentenceText );
 //    let a= checklists.map((data,i)=>{
 //        let dat={}
 //       if((props.accordionData.serialName+i)==checklistdata.id){
@@ -41,7 +51,7 @@ const CheckList = (props) => {
 //       return data
 //     })
     }
-
+     console.log("nm",subCheck);
     return (
         <>  
             <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
@@ -59,17 +69,28 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
-                                        console.log("data.subchecks",data.sentenceText);
+                                        console.log("data.subchecks",data);
+                                        console.log("index", i);
                                         //setChacked(props.accordionData.serialName + i)
+                                        if(data.sentenceNature===1){
+                                            handleOpen(data,props.accordionData.serialName + i); 
+                                            setIndex(i);
+                                            setChacked(props.accordionData.serialName + i)  
+                                        }
+                                        if(data.sentenceNature===2){
+                                            setChacked(props.accordionData.serialName + i);
+                                            setSubCheckIndex(i) 
+                                        }
                                         setSentenceStatus(()=>{
                                           return{
                                             complete:data.sentenceNature===0? setChacked(props.accordionData.serialName + i):false,
-                                            incomplete:data.sentenceNature===1?  data.sentenceNature:"",
                                             subcheck:data.sentenceNature===2?  data.sentenceNature:""  
                                           }
                                         })
                                         setSubCheckData(data.subchecks)
+                                        console.log("sentenceStatus.incomplete<>><",sentenceStatus.incomplete) 
                                     }
+                                     
                                 }
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
@@ -83,12 +104,17 @@ const CheckList = (props) => {
                     )
                 })
             }
-            {sentenceStatus.subcheck===2||sentenceStatus.incomplete===1? 
+            {sentenceStatus.subcheck===2? 
                                  <Subchecklist 
                                  subcheckData={subcheckData} 
                                  sentenceStatus={sentenceStatus} 
                                  setSentenceStatus={setSentenceStatus} 
-                                 subcheckData={subcheckData}/>
+                                 subcheckData={subcheckData}
+                                 subCheck={subCheck}
+                                 setSubcheck={setSubcheck}
+                                 setSubCheckIndex={setSubCheckIndex}
+                                 subcheckIndex={subcheckIndex}
+                                 />
                                  :null}
           <EditModal saveChanges={saveChanges} accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} />
            

@@ -8,13 +8,14 @@ import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css"
 import {Store} from '../../StoreContext'
 import {UpdateStore} from '../../StoreContext'
-
+import { Route, Switch, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const HomeRight = () => {
     let [box, setBox] = useState(false)
     const update = UpdateStore();
-
+    let history = useHistory();
 
     return (
         <>

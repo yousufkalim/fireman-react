@@ -55,8 +55,6 @@ export default function CustomizedDialogs(props) {
 let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionData.sentenceText)
    
    useEffect(() => {
-    console.log(props.accordionData?.sentenceText);
-    // var str = props.accordionData?.sentenceText;
     var re = /[_]+/g;
         if(props.accordionData.sentenceText){
           console.log((props?.accordionData&&props.accordionData?.sentenceText.match(re) || []).join(''));
@@ -79,8 +77,33 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <div className='ckeditor'>
-                    {console.log(props.accordionData.sentenceText)}
-                    <textarea style={{height:"200px"}} 
+                    <CKEditor
+                      
+                        editor={ClassicEditor}
+                        data={props.accordionData.sentenceText}
+                        config={{
+                            toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
+                        }}
+                        onReady={editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log('Editor is ready to use!', editor);
+                        }}
+                        onInit={ editor => {
+                            console.log( 'Editor <><>!', editor );
+                        } }
+                        onKeyDown={(editor)=>{console.log(editor.getData())}}
+                        onChange={(event, editor) => {
+                               console.log( editor.selectionStart);
+                            // if(editor.commands._commands.delete){
+                            //     alert("yes")
+                            // }
+                            //console.log(CKEDITOR);
+                            // console.log(editor.getData());
+                            const data = editor.getData();
+                            setSentence(data)
+                        }}
+                    />
+                    {/* <textarea style={{height:"200px"}} 
                     onKeyDown={(e)=>{
                         const value= e.target.selectionStart;
                         console.log(e.target.value[value-1])
@@ -96,9 +119,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                         setSentence(e.target.value)
                         //const value= e.target.selectionStart; 
                         //console.log(e.target.value[value-1])
-                        }} defaultValue={props.accordionData.sentenceText}/>
-
-
+                        }} defaultValue={props.accordionData.sentenceText}/> */}
                     </div>
                   
                 </DialogContent>
