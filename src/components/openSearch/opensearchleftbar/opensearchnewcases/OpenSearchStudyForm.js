@@ -612,10 +612,11 @@ setstate((pre) => {
                   ))}
                 </Grid>
               </Box>
-
+              {console.log(buttonEnability.townplanningbutton)}
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                  
                  disabled={buttonEnability.townplanningbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
