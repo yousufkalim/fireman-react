@@ -46,6 +46,7 @@ const CreateHistoricalData = ({
   }));
 
   useEffect(() => {
+    console.log(store);
     api("get", "/api/v1/historicalobjects/dropdown").then((res) => {
       setdropdownValue((pre) => {
         return {

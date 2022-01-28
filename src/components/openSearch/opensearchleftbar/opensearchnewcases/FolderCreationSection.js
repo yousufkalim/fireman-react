@@ -65,7 +65,7 @@ const FolderCreationSection = ({
       CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:compShow||indexdata.sectionindex===1? true:false,
+        townplanningbutton:compShow||indexdata.sectionindex===0? true:false,
         detailsobject:true,
         visitbutton:true  
   });

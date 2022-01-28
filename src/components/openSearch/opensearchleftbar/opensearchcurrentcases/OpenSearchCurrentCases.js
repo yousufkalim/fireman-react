@@ -67,6 +67,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       
   ];
   const onRowClick = (params) => {
+    console.log(params.row.val.establishmentId);
     setCompName("currentcases");
     if (params.row.val.tabIndex === 1 &&  params.row.val.sectionIndex===3) {
       updatestore({
