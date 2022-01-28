@@ -2048,7 +2048,7 @@ const CreateHistoricalData = ({
                                           />
                                           
                                            <Grid sx={{justifyContent:"center"}} container spacing={2}>
-                                           {r.filesData.map((val) => (
+                                           {r?.filesData?.map((val) => (
                                             <>
                                              <Grid sx={{padding:"5px", }} xs={8}>
                                             <a href={val.fileURL}>
