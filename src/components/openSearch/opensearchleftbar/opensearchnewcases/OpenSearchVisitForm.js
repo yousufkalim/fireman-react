@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -6,6 +6,9 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Rightarrow from "../../../../assets/rightarrow.png";
+import api from "../../../../api/index";
+import { toast } from "react-toastify";
+import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -14,74 +17,147 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentSearchVisitForm = ({
-  checkBoxRes,
   compShow,
-  indexdata,
   CompName,
   visit,
   casefileId,
   setCheckboxObj,
-  postCheckboxesData,
+  checkboxObj,
   currentcasescaseFileId,
   state,
   setstate,
-  Toggler
+  Toggler,
+  setToggler,
+  setIcon,
+  Icon,
+  buttonEnability,
+  setButtonEnability
 }) => {
   useEffect(() => {
-    const ab =visit?.map((val) =>
-      val.chkList.filter((item) => item.isSelected == true)
-        .map((val) => {
-          return{ 
-          caseFileCheckListId: val.caseFileCheckListId, 
-          sectionType:val.sectionType, 
-          casefileId: casefileId ? casefileId : currentcasescaseFileId,
-        }})
-    ).map((val) => val.filter((val) =>{ 
-      return{
-        caseFileCheckListId: val.caseFileCheckListId,
-        sectionType: val.sectionType, 
-        casefileId: val.casefileId 
-      }
-    }));
-  let merged = [].concat.apply([], ab);
-  setstate((pre) => {
-    return {
-      ...pre,
-      visitcheck: merged.map((val) => {
-        return{
-          caseFileCheckListId: val.caseFileCheckListId,
-          sectionType: val.sectionType, 
-          casefileId: val.casefileId 
-        }
-      }
-      ),
-    };
-  });
+    const ab = visit
+      ?.map((val) =>
+        val.chkList
+          .filter((item) => item.isSelected == true)
+          .map((val) => {
+            return {
+              caseFileCheckListId: val.caseFileCheckListId,
+              sectionType: val.sectionType,
+              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+            };
+          })
+      )
+      .map((val) =>
+        val.filter((val) => {
+          return {
+            caseFileCheckListId: val.caseFileCheckListId,
+            sectionType: val.sectionType,
+            casefileId: val.casefileId,
+          };
+        })
+      );
+    let merged = [].concat.apply([], ab);
+    setstate((pre) => {
+      return {
+        ...pre,
+        visitcheck: merged.map((val) => {
+          return {
+            caseFileCheckListId: val.caseFileCheckListId,
+            sectionType: val.sectionType,
+            casefileId: val.casefileId,
+          };
+        }),
+      };
+    });
   }, [visit]);
-  
+
   const { t, i18n } = useTranslation();
-  const handleChange = (e,sectiontype) => {
+  const handleChange = (e, sectiontype) => {
     const checked = e.target.checked;
     const id = e.target.id;
     if (checked) {
       const obj = {
-        caseFileCheckListId: id,
+        caseFileCheckListId: parseInt(id),
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
-        sectionType:sectiontype
+        sectionType: sectiontype,
       };
-      setCheckboxObj((pre) => [...pre, obj]);
+      if (CompName) {
+        setstate((pre) => {
+          return {
+            ...pre,
+            visitcheck: [
+              ...state.visitcheck.map((val) => {
+                return {
+                  caseFileCheckListId: parseInt(val.caseFileCheckListId),
+                  casefileId: casefileId ? casefileId : currentcasescaseFileId,
+                  sectionType: sectiontype,
+                };
+              }),
+              obj,
+            ],
+          };
+        });
+      }
+      if (compShow) {
+        setCheckboxObj((pre) => [...pre, obj]);
+      }
     }
     if (!checked) {
-      setCheckboxObj((pre) => [
-        ...pre.filter((item) => item.caseFileCheckListId !== id),
-      ]);
+      if (CompName) {
+        setstate((pre) => {
+          return {
+            ...pre,
+            visitcheck: [
+              ...state.visitcheck.filter(
+                (val) => val.caseFileCheckListId != id
+              ),
+            ],
+          };
+        });
+      }
+      if (compShow) {
+        setCheckboxObj((pre) => [
+          ...pre.filter((item) => item.caseFileCheckListId != id),
+        ]);
+      }
     }
   };
-
-   console.log("visitcheck",state.visitcheck);
+  const updatestore = UpdateStore();
   const handleSubmit = (e) => {
     e.preventDefault();
-    postCheckboxesData("visit");
+    if (compShow) {
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
+        .then((res) => {
+          {
+            toast.success(t("Successfull"));
+            setToggler((pre)=>{
+              return{
+               ...pre,
+               togglervisit:false,
+              }
+            })
+            setIcon((pre)=>{
+              return{
+                ...pre,
+                iconvisit:true,
+              }
+            });
+            updatestore({ activeNavbarTab: 1 });
+          }
+        })
+        .catch((err) => toast.error(err?.statusText));
+    }
+    if (CompName) {
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
+        caseFileId:currentcasescaseFileId,
+        sectionType:1
+      }]):(state.visitcheck))
+        .then((res) => {
+          {
+            toast.success(t("Successfull"));
+          }
+        })
+        .catch((err) => toast.error(err?.statusText));
+    }
   };
   return (
     <>
@@ -97,8 +173,7 @@ const EstablishmentSearchVisitForm = ({
         <Box>
           <Grid>
             <form onSubmit={handleSubmit}>
-              <Box
-              >
+              <Box>
                 {visit?.map((item) => (
                   <>
                     <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
@@ -112,9 +187,9 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                             type="checkbox"
-                            defaultChecked={CompName?val.isSelected:""}
+                            defaultChecked={CompName ? val.isSelected : ""}
                             id={val.caseFileCheckListId}
-                            onChange={(e)=>handleChange(e,val.sectionType)}
+                            onChange={(e) => handleChange(e, val.sectionType)}
                           />
                           <label
                             className="dropdown-checkbox"
@@ -151,7 +226,8 @@ const EstablishmentSearchVisitForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
-                  endIcon={<img className='icon-validate' src={Rightarrow} />}
+                  disabled={buttonEnability.visitbutton}
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
                     ":hover": { background: "#3675B7" },

@@ -6,12 +6,15 @@ import jwt from 'jwt-decode'
 import api from "../../api/index";
 import {UpdateStore} from '../../StoreContext'
 import { useState } from "react";
+import Loader from './Loader';
+;
 
 
 const Login = () => {
 const [formInputs,setFormInputs]=useState({email:"",password:""});
-
+const [loading, setloading] = useState(false);
     const handleSubmit = (event) => {
+        setloading(true)
         const data = new FormData(event.currentTarget);
         event.preventDefault();
         if(formInputs.email && formInputs.password){
@@ -20,6 +23,7 @@ const [formInputs,setFormInputs]=useState({email:"",password:""});
                 password: formInputs.password,
               })
                 .then((res) => {
+                    setloading(false);
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
                    localStorage.setItem('user', user?.email);
@@ -57,13 +61,16 @@ console.log("set",formInputs)
                             <form onSubmit={handleSubmit}>
                             <div className="input-field">
                                 <label className="login-label">Adresse e-mail</label>
-                                <input  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
+                                <input required  name="email" value={formInputs.email} onChange={onChange} placeholder="Fireman@company.com" type="email" />
                             </div>
                             <div className="input-field">
                                 <label className="login-label">Mot de passe</label>
-                                <input name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
+                                <input required name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
                             </div>
                             <a >Mot de passe oublié ?</a>
+                            {loading}
+
+                           {loading?<Loader/>:""} 
                             <button type="submit">Se connecter</button>
                             </form>
                         </div>

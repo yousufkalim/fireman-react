@@ -14,18 +14,17 @@
 @import url("./OpenSearch/studyform.css");
 @import url("./home.css");
 @import url("./profile.css");
-
+@import url("./OpenSearch/Foldercreation.css");
 
 /* Defaults */
 * {
   padding: 0;
   margin: 0;
-  
+  font-family: Arial !important;
 }
 
 body {
 background: aliceblue;  
-font-family: Inter;
 }
 
 /* Primary Variables */
