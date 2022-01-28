@@ -8,6 +8,9 @@ import {Store} from '../StoreContext'
 import { dividerClasses, Grid, Paper } from "@mui/material"
 import MobileStepper from '@mui/material/MobileStepper';
 import { useTranslation, Trans } from "react-i18next";
+import Dashboard from './home/index';
+
+
 const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
@@ -89,7 +92,9 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
           </Toolbar>
         </AppBar>
       </Box> */}
-       <Grid sx={{ margin:"auto"}}  xs={10}>
+      {
+      
+        <Grid sx={{ margin:"auto"}}  xs={10}>
                         <div className="header_selection" >
                             {/* <a onClick={() => { setSteps(1) }} className="active">Ouverture</a>
                             <a onClick={() => { setSteps(2) }}>Etablissement</a>
@@ -121,6 +126,9 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
                         />
                 
                     </Grid>
+       
+      }
+       
       <OpenSearchInputHeader />
     </>
   );
