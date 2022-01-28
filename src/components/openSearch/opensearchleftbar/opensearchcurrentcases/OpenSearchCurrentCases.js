@@ -68,12 +68,21 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   ];
   const onRowClick = (params) => {
     setCompName("currentcases");
-    if (params.row.val.tabIndex === 2) {
+    if (params.row.val.tabIndex === 1 &&  params.row.val.sectionIndex===3) {
       updatestore({
         activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
         activeCase: "currentcases",
       });
+      
+    }
+    if (params.row.val.tabIndex === 2 &&  params.row.val.sectionIndex===5) {
+      updatestore({
+        activeNavbarTab: 2,
+        establishmentId: params.row.val.establishmentId,
+        activeCase: "currentcases",
+      });
+      
     }
     setIndexdata(() => {
       return {

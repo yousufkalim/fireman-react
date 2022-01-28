@@ -70,6 +70,7 @@ const FolderCreationSection = ({
         visitbutton:true  
   });
   const store = Store();
+  console.log(indexdata);
   const updatestore = UpdateStore();
   useEffect(() => {
     console.log(indexdata);
