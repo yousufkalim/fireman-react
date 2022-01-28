@@ -21,7 +21,7 @@ const CheckList = (props) => {
     const [sentenceStatus, setSentenceStatus] = React.useState({
         complete:false,
         incomplete:false,
-        subcheck:false
+        subcheck:""
     });
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
     const handleOpen = (data,i) => {
@@ -43,7 +43,7 @@ const CheckList = (props) => {
     }
 
     return (
-        <>
+        <>  
             <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
             {
                 checklists &&
@@ -59,13 +59,13 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
-                                        setChacked(props.accordionData.serialName + i)
+                                        console.log("data.subchecks",data.sentenceText);
+                                        //setChacked(props.accordionData.serialName + i)
                                         setSentenceStatus(()=>{
                                           return{
-                                            complete:data.sentenceNature===0? true:false,
-                                            incomplete:data.sentenceNature===1? true:false,
-                                            subcheck:data.sentenceNature===2? true:false
-                                              
+                                            complete:data.sentenceNature===0? setChacked(props.accordionData.serialName + i):false,
+                                            incomplete:data.sentenceNature===1?  data.sentenceNature:"",
+                                            subcheck:data.sentenceNature===2?  data.sentenceNature:""  
                                           }
                                         })
                                         setSubCheckData(data.subchecks)
@@ -74,15 +74,7 @@ const CheckList = (props) => {
                                     classes={{ root: 'custom-checkbox-root' }}
                                 />
                                 <p>{parse(data.sentenceText)}</p>
-                                 <Subchecklist 
-                                 subcheckData={subcheckData} 
-                                 sentenceStatus={sentenceStatus} 
-                                 setSentenceStatus={setSentenceStatus} 
-                                 setOpen={setOpen} 
-                                 open={open} 
-                                 handleClose={handleClose}  
-                                 subcheckData={subcheckData}/>
-                                 
+                                  
                             </div>
                             <div>
                                 <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); setIndex(i)}} sx={{ cursor: "pointer" }} />
@@ -91,8 +83,15 @@ const CheckList = (props) => {
                     )
                 })
             }
+            {sentenceStatus.subcheck===2||sentenceStatus.incomplete===1? 
+                                 <Subchecklist 
+                                 subcheckData={subcheckData} 
+                                 sentenceStatus={sentenceStatus} 
+                                 setSentenceStatus={setSentenceStatus} 
+                                 subcheckData={subcheckData}/>
+                                 :null}
           <EditModal saveChanges={saveChanges} accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} />
-         
+           
         </>
     )
 }

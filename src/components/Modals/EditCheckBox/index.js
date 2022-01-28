@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -53,34 +53,52 @@ BootstrapDialogTitle.propTypes = {
 
 export default function CustomizedDialogs(props) {
 let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionData.sentenceText)
-
+   
+   useEffect(() => {
+    console.log(props.accordionData?.sentenceText);
+    // var str = props.accordionData?.sentenceText;
+    var re = /[_]+/g;
+        if(props.accordionData.sentenceText){
+          console.log((props?.accordionData&&props.accordionData?.sentenceText.match(re) || []).join(''));
+        }
+   }, [props]);
+   
+//    var str = "u23ntfb23nnfj3mimowmndnwm8";
+// var re = /[2bjd8]+/g;
     return (
         <div>
             <BootstrapDialog
+            fullWidth={true}
                 onClose={props.handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={props.open}
+                maxWidth="lg"
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}>
                     Edit title
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <div className='ckeditor'>
-                    <CKEditor
-                        editor={ClassicEditor}
-                        data={props.accordionData.sentenceText}
-                        config={{
-                            toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
-                        }}
-                        onReady={editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log('Editor is ready to use!', editor);
-                        }}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            setSentence(data)
-                        }}
-                    />
+                    {console.log(props.accordionData.sentenceText)}
+                    <textarea style={{height:"200px"}} 
+                    onKeyDown={(e)=>{
+                        const value= e.target.selectionStart;
+                        console.log(e.target.value[value-1])
+                          if(e.keyCode===8){
+                              if(e.target.value[value-1]!="_"){
+                                e.preventDefault();
+                              }
+                             
+                          }
+                    }}
+                    onChange={(e)=>{
+                        console.log("e.keyCode");
+                        setSentence(e.target.value)
+                        //const value= e.target.selectionStart; 
+                        //console.log(e.target.value[value-1])
+                        }} defaultValue={props.accordionData.sentenceText}/>
+
+
                     </div>
                   
                 </DialogContent>

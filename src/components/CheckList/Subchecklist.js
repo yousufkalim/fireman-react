@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import EditModal from "../Modals/EditCheckBox"
 import Dialog from '@mui/material/Dialog';
+import Box from "@mui/material/Box";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,6 +10,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import parse from 'html-react-parser';
+import Checkbox from '@mui/material/Checkbox';
+import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
+import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -50,25 +55,22 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 const Subchecklist = ({
+  sentenceStatus,
   setSentenceStatus,
   subcheckData
 }) => {
-  useEffect(() => {
-    setOpen(true)
-  }, []);
+    useEffect(() => {
+      setOpen(true)
+    }, [sentenceStatus]);
+    
+     
   
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(sentenceStatus.subcheck===2?true: false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false); 
-    setSentenceStatus((pre)=>{
-    return{
-  ...pre,
-  subcheck:false
-    }
-  })
 }
-   
+console.log("subcheckData",subcheckData, sentenceStatus);  
   return (
 
   <>
@@ -76,35 +78,57 @@ const Subchecklist = ({
     
       <BootstrapDialog
                 // onClose={props.handleClose}
+                fullWidth={true}
                 aria-labelledby="customized-dialog-title"
                 open={open}
+                maxWidth="lg"
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Edit title
                 </BootstrapDialogTitle>
-                <DialogContent dividers>
-                    <div className='ckeditor'>
-                    { subcheckData?.map((val)=>(
-                    <CKEditor
-                        editor={ClassicEditor}
-                      
-                        data={val.subSentenceText}
-                        
-                        config={{
-                            toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
-                        }}
-                        onReady={editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log('Editor is ready to use!', editor);
-                        }}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            //setSentence(data)
-                        }}
-                    />
+                <DialogContent  dividers>
+
+                    {sentenceStatus.subcheck===2 &&  subcheckData?.map((val)=>(
+                      <> 
+                      <Box sx={{display:"flex", alignItems:"center"}}> 
+                      <Checkbox
+                                    icon={<CircleUnchecked />}
+                                    checkedIcon={<CircleCheckedFilled />}
+                                    style={{
+                                        color: `${val.sentenceColor}`,
+                                    }}
+                                    checked={false}
+                                    // onClick={()=>{  }}
+                                    classes={{ root: 'custom-checkbox-root' }}
+                                />
+                    <p>{val.subSentenceText}</p>
+                      </Box>
+                     
+                    </>
                     ))}
-                    </div>
-                  
+                    
+                    {
+                      
+                      sentenceStatus.incomplete===1? (
+                        subcheckData?.map((value)=>(
+                          <CKEditor
+                          editor={ClassicEditor}
+                          data={value.sentenceText}
+                          config={{
+                              toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
+                          }}
+                          onReady={editor => {
+                              console.log('Editor is ready to use!', editor);
+                          }}
+                          // onChange={(event, editor) => {
+                          //     const data = editor.getData();
+                          //     setSentence(data)
+                          // }}
+                      />
+                        ))
+                      ):null
+                    }
+                    
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus >
