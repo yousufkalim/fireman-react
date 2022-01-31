@@ -36,8 +36,10 @@ const FolderCreationSection = ({
   currentcasesvisitTypeId,
   currentcasescommisionDate,
   Studydata,
+  Storey
 }) => {
   const { t } = useTranslation();
+  const store = Store();
   const [loading, setloading] = useState(true);
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
@@ -49,31 +51,30 @@ const FolderCreationSection = ({
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
-    togglermain: compShow ? true : false,
-    togglerstudy: compShow || indexdata?.sectionindex === 1 ? true : false,
-    togglerstudytwo: compShow || indexdata?.sectionindex === 1 || indexdata?.sectionindex === 2? true: false,
-    togglervisit: compShow || indexdata?.sectionindex === 1  ? true : false,
+    togglermain: compShow  ? true : false,
+    togglerstudy: compShow || store?.sectionindex === 1 ? true : false,
+    togglerstudytwo: compShow || store?.sectionindex === 1  || store?.sectionindex === 2? true: false,
+    togglervisit: compShow || store?.sectionindex === 1 ? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
-    currentcasescaseTypeId ===1? true: false,
+    store.activeCase === "currentcases"? true: false,
     iconstudy:
-      CompName === "currentcases" && (indexdata?.sectionindex === 2|| indexdata?.sectionindex === 3)? true: false,
+      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3)? true: false,
     iconstudytwo:
-      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
     iconvisit:
-      CompName === "currentcases" && indexdata?.sectionindex === 3? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:compShow||indexdata.sectionindex===0? true:false,
-        detailsobject:true,
+        townplanningbutton:compShow||indexdata?.sectionindex===0? true:false,
+        detailsobject:compShow||indexdata?.sectionindex===0? true:false,
         visitbutton:true  
   });
-  const store = Store();
-  console.log(indexdata);
+  
+ 
   const updatestore = UpdateStore();
   useEffect(() => {
-    console.log(indexdata);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -87,10 +88,10 @@ const FolderCreationSection = ({
     api(
       "get",
       `/api/v1/casefiles/casefile_checklist/0/${
-        store.establishmentId
-          ? store.establishmentId
-          : indexdata.establishmentId
-      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+        store?.establishmentId
+          ? store?.establishmentId
+          : indexdata?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
     ).then((res) => {
       setstate((preVal) => {
         return {
@@ -102,10 +103,10 @@ const FolderCreationSection = ({
     api(
       "get",
       `/api/v1/casefiles/casefile_checklist/1/${
-        store.establishmentId
-          ? store.establishmentId
-          : indexdata.establishmentId
-      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+        store?.establishmentId
+          ? store?.establishmentId
+          : indexdata?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
     ).then((res) => {
       setstate((preVal) => {
         return {
@@ -117,10 +118,10 @@ const FolderCreationSection = ({
     api(
       "get",
       `/api/v1/casefiles/casefile_checklist/2/${
-        store.establishmentId
-          ? store.establishmentId
-          : indexdata.establishmentId
-      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+        store?.establishmentId
+          ? store?.establishmentId
+          : indexdata?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
     ).then((res) => {
       setstate((preVal) => {
         return {
@@ -166,8 +167,8 @@ const FolderCreationSection = ({
       "get",`/api/v1/casefiles/get_open_foldercreation/${
         indexdata?.establishmentId
           ? indexdata?.establishmentId
-          : store.establishmentId
-      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+          : store?.establishmentId
+      }/${store.caseFileId? store.caseFileId : 0}`
     ).then((res) =>{
       setloading(false)
       setdropdownValue((preVal) => {
@@ -182,8 +183,8 @@ const FolderCreationSection = ({
       "get",`/api/v1/casefiles/get_open_townplanning/${
         indexdata?.establishmentId
           ? indexdata?.establishmentId
-          : store.establishmentId
-      }/${currentcasescaseFileId ? currentcasescaseFileId : 0}`
+          : store?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
     ).then((res) =>{
      
       setdropdownValue((preVal) => {
@@ -226,16 +227,16 @@ const FolderCreationSection = ({
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
     setInputValues({
-      caseTypeId: currentcasescaseTypeId?currentcasescaseTypeId:dropdownValue?.foldercreationvalues?.data?.caseTypeId,
-      commisionTypeId: currentcasescommisionTypeId?currentcasescommisionTypeId:dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
+      caseTypeId: dropdownValue?.foldercreationvalues?.data?.caseTypeId,
+      commisionTypeId: dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
       agent: dropdownValue?.inputsvalue?.data?.firstName,
-      studyTypeId:currentcasesstudyTypeId?currentcasesstudyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
-      visitTypeId:currentcasesvisitTypeId?currentcasesvisitTypeId: dropdownValue?.foldercreationvalues?.data?.visitTypeId,
+      studyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
+      visitTypeId:dropdownValue?.foldercreationvalues?.data?.visitTypeId,
       group: dropdownValue?.inputsvalue?.data?.group,
       service: dropdownValue?.inputsvalue?.data?.service,
       caseFileId: "",
       caseid: "",
-      commisionDate: currentcasescommisionDate? moment(currentcasescommisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"): moment(dropdownValue?.foldercreationvalues?.data?.commisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
+      commisionDate:  moment(dropdownValue?.foldercreationvalues?.data?.commisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
     });
     setInputDisableState(CompName==="currentcases"?currentcasescaseTypeId?.toString():dropdownValue?.foldercreationvalues.data&&dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString())
   }, [dropdownValue]);
@@ -322,6 +323,7 @@ const FolderCreationSection = ({
           ? inputValues.commisionDate
           : currentcasescommisionDate,
       };
+      console.log("updatedObj",updatedObj);
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
           setInputValues((preVal) => {
@@ -352,6 +354,7 @@ const FolderCreationSection = ({
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
+    console.log("",checkboxObj);
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
@@ -389,7 +392,7 @@ const FolderCreationSection = ({
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
-      compShow === "filestructure" ? (
+      compShow === "filestructure" || store.activeNavbarTab===0 ? (
         <>
           <div>
             <Box
@@ -596,7 +599,7 @@ const FolderCreationSection = ({
                   Studydata={Studydata}
                   townplanningValues={dropdownValue.townplanningValues}
                   setstate={setstate}
-                  currentcasescaseFileId={currentcasescaseFileId}
+                  currentcasescaseFileId={dropdownValue.foldercreationvalues}
                   state={state}
                   Toggler={Toggler}
                   setToggler={setToggler}
@@ -660,7 +663,7 @@ const FolderCreationSection = ({
                       checkboxObj={checkboxObj}
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
-                      currentcasescaseFileId={currentcasescaseFileId}
+                      currentcasescaseFileId={dropdownValue.foldercreationvalues.data.caseFileId}
                       Toggler={Toggler}
                       setToggler={setToggler}
                       setIcon={setIcon}

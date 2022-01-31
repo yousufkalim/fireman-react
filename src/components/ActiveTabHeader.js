@@ -2,7 +2,6 @@ import React, { useState,useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import OpenSearchInputHeader from "./openSearch/OpenSearchInputHeader";
 import {UpdateStore} from '../StoreContext'
 import {Store} from '../StoreContext'
 import { dividerClasses, Grid, Paper } from "@mui/material"
@@ -129,7 +128,6 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
        
       }
        
-      <OpenSearchInputHeader />
     </>
   );
 };
