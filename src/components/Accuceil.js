@@ -34,6 +34,15 @@ const Accuceil = () => {
   return (
     <>
       <NavbarNew/>
+      {
+          store.activeNavbarTab==="newcases"?
+      <Grid item xs={12} sx={{background:"aliceblue"}}> ?
+      <ActiveTabHeader/>
+      </Grid>
+      :
+      ""
+      }
+      
       <Grid item xs={12} sx={{background:"aliceblue"}}>
       </Grid>
       <Grid

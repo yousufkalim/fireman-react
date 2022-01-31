@@ -13,7 +13,7 @@ const EndedCases = ({endedcases}) => {
           sort: "asc",
         },
       ]);
-      console.log(endedcases);
+
     const column = [
         {
           field: "typeref",

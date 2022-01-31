@@ -76,7 +76,9 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       tabindex:params.row.val.tabIndex
     });
     setCompName("currentcases");
+
     if (params.row.val.tabIndex === 1 &&  params.row.val.sectionIndex===3) {
+
       updatestore({
         activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,

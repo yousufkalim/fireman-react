@@ -1,16 +1,35 @@
-import profile from '../../assets/profile.png';
+import profileImage from '../../assets/profile.png';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useEffect, useState } from 'react';
+import api from "../../api/index";
+
 
 
 
 
 
 const Profile=()=>{
+    let [profile,setProfile]=useState({})
+  
+    useEffect(()=>{
+        let userId = localStorage.getItem("userData");
+        userId = JSON.parse(userId);
+        api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+            .then((res) => {
+                if(res.status==200){
+                  setProfile(res.data)
+                }
+            })
+            .catch((err) => console.log(err));
+    },[])
+
+
+   console.log("profile",profile)
     return(
      <div className="profile">
          <div>
-             <img src={profile}/>
-             <p className='profile_name'>John Smith</p>
+             <img src={profile.profileImage?profile.profileImage: profileImage}/>
+             <p className='profile_name'>{profile.firstName} {profile.lastName}</p>
              <div className='profile_location'>
             <LocationOnIcon color='error'/>
             <p>Paris, France</p>
@@ -25,22 +44,22 @@ const Profile=()=>{
                  <div className='input_row'>
                  <div className='input_container'>
                      <label>Prénom</label>
-                    <input value='John' />
+                    <input value={profile.firstName} />
                  </div>
                  <div className='input_container'>
                      <label>Nom</label>
-                    <input value='Smith' />
+                    <input value={profile.lastName} />
                  </div>
                  </div>
                  <div className='field_seprator' ></div>
                  <div className='input_row'>
                  <div className='input_container'>
                      <label>Adresse e-mail</label>
-                    <input value='johnsmith@company.com' />
+                    <input value={profile.email} />
                  </div>
                  <div className='input_container'>
                      <label>Numéro de téléphone</label>
-                    <input value='06 54 23 11 55' />
+                    <input value={profile.phoneNo} />
                  </div>
                  </div>
                  <div  className='field_seprator'></div>
@@ -51,13 +70,13 @@ const Profile=()=>{
                  </div>
                  <div className='input_container'>
                      <label>Groupement</label>
-                    <input value='Groupement Préventionniste' />
+                    <input value={profile.group} />
                  </div>
                  </div>
                  <div  className='field_seprator'></div>
                  <div style={{marginLeft: "104px"}} className='input_container'>
                      <label>Service</label>
-                    <input value='Service Achat' />
+                    <input value={profile.service} />
                  </div>
                  <div  className='field_seprator'></div>
 
