@@ -151,8 +151,7 @@ const EstablishmentSearchVisitForm = ({
         })
         .catch((err) => toast.error(err?.statusText));
     }
-    if (CompName === "currentcases") {
-    console.log("ccurrent");
+    if (store.activeCase  === "currentcases") {
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
         caseFileId:currentcasescaseFileId,
         sectionType:1
