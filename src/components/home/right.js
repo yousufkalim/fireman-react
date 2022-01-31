@@ -17,22 +17,23 @@ import api from "../../api/index"
 
 
 const HomeRight = () => {
-    let [box, setBox] = useState(false)
+    let [box, setBox] = useState(true)
     const update = UpdateStore();
     let history = useHistory();
 
     let[projects,setProjects]=useState([])
     useEffect(()=>{
-        getLatest()
-      },[])
-    const getLatest=()=>{
-        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0`).then((res) => {
+        let userId = localStorage.getItem("userData");
+        userId = JSON.parse(userId);
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/1/${userId?.userid}`).then((res) => {
             console.log("faisl",res);
             if (res.status == 200) {
                 setProjects(res.data)
             }
         })
-    }
+        
+      },[])
+ 
     return (
         <>
             <div className="accueilHome_right">
@@ -44,15 +45,17 @@ const HomeRight = () => {
                                 <p className="vertical_text">DOSSIERS EN COURS</p>
                                 <div class="vl"></div>
                             </div>
-                            <div onMouseLeave={() => { setBox(false) }} className="hoverbox" >
+                            <div onMouseLeave={() => { setBox(true) }} className="hoverbox" >
 
                                 {projects && projects.map((data) => {
                                     return (
                                         <div className="recre">
+                                           <div style={{display:"flex"}}>
                                             <img src={Folder} />
                                             <div className="text">
-                                                <p style={{ fontSize: "14px" }}>Lieusaint - Etude</p>
-                                                <p style={{ fontSize: "18px", fontWeight: "600" }}>LA GRANDE RECRE</p>
+                                                <p style={{ fontSize: "14px" }}>{data.communeName} - {data.caseTypeName}</p>
+                                                <p style={{ fontSize: "15px", fontWeight: "600" }}>{data.establishmentName}</p>
+                                            </div>
                                             </div>
                                             <div className="progress">
                                                 <Progress

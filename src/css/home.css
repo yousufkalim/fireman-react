@@ -154,6 +154,7 @@ border-radius: 21px;
     border-radius: 5px;
     display: flex;
     margin-bottom: 10px;
+    justify-content: space-between;
 
 }
 

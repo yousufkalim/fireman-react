@@ -16,6 +16,7 @@ import FolderCreationContainer from './openSearch/opensearchleftbar/opensearchne
 import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/EndedCases';
 import Home from "./home";
 import Profile from "./profile";
+import SideBar from "./SideBar";
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
@@ -24,7 +25,8 @@ const Body = () => {
   const updatestore = UpdateStore()
   useEffect(() => {
     updatestore({
-      activeCase: "newcase"
+      activeCase: "newcase",
+      activeNavbarTab: "termine" 
     })
   }, [])
 
@@ -57,9 +59,10 @@ const Body = () => {
         spacing={2}
       >
         <Grid item xs={1}>
-            <LeftBarTab
-              getResponse={getResponse}
-            />
+        {/* <SideBar /> */}
+        <LeftBarTab 
+                      getResponse={getResponse}
+         />
         </Grid>
        
 {/* <<<<<<< HEAD

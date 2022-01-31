@@ -35,7 +35,7 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
-  Studydata,
+ 
   Storey
 }) => {
   const { t } = useTranslation();
@@ -44,6 +44,7 @@ const FolderCreationSection = ({
   const store = Store();
 
   const [loading, setloading] = useState(true);
+  const [Studydata, setStudydata] = useState([]);
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -54,10 +55,10 @@ const FolderCreationSection = ({
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
-    togglermain: compShow  ? true : false,
-    togglerstudy: compShow || store?.sectionindex === 1 ? true : false,
-    togglerstudytwo: compShow || store?.sectionindex === 1  || store?.sectionindex === 2? true: false,
-    togglervisit: compShow || store?.sectionindex === 1 ? true : false,
+    togglermain: store.activeCase==="newcase"? true : false,
+    togglerstudy: store.activeCase==="newcase"  || store?.sectionindex === 1 ? true : false,
+    togglerstudytwo: store.activeCase==="newcase" || compShow || store?.sectionindex === 1  || store?.sectionindex === 2? true: false,
+    togglervisit: store.activeCase==="newcase" || store?.sectionindex === 1 ? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
@@ -70,15 +71,16 @@ const FolderCreationSection = ({
       store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:compShow||indexdata?.sectionindex===0? true:false,
-        detailsobject:compShow||indexdata?.sectionindex===0? true:false,
+        townplanningbutton:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
+        detailsobject:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
         visitbutton:true  
   });
   
  
   const updatestore = UpdateStore();
   useEffect(() => {
-
+     console.log(CompName);
+     console.log(compShow);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -202,6 +204,16 @@ const FolderCreationSection = ({
       })
     }
     );
+    api(
+      "get",
+      `/api/v1/casefiles/get_open_townplanning/${
+        indexdata?.establishmentId
+          ? indexdata?.establishmentId
+          : store?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
+    ).then((res) => {
+      setStudydata(res);
+    });
   }, []);
 
   

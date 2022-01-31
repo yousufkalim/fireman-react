@@ -30,10 +30,15 @@ const update = UpdateStore();
                   setCount(res.data)
               }
           })
+          getLatest(userId)
+
     }
 
+    
     const getLatest=()=>{
-        api("get", `/api/v1/dashboard/latest_casefiles_frontend/1`).then((res) => {
+        let userId = localStorage.getItem("userData");
+        userId = JSON.parse(userId);
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0/${userId && userId?.userid}`).then((res) => {
             console.log("faisl",res);
             if (res.status == 200) {
                 setProjects(res.data)
@@ -63,12 +68,14 @@ const update = UpdateStore();
                 {projects && projects.map((data)=>{
                     return(
                         <div className="recre">
+                        <div style={{display:"flex"}}>
                         <img src={Folder} />
                         <div className="text">
-                        <p style={{fontSize:"14px"}}>Lieusaint - Etude</p>
-                        <p style={{fontSize:"18px",fontWeight:"600"}}>LA GRANDE RECRE</p>
+                        <p style={{fontSize:"14px"}}>{data.communeName} - {data.caseTypeName}</p>
+                        <p style={{fontSize:"16px",fontWeight:"600"}}>{data.establishmentName}</p>
                         </div>
-                        <p className="date">Dernière modification le 12/03/21</p>
+                        </div>
+                        <p className="date">Dernière modification le {data.updatedDate}</p>
                         </div>
                     )
                 })}
