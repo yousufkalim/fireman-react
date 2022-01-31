@@ -32,19 +32,9 @@ const CheckList = (props) => {
     };
    
     const handleClose = () => setOpen(false);
-    const saveChanges=(sentence)=>{
-         console.log(index);
-         console.log("checklists",checklists);  
-         console.log("onen",props.accordionData);
-        //const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === index+1));
-      
-        //checklists[objIndex].sentenceText = sentence
-    //    console.log(checklists[7].sentenceText);
-
-    //    const a = parse(sentence)
-    //     checklists[objIndex].sentenceText = a
-       //console.log(checklists[7].sentenceText=sentence);
-       //console.log(checklists[objIndex].sentenceText );
+    const saveChanges=(sentence, sentenceId)=>{ 
+         const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === sentenceId));
+         checklists[objIndex].sentenceText = sentence
 //    let a= checklists.map((data,i)=>{
 //        let dat={}
 //       if((props.accordionData.serialName+i)==checklistdata.id){

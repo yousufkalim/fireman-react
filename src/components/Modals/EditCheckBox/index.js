@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
+import parse from 'html-react-parser';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -61,10 +61,12 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
         }
    }, [props]);
    
-//    var str = "u23ntfb23nnfj3mimowmndnwm8";
-// var re = /[2bjd8]+/g;
+console.log(props.accordionData.sentenceTypeId);
+console.log( props.accordionData.sentenceText);
     return (
         <div>
+
+           
             <BootstrapDialog
             fullWidth={true}
                 onClose={props.handleClose}
@@ -73,12 +75,12 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                 maxWidth="lg"
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}>
-                    Edit title
+                    Edit title  <p>{props.accordionData.sentenceText}</p>
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <div className='ckeditor'>
-                    <CKEditor
-                      
+                    
+                    <CKEditor 
                         editor={ClassicEditor}
                         data={props.accordionData.sentenceText}
                         config={{
@@ -124,7 +126,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                   
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{props.saveChanges(sentence); props.setOpen(false)}}>
+                    <Button autoFocus onClick={()=>{props.saveChanges(sentence, props.accordionData.sectionSentencesId); props.setOpen(false)}}>
                         Save changes
                     </Button>
                 </DialogActions>
