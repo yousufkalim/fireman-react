@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 // Routes
-import Home from "../containers/Home.js";
+
 import Login from "../components/auth/Login";
 import Signup from "../components/auth/Signup";
 import ForgetPassword from "../components/auth/ForgetPassword";
@@ -11,6 +11,8 @@ import OpenSearch from "../containers/OpenSearch";
 import Body from '../components/Body'
 import Dashboard from '../components/dashboard/Dashboardtwo';
 import Accuceil from "../components/Accuceil";
+import Home from '../components/home/index';
+
 
 const index = () => {
   let userdata = localStorage.getItem("userData");
@@ -34,15 +36,20 @@ const index = () => {
            path="/body"
            component={Body}
          />
-           <Route
+           {/* <Route
            exact
            path="/dashboard"
            component={Dashboard}
-         />
+         /> */}
            <Route
            exact
            path="/accuceil"
            component={Accuceil}
+         />
+          <Route
+           exact
+           path="/dashboard"
+           component={Home}
          />
          
          <Redirect from="*" to="/body" />

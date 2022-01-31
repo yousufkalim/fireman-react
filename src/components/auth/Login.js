@@ -7,7 +7,9 @@ import api from "../../api/index";
 import {UpdateStore} from '../../StoreContext'
 import { useState } from "react";
 import Loader from './Loader';
+import Home from '../home/index';
 ;
+
 
 
 const Login = () => {

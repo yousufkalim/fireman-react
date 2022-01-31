@@ -115,6 +115,7 @@ const EstablishmentSearchStudyForm = ({
  ///////for townplanning checkboxes
 
   }, [townplanning]);
+  console.log(CompName);
   useEffect(() => {
     const studycheckboxes = study?.map((val) =>
     val.chkList

@@ -158,8 +158,8 @@ export default function Navbar() {
             >
               <AccountCircle />
             </IconButton>
-            <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" }}>
-              <p>{user}</p>
+            <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
+              <p style={{cursor:"pointer"}}>{user}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>
           </div>

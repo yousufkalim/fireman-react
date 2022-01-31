@@ -8,8 +8,12 @@ import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css"
 import {Store} from '../../StoreContext'
 import {UpdateStore} from '../../StoreContext'
+
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+
+import api from "../../api/index"
+
 
 
 const HomeRight = () => {
@@ -17,6 +21,18 @@ const HomeRight = () => {
     const update = UpdateStore();
     let history = useHistory();
 
+    let[projects,setProjects]=useState([])
+    useEffect(()=>{
+        getLatest()
+      },[])
+    const getLatest=()=>{
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0`).then((res) => {
+            console.log("faisl",res);
+            if (res.status == 200) {
+                setProjects(res.data)
+            }
+        })
+    }
     return (
         <>
             <div className="accueilHome_right">
@@ -30,7 +46,7 @@ const HomeRight = () => {
                             </div>
                             <div onMouseLeave={() => { setBox(false) }} className="hoverbox" >
 
-                                {[1, 1, 1, 1, 1].map((data) => {
+                                {projects && projects.map((data) => {
                                     return (
                                         <div className="recre">
                                             <img src={Folder} />
@@ -47,7 +63,7 @@ const HomeRight = () => {
                                     )
                                 })}
                                 <div className="voirtout">
-                                    <p>Voir Tout</p>
+                                    <p  onClick={()=>{update({activeNavbarTab:"currentcases"})}} >Voir Tout</p>
                                 </div>
                             </div>
 
@@ -72,8 +88,8 @@ const HomeRight = () => {
                 }
             </div>
 
-            <div style={{ marginTop: "40px" }} className="accueilHome_right_bottom">
-                <div onClick={()=>{update({activeNavbarTab:"newcases"})}} className="allonys">
+            <div style={{ marginTop: "30px" }} className="accueilHome_right_bottom">
+                <div onClick={()=>{update({activeNavbarTab:"multimedia"})}} className="allonys">
                     <img style={{ marginLeft: "50px" }} src={Cours4} />
                     <div className="text">UN NOUVEAU DOSSIER ? C’EST PARTI !</div>
                 </div>

@@ -39,7 +39,10 @@ const FolderCreationSection = ({
   Storey
 }) => {
   const { t } = useTranslation();
+  console.log(compShow);
+  
   const store = Store();
+
   const [loading, setloading] = useState(true);
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
@@ -75,6 +78,7 @@ const FolderCreationSection = ({
  
   const updatestore = UpdateStore();
   useEffect(() => {
+
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -169,6 +173,8 @@ const FolderCreationSection = ({
           ? indexdata?.establishmentId
           : store?.establishmentId
       }/${store.caseFileId? store.caseFileId : 0}`
+
+       
     ).then((res) =>{
       setloading(false)
       setdropdownValue((preVal) => {
@@ -185,6 +191,7 @@ const FolderCreationSection = ({
           ? indexdata?.establishmentId
           : store?.establishmentId
       }/${store.caseFileId ? store.caseFileId : 0}`
+
     ).then((res) =>{
      
       setdropdownValue((preVal) => {
@@ -227,16 +234,18 @@ const FolderCreationSection = ({
   const [checkBoxRes, setCheckBoxRes] = useState();
   useEffect(() => {
     setInputValues({
-      caseTypeId: dropdownValue?.foldercreationvalues?.data?.caseTypeId,
-      commisionTypeId: dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
+
+      caseTypeId: currentcasescaseTypeId?currentcasescaseTypeId:dropdownValue?.foldercreationvalues?.data?.caseTypeId,
+      commisionTypeId: currentcasescommisionTypeId?currentcasescommisionTypeId:dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
       agent: dropdownValue?.inputsvalue?.data?.firstName,
-      studyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
-      visitTypeId:dropdownValue?.foldercreationvalues?.data?.visitTypeId,
+      studyTypeId:currentcasesstudyTypeId?currentcasesstudyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
+      visitTypeId:currentcasesvisitTypeId?currentcasesvisitTypeId: dropdownValue?.foldercreationvalues?.data?.visitTypeId,
       group: dropdownValue?.inputsvalue?.data?.group,
       service: dropdownValue?.inputsvalue?.data?.service,
       caseFileId: "",
       caseid: "",
       commisionDate:  moment(dropdownValue?.foldercreationvalues?.data?.commisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
+
     });
     setInputDisableState(CompName==="currentcases"?currentcasescaseTypeId?.toString():dropdownValue?.foldercreationvalues.data&&dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString())
   }, [dropdownValue]);
