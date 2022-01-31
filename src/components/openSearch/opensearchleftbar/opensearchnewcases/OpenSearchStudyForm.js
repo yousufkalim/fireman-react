@@ -252,7 +252,7 @@ setstate((pre) => {
 
 
     //////for new cases add checkboxes
-    if (compShow) {
+    if (store.activeCase==="newcase") {
 
       console.log("called compshow");
       setCheckboxObj((pre) => [...pre, obj]);
@@ -260,7 +260,7 @@ setstate((pre) => {
 
     }
     if (!checked) {
-      if (compShow) {
+      if (store.activeCase==="newcase") {
         console.log("called compshow");
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId != id),
@@ -341,7 +341,7 @@ setstate((pre) => {
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
-    if (CompName === "currentcases" || store.activeNavbarTab===0) {
+    if (store.activeCase  === "currentcases") {
       api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck.length===0?([{
         caseFileId:currentcasescaseFileId?.data?.caseFileId,
         sectionType:2
@@ -355,7 +355,7 @@ setstate((pre) => {
         })
         .catch((err) => toast.error(err?.statusText));
     }
-    if(compShow){
+    if(store.activeCase==="newcase"){
       postCheckboxesData("studytwo");
     }
    
