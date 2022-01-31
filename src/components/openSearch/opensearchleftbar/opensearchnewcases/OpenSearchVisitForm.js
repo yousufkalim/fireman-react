@@ -192,7 +192,7 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                             type="checkbox"
-                            defaultChecked={store.activeCase === "currentcases"? val.isSelected:""}
+                            defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                             id={val.caseFileCheckListId}
                             onChange={(e) => handleChange(e, val.sectionType)}
                           />
