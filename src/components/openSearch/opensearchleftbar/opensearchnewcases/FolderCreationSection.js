@@ -39,7 +39,8 @@ const FolderCreationSection = ({
   Storey
 }) => {
   const { t } = useTranslation();
-
+  console.log(compShow);
+  
   const store = Store();
 
   const [loading, setloading] = useState(true);

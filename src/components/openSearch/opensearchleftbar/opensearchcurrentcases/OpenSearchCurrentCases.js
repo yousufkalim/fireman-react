@@ -67,6 +67,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
         color: "#8D919D" },
       
   ];
+  console.log(currentcasesData);
   const onRowClick = (params) => {
     updatestore({
       establishmentId: params.row.val.establishmentId,

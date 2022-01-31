@@ -12,6 +12,7 @@ import { Store } from '../StoreContext'
 import { UpdateStore } from '../StoreContext'
 import Dashboard from './dashboard/Dashboard';
 import FolderCreationSection from './openSearch/opensearchleftbar/opensearchnewcases/FolderCreationSection';
+import FolderCreationContainer from './openSearch/opensearchleftbar/opensearchnewcases/FolderCreationContainer';
 import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/EndedCases';
 import Home from "./home";
 import Profile from "./profile";
@@ -29,6 +30,7 @@ const Body = () => {
 
 
   const store = Store()
+  console.log(store);
   return (
     <> 
     <NavbarNew />
@@ -89,9 +91,11 @@ const Body = () => {
               :
               <>
                 <Grid item xs={8}>
+                {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                 {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
                 {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
                 {store.activeNavbarTab===2?  <Implantation/>:null}
+          {store.activeNavbarTab===0 || store.activeNavbarTab==="termine"? <FolderCreationContainer/>:null}
           {store.activeNavbarTab==="multimedia"? <OpenSearchNewCases/>:null}
           {store.activeNavbarTab==="newcases"? <EndedCases endedcases={responseData} />:null}
                 </Grid>
