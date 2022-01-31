@@ -15,6 +15,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import DoneIcon from "@mui/icons-material/Done";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Store } from "../../../../StoreContext";
+import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -43,6 +45,8 @@ const EstablishmentSearchStudyForm = ({
   townplanningValues
 }) => {
   const { t } = useTranslation();
+  const store = Store();
+  const updatestore = UpdateStore();
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
     caseAverageId: Studydata?.data?.caseAverageId
@@ -85,7 +89,7 @@ const EstablishmentSearchStudyForm = ({
             return{ 
             caseFileCheckListId: val.caseFileCheckListId, 
             sectionType:val.sectionType, 
-            casefileId: casefileId ? casefileId : currentcasescaseFileId,
+            casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
           }})
       ).map((val) => val.filter((val) =>{ 
         return{
@@ -119,7 +123,7 @@ const EstablishmentSearchStudyForm = ({
         return{ 
         caseFileCheckListId: val.caseFileCheckListId, 
         sectionType:val.sectionType, 
-        casefileId: casefileId ? casefileId : currentcasescaseFileId,
+        casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
       }})
   ).map((val) => val.filter((val) =>{ 
     return{
@@ -208,18 +212,18 @@ setstate((pre) => {
     if (checked) {
     const obj = {
       caseFileCheckListId: parseInt(id),
-      casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
       sectionType:sectiontype
     };
      //////for current cases add checkboxes
-    if (CompName && sectiontype===0) {
+    if ((CompName || store.activeNavbarTab===0) && sectiontype===0) {
       setstate((pre) => {
         return {
           ...pre,
           check: [...state.check.map((val) => {
             return{
               caseFileCheckListId:parseInt(val.caseFileCheckListId),
-              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
               sectionType:sectiontype
             }
           }), 
@@ -228,14 +232,14 @@ setstate((pre) => {
       });
     }
     /////
-    if (CompName && sectiontype===2) {
+    if ((CompName || store.activeNavbarTab===0) && sectiontype===2) {
       setstate((pre) => {
         return {
           ...pre,
           studycheck: [...state.studycheck.map((val) => {
             return{
               caseFileCheckListId:parseInt(val.caseFileCheckListId),
-              casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
               sectionType:sectiontype
             }
           }), 
@@ -257,7 +261,7 @@ setstate((pre) => {
           ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
       }
-      if (CompName && sectiontype===0) {
+      if ((CompName || store.activeNavbarTab===0) && sectiontype===0 ) {
         setstate((pre) => {
           return {
             ...pre,
@@ -265,7 +269,7 @@ setstate((pre) => {
           };
         });
       }
-      if (CompName && sectiontype===2) {
+      if ((CompName || store.activeNavbarTab===0) && sectiontype===2) {
         setstate((pre) => {
           return {
             ...pre,
@@ -283,12 +287,11 @@ setstate((pre) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-   
-    
     const formData = {
       ...formValues,
-      casefileId: casefileId ? casefileId : currentcasescaseFileId,
+      casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
     };
+    console.log(currentcasescaseFileId);
     api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
       .then((res) => {
         setButtonEnability((pre)=>{
@@ -300,9 +303,10 @@ setstate((pre) => {
         if(compShow){
           postCheckboxesData("townplanning");
         }
-        if (CompName === "currentcases") {
+        if (CompName === "currentcases" || store.activeNavbarTab===0) {
+          console.log(state.check);
           api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check.length===0? ([{
-            caseFileId:currentcasescaseFileId,
+            caseFileId:currentcasescaseFileId?.data?.caseFileId,
              sectionType:0
           }]):(state.check))
             .then((res) => {
@@ -321,7 +325,6 @@ setstate((pre) => {
           return{
             ...pre,
             iconstudy:true,
-            iconstudytwo:false
           }
         });
       })
@@ -331,13 +334,17 @@ setstate((pre) => {
 
   const handleSubmitdetailsobj = (e) => {
     e.preventDefault();
-    if (CompName === "currentcases") {
+    if (CompName === "currentcases" || store.activeNavbarTab===0) {
       api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck.length===0?([{
-        caseFileId:currentcasescaseFileId,
+        caseFileId:currentcasescaseFileId?.data?.caseFileId,
         sectionType:2
       }]):(state.studycheck))
         .then((res) => {
           {toast.success(t("Successfull"))};
+          updatestore({
+            activeNavbarTab: 1,
+          });
+
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -574,7 +581,7 @@ setstate((pre) => {
                           <div class="group">
                             <input
                               type="checkbox"
-                              defaultChecked={CompName?val.isSelected:""}
+                              defaultChecked={store.activeNavbarTab===0 || CompName? val.isSelected:""}
                               id={val.caseFileCheckListId}
                               onChange={(e)=>handleChange(e,val.sectionType)}
                             />
@@ -612,7 +619,7 @@ setstate((pre) => {
                   ))}
                 </Grid>
               </Box>
-              {console.log(buttonEnability.townplanningbutton)}
+             
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
@@ -694,7 +701,7 @@ setstate((pre) => {
                         <div class="group">
                           <input
                             type="checkbox"
-                            defaultChecked={CompName? val.isSelected:""}
+                            defaultChecked={store.activeNavbarTab===0 || CompName?val.isSelected:""}
                             id={val.caseFileCheckListId}
                             onChange={(e)=>handleChange(e,val.sectionType)}
                           />

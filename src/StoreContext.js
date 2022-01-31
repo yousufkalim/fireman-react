@@ -23,9 +23,11 @@ export function StoreProvider({ children }) {
     authorization: false,
     establishmentId:null,
     establishmentname:null,
-    activeNavbarTab:0,
+    activeNavbarTab:10,
     activeCase:"",
-    caseFileId:""
+    caseFileId:"",
+    sectionindex:"",
+    tabindex:""
   });
 
   const updateStore = (data) => {

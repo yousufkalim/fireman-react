@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import Rightarrow from "../../../../assets/rightarrow.png";
 import api from "../../../../api/index";
 import { toast } from "react-toastify";
+import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 const Item = styled(Paper)(({ theme }) => ({
@@ -34,6 +35,7 @@ const EstablishmentSearchVisitForm = ({
   setButtonEnability
 }) => {
   useEffect(() => {
+    console.log(":",visit);
     const ab = visit
       ?.map((val) =>
         val.chkList
@@ -69,7 +71,7 @@ const EstablishmentSearchVisitForm = ({
       };
     });
   }, [visit]);
-
+  const store = Store();
   const { t, i18n } = useTranslation();
   const handleChange = (e, sectiontype) => {
     const checked = e.target.checked;
@@ -80,7 +82,7 @@ const EstablishmentSearchVisitForm = ({
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
         sectionType: sectiontype,
       };
-      if (CompName) {
+      if ((CompName || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
             ...pre,
@@ -102,7 +104,7 @@ const EstablishmentSearchVisitForm = ({
       }
     }
     if (!checked) {
-      if (CompName) {
+      if ((CompName || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
             ...pre,
@@ -122,8 +124,10 @@ const EstablishmentSearchVisitForm = ({
     }
   };
   const updatestore = UpdateStore();
+  console.log(checkboxObj);
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("}{}{}",checkboxObj);
     if (compShow) {
       api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
         .then((res) => {
@@ -146,7 +150,7 @@ const EstablishmentSearchVisitForm = ({
         })
         .catch((err) => toast.error(err?.statusText));
     }
-    if (CompName) {
+    if (CompName === "currentcases" || store.activeNavbarTab===0) {
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
         caseFileId:currentcasescaseFileId,
         sectionType:1
@@ -155,6 +159,7 @@ const EstablishmentSearchVisitForm = ({
           {
             toast.success(t("Successfull"));
           }
+          updatestore({ activeNavbarTab: 1 });
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -187,7 +192,7 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                             type="checkbox"
-                            defaultChecked={CompName ? val.isSelected : ""}
+                            defaultChecked={store.activeNavbarTab===0 || CompName? val.isSelected:""}
                             id={val.caseFileCheckListId}
                             onChange={(e) => handleChange(e, val.sectionType)}
                           />
@@ -226,7 +231,6 @@ const EstablishmentSearchVisitForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
-                  disabled={buttonEnability.visitbutton}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

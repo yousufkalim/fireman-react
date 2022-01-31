@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
+import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
 import { useTranslation, Trans } from "react-i18next";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
@@ -67,13 +68,18 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       
   ];
   const onRowClick = (params) => {
-    console.log(params.row.val.establishmentId);
+    updatestore({
+      establishmentId: params.row.val.establishmentId,
+      caseFileId:params.row.val.caseFileId,
+      activeCase: "currentcases",
+      sectionindex: params.row.val.sectionIndex,
+      tabindex:params.row.val.tabIndex
+    });
     setCompName("currentcases");
     if (params.row.val.tabIndex === 1 &&  params.row.val.sectionIndex===3) {
       updatestore({
         activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
-        activeCase: "currentcases",
       });
       
     }
@@ -81,7 +87,6 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
       updatestore({
         activeNavbarTab: 2,
         establishmentId: params.row.val.establishmentId,
-        activeCase: "currentcases",
       });
       
     }
@@ -114,7 +119,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   return (
     <>
       {folderCreationData.length !== 0 ? (
-        <FolderCreationSection
+        <FolderCreationContainer
           CompName={CompName}
           indexdata={indexdata}
           currentcasescaseFileId={folderCreationData.caseFileId}
