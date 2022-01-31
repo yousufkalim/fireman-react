@@ -34,8 +34,11 @@ const update = UpdateStore();
 
     }
 
-    const getLatest=(userId)=>{
-        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0/${userId?.userid}`).then((res) => {
+    
+    const getLatest=()=>{
+        let userId = localStorage.getItem("userData");
+        userId = JSON.parse(userId);
+        api("get", `/api/v1/dashboard/latest_casefiles_frontend/0/${userId && userId?.userid}`).then((res) => {
             console.log("faisl",res);
             if (res.status == 200) {
                 setProjects(res.data)

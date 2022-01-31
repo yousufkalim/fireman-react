@@ -4,12 +4,10 @@ import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
-import FolderCreationSection from "../opensearchnewcases/FolderCreationSection";
 import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
 import { useTranslation, Trans } from "react-i18next";
 const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
-  const [Studydata, setStudydata] = useState([]);
   const [indexdata, setIndexdata] = useState({
     sectionindex: "",
     tabindex: "",
@@ -106,12 +104,6 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
     ).then((res) => {
       setFolderCreationData(res?.data);
     });
-    api(
-      "get",
-      `/api/v1/casefiles/get_open_townplanning/${params.row.val.establishmentId}/${params.row.val.caseFileId}`
-    ).then((res) => {
-      setStudydata(res);
-    });
   };
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -131,7 +123,6 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
           currentcasesstudyTypeId={folderCreationData.studyTypeId}
           currentcasesvisitTypeId={folderCreationData.visitTypeId}
           currentcasescommisionDate={folderCreationData.commisionDate}
-          Studydata={Studydata}
         />
       ) : (
         <Item

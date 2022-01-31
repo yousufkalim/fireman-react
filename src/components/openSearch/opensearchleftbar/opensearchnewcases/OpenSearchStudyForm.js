@@ -46,7 +46,7 @@ const EstablishmentSearchStudyForm = ({
 }) => {
   const { t } = useTranslation();
   const store = Store();
-  console.log(store);
+  console.log(Studydata);
   const updatestore = UpdateStore();
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
@@ -253,12 +253,15 @@ setstate((pre) => {
 
     //////for new cases add checkboxes
     if (compShow) {
+
+      console.log("called compshow");
       setCheckboxObj((pre) => [...pre, obj]);
     }
 
     }
     if (!checked) {
       if (compShow) {
+        console.log("called compshow");
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
@@ -302,11 +305,13 @@ setstate((pre) => {
            detailsobject:false
           }
         })
-        if(compShow){
+        if(store.activeCase==="newcase"){
+          console.log("called compshow");
           postCheckboxesData("townplanning");
         }
-        if (CompName === "currentcases" || store.activeNavbarTab===0) {
+        if (store.activeCase === "currentcases") {
           console.log(state.check);
+          console.log("called courrent");
           api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check.length===0? ([{
             caseFileId:currentcasescaseFileId?.data?.caseFileId,
              sectionType:0

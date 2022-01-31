@@ -128,7 +128,8 @@ const EstablishmentSearchVisitForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("}{}{}",checkboxObj);
-    if (compShow) {
+    if (store.activeCase==="newcase") {
+      console.log("newcses");
       api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
         .then((res) => {
           {
@@ -150,7 +151,8 @@ const EstablishmentSearchVisitForm = ({
         })
         .catch((err) => toast.error(err?.statusText));
     }
-    if (CompName === "currentcases" || store.activeNavbarTab===0) {
+    if (CompName === "currentcases") {
+    console.log("ccurrent");
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
         caseFileId:currentcasescaseFileId,
         sectionType:1

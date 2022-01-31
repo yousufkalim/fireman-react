@@ -35,7 +35,7 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
-  Studydata,
+ 
   Storey
 }) => {
   const { t } = useTranslation();
@@ -44,6 +44,7 @@ const FolderCreationSection = ({
   const store = Store();
 
   const [loading, setloading] = useState(true);
+  const [Studydata, setStudydata] = useState([]);
   const [dropdownValue, setdropdownValue] = useState({
     studytype: "",
     visittype: "",
@@ -70,8 +71,8 @@ const FolderCreationSection = ({
       store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:compShow||indexdata?.sectionindex===0? true:false,
-        detailsobject:compShow||indexdata?.sectionindex===0? true:false,
+        townplanningbutton:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
+        detailsobject:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
         visitbutton:true  
   });
   
@@ -203,6 +204,16 @@ const FolderCreationSection = ({
       })
     }
     );
+    api(
+      "get",
+      `/api/v1/casefiles/get_open_townplanning/${
+        indexdata?.establishmentId
+          ? indexdata?.establishmentId
+          : store?.establishmentId
+      }/${store.caseFileId ? store.caseFileId : 0}`
+    ).then((res) => {
+      setStudydata(res);
+    });
   }, []);
 
   
