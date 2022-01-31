@@ -78,7 +78,8 @@ const FolderCreationSection = ({
  
   const updatestore = UpdateStore();
   useEffect(() => {
-
+     console.log(CompName);
+     console.log(compShow);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
