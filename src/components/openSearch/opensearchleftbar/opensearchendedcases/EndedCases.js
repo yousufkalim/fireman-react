@@ -1,11 +1,23 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTranslation, Trans } from "react-i18next";
-const EndedCases = ({endedcases}) => {
+import api from '../../../../api/index';
 
-  
+const EndedCases = () => {
+    const [endedcases, setendedcases] = useState([]);
+  useEffect(() => {
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
+      (res) => {
+        console.log(res);
+        setendedcases(res);
+      }
+    );
+  }, []);
+     console.log(endedcases);
     const { t, i18n } = useTranslation();
     const [sortModel, setSortModel] = React.useState([
         {

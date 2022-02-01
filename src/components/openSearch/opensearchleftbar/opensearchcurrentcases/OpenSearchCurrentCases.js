@@ -6,13 +6,24 @@ import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
 import { useTranslation, Trans } from "react-i18next";
-const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
+const EstablishmentSearchCurrentCases = () => {
   const [folderCreationData, setFolderCreationData] = useState([]);
+  const [currentcasesData, setcurrentcasesData] = useState([]);
   const [indexdata, setIndexdata] = useState({
     sectionindex: "",
     tabindex: "",
     establishmentId:""
   });
+  useEffect(() => {
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/1`).then(
+      (res) => {
+        setcurrentcasesData(res);
+      }
+    );
+  }, []);
+  
   const { t, i18n } = useTranslation();
   const [CompName, setCompName] = useState("");
   const [sortModel, setSortModel] = React.useState([
@@ -65,7 +76,7 @@ const EstablishmentSearchCurrentCases = ({ currentcasesData }) => {
         color: "#8D919D" },
       
   ];
-  console.log(currentcasesData);
+  
   const onRowClick = (params) => {
     updatestore({
       establishmentId: params.row.val.establishmentId,

@@ -49,7 +49,7 @@ const onRowClick =(data, event)=>{
  updatestore({
    establishmentId:data.id,
    establishmentname:data.row.nom,
-   activeCase:"newcase"
+   activeCase:"newcase",
 })
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");

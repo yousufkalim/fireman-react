@@ -37,7 +37,7 @@ const Body = () => {
     <> 
     <NavbarNew />
     <>     
-    <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile" ? "mainhome":""}>
+    <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ||  store.activeNavbarTab == "profile" ? "mainhome":""}>
      
       <Grid item xs={12} sx={{ background: "aliceblue" }}>
      
@@ -75,7 +75,7 @@ const Body = () => {
           {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
           {store.activeNavbarTab===2?  <Implantation/>:null}
           {store.activeNavbarTab===10?  <Dashboard/>:null}
-          {store.activeNavbarTab==="multimedia"? <OpenSearchNewCases/>:null}
+          // {store.activeNavbarTab==="multimedia"? <OpenSearchNewCases/>:null}
           {store.activeNavbarTab==="termine"|| store.activeNavbarTab===0? <FolderCreationSection/>:null}
           {store.activeNavbarTab==="newcases"? <EndedCases endedcases={responseData} />:null}
         </Grid>
@@ -99,8 +99,10 @@ const Body = () => {
                 {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
                 {store.activeNavbarTab===2?  <Implantation/>:null}
           {store.activeNavbarTab===0 || store.activeNavbarTab==="termine"? <FolderCreationContainer/>:null}
-          {store.activeNavbarTab==="multimedia"? <OpenSearchNewCases/>:null}
+          {store.activeNavbarTab==="searchestablishment"? <OpenSearchNewCases/>:null}
+          {store.activeNavbarTab==="multimedia"? "En cours de développement":null}
           {store.activeNavbarTab==="newcases"? <EndedCases endedcases={responseData} />:null}
+          {store.activeNavbarTab==="annuaire"? "En cours de développement" :null}
                 </Grid>
                 <Grid item xs={3}>
                   <RightBarTab />

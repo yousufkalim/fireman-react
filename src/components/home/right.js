@@ -92,7 +92,7 @@ const HomeRight = () => {
             </div>
 
             <div style={{ marginTop: "30px" }} className="accueilHome_right_bottom">
-                <div onClick={()=>{update({activeNavbarTab:"multimedia"})}} className="allonys">
+                <div onClick={()=>{update({activeNavbarTab:"searchestablishment"})}} className="allonys">
                     <img style={{ marginLeft: "50px" }} src={Cours4} />
                     <div className="text">UN NOUVEAU DOSSIER ? C’EST PARTI !</div>
                 </div>

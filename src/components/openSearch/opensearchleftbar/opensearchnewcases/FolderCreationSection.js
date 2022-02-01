@@ -81,6 +81,7 @@ const FolderCreationSection = ({
   useEffect(() => {
      console.log(CompName);
      console.log(compShow);
+     console.log(">>>>>>>>>>>>>>",store);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -620,7 +621,7 @@ const FolderCreationSection = ({
                   Studydata={Studydata}
                   townplanningValues={dropdownValue.townplanningValues}
                   setstate={setstate}
-                  currentcasescaseFileId={dropdownValue.foldercreationvalues}
+                  currentcasescaseFileId={dropdownValue?.foldercreationvalues}
                   state={state}
                   Toggler={Toggler}
                   setToggler={setToggler}
@@ -684,7 +685,7 @@ const FolderCreationSection = ({
                       checkboxObj={checkboxObj}
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
-                      currentcasescaseFileId={dropdownValue.foldercreationvalues.data.caseFileId}
+                      currentcasescaseFileId={dropdownValue?.foldercreationvalues?.data?.caseFileId}
                       Toggler={Toggler}
                       setToggler={setToggler}
                       setIcon={setIcon}
