@@ -82,7 +82,7 @@ const EstablishmentSearchVisitForm = ({
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
         sectionType: sectiontype,
       };
-      if ((CompName || store.activeNavbarTab===0) && sectiontype===1) {
+      if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
             ...pre,
@@ -99,12 +99,12 @@ const EstablishmentSearchVisitForm = ({
           };
         });
       }
-      if (compShow) {
+      if (store.activeCase==="newcase") {
         setCheckboxObj((pre) => [...pre, obj]);
       }
     }
     if (!checked) {
-      if ((CompName || store.activeNavbarTab===0) && sectiontype===1) {
+      if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
             ...pre,
@@ -116,7 +116,7 @@ const EstablishmentSearchVisitForm = ({
           };
         });
       }
-      if (compShow) {
+      if (store.activeCase==="newcase") {
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
@@ -130,6 +130,7 @@ const EstablishmentSearchVisitForm = ({
     console.log("}{}{}",checkboxObj);
     if (store.activeCase==="newcase") {
       console.log("newcses");
+      console.log("checkbox", checkboxObj);
       api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
         .then((res) => {
           {
@@ -152,6 +153,7 @@ const EstablishmentSearchVisitForm = ({
         .catch((err) => toast.error(err?.statusText));
     }
     if (store.activeCase  === "currentcases") {
+      console.log(state.visitcheck,"current");
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
         caseFileId:currentcasescaseFileId,
         sectionType:1

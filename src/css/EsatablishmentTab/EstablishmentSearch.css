@@ -36,6 +36,7 @@
 .flex-form input[type="search"] {
      border-radius: 10px;
   background-color: aliceblue;
+  padding: 0px 7px;
 }
 .flex-form input[type="email"] {
   border-radius: 10px;
@@ -49,6 +50,7 @@ background-color: aliceblue;
   border-radius: 10px;
   background-color: aliceblue;
   height: 37px;
+  padding: 0px 5px;
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -63,6 +65,7 @@ background-color: aliceblue;
 .dropdown {
   border-radius: 10px;
   background-color: aliceblue;
+  padding: 0px 7px;
 }
 
 

@@ -56,19 +56,19 @@ const FolderCreationSection = ({
   });
   const [Toggler, setToggler] = useState({
     togglermain: store.activeCase==="newcase"? true : false,
-    togglerstudy: store.activeCase==="newcase"  || store?.sectionindex === 1 ? true : false,
-    togglerstudytwo: store.activeCase==="newcase" || compShow || store?.sectionindex === 1  || store?.sectionindex === 2? true: false,
-    togglervisit: store.activeCase==="newcase" || store?.sectionindex === 1 ? true : false,
+    togglerstudy: store.activeCase==="newcase"  || (store?.sectionindex === 1 && store?.tabindex===1) ? true : false,
+    togglerstudytwo: store.activeCase==="newcase" || compShow || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===1) ? true: false,
+    togglervisit: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===1)? true : false,
   });
   const [Icon, setIcon] = useState({
     iconmain:
     store.activeCase === "currentcases"? true: false,
     iconstudy:
-      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3)? true: false,
+      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3 || store.tabindex===2)? true: false,
     iconstudytwo:
-      store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2? true: false,
     iconvisit:
-      store.activeCase === "currentcases" && store?.sectionindex === 3? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
         townplanningbutton:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
@@ -81,6 +81,7 @@ const FolderCreationSection = ({
   useEffect(() => {
      console.log(CompName);
      console.log(compShow);
+     console.log(">>>>>>>>>>>>>>",store);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -296,7 +297,11 @@ const FolderCreationSection = ({
         studyTypeId:
           inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
       };
-      api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
+     
+      if(store.activeCase==="newcase"){
+        console.log("post");
+        console.log("formdata",formdata);
+        api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
           updatestore({ caseFileId: res.data });
           setInputValues((preVal) => {
@@ -329,24 +334,31 @@ const FolderCreationSection = ({
           });
         })
         .catch((err) => toast.error(err?.statusText));
+      }
     }
     ////////////for current cases update//////////
-
-    if (currentcasescaseFileId) {
+     console.log(store);
+    if(store.activeCase === "currentcases") {
+      console.log(inputValues.studyTypeId);
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
       const updatedObj = {
-        caseFileId: currentcasescaseFileId,
-        caseTypeId: currentcasescaseTypeId,
-        commisionTypeId: currentcasescommisionTypeId,
-        visitTypeId: currentcasesvisitTypeId,
+        caseFileId: store.caseFileId,
+        caseTypeId: inputValues.caseTypeId,
+        commisionTypeId: inputValues.commisionTypeId,
+        visitTypeId:
+          inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
+        studyTypeId:
+          inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
         commisionDate: inputValues.commisionDate
           ? inputValues.commisionDate
           : currentcasescommisionDate,
       };
       console.log("updatedObj",updatedObj);
+      
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
+          console.log(res,"fcghv");
           setInputValues((preVal) => {
             return {
               ...preVal,
@@ -370,6 +382,7 @@ const FolderCreationSection = ({
         .catch((err) => {
           console.log("updateerr", err);
         });
+      
     }
   };
 
@@ -620,7 +633,7 @@ const FolderCreationSection = ({
                   Studydata={Studydata}
                   townplanningValues={dropdownValue.townplanningValues}
                   setstate={setstate}
-                  currentcasescaseFileId={dropdownValue.foldercreationvalues}
+                  currentcasescaseFileId={dropdownValue?.foldercreationvalues}
                   state={state}
                   Toggler={Toggler}
                   setToggler={setToggler}
@@ -684,7 +697,7 @@ const FolderCreationSection = ({
                       checkboxObj={checkboxObj}
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
-                      currentcasescaseFileId={dropdownValue.foldercreationvalues.data.caseFileId}
+                      currentcasescaseFileId={dropdownValue?.foldercreationvalues?.data?.caseFileId}
                       Toggler={Toggler}
                       setToggler={setToggler}
                       setIcon={setIcon}

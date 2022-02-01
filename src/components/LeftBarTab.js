@@ -159,7 +159,7 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
     },
     {
       id: "team",
-      text: "Team Management",
+      text: "TEAM MANAGMENT",
       icon: <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9991 7.08198L31 12.1068L30.9711 19.688C30.9711 20.452 30.6533 21.216 29.9021 21.8037L18.0857 31.1481C16.6701 32.2647 14.4166 32.2941 13.0587 31.2069L1.06897 21.745C0.404473 21.216 0.0866729 20.5108 0.0577819 19.835L0 11.9011L12.972 7.11136C14.6477 6.52367 16.3812 6.43551 17.9991 7.08198Z" fill="#68778A"/>
       <path fill-rule="evenodd" clip-rule="evenodd" d="M18.0858 23.5075C16.6702 24.6241 14.4167 24.6535 13.0588 23.5662L2.36914 15.1328L2.42692 19.7756C2.45581 19.805 2.4847 19.8344 2.5136 19.8638L14.4744 29.2963C15.0234 29.7077 16.0923 29.6489 16.6413 29.2375L28.4577 19.9225C28.5443 19.8638 28.631 19.7756 28.631 19.6581L28.6599 15.1328L18.0858 23.5075Z" fill="#F5F9FD"/>
@@ -183,13 +183,13 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
       );
     }
     if (activelefttab === "newcases") {
-      let userId = localStorage.getItem("userData");
-      userId = JSON.parse(userId);
-      api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
-        (res) => {
-          getResponse(res);
-        }
-      );
+      // let userId = localStorage.getItem("userData");
+      // userId = JSON.parse(userId);
+      // api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
+      //   (res) => {
+      //     getResponse(res);
+      //   }
+      // );
     }
   };
   const store = Store()
