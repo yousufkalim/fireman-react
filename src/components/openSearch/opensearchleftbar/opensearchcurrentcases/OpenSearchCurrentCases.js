@@ -6,6 +6,7 @@ import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
 import { useTranslation, Trans } from "react-i18next";
+import moment from "moment";
 const EstablishmentSearchCurrentCases = () => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
@@ -14,6 +15,7 @@ const EstablishmentSearchCurrentCases = () => {
     tabindex: "",
     establishmentId:""
   });
+  const [pageSize, setPageSize] = React.useState(25);
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
@@ -36,13 +38,18 @@ const EstablishmentSearchCurrentCases = () => {
   const column = [
     {
       field: "typeref",
-      headerName: "Type Ref",
+      headerName: "Type",
       minWidth: 120,
       color: "#8D919D",
     },
+    { 
+      field: "refNum", 
+      headerName: `${t("REF #")}`, 
+      minWidth: 100, 
+      color: "#8D919D" },
     {
       field: "commisionName",
-      headerName: "Commision",
+      headerName: "Commission",
       minWidth: 150,
       color: "#8D919D",
     },
@@ -68,13 +75,7 @@ const EstablishmentSearchCurrentCases = () => {
       field: "state", 
       headerName: `${t("State")}`, 
       minWidth: 100, 
-      color: "#8D919D" },
-      { 
-        field: "refNum", 
-        headerName: `${t("refNum")}`, 
-        minWidth: 100, 
-        color: "#8D919D" },
-      
+      color: "#8D919D" },    
   ];
   
   const onRowClick = (params) => {
@@ -87,7 +88,7 @@ const EstablishmentSearchCurrentCases = () => {
     });
     setCompName("currentcases");
 
-    if (params.row.val.tabIndex === 1 &&  params.row.val.sectionIndex===3) {
+    if ((params.row.val.tabIndex === 1   &&  params.row.val.sectionIndex===3) || params.row.val.tabIndex === 2) {
 
       updatestore({
         activeNavbarTab: 1,
@@ -122,6 +123,7 @@ const EstablishmentSearchCurrentCases = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  console.log(">>>>>>",currentcasesData);
   return (
     <>
       {folderCreationData.length !== 0 ? (
@@ -146,6 +148,10 @@ const EstablishmentSearchCurrentCases = () => {
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
               sx={{ border: "none" }}
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[25, 50, 100]}
+               pagination
               onCellClick={(params, event) => onRowClick(params, event)}
               sortModel={sortModel}
               onSortModelChange={(model) => setSortModel(model)}
@@ -156,9 +162,9 @@ const EstablishmentSearchCurrentCases = () => {
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
                 id: val.caseFileId,
-                typeref: val.caseTypeName,
+                typeref:  `${val.caseTypeName}`,
                 commisionName: val.commisionName,
-                commisionDate: val.commisionDate,
+                commisionDate: moment(val.commisionDate, "YYYY-MM-DD").format("DD-MM-YYYY"),
                 establishmentName: val.establishmentName,
                 cityName: val.cityName,
                 state: val.state,

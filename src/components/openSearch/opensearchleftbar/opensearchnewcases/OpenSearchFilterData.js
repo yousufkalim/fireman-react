@@ -35,7 +35,6 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
    { field: "statut", headerName: `${t("Status")}`, minWidth: 160, color: "#8D919D"},
    { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},
    { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"},
-   { field: "refnum", headerName: "refnum", minWidth: 140, color: "#8D919D"}
   ]
   const [sortModel, setSortModel] = React.useState([
     {
@@ -50,6 +49,7 @@ const onRowClick =(data, event)=>{
    establishmentId:data.id,
    establishmentname:data.row.nom,
    activeCase:"newcase",
+
 })
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");

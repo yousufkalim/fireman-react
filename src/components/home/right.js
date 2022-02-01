@@ -17,7 +17,7 @@ import api from "../../api/index"
 
 
 const HomeRight = () => {
-    let [box, setBox] = useState(true)
+    let [box, setBox] = useState(false)
     const update = UpdateStore();
     let history = useHistory();
 
@@ -45,7 +45,7 @@ const HomeRight = () => {
                                 <p className="vertical_text">DOSSIERS EN COURS</p>
                                 <div class="vl"></div>
                             </div>
-                            <div onMouseLeave={() => { setBox(true) }} className="hoverbox" >
+                            <div onMouseLeave={() => { setBox(false) }} className="hoverbox" >
 
                                 {projects && projects.map((data) => {
                                     return (
@@ -77,7 +77,7 @@ const HomeRight = () => {
                                 <p className="vertical_text">AU COEUR DE L’ACTION </p>
                                 <div class="vl"></div>
                             </div>
-                            <div onMouseEnter={() => { setBox(true) }} className="cours">
+                            <div onMouseEnter={() => { setBox(true); console.log("hovered"); }} className="cours">
                                 <div className="coursimages">
                                     <img style={{ display: "block", marginBottom: "10px" }} src={Cours2} />
                                     <img src={Cours1} />

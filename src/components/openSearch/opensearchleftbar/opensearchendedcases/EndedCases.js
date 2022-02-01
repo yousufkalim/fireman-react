@@ -4,9 +4,10 @@ import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTranslation, Trans } from "react-i18next";
 import api from '../../../../api/index';
-
+import moment from "moment";
 const EndedCases = () => {
     const [endedcases, setendedcases] = useState([]);
+    const [pageSize, setPageSize] = React.useState(25);
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
@@ -29,13 +30,17 @@ const EndedCases = () => {
     const column = [
         {
           field: "typeref",
-          headerName: "Type Ref",
-          minWidth: 120,
+          headerName: "Type",
           color: "#8D919D",
         },
+        { 
+          field: "refNum", 
+          headerName: `${t("REF #")}`, 
+          minWidth: 100, 
+          color: "#8D919D" },
         {
           field: "commisionName",
-          headerName: "Commision",
+          headerName: "Commission",
           minWidth: 150,
           color: "#8D919D",
         },
@@ -62,11 +67,7 @@ const EndedCases = () => {
           headerName: `${t("State")}`, 
           minWidth: 100, 
           color: "#8D919D" },
-          { 
-            field: "refNum", 
-            headerName: `${t("refNum")}`, 
-            minWidth: 100, 
-            color: "#8D919D" },
+          
           
       ];
       const Item = styled(Paper)(({ theme }) => ({
@@ -86,6 +87,10 @@ const EndedCases = () => {
         >
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[25, 50, 100]}
+             pagination
               sx={{ border: "none" }}
               sortModel={sortModel}
               onSortModelChange={(model) => setSortModel(model)}
@@ -98,7 +103,7 @@ const EndedCases = () => {
                 id: val.caseFileId,
                 typeref: val.caseTypeName,
                 commisionName: val.commisionName,
-                commisionDate: val.commisionDate,
+                commisionDate: moment(val.commisionDate, "YYYY-MM-DD").format("DD-MM-YYYY"),
                 establishmentName: val.establishmentName,
                 cityName: val.cityName,
                 state: val.state,

@@ -37,12 +37,12 @@ const Body = () => {
     <> 
     <NavbarNew />
     <>     
-    <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ||  store.activeNavbarTab == "profile" ? "mainhome":""}>
+    <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ||  store.activeNavbarTab == "profile"? "mainhome":""}>
      
       <Grid item xs={12} sx={{ background: "aliceblue" }}>
      
       {
-        store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile" ?
+        store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile"?
         <>
         <br />
         <br />
@@ -50,7 +50,7 @@ const Body = () => {
         <br />
       </>
           :
-            <ActiveTabHeader />
+     <ActiveTabHeader />
       }
           </Grid>
       <Grid

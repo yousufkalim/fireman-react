@@ -216,7 +216,7 @@ i18n
             "Pour quel établissement le dossier va-t-il être créé ?",
           "Status": "Statut",
           "Name": "Nom",
-          "Type Classification": "Classification",
+          "Type Classification": "Classement Type",
           "City": "Commune",
           "CAT Ranking": "Classement CAT",
           "Streel/Avenue": "Rue/Avenue",
