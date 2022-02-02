@@ -75,10 +75,12 @@ const CreateHistoricalData = ({
     }));
     //////for new cases
     if (store.activeCase === "newcase") {
+      console.log("newarr",newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
+              console.log("dfxgchvjb",res);
               setToggler((pre) => {
                 return {
                   ...pre,
@@ -98,11 +100,11 @@ const CreateHistoricalData = ({
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", val.historicalEventid);
               form_data.append("HistoricalEventFilesId", "0");
-
+                     console.log("form_data",form_data);
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
-                    console.log("success");
+                    console.log("success", res);
                   })
                   .catch((err) => console.log(err));
               }
@@ -341,7 +343,7 @@ const CreateHistoricalData = ({
                                           <Field
                                             className="date-field"
                                             type="date"
-                                            name={`repeatable.${i}.dateEvent`}
+                                            name={`repeatable.${i}.histDate`}
                                             defaultValue={r && r?.histDate}
                                           />
                                         </div>
