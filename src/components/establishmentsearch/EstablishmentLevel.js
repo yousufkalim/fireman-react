@@ -69,6 +69,7 @@ const EstablishmentLevel = ({
       caseFileId:casefileId
     };
     if (store.activeCase === "newcase") {
+      console.log("obj", obj);
       api("post", "/api/v1/create_description_data", obj).then((res) => {
         {
           toast.success(t("Successfull"));

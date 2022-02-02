@@ -96,9 +96,10 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
+              console.log(res.data,"<>><><>/");
               let form_data = new FormData();
               form_data.append("docFile", val.image);
-              form_data.append("historicalEventid", val.historicalEventid);
+              form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
                      console.log("form_data",form_data);
               if (val.image) {
@@ -115,6 +116,7 @@ const CreateHistoricalData = ({
     }
     //////for currentcases
     if (store.activeCase === "currentcases") {
+      console.log(newarr,"current");
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("put", "/api/v1/update_historicaldata_establishment", val)
@@ -134,11 +136,13 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
+              console.log("val.image",val.image);
               let form_data = new FormData();
               form_data.append("docFile", val.image);
-              form_data.append("historicalEventid", val.historicalEventid);
+              form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-              if (val.image) {
+              if (val.image!==undefined) {
+                alert("hit")
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
                     {
@@ -1267,6 +1271,7 @@ const CreateHistoricalData = ({
                     historicalOpinionId: val.historicalOpinionId,
                     urbanPlanningRef: val.urbanPlanningRef,
                     historicalEventId: val.historicalEventId,
+                    filesData: val.filesData,
                     details: val.details,
                   })),
                 }}
