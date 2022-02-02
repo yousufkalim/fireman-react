@@ -16,7 +16,7 @@ import { useTranslation, Trans } from "react-i18next";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -154,6 +154,7 @@ const CreateHistoricalData = ({
     const photo = values.repeatable.map((object) => object.image);
   };
   const store = Store();
+
   return (
     <>
       <Box
@@ -1169,7 +1170,12 @@ const CreateHistoricalData = ({
                                         </div>
                                       </th>
                                       <th>
-                                        <Box sx={{ display: "flex", width:"450px" }}>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            width: "450px",
+                                          }}
+                                        >
                                           <input
                                             className="field-width img-field"
                                             name={`repeatable.${i}.image`}
@@ -1181,23 +1187,36 @@ const CreateHistoricalData = ({
                                               );
                                             }}
                                           />
-                                          
-                                           <Grid sx={{justifyContent:"center"}} container spacing={2}>
-                                           {r?.filesData?.map((val) => (
-                                            <>
-                                             <Grid sx={{padding:"5px", }} xs={8}>
-                                            <a href={val.fileURL}>
-                                                {val.fileName}
-                                              </a>
-                                          
+
+                                          <Grid
+                                            sx={{ justifyContent: "center" }}
+                                            container
+                                            spacing={2}
+                                          >
+                                            {r?.filesData?.map((val) => (
+                                              <>
+                                                <Grid
+                                                  sx={{ padding: "5px" }}
+                                                  xs={8}
+                                                >
+                                                  <span
+                                                    onClick={() => {
+                                                      api(
+                                                        "get",
+                                                        `/api/v1/download_historicaldata_file/http://160.153.249.64:6163/api/v1/download_historicaldata_file/D%3A%5CProjects%5CFireMan%5CFireManAPI%5Cwwwroot%5CFiles%5CEventFiles%5Cfc00e909-2941-4caa-a545-b39330732120_2021%2011%20Page%20Etablissement.pdf`
+                                                      ).then((res) => {
+                                                        console.log(res);
+                                                      });
+                                                    }}
+                                                    href={val.fileURL}
+                                                  >
+                                                    {val.fileName}
+                                                  </span>
+                                                </Grid>
+                                              </>
+                                            ))}
                                           </Grid>
-                                             
-                                            </>
-                                          ))}
-                                        </Grid>
-                                          
                                         </Box>
-                                       
                                       </th>
                                     </tr>
                                   </Box>
@@ -2035,7 +2054,12 @@ const CreateHistoricalData = ({
                                         />
                                       </th>
                                       <th>
-                                      <Box sx={{ display: "flex", width:"450px" }}>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            width: "450px",
+                                          }}
+                                        >
                                           <input
                                             className="field-width img-field"
                                             name={`repeatable.${i}.image`}
@@ -2047,21 +2071,35 @@ const CreateHistoricalData = ({
                                               );
                                             }}
                                           />
-                                          
-                                           <Grid sx={{justifyContent:"center"}} container spacing={2}>
-                                           {r?.filesData?.map((val) => (
-                                            <>
-                                             <Grid sx={{padding:"5px", }} xs={8}>
-                                            <a href={val.fileURL}>
-                                                {val.fileName}
-                                              </a>
-                                          
+
+                                          <Grid
+                                            sx={{ justifyContent: "center" }}
+                                            container
+                                            spacing={2}
+                                          >
+                                            {r?.filesData?.map((val) => (
+                                              <>
+                                                <Grid
+                                                  sx={{ padding: "5px" }}
+                                                  xs={8}
+                                                >
+                                                  <span
+                                                    onClick={() => {
+                                                      api(
+                                                        "get",
+                                                        `/api/v1/download_historicaldata_file/${val.fileURL}`
+                                                      ).then((res) => {
+                                                        console.log(res);
+                                                      });
+                                                    }}
+                                                    href={val.fileURL}
+                                                  >
+                                                    {val.fileName}
+                                                  </span>
+                                                </Grid>
+                                              </>
+                                            ))}
                                           </Grid>
-                                             
-                                            </>
-                                          ))}
-                                        </Grid>
-                                          
                                         </Box>
                                       </th>
                                     </tr>

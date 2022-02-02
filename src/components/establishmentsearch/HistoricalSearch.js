@@ -240,12 +240,18 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           }
           setToggler((pre) => {
             return {
+              ...pre,
               togglerhistoricalsearch: false,
-              createhistoricaldata: true,
-              togglervisit: true,
-              togglerstudytwo: true,
             };
           });
+          // setToggler((pre) => {
+          //   return {
+          //     togglerhistoricalsearch: false,
+          //     createhistoricaldata: true,
+          //     togglervisit: true,
+          //     togglerstudytwo: true,
+          //   };
+          // });
           setIcon((pre) => {
             return {
               ...pre,
