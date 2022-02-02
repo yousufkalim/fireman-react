@@ -12,9 +12,12 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 ;import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/Vector.png"
+import Site from "../assets/site.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'
 import { Store } from "../StoreContext";
+import moment from "moment";
+import 'moment/locale/fr'
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -123,21 +126,43 @@ console.log(store);
         position="static"
       >
         <Toolbar>
-        <div className="dashboard_logo">    
-        <img width="40px" src={Vector} />
+        <div className="dashboard_logo">
+          {
+             store.activeNavbarTab=="termine"?
+             <img width="166px" src={Site} />
+             :
+             <img width="40px" src={Vector} />
+
+          }    
         </div>
-            <div className="nav_headings">
-            <p>Visite périodique</p>
-            <p style={{fontWeight:"500"}} >La Grande Recre</p>
-            <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
-          </div>
+        {
+           store.activeNavbarTab == "profile"  ?
+           ""
+           :
+           store.activeNavbarTab=="termine"?
+           ""
+           :
+           <div className="nav_headings">
+           <p>Visite périodique</p>
+           <p style={{fontWeight:"500"}} >La Grande Recre</p>
+           <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
+         </div>
+
+        }
+           
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-          <Button variant="outlined"  onClick={() =>
+            {
+              store.activeNavbarTab=="termine" ?
+              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+              :
+              <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
+            }
+        
           </Box>
           <div className="bellIcon" style={{display:"flex"}}>
             <IconButton
