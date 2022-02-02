@@ -16,7 +16,7 @@ import { useTranslation, Trans } from "react-i18next";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -75,10 +75,12 @@ const CreateHistoricalData = ({
     }));
     //////for new cases
     if (store.activeCase === "newcase") {
+      console.log("newarr",newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
+              console.log("dfxgchvjb",res);
               setToggler((pre) => {
                 return {
                   ...pre,
@@ -94,15 +96,16 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
+              console.log(res.data,"<>><><>/");
               let form_data = new FormData();
               form_data.append("docFile", val.image);
-              form_data.append("historicalEventid", val.historicalEventid);
+              form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-
+                     console.log("form_data",form_data);
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
-                    console.log("success");
+                    console.log("success", res);
                   })
                   .catch((err) => console.log(err));
               }
@@ -113,6 +116,7 @@ const CreateHistoricalData = ({
     }
     //////for currentcases
     if (store.activeCase === "currentcases") {
+      console.log(newarr,"current");
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("put", "/api/v1/update_historicaldata_establishment", val)
@@ -132,11 +136,13 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
+              console.log("val.image",val.image);
               let form_data = new FormData();
               form_data.append("docFile", val.image);
-              form_data.append("historicalEventid", val.historicalEventid);
+              form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-              if (val.image) {
+              if (val.image!==undefined) {
+                alert("hit")
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
                     {
@@ -154,6 +160,7 @@ const CreateHistoricalData = ({
     const photo = values.repeatable.map((object) => object.image);
   };
   const store = Store();
+
   return (
     <>
       <Box
@@ -340,7 +347,7 @@ const CreateHistoricalData = ({
                                           <Field
                                             className="date-field"
                                             type="date"
-                                            name={`repeatable.${i}.dateEvent`}
+                                            name={`repeatable.${i}.histDate`}
                                             defaultValue={r && r?.histDate}
                                           />
                                         </div>
@@ -1169,7 +1176,12 @@ const CreateHistoricalData = ({
                                         </div>
                                       </th>
                                       <th>
-                                        <Box sx={{ display: "flex", width:"450px" }}>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            width: "450px",
+                                          }}
+                                        >
                                           <input
                                             className="field-width img-field"
                                             name={`repeatable.${i}.image`}
@@ -1181,23 +1193,36 @@ const CreateHistoricalData = ({
                                               );
                                             }}
                                           />
-                                          
-                                           <Grid sx={{justifyContent:"center"}} container spacing={2}>
-                                           {r?.filesData?.map((val) => (
-                                            <>
-                                             <Grid sx={{padding:"5px", }} xs={8}>
-                                            <a href={val.fileURL}>
-                                                {val.fileName}
-                                              </a>
-                                          
+
+                                          <Grid
+                                            sx={{ justifyContent: "center" }}
+                                            container
+                                            spacing={2}
+                                          >
+                                            {r?.filesData?.map((val) => (
+                                              <>
+                                                <Grid
+                                                  sx={{ padding: "5px" }}
+                                                  xs={8}
+                                                >
+                                                  <span
+                                                    onClick={() => {
+                                                      api(
+                                                        "get",
+                                                        `/api/v1/download_historicaldata_file/http://160.153.249.64:6163/api/v1/download_historicaldata_file/D%3A%5CProjects%5CFireMan%5CFireManAPI%5Cwwwroot%5CFiles%5CEventFiles%5Cfc00e909-2941-4caa-a545-b39330732120_2021%2011%20Page%20Etablissement.pdf`
+                                                      ).then((res) => {
+                                                        console.log(res);
+                                                      });
+                                                    }}
+                                                    href={val.fileURL}
+                                                  >
+                                                    {val.fileName}
+                                                  </span>
+                                                </Grid>
+                                              </>
+                                            ))}
                                           </Grid>
-                                             
-                                            </>
-                                          ))}
-                                        </Grid>
-                                          
                                         </Box>
-                                       
                                       </th>
                                     </tr>
                                   </Box>
@@ -1246,6 +1271,7 @@ const CreateHistoricalData = ({
                     historicalOpinionId: val.historicalOpinionId,
                     urbanPlanningRef: val.urbanPlanningRef,
                     historicalEventId: val.historicalEventId,
+                    filesData: val.filesData,
                     details: val.details,
                   })),
                 }}
@@ -2035,7 +2061,12 @@ const CreateHistoricalData = ({
                                         />
                                       </th>
                                       <th>
-                                      <Box sx={{ display: "flex", width:"450px" }}>
+                                        <Box
+                                          sx={{
+                                            display: "flex",
+                                            width: "450px",
+                                          }}
+                                        >
                                           <input
                                             className="field-width img-field"
                                             name={`repeatable.${i}.image`}
@@ -2047,21 +2078,35 @@ const CreateHistoricalData = ({
                                               );
                                             }}
                                           />
-                                          
-                                           <Grid sx={{justifyContent:"center"}} container spacing={2}>
-                                           {r?.filesData?.map((val) => (
-                                            <>
-                                             <Grid sx={{padding:"5px", }} xs={8}>
-                                            <a href={val.fileURL}>
-                                                {val.fileName}
-                                              </a>
-                                          
+
+                                          <Grid
+                                            sx={{ justifyContent: "center" }}
+                                            container
+                                            spacing={2}
+                                          >
+                                            {r?.filesData?.map((val) => (
+                                              <>
+                                                <Grid
+                                                  sx={{ padding: "5px" }}
+                                                  xs={8}
+                                                >
+                                                  <span
+                                                    onClick={() => {
+                                                      api(
+                                                        "get",
+                                                        `/api/v1/download_historicaldata_file/${val.fileURL}`
+                                                      ).then((res) => {
+                                                        console.log(res);
+                                                      });
+                                                    }}
+                                                    href={val.fileURL}
+                                                  >
+                                                    {val.fileName}
+                                                  </span>
+                                                </Grid>
+                                              </>
+                                            ))}
                                           </Grid>
-                                             
-                                            </>
-                                          ))}
-                                        </Grid>
-                                          
                                         </Box>
                                       </th>
                                     </tr>

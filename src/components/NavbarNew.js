@@ -14,6 +14,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import Vector from "../assets/Vector.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'
+import { Store } from "../StoreContext";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,6 +25,7 @@ export default function Navbar() {
   const update = UpdateStore()
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let user = localStorage.getItem("user");
+  const store = Store();
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -109,7 +111,7 @@ export default function Navbar() {
       </MenuItem>
     </Menu>
   );
-
+console.log(store);
   return (
     <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
       <AppBar
@@ -124,7 +126,7 @@ export default function Navbar() {
         <div className="dashboard_logo">    
         <img width="40px" src={Vector} />
         </div>
-          <div className="nav_headings">
+            <div className="nav_headings">
             <p>Visite périodique</p>
             <p style={{fontWeight:"500"}} >La Grande Recre</p>
             <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>

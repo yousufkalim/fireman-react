@@ -28,19 +28,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 const HistoricalSearch = ({ generalDataEstablishment }) => {
   const { t, i18n } = useTranslation();
+  const store = Store();
   const [Toggler, setToggler] = useState({
-    togglerhistoricalsearch: true,
-    createhistoricaldata: true,
-    establishmentlevel: true,
-    togglerstafflevel: true,
-    togglerranking: true,
+    togglerhistoricalsearch: store.activeCase==="newcase"  || (store?.sectionindex === 0 && store?.tabindex===2)? true: false,
+    createhistoricaldata: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===2)? true: false,
+    establishmentlevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===2) ? true: false,
+    togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2)? true: false,
+    togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2)? true: false,
   });
   const [Icon, setIcon] = useState({
-    iconhistoricalsearch: false,
-    createhistoricaldata: false,
-    establishmentlevel: false,
-    iconstafflevel: false,
-    iconranking: false,
+    iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) && store?.tabindex===2)? true: false,
+    createhistoricaldata: store.activeCase === "currentcases" && ((store.sectionindex===2 || store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&&store?.tabindex===2) ? true: false,
+    establishmentlevel: store.activeCase === "currentcases" && (( store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&&store?.tabindex===2) ? true:false,
+    iconstafflevel: store.activeCase === "currentcases" && (( store.sectionindex===4 || store.sectionindex===5) && store?.tabindex===2) ? true:false,
+    iconranking: store.activeCase === "currentcases" &&  store.sectionindex===5 && store?.tabindex===2 ? true:false,
   });
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
@@ -53,7 +54,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
   const [description, setDescription] = useState();
-  const store = Store();
+  
   const [inputValues, setInputValues] = useState({
     establishmentName: generalDataEstablishment.establishmentName
       ? generalDataEstablishment.establishmentName
@@ -201,6 +202,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       };
     });
   };
+  console.log(store);
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedObj = {
@@ -240,12 +242,18 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           }
           setToggler((pre) => {
             return {
+              ...pre,
               togglerhistoricalsearch: false,
-              createhistoricaldata: true,
-              togglervisit: true,
-              togglerstudytwo: true,
             };
           });
+          // setToggler((pre) => {
+          //   return {
+          //     togglerhistoricalsearch: false,
+          //     createhistoricaldata: true,
+          //     togglervisit: true,
+          //     togglerstudytwo: true,
+          //   };
+          // });
           setIcon((pre) => {
             return {
               ...pre,

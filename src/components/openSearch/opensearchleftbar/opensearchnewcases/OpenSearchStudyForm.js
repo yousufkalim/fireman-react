@@ -340,6 +340,7 @@ setstate((pre) => {
   };
 
   const handleSubmitdetailsobj = (e) => {
+    console.log(">?",state.studycheck);
     e.preventDefault();
     if (store.activeCase  === "currentcases") {
       api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.studycheck.length===0?([{
