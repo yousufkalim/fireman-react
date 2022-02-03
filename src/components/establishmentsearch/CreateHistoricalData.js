@@ -30,6 +30,8 @@ const CreateHistoricalData = ({
   setIcon,
   Icon,
   casefileId,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t } = useTranslation();
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
@@ -67,7 +69,7 @@ const CreateHistoricalData = ({
   const onSubmit = (values) => {
     const newarr = values.repeatable.map((object) => ({
       ...object,
-      historicalEventid: object.historicalEventId,
+      historicalEventid: object.historicalEventId?object.historicalEventId:0,
       establishmentId: establishmentid,
       dateEvent: object.histDate,
       caseFileId: casefileId,
@@ -78,9 +80,15 @@ const CreateHistoricalData = ({
       console.log("newarr",newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          api("post", "/api/v1/create_historicaldata_establishment", val)
+          api("put", "/api/v1/update_historicaldata_establishment", val)
             .then((res) => {
               console.log("dfxgchvjb",res);
+              setButtonEnability((pre)=>{
+                return{
+                  ...pre,
+                  establishmentlevelbutton:false
+                }
+              })
               setToggler((pre) => {
                 return {
                   ...pre,
@@ -208,6 +216,7 @@ const CreateHistoricalData = ({
               boxShadow: "none",
             }}
           >
+            {console.log(historicalDataEstablishment,"trdtyfg")}
             {store.activeCase === "newcase" ? (
               <Formik
                 onSubmit={(values) => onSubmit(values)}
@@ -1187,6 +1196,7 @@ const CreateHistoricalData = ({
                                             name={`repeatable.${i}.image`}
                                             type="file"
                                             onChange={(event) => {
+                                              alert("fgvh")
                                               setFieldValue(
                                                 `repeatable.${i}.image`,
                                                 event.target.files[0]
@@ -1241,6 +1251,7 @@ const CreateHistoricalData = ({
                     <Box sx={{ textAlign: "right", padding: "10px" }}>
                       <Button
                         type="submit"
+                        disabled={buttonEnability?.historicalsearchbutton}
                         endIcon={
                           <img className="icon-validate" src={Rightarrow} />
                         }
@@ -2072,6 +2083,7 @@ const CreateHistoricalData = ({
                                             name={`repeatable.${i}.image`}
                                             type="file"
                                             onChange={(event) => {
+                                              alert("fgvh")
                                               setFieldValue(
                                                 `repeatable.${i}.image`,
                                                 event.target.files[0]

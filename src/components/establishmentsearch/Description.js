@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -7,10 +7,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
+import { Store } from "../../StoreContext";
 import Rightarrow from "../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
-const Description = ({ values, onSubmit, description }) => {
+const Description = ({ values, onSubmit, description, buttonEnability }) => {
   const { t, i18n } = useTranslation();
+  const store = Store();
   const [inputValues, setInputValues] = useState({
     site: description?.siteDescription ? description?.siteDescription : "",
     establishmentdescription: description?.description
@@ -23,7 +25,21 @@ const Description = ({ values, onSubmit, description }) => {
       ? description?.moreEightMeter
       : "",
   });
-
+   useEffect(() => {
+    setInputValues({
+      site: description?.siteDescription ? description?.siteDescription : "",
+      establishmentdescription: description?.description
+        ? description?.description
+        : "",
+      lessEightMeter: description?.lessEightMeter
+        ? description?.lessEightMeter
+        : "",
+      moreEightMeter: description?.moreEightMeter
+        ? description?.moreEightMeter
+        : "",
+    })
+   }, [description]);
+   
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -47,6 +63,11 @@ const Description = ({ values, onSubmit, description }) => {
   const onSubmitFields = () => {
     onSubmit(values, inputValues);
   };
+  
+ 
+  
+  console.log("description",description);
+  console.log("values",values);
   return (
     <>
       <Box
@@ -69,7 +90,7 @@ const Description = ({ values, onSubmit, description }) => {
               aria-label="minimum height"
               minRows={3}
               name="site"
-              value={inputValues.site}
+              value={inputValues?.site}
               className="textarea-width"
               placeholder="Rappel: un site est un ensemble d’établissements isolés exploités par la même personne physique ou morale.
               Exemple: Lycée dont l’internat, l’externat, le gymnase et le restaurant scolaire sont des établissements isolés.
@@ -103,7 +124,7 @@ const Description = ({ values, onSubmit, description }) => {
               aria-label="minimum height"
               minRows={3}
               name="establishmentdescription"
-              value={inputValues.establishmentdescription}
+              value={inputValues?.establishmentdescription}
               placeholder="Décrire en quelques mots le statut, les activités et le type de bâtiment. Le texte apparaitra dans le rapport juste avant le descriptif.
               ETABLISSEMENT SIMPLE
               Ex: Il s’agit d’un EHPAD de 80 lits dans un bâtiment du type R+4. 
@@ -156,6 +177,7 @@ const Description = ({ values, onSubmit, description }) => {
           <Button
             type="submit"
             onClick={onSubmitFields}
+            disabled={buttonEnability?.establishmentlevelbutton}
             endIcon={<img className="icon-validate" src={Rightarrow} />}
             sx={{
               background: "#3675B7",

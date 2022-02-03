@@ -43,6 +43,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     iconstafflevel: store.activeCase === "currentcases" && (( store.sectionindex===4 || store.sectionindex===5) && store?.tabindex===2) ? true:false,
     iconranking: store.activeCase === "currentcases" &&  store.sectionindex===5 && store?.tabindex===2 ? true:false,
   });
+  const [buttonEnability, setButtonEnability] = useState({
+    historicalmainbutton:store.buttonenable? false:true,
+   historicalsearchbutton:true,
+   establishmentlevelbutton:true,
+   stafftablebutton:true,
+   Rankingbutton:true,
+});
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [dropdownValue, setdropdownValue] = useState({
@@ -50,10 +57,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     status: "",
     cityId: "",
   });
-  const [Values, setLevelData] = useState([]);
+  
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
-  const [description, setDescription] = useState();
+  
   
   const [inputValues, setInputValues] = useState({
     establishmentName: generalDataEstablishment.establishmentName
@@ -152,12 +159,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       })
     );
-    api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
-      (res) => {
-        setLevelData(res.data.levels);
-        setDescription(res.data.descriptions);
-      }
-    );
+    
     api(
       "get",
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
@@ -165,6 +167,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
+  console.log(store,"170");
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -213,6 +216,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (store.activeCase === "newcase") {
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
+          setButtonEnability((pre)=>{
+            return{
+              ...pre,
+              historicalsearchbutton:false
+            }
+          })
           {
             toast.success(t("Successfull"));
           }
@@ -478,6 +487,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   <Box sx={{ textAlign: "right" }}>
                     <Button
                       type="submit"
+                      disabled={buttonEnability?.historicalmainbutton}
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
                       }
@@ -504,16 +514,20 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
+        buttonEnability={buttonEnability} 
+        setButtonEnability={setButtonEnability}
       />
 
       <EstablishmentLevel
-        description={description}
-        Values={Values}
+        // description={description}
+        // Values={Values}
         setToggler={setToggler}
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
+        buttonEnability={buttonEnability} 
+        setButtonEnability={setButtonEnability}
       />
       <StaffLevel
         establishmentid={store.establishmentId}
@@ -522,6 +536,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
+        buttonEnability={buttonEnability} 
+        setButtonEnability={setButtonEnability}
       />
       <Ranking
         establishmentid={store.establishmentId}
@@ -530,6 +546,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
+        buttonEnability={buttonEnability} 
+        setButtonEnability={setButtonEnability}
       />
     </>
   );

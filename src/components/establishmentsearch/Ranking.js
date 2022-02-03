@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId }) => {
+const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId,buttonEnability}) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     rankingorder: "",
@@ -306,6 +306,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
+                disabled={buttonEnability?.Rankingbutton}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

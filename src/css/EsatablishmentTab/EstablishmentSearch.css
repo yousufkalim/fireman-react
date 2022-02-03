@@ -36,21 +36,28 @@
 .flex-form input[type="search"] {
      border-radius: 10px;
   background-color: aliceblue;
-  padding: 0px 7px;
+  padding: 5px 15px;
+  font-weight: 600;
 }
 .flex-form input[type="email"] {
   border-radius: 10px;
 background-color: aliceblue;
+padding: 5px 15px;
+font-weight: 600;
 }
 .flex-form input[type="number"] {
   border-radius: 10px;
 background-color: aliceblue;
+padding: 5px 15px;
+font-weight: 600;
 }
 .flex-form input[type="date"] {
   border-radius: 10px;
   background-color: aliceblue;
   height: 37px;
-  padding: 0px 5px;
+  padding: 5px 15px;
+  font-weight: 600;
+  font-size: 15px;
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -65,7 +72,9 @@ background-color: aliceblue;
 .dropdown {
   border-radius: 10px;
   background-color: aliceblue;
-  padding: 0px 7px;
+  padding: 5px 15px;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 
@@ -234,7 +243,7 @@ margin-top: 20px;
 
 }
 .establishment-nom-mobile-container{
-margin-top: 47px;
+margin-top: 57px;
 }
 .dropdown-historical{
 width: 15%;

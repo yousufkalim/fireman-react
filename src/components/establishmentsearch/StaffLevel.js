@@ -27,7 +27,9 @@ const StaffLevel = ({
   Toggler,
   setIcon,
   Icon,
-  casefileId
+  casefileId,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
@@ -99,12 +101,20 @@ const StaffLevel = ({
         staffInfo: parseInt(val.staffInfo),
         staffLevelId: parseInt(val.staffLevelId),
         staffLevelRuleId: parseInt(val.staffLevelRuleId),
-        tableOfStaffDetailsId: val.tableOfStaffDetailsId,
+        tableOfStaffDetailsId: val.tableOfStaffDetailsId?val.tableOfStaffDetailsId:0,
         caseFileId:casefileId?casefileId:0
       }));
     if (store.activeCase === "newcase") {
-      api("post", "/api/v1/create_establishment_stafftable", newArr)
+      console.log("stafftable", newArr);
+      api("put", "/api/v1/update_establishment_stafftable", newArr)
         .then((res) => {
+          console.log(res);
+          setButtonEnability((pre)=>{
+            return{
+             ...pre,
+             Rankingbutton:false
+            }
+          })
           {
             toast.success(t("Successfull"));
           }
@@ -691,6 +701,7 @@ const StaffLevel = ({
             </Box>
             <Box sx={{ textAlign: "right", padding: "10px" }}>
               <Button
+              disabled={buttonEnability?.stafftablebutton}
                 type="submit"
                 onClick={handleSubmit}
                 endIcon={<img className="icon-validate" src={Rightarrow} />}

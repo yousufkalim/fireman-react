@@ -463,7 +463,7 @@ setstate((pre) => {
                   <div className="flex-form">
                     <label className="label-color">{t("Date")}</label>
                     <input
-                      className="dropdown-townplanning"
+                      className="dropdown-townplanning townplanning-date-input"
                       onChange={handleChange}
                       name="townPlanningDate"
                       value={formValues?.townPlanningDate}
@@ -474,6 +474,7 @@ setstate((pre) => {
                   <div className="flex-form">
                     <label className="label-color">Réception service</label>
                     <input
+                    className="townplanning-date-input"
                       type="search"
                       onChange={handleChange}
                       name="receptionServiceDate"

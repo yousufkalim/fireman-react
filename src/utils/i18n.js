@@ -336,7 +336,7 @@ i18n
           //establishmenttab
           "Name Of Establishment Ref": "Nom de l'établissement",
           "City": "Commune",
-          "State": "Etat",
+          "State": "État",
           "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.":
             "Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe XX seront désormais liées à ce nouvel établissement.",
           "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group":

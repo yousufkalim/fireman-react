@@ -74,7 +74,7 @@ const EstablishmentSearchCurrentCases = () => {
     { 
       field: "state", 
       headerName: `${t("State")}`, 
-      minWidth: 100, 
+      minWidth: 150, 
       color: "#8D919D" },    
   ];
   
