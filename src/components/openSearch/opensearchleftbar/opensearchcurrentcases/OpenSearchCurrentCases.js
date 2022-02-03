@@ -84,7 +84,8 @@ const EstablishmentSearchCurrentCases = () => {
       caseFileId:params.row.val.caseFileId,
       activeCase: "currentcases",
       sectionindex: params.row.val.sectionIndex,
-      tabindex:params.row.val.tabIndex
+      tabindex:params.row.val.tabIndex,
+      catTab:true
     });
     setCompName("currentcases");
 

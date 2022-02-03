@@ -27,7 +27,8 @@ export function StoreProvider({ children }) {
     activeCase:"",
     caseFileId:"",
     sectionindex:"",
-    tabindex:""
+    tabindex:"",
+    catTab:false
   });
 
   const updateStore = (data) => {

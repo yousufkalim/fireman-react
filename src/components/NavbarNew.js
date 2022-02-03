@@ -128,10 +128,11 @@ console.log(store);
         <Toolbar>
         <div className="dashboard_logo">
           {
-             store.activeNavbarTab=="termine"?
-             <img width="166px" src={Site} />
-             :
+             store.activeNavbarTab==2 || store.activeNavbarTab=="profile" ?
              <img width="40px" src={Vector} />
+             :
+             <img width="166px" src={Site} />
+
 
           }    
         </div>
@@ -139,28 +140,30 @@ console.log(store);
            store.activeNavbarTab == "profile"  ?
            ""
            :
-           store.activeNavbarTab=="termine"?
-           ""
-           :
+           store.activeNavbarTab==2?
            <div className="nav_headings">
            <p>Visite périodique</p>
            <p style={{fontWeight:"500"}} >La Grande Recre</p>
            <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
          </div>
+           :
+           ""
+         
 
         }
            
           <Box sx={{ flexGrow: 1 }} />
           <Box>
             {
-              store.activeNavbarTab=="termine" ?
-              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
-              :
+              store.activeNavbarTab==2 ?
               <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
+              :
+              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+
             }
         
           </Box>

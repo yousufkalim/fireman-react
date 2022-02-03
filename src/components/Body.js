@@ -42,16 +42,16 @@ const Body = () => {
           <Grid item xs={12} sx={{ background: "aliceblue" }}>
 
             {
-              store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile" || store.activeNavbarTab == "currentcases" ||  store.activeNavbarTab == "newcases"
+              store.catTab
               ?
-                <>
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                </>
+              <ActiveTabHeader />
                 :
-                <ActiveTabHeader />
+                <>
+                <br />
+                <br />
+                <br />
+                <br />
+              </>
             }
           </Grid>
           <Grid
