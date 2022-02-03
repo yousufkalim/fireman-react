@@ -26,7 +26,7 @@ const Body = () => {
   useEffect(() => {
     updatestore({
       activeCase: "newcase",
-      activeNavbarTab: "termine" 
+      activeNavbarTab: "termine"
     })
   }, [])
 
@@ -34,38 +34,39 @@ const Body = () => {
   const store = Store()
   console.log(store);
   return (
-    <> 
-    <NavbarNew />
-    <>     
-    <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ||  store.activeNavbarTab == "profile"? "mainhome":""}>
-     
-      <Grid item xs={12} sx={{ background: "aliceblue" }}>
-     
-      {
-        store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile"?
-        <>
-        <br />
-        <br />
-        <br />
-        <br />
-      </>
-          :
-     <ActiveTabHeader />
-      }
+    <>
+      <NavbarNew />
+      <>
+        <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile" ? "mainhome" : ""}>
+
+          <Grid item xs={12} sx={{ background: "aliceblue" }}>
+
+            {
+              store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile"
+              ?
+                <>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </>
+                :
+                <ActiveTabHeader />
+            }
           </Grid>
-      <Grid
-        sx={{ backgroundColor: "aliceblue" }}
-        container
-        spacing={2}
-      >
-        <Grid item xs={1}>
-        {/* <SideBar /> */}
-        <LeftBarTab 
-                      getResponse={getResponse}
-         />
-        </Grid>
-       
-{/* <<<<<<< HEAD
+          <Grid
+            sx={{ backgroundColor: "aliceblue" }}
+            container
+            spacing={2}
+          >
+            <Grid item xs={1}>
+              {/* <SideBar /> */}
+              <LeftBarTab
+                getResponse={getResponse}
+              />
+            </Grid>
+
+            {/* <<<<<<< HEAD
             <LeftBarTab
               getResponse={getResponse}
             />
@@ -87,35 +88,35 @@ const Body = () => {
           />
 >>>>>>> 749d00fb403c9a9bbb61731639dd124743650690
         </Grid> */}
-        {
-          store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ? <Home />
-            :
-            store.activeNavbarTab == "profile" ? <Profile />
-              :
-              <>
-                <Grid item xs={8}>
-                {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
-                {store.activeNavbarTab===1? <EstablishmentSearchContainer/>:null }
-                {store.activeNavbarTab==="currentcases"?  <OpenSearchCurrentCases currentcasesData={responseData} />:null}
-                {store.activeNavbarTab===2?  <Implantation/>:null}
-          {store.activeNavbarTab===0 || store.activeNavbarTab==="termine"? <FolderCreationContainer/>:null}
-          {store.activeNavbarTab==="searchestablishment"? <OpenSearchNewCases/>:null}
-          {store.activeNavbarTab==="multimedia"? "En cours de développement":null}
-          {store.activeNavbarTab==="newcases"? <EndedCases endedcases={responseData} />:null}
-          {store.activeNavbarTab==="annuaire"? "En cours de développement" :null}
-                </Grid>
-                <Grid item xs={3}>
-                  <RightBarTab />
-                </Grid>
-              </>
-        }
-      
-      </Grid>
-      </div>
-      </>
-      </>
+            {
+              store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 ? <Home />
+                :
+                store.activeNavbarTab == "profile" ? <Profile />
+                  :
+                  <>
+                    <Grid item xs={8}>
+                      {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
+                      {store.activeNavbarTab === 1 ? <EstablishmentSearchContainer /> : null}
+                      {store.activeNavbarTab === "currentcases" ? <OpenSearchCurrentCases currentcasesData={responseData} /> : null}
+                      {store.activeNavbarTab === 2 ? <Implantation /> : null}
+                      {store.activeNavbarTab === 0 || store.activeNavbarTab === "termine" ? <FolderCreationContainer /> : null}
+                      {store.activeNavbarTab === "searchestablishment" ? <OpenSearchNewCases /> : null}
+                      {store.activeNavbarTab === "multimedia" ? "En cours de développement" : null}
+                      {store.activeNavbarTab === "newcases" ? <EndedCases endedcases={responseData} /> : null}
+                      {store.activeNavbarTab === "annuaire" ? "En cours de développement" : null}
+                    </Grid>
+                    <Grid item xs={3}>
+                      <RightBarTab />
+                    </Grid>
+                  </>
+            }
 
-  
+          </Grid>
+        </div>
+      </>
+    </>
+
+
   );
 };
 

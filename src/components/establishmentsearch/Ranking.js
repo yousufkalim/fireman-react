@@ -199,6 +199,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "200px",
                 }}
               >
@@ -211,6 +213,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -223,6 +227,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -235,6 +241,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "180px",
                 }}
               >

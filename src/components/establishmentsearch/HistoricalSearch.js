@@ -30,11 +30,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const { t, i18n } = useTranslation();
   const store = Store();
   const [Toggler, setToggler] = useState({
-    togglerhistoricalsearch: store.activeCase==="newcase"  || (store?.sectionindex === 0 && store?.tabindex===2)? true: false,
-    createhistoricaldata: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===2)? true: false,
-    establishmentlevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===2) ? true: false,
-    togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2)? true: false,
-    togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2)? true: false,
+    togglerhistoricalsearch: store.activeCase==="newcase"  || (store?.sectionindex === 0 && store?.tabindex===2) || store?.tabindex===1  ? true: false,
+    createhistoricaldata: store.activeCase==="newcase" || (store?.sectionindex === 1 && (store?.tabindex===2 || store?.tabindex===1)) || store?.tabindex===1? true: false,
+    establishmentlevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2) || store?.tabindex===1? true: false,
   });
   const [Icon, setIcon] = useState({
     iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) && store?.tabindex===2)? true: false,
@@ -96,6 +96,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     securityManagerEmail: generalDataEstablishment.securityManagerEmail
       ? generalDataEstablishment.securityManagerEmail
       : "",
+      estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:""
   });
   useEffect(() => {
     setInputValues({
@@ -132,6 +133,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       securityManagerEmail: generalDataEstablishment.securityManagerEmail
         ? generalDataEstablishment.securityManagerEmail
         : "",
+        estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:""
     });
   }, [generalDataEstablishment]);
   useEffect(() => {
@@ -167,7 +169,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
-  console.log(store,"170");
+  console.log(generalDataEstablishment,"170");
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -198,12 +200,14 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         )}`
       );
     }
-    setInputValues((preVal) => {
-      return {
-        ...preVal,
-        [name]: value,
-      };
-    });
+      setInputValues((preVal) => {
+        return {
+          ...preVal,
+          [name]: value,
+        };
+      });
+    
+    
   };
   console.log(store);
   const handleSubmit = (e) => {
@@ -394,7 +398,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">Mobile </label>
                         <div className="flex-form">
                           <input
-                            type="number"
+                            type="tel"
+                            minlength="9" 
+                            maxlength="12"
                             onChange={handleChange}
                             name="securityManagerMobile"
                             value={inputValues.securityManagerMobile}
@@ -456,10 +462,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">{t("Number")}</label>
                         <div className="flex-form">
                           <input
-                            type="number"
+                             type="search"
                             onChange={handleChange}
-                            name="securityManagerMobile"
-                            value={inputValues.securityManagerMobile}
+                            name="estNumber"
+                            value={inputValues.estNumber}
                           />
                         </div>
                       </div>

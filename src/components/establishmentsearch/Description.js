@@ -83,7 +83,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>{t("Site (if applicable)")}</Typography>
+            <Typography  className="label-textarea">{t("Site (if applicable)")}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextareaAutosize
@@ -99,12 +99,6 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
               - l’établissement ECOLE PRIMAIRE, de type R de 3ecatégorie;
               - L’établissement ECOLE MATERNELLE, de type R de 3ecatégorie;
               - L’établissement RESTAURANT SCOLAIRE, de type N de 4ecatégorie. "
-              sx={{
-                width: 600,
-                height: 200,
-                padding: "30px",
-                background: "aliceblue",
-              }}
               onChange={onChange}
             />
           </AccordionDetails>
@@ -115,12 +109,15 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>
+            <Typography className="label-textarea" >
               {t("Description presenting the establishment and the activities")}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TextareaAutosize
+            style={{
+              background:"#F1F5F9"
+            }}
               aria-label="minimum height"
               minRows={3}
               name="establishmentdescription"
@@ -141,7 +138,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
             aria-controls="panel2a-content"
             id="panel2a-header"
           >
-            <Typography>
+            <Typography className="label-textarea" >
               {t("Low floor of the last accessible level")}
             </Typography>
           </AccordionSummary>

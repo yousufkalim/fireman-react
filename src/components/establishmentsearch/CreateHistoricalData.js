@@ -80,7 +80,7 @@ const CreateHistoricalData = ({
       console.log("newarr",newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          api("put", "/api/v1/update_historicaldata_establishment", val)
+          api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               console.log("dfxgchvjb",res);
               setButtonEnability((pre)=>{
@@ -127,7 +127,7 @@ const CreateHistoricalData = ({
       console.log(newarr,"current");
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          api("put", "/api/v1/update_historicaldata_establishment", val)
+          api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               setToggler((pre) => {
                 return {
@@ -149,8 +149,7 @@ const CreateHistoricalData = ({
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-              if (val.image!==undefined) {
-                alert("hit")
+              if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
                     {
@@ -1196,7 +1195,6 @@ const CreateHistoricalData = ({
                                             name={`repeatable.${i}.image`}
                                             type="file"
                                             onChange={(event) => {
-                                              alert("fgvh")
                                               setFieldValue(
                                                 `repeatable.${i}.image`,
                                                 event.target.files[0]
@@ -2083,7 +2081,6 @@ const CreateHistoricalData = ({
                                             name={`repeatable.${i}.image`}
                                             type="file"
                                             onChange={(event) => {
-                                              alert("fgvh")
                                               setFieldValue(
                                                 `repeatable.${i}.image`,
                                                 event.target.files[0]

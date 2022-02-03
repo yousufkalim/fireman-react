@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React,{useState, useEffect} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,14 +10,19 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
-;import MoreIcon from "@mui/icons-material/MoreVert";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/Vector.png"
+import Site from "../assets/site.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'
 import { Store } from "../StoreContext";
+import moment from "moment";
+import api from '../api/index';
+import 'moment/locale/fr'
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let [profile, setProfile] = useState({})
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { t, i18n } = useTranslation();
   const { language } = i18n;
@@ -26,6 +31,19 @@ export default function Navbar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let user = localStorage.getItem("user");
   const store = Store();
+  useEffect(() => {
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+        .then((res) => {
+            console.log(res);
+            // localStorage.setItem('profileuser', res.firstName+ res.lastName);
+            if (res.status == 200) {
+                setProfile(res.data)
+            }
+        })
+        .catch((err) => console.log(err));
+}, [])
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -123,21 +141,43 @@ console.log(store);
         position="static"
       >
         <Toolbar>
-        <div className="dashboard_logo">    
-        <img width="40px" src={Vector} />
+        <div className="dashboard_logo">
+          {
+             store.activeNavbarTab=="termine"?
+             <img width="166px" src={Site} />
+             :
+             <img width="40px" src={Vector} />
+
+          }    
         </div>
-            <div className="nav_headings">
-            <p>Visite périodique</p>
-            <p style={{fontWeight:"500"}} >La Grande Recre</p>
-            <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
-          </div>
+        {
+           store.activeNavbarTab == "profile"  ?
+           ""
+           :
+           store.activeNavbarTab=="termine"?
+           ""
+           :
+           <div className="nav_headings">
+           <p>Visite périodique</p>
+           <p style={{fontWeight:"500"}} >La Grande Recre</p>
+           <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
+         </div>
+
+        }
+           
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-          <Button variant="outlined"  onClick={() =>
+            {
+              store.activeNavbarTab=="termine" ?
+              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+              :
+              <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
+            }
+        
           </Box>
           <div className="bellIcon" style={{display:"flex"}}>
             <IconButton
@@ -161,7 +201,7 @@ console.log(store);
               <AccountCircle />
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
-              <p style={{cursor:"pointer"}}>{user}</p>
+              <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>
           </div>

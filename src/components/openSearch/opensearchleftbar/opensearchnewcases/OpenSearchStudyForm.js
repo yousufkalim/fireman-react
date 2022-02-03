@@ -545,7 +545,9 @@ setstate((pre) => {
                   <div class="flex-form">
                     <label className="label-color"> {t("Phone")}</label>
                     <input
-                      type="number"
+                      type="tel"
+                      minlength="9" 
+                      maxlength="12"
                       onChange={handleChange}
                       name="mobile"
                       value={formValues?.mobile}
