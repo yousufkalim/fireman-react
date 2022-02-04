@@ -147,7 +147,10 @@ const EstablishmentSearchVisitForm = ({
                 iconvisit:true,
               }
             });
-            updatestore({ activeNavbarTab: 1 });
+            updatestore({ 
+              activeNavbarTab: 1,
+              buttonenable:true
+             });
           }
         })
         .catch((err) => toast.error(err?.statusText));

@@ -546,9 +546,11 @@ setstate((pre) => {
                     <label className="label-color"> {t("Phone")}</label>
                     <input
                       type="tel"
-                      minlength="9" 
+                      minlength="12" 
                       maxlength="12"
+                      title="Number should contain 12 digits and No Character"
                       onChange={handleChange}
+                      pattern="^(\d{12})$"
                       name="mobile"
                       value={formValues?.mobile}
                       required

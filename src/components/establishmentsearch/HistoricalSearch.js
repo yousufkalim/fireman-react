@@ -398,9 +398,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">Mobile </label>
                         <div className="flex-form">
                           <input
-                            type="tel"
-                            minlength="9" 
-                            maxlength="12"
+                             type="tel"
+                             minlength="12" 
+                             maxlength="12"
+                             title="Number should contain 12 digits and No Character"
+                             pattern="^(\d{12})$"
                             onChange={handleChange}
                             name="securityManagerMobile"
                             value={inputValues.securityManagerMobile}
