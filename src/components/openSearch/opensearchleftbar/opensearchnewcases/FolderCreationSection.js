@@ -542,6 +542,7 @@ const FolderCreationSection = ({
 
                             <div class="flex-form">
                               <select
+                                required
                                 className="dropdown"
                                 type="select"
                                 name="studyTypeId"
