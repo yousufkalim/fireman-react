@@ -118,9 +118,9 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
                      
                         <MobileStepper
                             variant="progress"
-                            steps={8}
+                            steps={7}
                             position="static"
-                            activeStep={steps}
+                            activeStep={store.activeNavbarTab ==="searchestablishment"? 1: store.activeNavbarTab+1}
                             sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%" }}
                         />
                 

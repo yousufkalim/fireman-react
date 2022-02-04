@@ -181,7 +181,7 @@ border-radius: 21px;
 .recre .react-sweet-progress-symbol{
     position: absolute;
     top: -25px;
-    right: -3px;
+    right: 15px;
     color: #3675B7 !important;
     font-weight: 600;
 }
@@ -201,3 +201,12 @@ border-radius: 21px;
     cursor: pointer;
 }
 
+.nav_date{
+    color:#5D718C;
+    font-style: normal;
+font-weight: 500;
+font-size: 18px;
+text-transform: capitalize;
+margin-top: 10px;
+margin-right: 15px;
+}

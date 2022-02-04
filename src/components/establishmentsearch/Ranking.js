@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId }) => {
+const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId,buttonEnability}) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     rankingorder: "",
@@ -199,6 +199,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "200px",
                 }}
               >
@@ -211,6 +213,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -223,6 +227,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -235,6 +241,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "180px",
                 }}
               >
@@ -306,6 +314,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
+                disabled={buttonEnability?.Rankingbutton}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

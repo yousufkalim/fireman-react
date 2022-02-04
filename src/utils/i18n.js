@@ -18,6 +18,7 @@ i18n
             "For which institution will the file be created?",
           "Status": "Status",
           "Name": "Name",
+          "Address":"Address",
           "Type Classification": "Type Classification",
           "City": "City",
           "Ref.": "Ref.",
@@ -217,6 +218,7 @@ i18n
             "Pour quel établissement le dossier va-t-il être créé ?",
           "Status": "Statut",
           "Name": "Nom",
+          "Address":"Adresse",
           "Type Classification": "Classement Type",
           "City": "Commune",
           "CAT Ranking": "Classement CAT",
@@ -336,7 +338,7 @@ i18n
           //establishmenttab
           "Name Of Establishment Ref": "Nom de l'établissement",
           "City": "Commune",
-          "State": "Etat",
+          "State": "État",
           "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.":
             "Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe XX seront désormais liées à ce nouvel établissement.",
           "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group":

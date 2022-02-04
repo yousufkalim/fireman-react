@@ -59,7 +59,7 @@ const HomeRight = () => {
                                             </div>
                                             <div className="progress">
                                                 <Progress
-                                                    percent={69}
+                                                    percent={data.completionPercentage}
                                                 /></div>
 
                                         </div>

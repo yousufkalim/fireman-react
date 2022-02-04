@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -32,6 +33,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
      { field: "ref", headerName: `${t("Ref.")}`, minWidth: 100, color: "#8D919D"},
    { field: "commune", headerName: `${t("City")}`, minWidth: 200, color: "#8D919D"},
    { field: "nom", headerName: `${t("Name")}`, minWidth: 200, color: "#8D919D"},
+   { field: "address", headerName: `${t("Address")}`, minWidth: 250, color: "#8D919D"},
    { field: "statut", headerName: `${t("Status")}`, minWidth: 160, color: "#8D919D"},
    { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},
    { field: "CAT", headerName: "CAT", minWidth: 140, color: "#8D919D"},
@@ -49,11 +51,13 @@ const onRowClick =(data, event)=>{
    establishmentId:data.id,
    establishmentname:data.row.nom,
    activeCase:"newcase",
-
+   catTab:true
 })
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");
+  
 }
+console.log(establishmentSearchData,"establishmentSearchData");
   return (
     <>
     <Item
@@ -80,6 +84,7 @@ const onRowClick =(data, event)=>{
          ref:val.referenceNo,
          commune:val.commune,
          nom:val.establishmentName,
+         address:val.address,
          statut:val.status,
          type:val.classification,
          CAT:val.ranking,

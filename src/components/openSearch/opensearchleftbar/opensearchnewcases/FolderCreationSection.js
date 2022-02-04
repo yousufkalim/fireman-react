@@ -411,7 +411,10 @@ const FolderCreationSection = ({
               iconstudytwo: true,
             };
           });
-          updatestore({ activeNavbarTab: 1 });
+          updatestore(
+            { activeNavbarTab: 1,
+              buttonenable:true
+          });
         }
         {
           toast.success(t("Successfull"));

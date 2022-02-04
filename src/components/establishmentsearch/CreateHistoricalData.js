@@ -30,6 +30,8 @@ const CreateHistoricalData = ({
   setIcon,
   Icon,
   casefileId,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t } = useTranslation();
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
@@ -65,15 +67,17 @@ const CreateHistoricalData = ({
     });
   }, []);
   const onSubmit = (values) => {
+    console.log("><>val",values)
     const newarr = values.repeatable.map((object) => ({
       ...object,
-      historicalEventid: object.historicalEventId,
+      historicalEventid: object.historicalEventId?object.historicalEventId:0,
       establishmentId: establishmentid,
       dateEvent: object.histDate,
       caseFileId: casefileId,
       filesData: object.filesData,
     }));
     //////for new cases
+
     if (store.activeCase === "newcase") {
       console.log("newarr",newarr);
       newarr.map((val) => {
@@ -81,6 +85,12 @@ const CreateHistoricalData = ({
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               console.log("dfxgchvjb",res);
+              setButtonEnability((pre)=>{
+                return{
+                  ...pre,
+                  establishmentlevelbutton:false
+                }
+              })
               setToggler((pre) => {
                 return {
                   ...pre,
@@ -119,7 +129,7 @@ const CreateHistoricalData = ({
       console.log(newarr,"current");
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          api("put", "/api/v1/update_historicaldata_establishment", val)
+          api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               setToggler((pre) => {
                 return {
@@ -141,8 +151,7 @@ const CreateHistoricalData = ({
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-              if (val.image!==undefined) {
-                alert("hit")
+              if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
                     {
@@ -201,13 +210,14 @@ const CreateHistoricalData = ({
             sx={{
               marginTop: "10px",
               width: "97%",
-              maxHeight: "16%",
+              maxHeight: "500px",
               overflow: "scroll",
               margin: "auto",
               borderRadius: "5px",
               boxShadow: "none",
             }}
           >
+            {console.log(historicalDataEstablishment,"trdtyfg")}
             {store.activeCase === "newcase" ? (
               <Formik
                 onSubmit={(values) => onSubmit(values)}
@@ -1241,6 +1251,7 @@ const CreateHistoricalData = ({
                     <Box sx={{ textAlign: "right", padding: "10px" }}>
                       <Button
                         type="submit"
+                        disabled={buttonEnability?.historicalsearchbutton}
                         endIcon={
                           <img className="icon-validate" src={Rightarrow} />
                         }
@@ -2058,6 +2069,9 @@ const CreateHistoricalData = ({
                                         <Field
                                           className="field-width"
                                           name={`repeatable.${i}.urbanPlanningRef`}
+                                          defaultValue={
+                                            r && r?.urbanPlanningRef
+                                          }
                                         />
                                       </th>
                                       <th>

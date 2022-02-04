@@ -22,12 +22,17 @@ export function StoreProvider({ children }) {
     user: {},
     authorization: false,
     establishmentId:null,
-    establishmentname:null,
+    establishmentname:"",
+    cityname:"",
+    serialNum:"",
     activeNavbarTab:10,
     activeCase:"",
     caseFileId:"",
     sectionindex:"",
-    tabindex:""
+    tabindex:"",
+    buttonenable:false,
+    catTab:false,
+    caseName:"",
   });
 
   const updateStore = (data) => {

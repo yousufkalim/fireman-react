@@ -463,7 +463,7 @@ setstate((pre) => {
                   <div className="flex-form">
                     <label className="label-color">{t("Date")}</label>
                     <input
-                      className="dropdown-townplanning"
+                      className="dropdown-townplanning townplanning-date-input"
                       onChange={handleChange}
                       name="townPlanningDate"
                       value={formValues?.townPlanningDate}
@@ -474,6 +474,7 @@ setstate((pre) => {
                   <div className="flex-form">
                     <label className="label-color">Réception service</label>
                     <input
+                    className="townplanning-date-input"
                       type="search"
                       onChange={handleChange}
                       name="receptionServiceDate"
@@ -544,8 +545,12 @@ setstate((pre) => {
                   <div class="flex-form">
                     <label className="label-color"> {t("Phone")}</label>
                     <input
-                      type="number"
+                      type="tel"
+                      minlength="12" 
+                      maxlength="12"
+                      title="Number should contain 12 digits and No Character"
                       onChange={handleChange}
+                      pattern="^(\d{12})$"
                       name="mobile"
                       value={formValues?.mobile}
                       required

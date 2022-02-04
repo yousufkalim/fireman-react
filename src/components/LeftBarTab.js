@@ -171,7 +171,7 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
   ];
 
   const onClick = (activelefttab) => {
-    update({ activeNavbarTab: activelefttab });
+    update({ activeNavbarTab: activelefttab,catTab:false });
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab
     if (activelefttab === "currentcases") {
       let userId = localStorage.getItem("userData");
