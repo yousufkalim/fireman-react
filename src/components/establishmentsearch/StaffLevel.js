@@ -105,8 +105,8 @@ const StaffLevel = ({
         caseFileId:casefileId?casefileId:0
       }));
     if (store.activeCase === "newcase") {
-      console.log("stafftable", newArr);
-      api("put", "/api/v1/update_establishment_stafftable", newArr)
+      console.log("stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)));
+      api("put", "/api/v1/update_establishment_stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)))
         .then((res) => {
           console.log(res);
           setButtonEnability((pre)=>{
