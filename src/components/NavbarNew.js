@@ -143,10 +143,11 @@ console.log(store);
         <Toolbar>
         <div className="dashboard_logo">
           {
-             store.activeNavbarTab=="termine"?
-             <img width="166px" src={Site} />
-             :
+             store.activeNavbarTab==2 || store.activeNavbarTab=="profile" ?
              <img width="40px" src={Vector} />
+             :
+             <img width="166px" src={Site} />
+
 
           }    
         </div>
@@ -154,28 +155,38 @@ console.log(store);
            store.activeNavbarTab == "profile"  ?
            ""
            :
-           store.activeNavbarTab=="termine"?
-           ""
-           :
+           store.catTab===true?
            <div className="nav_headings">
-           <p>Visite périodique</p>
-           <p style={{fontWeight:"500"}} >La Grande Recre</p>
-           <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
+          { store.activeCase==="currentcases"?  <p>{store?.caseName}</p> : null }
+           <p style={{fontWeight:"500"}} >{store?.establishmentname}</p>
+          {store.activeCase==="currentcases"?  <p style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
          </div>
+           :
+           ""
+         
 
         }
            
           <Box sx={{ flexGrow: 1 }} />
           <Box>
             {
-              store.activeNavbarTab=="termine" ?
-              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
-              :
+              store.activeNavbarTab==2 ?
               <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
+              :
+              <div style={{display:"flex"}}>
+                <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+               <Button variant="outlined"  onClick={() =>
+                changeLanguage(`${language == "en" ? "fr" : "en"}`)
+              }>
+            {language == "fr" ? "English" : "French"}
+            </Button>
+              </div>
+             
+
             }
         
           </Box>
@@ -200,7 +211,7 @@ console.log(store);
             >
               <AccountCircle />
             </IconButton>
-            <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
+            <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
               <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>

@@ -208,7 +208,7 @@ const CreateHistoricalData = ({
             sx={{
               marginTop: "10px",
               width: "97%",
-              maxHeight: "16%",
+              maxHeight: "500px",
               overflow: "scroll",
               margin: "auto",
               borderRadius: "5px",
@@ -2067,6 +2067,9 @@ const CreateHistoricalData = ({
                                         <Field
                                           className="field-width"
                                           name={`repeatable.${i}.urbanPlanningRef`}
+                                          defaultValue={
+                                            r && r?.urbanPlanningRef
+                                          }
                                         />
                                       </th>
                                       <th>

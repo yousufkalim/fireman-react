@@ -44,11 +44,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     iconranking: store.activeCase === "currentcases" &&  store.sectionindex===5 && store?.tabindex===2 ? true:false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-    historicalmainbutton:store.buttonenable? false:true,
-   historicalsearchbutton:true,
-   establishmentlevelbutton:true,
-   stafftablebutton:true,
-   Rankingbutton:true,
+    historicalmainbutton:store.buttonenable ||  store.activeCase === "currentcases"? false:true,
+   historicalsearchbutton: store.activeCase === "currentcases"? false:true,
+   establishmentlevelbutton: store.activeCase === "currentcases"? false :true,
+   stafftablebutton:store.activeCase === "currentcases"? false :true,
+   Rankingbutton:store.activeCase === "currentcases"? false :true,
 });
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
@@ -346,6 +346,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       </label>
                       <div className="flex-form">
                         <input
+                        required
                           type="search"
                           value={inputValues.establishmentName}
                           onChange={handleChange}
@@ -375,6 +376,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <div className="flex-form">
                         <label className="label-color">CP</label>
                         <input
+                        required
                           type="search"
                           onChange={handleChange}
                           name="zipCode"
@@ -388,6 +390,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <div className="flex-form">
                           <label className="label-color">{t("Name")} </label>
                           <input
+                          required
                             type="search"
                             onChange={handleChange}
                             name="securityManagerLastName"
@@ -398,6 +401,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">Mobile </label>
                         <div className="flex-form">
                           <input
+                          required
                              type="tel"
                              minlength="12" 
                              maxlength="12"
@@ -455,6 +459,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             {t("Channel name")}
                           </label>
                           <input
+                          required
                             type="search"
                             onChange={handleChange}
                             name="channelName"
@@ -464,6 +469,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">{t("Number")}</label>
                         <div className="flex-form">
                           <input
+                          required
                              type="search"
                             onChange={handleChange}
                             name="estNumber"
@@ -474,6 +480,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <label className="label-color">{t("First name")}</label>
                       <div className="flex-form">
                         <input
+                        required
                           type="search"
                           onChange={handleChange}
                           name="securityManagerName"
@@ -483,6 +490,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <label className="label-color">Mail</label>
                       <div className="flex-form">
                         <input
+                        required
                           type="email"
                           onChange={handleChange}
                           name="securityManagerEmail"

@@ -76,12 +76,19 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className='field_seprator'></div>
-                        <div style={{ marginLeft: "104px" }} className='input_container'>
+                        <div className='input_row'>
+                            <div className='input_container'>
                             <label>Service</label>
                             <input value={profile.service} />
+                            </div>
+                            <div style={{visibility:"hidden"}} className='input_container'>
+                                <label>Groupement</label>
+                                <input value={profile.group} />
+                            </div>
                         </div>
+                      
                         <div className='field_seprator'></div>
-
+                         
                         <button className='profile_form_button'>Modifier le profil</button>
                     </form>
                 </div>

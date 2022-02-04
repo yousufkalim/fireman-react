@@ -174,7 +174,7 @@ const EstablishmentLevel = ({
             sx={{
               boxShadow: "none",
               width: "97%",
-              maxHeight: "700px",
+              maxHeight: "500px",
               overflow: "scroll",
               margin: "auto",
             }}
@@ -718,7 +718,11 @@ const EstablishmentLevel = ({
                                           >
                                             <Field
                                               className="field-width-staff"
-                                              type="number"
+                                              type="tel"
+                                              minlength="12" 
+                                              maxlength="12"
+                                              title="Number should contain 12 digits and No Character"
+                                              pattern="^(\d{12})$"
                                               name={`repeatable.${i}.cellNumber`}
                                               style={{ padding: "10px" }}
                                               value={row.cellNumber}

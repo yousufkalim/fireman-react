@@ -17,6 +17,7 @@ import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/Ende
 import Home from "./home";
 import Profile from "./profile";
 import SideBar from "./SideBar";
+import TeamManagement from "../components/TeamManagement"
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
@@ -42,16 +43,16 @@ const Body = () => {
           <Grid item xs={12} sx={{ background: "aliceblue" }}>
 
             {
-              store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile"
+              store.catTab
               ?
-                <>
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                </>
+              <ActiveTabHeader />
                 :
-                <ActiveTabHeader />
+                <>
+                <br />
+                <br />
+                <br />
+                <br />
+              </>
             }
           </Grid>
           <Grid
@@ -104,6 +105,8 @@ const Body = () => {
                       {store.activeNavbarTab === "multimedia" ? "En cours de développement" : null}
                       {store.activeNavbarTab === "newcases" ? <EndedCases endedcases={responseData} /> : null}
                       {store.activeNavbarTab === "annuaire" ? "En cours de développement" : null}
+                      {store.activeNavbarTab === "team" ? <TeamManagement /> : null}
+
                     </Grid>
                     <Grid item xs={3}>
                       <RightBarTab />

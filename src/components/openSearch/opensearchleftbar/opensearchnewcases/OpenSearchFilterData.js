@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -50,10 +51,11 @@ const onRowClick =(data, event)=>{
    establishmentId:data.id,
    establishmentname:data.row.nom,
    activeCase:"newcase",
-
+   catTab:true
 })
  localStorage.setItem("establishmentid", data.id);
     setCompShow("filestructure");
+  
 }
 console.log(establishmentSearchData,"establishmentSearchData");
   return (

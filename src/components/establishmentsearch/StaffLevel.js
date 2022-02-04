@@ -201,7 +201,7 @@ const StaffLevel = ({
             sx={{
               boxShadow: "none",
               width: "97%",
-              maxHeight: "16%",
+              maxHeight: "500px",
               overflow: "scroll",
               margin: "auto",
             }}
