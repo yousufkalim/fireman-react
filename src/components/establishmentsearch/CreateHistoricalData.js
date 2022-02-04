@@ -67,6 +67,7 @@ const CreateHistoricalData = ({
     });
   }, []);
   const onSubmit = (values) => {
+    console.log("><>val",values)
     const newarr = values.repeatable.map((object) => ({
       ...object,
       historicalEventid: object.historicalEventId?object.historicalEventId:0,
@@ -76,6 +77,7 @@ const CreateHistoricalData = ({
       filesData: object.filesData,
     }));
     //////for new cases
+
     if (store.activeCase === "newcase") {
       console.log("newarr",newarr);
       newarr.map((val) => {

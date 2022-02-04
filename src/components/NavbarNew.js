@@ -143,7 +143,7 @@ console.log(store);
         <Toolbar>
         <div className="dashboard_logo">
           {
-             store.activeNavbarTab==2 || store.activeNavbarTab=="profile" ?
+              store.activeNavbarTab=="profile" ?
              <img width="40px" src={Vector} />
              :
              <img width="166px" src={Site} />
@@ -169,14 +169,14 @@ console.log(store);
            
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            {
+            {/* {
               store.activeNavbarTab==2 ?
               <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
-              :
+              : */}
               <div style={{display:"flex"}}>
                 <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
                <Button variant="outlined"  onClick={() =>
@@ -187,7 +187,7 @@ console.log(store);
               </div>
              
 
-            }
+            
         
           </Box>
           <div className="bellIcon" style={{display:"flex"}}>
