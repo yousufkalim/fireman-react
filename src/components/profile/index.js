@@ -89,7 +89,7 @@ const Profile = () => {
                         </div>
                       
                         <div className='field_seprator'></div>
-
+                         
                         <button className='profile_form_button'>Modifier le profil</button>
                     </form>
                 </div>

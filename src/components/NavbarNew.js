@@ -162,7 +162,15 @@ console.log(store);
             {language == "fr" ? "English" : "French"}
             </Button>
               :
-              <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+              <div style={{display:"flex"}}>
+                <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
+               <Button variant="outlined"  onClick={() =>
+                changeLanguage(`${language == "en" ? "fr" : "en"}`)
+              }>
+            {language == "fr" ? "English" : "French"}
+            </Button>
+              </div>
+             
 
             }
         
@@ -188,7 +196,7 @@ console.log(store);
             >
               <AccountCircle />
             </IconButton>
-            <Box onClick={()=>{update({activeNavbarTab:"profile"})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
+            <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
               <p style={{cursor:"pointer"}}>{user}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>

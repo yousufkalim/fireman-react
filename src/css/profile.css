@@ -66,6 +66,15 @@
     background: #FFFFFF;
     padding: 8px 0px;
 }
+.input_container select{
+    color: #485372;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.6px;
+    border: none;
+    background: #FFFFFF;
+    padding: 8px 0px;
+}
 .input_container  input:focus{
     outline: none;
 }
@@ -96,5 +105,14 @@
 border-radius: 10px;
     color:#485372;
     padding: 13px 15px;
-    margin-left: 100px;
+    margin-left: 46px;
+}
+
+.team_form_button{
+    background: #FFFFFF;
+    border: 0.6px solid rgba(72, 83, 114, 0.4);
+border-radius: 10px;
+    color:#485372;
+    padding: 10px 10px;
+    margin-right: 10px;
 }
