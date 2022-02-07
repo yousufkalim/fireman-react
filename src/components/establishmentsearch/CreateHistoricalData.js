@@ -1176,9 +1176,10 @@ const CreateHistoricalData = ({
 
                                       <th>
                                         <div>
+                                        {console.log("new", r)}
                                           <Field
                                             className="field-width"
-                                            name={`repeatable.${i}.urbanplanningreference`}
+                                            name={`repeatable.${i}.urbanPlanningRef`}
                                             defaultValue={
                                               r && r?.urbanPlanningRef
                                             }
@@ -1379,10 +1380,10 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "308px",
+                                          width: "450px",
                                         }}
                                       >
-                                        Pièce jointe
+                                        {t("Attachment")}
                                       </Box>
                                     </th>
                                   </tr>
@@ -2066,6 +2067,7 @@ const CreateHistoricalData = ({
                                         />
                                       </th>
                                       <th>
+                                        {console.log("curr", r)}
                                         <Field
                                           className="field-width"
                                           name={`repeatable.${i}.urbanPlanningRef`}
@@ -2139,6 +2141,7 @@ const CreateHistoricalData = ({
                     <Box sx={{ textAlign: "right" }}>
                       <Button
                         type="submit"
+                        disabled={buttonEnability?.historicalsearchbutton}
                         endIcon={
                           <img className="icon-validate" src={Rightarrow} />
                         }

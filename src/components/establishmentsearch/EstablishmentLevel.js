@@ -867,6 +867,8 @@ const EstablishmentLevel = ({
                         onSubmit={onSubmit}
                         description={description}
                         values={values}
+                        buttonEnability={buttonEnability} 
+                        setButtonEnability={setButtonEnability}
                       />
                     )}
                   </Form>

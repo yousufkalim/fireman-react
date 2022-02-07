@@ -572,6 +572,7 @@ const FolderCreationSection = ({
                                 value={inputValues?.visitTypeId}
                                 required
                               >
+                                 <option value="">{t("Please choose")}</option>
                                 {dropdownValue.visittype.data?.map((item) => (
                                   <option value={item.value}>
                                     {item.text}

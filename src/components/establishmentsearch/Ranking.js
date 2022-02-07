@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import api from "../../api";
 import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -44,6 +45,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       : "",
   });
   const store = Store();
+  const updatestore = UpdateStore();
   useEffect(() => {
     api("get", "/api/v1/classification/dropdown").then((res) =>
       setdropdownValue((preVal) => {
@@ -129,6 +131,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       caseFileId:casefileId
     };
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
+      updatestore({
+        activeNavbarTab: 2,
+      });
       {
         toast.success(t("Successfull"));
       }
