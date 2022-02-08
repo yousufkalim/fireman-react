@@ -28,7 +28,8 @@ export function StoreProvider({ children }) {
     caseFileId:"",
     sectionindex:"",
     tabindex:"",
-    catTab:false
+    catTab:false,
+    phoneBook:false
   });
 
   const updateStore = (data) => {

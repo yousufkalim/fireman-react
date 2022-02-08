@@ -104,7 +104,7 @@ const Body = () => {
                       {store.activeNavbarTab === "searchestablishment" ? <OpenSearchNewCases /> : null}
                       {store.activeNavbarTab === "multimedia" ? "En cours de développement" : null}
                       {store.activeNavbarTab === "newcases" ? <EndedCases endedcases={responseData} /> : null}
-                      {store.activeNavbarTab === "annuaire" ? "En cours de développement" : null}
+                      {store.activeNavbarTab === "annuaire" ? <OpenSearchNewCases /> : null}
                       {store.activeNavbarTab === "team" ? <TeamManagement /> : null}
 
                     </Grid>

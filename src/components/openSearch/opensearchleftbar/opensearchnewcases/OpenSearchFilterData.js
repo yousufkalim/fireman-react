@@ -1,5 +1,5 @@
 import  React,{useRef,useEffect} from "react";
-import {UpdateStore} from '../../../../StoreContext'
+import {UpdateStore,Store} from '../../../../StoreContext'
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -17,7 +17,8 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
- 
+  const store = Store()
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -46,15 +47,21 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
 const onRowClick =(data, event)=>{
  
   event.defaultMuiPrevented = true;
- updatestore({
-   establishmentId:data.id,
-   establishmentname:data.row.nom,
-   activeCase:"newcase",
-   catTab:true
-})
- localStorage.setItem("establishmentid", data.id);
-    setCompShow("filestructure");
-  
+  if(store.phoneBook){
+    setCompShow("phoneBook");
+
+  }else{
+    updatestore({
+      establishmentId:data.id,
+      establishmentname:data.row.nom,
+      activeCase:"newcase",
+      catTab:true
+   })
+    localStorage.setItem("establishmentid", data.id);
+       setCompShow("filestructure");
+     
+  }
+
 }
   return (
     <>
