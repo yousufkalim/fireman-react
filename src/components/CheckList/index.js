@@ -35,7 +35,7 @@ const CheckList = (props) => {
     const saveChanges=(sentence, sentenceId)=>{ 
          const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === sentenceId));
          checklists[objIndex].sentenceText = sentence
-       props.getModifiedSentence(sentence)
+       props.getModifiedSentence(sentence, sentenceId)
 //    let a= checklists.map((data,i)=>{
 //        let dat={}
 //       if((props.accordionData.serialName+i)==checklistdata.id){

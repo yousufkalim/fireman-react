@@ -70,10 +70,12 @@ const AccordionComponent=(props)=>{
                   ...pre,
                 sentenceId: sentenceid,
                 sentencetext:text,
+                sentencemodified:text
               }
           })
       }
-      const getModifiedSentence=(data)=>{
+      const getModifiedSentence=(data, id)=>{
+          console.log(id);
         setValues((pre)=>{
             return{
                 ...pre,
