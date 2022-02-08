@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useState} from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
 import CircleUnchecked from '@material-ui/icons/RadioButtonUnchecked';
@@ -35,6 +35,7 @@ const CheckList = (props) => {
     const saveChanges=(sentence, sentenceId)=>{ 
          const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === sentenceId));
          checklists[objIndex].sentenceText = sentence
+       props.getModifiedSentence(sentence)
 //    let a= checklists.map((data,i)=>{
 //        let dat={}
 //       if((props.accordionData.serialName+i)==checklistdata.id){
@@ -52,7 +53,8 @@ const CheckList = (props) => {
                     return (
                         <div className='checklist'>
                             <div className='checklist_content'>
-                                <Checkbox
+                                <Checkbox 
+                                    
                                     icon={<CircleUnchecked />}
                                     checkedIcon={<CircleCheckedFilled />}
                                     style={{
@@ -60,14 +62,19 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
+                                        props.onClick(data.sectionSentencesId, data.sentenceText)
                                         console.log("data.subchecks",data);
                                         console.log("index", i);
                                         //setChacked(props.accordionData.serialName + i)
+                                        if(data.sentenceNature===0){
+                                            setSubcheck("")
+                                        }
                                         if(data.sentenceNature===1){
                                             console.log(data.sectionSentencesId)
                                             handleOpen(data,props.accordionData.serialName + i); 
                                             setIndex(i);
-                                            setChacked(props.accordionData.serialName + i)  
+                                            setChacked(props.accordionData.serialName + i)
+                                            setSubcheck("")  
                                         }
                                         if(data.sentenceNature===2){
                                             setChacked(props.accordionData.serialName + i);
@@ -108,7 +115,7 @@ const CheckList = (props) => {
                                  subcheckIndex={subcheckIndex}
                                  />
                                  :null}
-          <EditModal saveChanges={saveChanges} accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} />
+          <EditModal saveChanges={saveChanges}  accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} setSubcheck={setSubcheck}/>
            
         </>
     )

@@ -27,9 +27,9 @@ const Implantation = (props) => {
     return (
         <>
         {
-            accordionData && accordionData.map((data)=>{
+            accordionData && accordionData.map((data, i)=>{
                 return(
-                    <ImplantationData accordionData={data} />
+                    <ImplantationData index={i} accordionData={data} />
                 )
             })
         }
