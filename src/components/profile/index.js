@@ -1,15 +1,28 @@
-import profileImage from '../../assets/profile.png';
+import profileImage from '../../assets/profileicon.png';
+
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useEffect, useState } from 'react';
 import api from "../../api/index";
-
-
-
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { Input } from '@mui/material';
+import { display } from '@mui/system';
+import { toast } from "react-toastify";
 
 
 
 const Profile = () => {
     let [profile, setProfile] = useState({})
+    let [image, setImage] = useState("")
+    let[FirstName,setFirstName]=useState("")
+    let[LastName,setlastName]=useState("")
+    let[PhoneNo,setPhoneNo]=useState("")
+    let[Email,setEmail]=useState("")
+
+
+
+
 
     useEffect(() => {
         let userId = localStorage.getItem("userData");
@@ -18,12 +31,41 @@ const Profile = () => {
             .then((res) => {
                 if (res.status == 200) {
                     setProfile(res.data)
+                    setFirstName(res.data.firstName);
+                    setlastName(res.data.lastName);
+                    setPhoneNo(res.data.phoneNo);
+                    setEmail(res.data.email);
                 }
             })
             .catch((err) => console.log(err));
     }, [])
 
+ const chnageProfileImage=(e)=>{
+     if(e.target.files){
+        let objectURL = URL.createObjectURL(e.target.files[0])
+        setImage(objectURL)
+        console.log(image)
 
+     }
+ }
+ const updateProfile=(e)=>{
+    e.preventDefault()
+    let formData = new FormData();
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    formData.append('UserId',userId?.userid)
+    formData.append('FirstName',FirstName)
+    formData.append('LastName',LastName)
+    formData.append('Email',Email)
+    formData.append('PhoneNo',PhoneNo)
+
+    api("put", `/api/v1/Users/updateprofile`,formData).then((res)=>{
+        if(res.data.message=="Record updated"){
+            toast.success("Record updated");
+        }
+    })
+
+ }
     console.log("profile", profile)
     return (
 
@@ -31,7 +73,20 @@ const Profile = () => {
             <p className='profile_heading'>PROFIL D’UTILISATEUR</p>
             <div className="profile">
                 <div >
-                    <img src={profile.profileImage ? profile.profileImage : profileImage} />
+                    <div className='image_container'>
+                        <img src={profile.profileImage ? profile.profileImage : image ? image:profileImage} />
+                        <div class="overlay">
+                            <a class="icon" title="User Profile">
+                                <label htmlFor="icon-button-file">
+                                    <Input onChange={chnageProfileImage} style={{ display: "none" }} accept="image/*" id="icon-button-file" type="file" />
+                                    <IconButton color="primary" aria-label="upload picture" component="span">
+                                        <PhotoCamera />
+                                    </IconButton>
+                                </label>
+                            </a>
+                        </div>
+                    </div>
+
                     <p className='profile_name'>{profile.firstName} {profile.lastName}</p>
                     <div className='profile_location'>
                         <LocationOnIcon color='error' />
@@ -47,50 +102,50 @@ const Profile = () => {
                         <div className='input_row'>
                             <div className='input_container'>
                                 <label>Prénom</label>
-                                <input value={profile.firstName} />
+                                <input onChange={(e)=>{setFirstName(e.target.value)}} value={FirstName} />
                             </div>
                             <div className='input_container'>
                                 <label>Nom</label>
-                                <input value={profile.lastName} />
+                                <input onChange={(e)=>{setlastName(e.target.value)}} value={LastName} />
                             </div>
                         </div>
                         <div className='field_seprator' ></div>
                         <div className='input_row'>
                             <div className='input_container'>
                                 <label>Adresse e-mail</label>
-                                <input value={profile.email} />
+                                <input onChange={(e)=>{setEmail(e.target.value)}} value={Email} />
                             </div>
                             <div className='input_container'>
                                 <label>Numéro de téléphone</label>
-                                <input value={profile.phoneNo} />
+                                <input onChange={(e)=>{setPhoneNo(e.target.value)}} value={PhoneNo} />
                             </div>
                         </div>
                         <div className='field_seprator'></div>
                         <div className='input_row'>
                             <div className='input_container'>
                                 <label>SDIS</label>
-                                <input value='SDIS 78' />
+                                <input disabled value='SDIS 78' />
                             </div>
                             <div className='input_container'>
                                 <label>Groupement</label>
-                                <input value={profile.group} />
+                                <input disabled value={profile.group} />
                             </div>
                         </div>
                         <div className='field_seprator'></div>
                         <div className='input_row'>
                             <div className='input_container'>
-                            <label>Service</label>
-                            <input value={profile.service} />
+                                <label>Service</label>
+                                <input disabled value={profile.service} />
                             </div>
-                            <div style={{visibility:"hidden"}} className='input_container'>
+                            <div style={{ visibility: "hidden" }} className='input_container'>
                                 <label>Groupement</label>
                                 <input value={profile.group} />
                             </div>
                         </div>
-                      
+
                         <div className='field_seprator'></div>
-                         
-                        <button className='profile_form_button'>Modifier le profil</button>
+
+                        <button onClick={updateProfile} className='profile_form_button'>Modifier le profil</button>
                     </form>
                 </div>
             </div>
