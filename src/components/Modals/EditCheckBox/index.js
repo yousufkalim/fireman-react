@@ -61,8 +61,6 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
         }
    }, [props]);
    
-console.log(props.accordionData.sentenceTypeId);
-console.log( props.accordionData.sentenceText);
     return (
         <div>
 
@@ -75,7 +73,7 @@ console.log( props.accordionData.sentenceText);
                 maxWidth="lg"
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={props.handleClose}>
-                    Edit title  <p>{props.accordionData.sentenceText}</p>
+                    Edit title 
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <div className='ckeditor'>
@@ -126,7 +124,7 @@ console.log( props.accordionData.sentenceText);
                   
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{props.saveChanges(sentence, props.accordionData.sectionSentencesId); props.setOpen(false)}}>
+                    <Button autoFocus onClick={()=>{props.saveChanges(sentence, props.accordionData.sectionSentencesId); props.setSubcheck(""); props.setOpen(false)}}>
                         Save changes
                     </Button>
                 </DialogActions>

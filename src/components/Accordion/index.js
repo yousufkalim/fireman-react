@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useState} from 'react';
 import { styled } from '@mui/material/styles';
 import DoneIcon from '@mui/icons-material/Done';
 import MuiAccordion from '@mui/material/Accordion';
@@ -59,12 +59,39 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionComponent=(props)=>{
-    
+    const [values, setValues] = useState({
+        sentenceId:"",
+        sentencetext:"",
+        sentencemodified:""
+    });
+      const onClick = (sentenceid, text, modified)=>{
+          setValues((pre)=>{
+              return{
+                  ...pre,
+                sentenceId: sentenceid,
+                sentencetext:text,
+                sentencemodified:text
+              }
+          })
+      }
+      const getModifiedSentence=(data, id)=>{
+          console.log(id);
+        setValues((pre)=>{
+            return{
+                ...pre,
+                sentencemodified:data
+            }
+        })
+      } 
+     const onSubmit =(section,chapter)=>{
+         console.log("values",values);
+         console.log("/..",section,chapter);
+      }
     return(
         <>
             <Accordion expanded={props.expanded === props.panelname} onChange={props.handleChange(props.panelname)}>
             <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                <p className='section_id'>451</p>
+                <p id={props.sectionindex} className='section_id'>{props.sectionindex}</p>
                 <Typography>{props.accordionData.sectionName}</Typography>
                {props.completed ? <DoneIcon className='cehck_section' />:""} 
             </AccordionSummary>
@@ -74,7 +101,7 @@ const AccordionComponent=(props)=>{
                     props.accordionData.series.map((series,i)=>{
                         return(
                             <>
-              <CheckList series={series.serialName} index={i} accordionData={series} />                    
+              <CheckList getModifiedSentence={getModifiedSentence} onClick={onClick} chapterindex={props.chapterindex+1} sectionindex={props.sectionindex}  series={series.serialName} index={i} accordionData={series} />                    
                            </>
                         )
                     })
@@ -98,7 +125,8 @@ const AccordionComponent=(props)=>{
                 >
                     PRECEDENT
                 </Button>
-                <Button endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                <Button onClick={()=>onSubmit(props.sectionindex+1,props.chapterindex+1)}
+                endIcon={<img className='' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
                     SUIVANT
                 </Button>
             </div>

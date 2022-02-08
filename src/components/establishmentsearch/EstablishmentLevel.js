@@ -64,6 +64,7 @@ const EstablishmentLevel = ({
   const onSubmit = (values, data) => {
     const newarr = values.repeatable.map((object) => ({
       ...object,
+      establishmentLevelId:object?.establishmentLevelId?object?.establishmentLevelId:0
     }));
     const newdescriptions = {
       lessEightMeter: data.lessEightMeter ? data.lessEightMeter : false,

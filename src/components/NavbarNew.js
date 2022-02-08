@@ -141,16 +141,18 @@ console.log(store);
         position="static"
       >
         <Toolbar>
-        <div className="dashboard_logo">
-          {
-              store.activeNavbarTab=="profile" ?
+        {
+             store.activeNavbarTab==2 || store.activeNavbarTab=="profile" ?
+             <div className="dashboard_logo">
              <img width="40px" src={Vector} />
+             </div>
              :
+             <div className="dashboard_logo1">
              <img width="166px" src={Site} />
+             </div>
 
 
           }    
-        </div>
         {
            store.activeNavbarTab == "profile"  ?
            ""

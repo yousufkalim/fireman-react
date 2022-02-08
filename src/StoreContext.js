@@ -31,8 +31,9 @@ export function StoreProvider({ children }) {
     sectionindex:"",
     tabindex:"",
     buttonenable:false,
-    catTab:false,
     caseName:"",
+    catTab:false,
+    phoneBook:false
   });
 
   const updateStore = (data) => {
