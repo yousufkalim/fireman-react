@@ -16,6 +16,9 @@ i18n
           // Create establishments
           "For which institution will the file be created?":
             "For which institution will the file be created?",
+            "What establishment are you looking for the security manager?":
+            "What establishment are you looking for the security manager?",
+            
           "Status": "Status",
           "Name": "Name",
           "Type Classification": "Type Classification",
@@ -215,6 +218,8 @@ i18n
           // create establishment
           "For which institution will the file be created?":
             "Pour quel établissement le dossier va-t-il être créé ?",
+            "What establishment are you looking for the security manager?":
+            "De quel établissement recherchez vous le responsable de sécurité ?",
           "Status": "Statut",
           "Name": "Nom",
           "Type Classification": "Classement Type",

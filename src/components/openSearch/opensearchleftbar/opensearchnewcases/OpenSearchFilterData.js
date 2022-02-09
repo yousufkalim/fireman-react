@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
+import api from "../../../../api/index";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -45,11 +46,16 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
     },
   ]);
 const onRowClick =(data, event)=>{
- 
+ console.log("data",data)
   event.defaultMuiPrevented = true;
   if(store.phoneBook){
-    setCompShow("phoneBook");
-
+    api("get", `/api/v1/get_establishment_phonebook/${data.id}`).then((res) => {
+      updatestore({
+        phonebookData:{...res.data,name:data.row.nom}
+     })
+      setCompShow("phoneBook");
+    });
+    
   }else{
     updatestore({
       establishmentId:data.id,

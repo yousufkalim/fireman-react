@@ -120,7 +120,7 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
                             variant="progress"
                             steps={8}
                             position="static"
-                            activeStep={store.activeNavbarTab}
+                            activeStep={steps}
                             sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%" }}
                         />
                 
