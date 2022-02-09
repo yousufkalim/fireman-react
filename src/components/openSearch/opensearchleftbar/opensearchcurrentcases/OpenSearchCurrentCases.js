@@ -74,18 +74,23 @@ const EstablishmentSearchCurrentCases = () => {
     { 
       field: "state", 
       headerName: `${t("State")}`, 
-      minWidth: 100, 
+      minWidth: 150, 
       color: "#8D919D" },    
   ];
   
   const onRowClick = (params) => {
+    console.log(params.row.val);
     updatestore({
       establishmentId: params.row.val.establishmentId,
       caseFileId:params.row.val.caseFileId,
       activeCase: "currentcases",
       sectionindex: params.row.val.sectionIndex,
       tabindex:params.row.val.tabIndex,
-      catTab:true
+      catTab:true,
+      caseName: params.row.val?.studyCaseName? params.row.val?.studyCaseName :params.row.val?.visitTypeName,
+      establishmentname: params?.row?.val?.establishmentName,
+      cityname:params?.row?.val?.cityName,
+      serialNum:params?.row?.val?.serialNum
     });
     setCompName("currentcases");
 

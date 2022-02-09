@@ -2,8 +2,15 @@
     width: 600px;
      height: 200px;
       padding: 30px;
-    background:aliceblue;
+    background: #F1F5F9;
     border-radius: 5px;
+}
+textarea::placeholder {
+    color: #7F8F9F;  
+  }
+.label-textarea{
+    color: #314A6C !important;
+    font-weight: 600 !important;
 }
 
 .checkbox{

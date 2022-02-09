@@ -23,18 +23,20 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const EstablishmentLevel = ({
-  Values,
-  description,
   setToggler,
   Toggler,
   setIcon,
   Icon,
-  casefileId
+  casefileId,
+  buttonEnability,
+  setButtonEnability
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
+  const [Values, setLevelData] = useState([]);
+  const [description, setDescription] = useState();
   const [columnState, setColumnState] = useState({
     cellname: true,
     cellnumber: true,
@@ -48,13 +50,21 @@ const EstablishmentLevel = ({
         };
       });
     });
+    api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
+      (res) => {
+        console.log(res,"des");
+        setLevelData(res.data.levels);
+        setDescription(res.data.descriptions);
+      }
+    );
   }, []);
 
-  console.log("level",Values);
+
   const store = Store();
   const onSubmit = (values, data) => {
     const newarr = values.repeatable.map((object) => ({
       ...object,
+      establishmentLevelId:object?.establishmentLevelId?object?.establishmentLevelId:0
     }));
     const newdescriptions = {
       lessEightMeter: data.lessEightMeter ? data.lessEightMeter : false,
@@ -66,11 +76,17 @@ const EstablishmentLevel = ({
       establishmentId: store.establishmentId,
       levels: newarr,
       descriptions: newdescriptions,
-      caseFileId:casefileId
+      caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
       console.log("obj", obj);
-      api("post", "/api/v1/create_description_data", obj).then((res) => {
+      api("put", "/api/v1/update_description_data", obj).then((res) => {
+        setButtonEnability((pre)=>{
+        return{
+          ...pre,
+          stafftablebutton:false
+        }
+        })
         {
           toast.success(t("Successfull"));
         }
@@ -89,7 +105,9 @@ const EstablishmentLevel = ({
       });
     }
     if (store.activeCase === "currentcases") {
+      console.log("current", obj);
       api("put", "/api/v1/update_description_data", obj).then((res) => {
+        console.log(res);
         {
           toast.success(t("Successfull"));
         }
@@ -157,7 +175,7 @@ const EstablishmentLevel = ({
             sx={{
               boxShadow: "none",
               width: "97%",
-              maxHeight: "700px",
+              maxHeight: "500px",
               overflow: "scroll",
               margin: "auto",
             }}
@@ -497,7 +515,7 @@ const EstablishmentLevel = ({
                         </>
                       )}
                     />
-                    <Description onSubmit={onSubmit} values={values} />
+                    <Description onSubmit={onSubmit} buttonEnability={buttonEnability} setButtonEnability={setButtonEnability}  description={description} values={values} />
                   </Form>
                 )}
               />
@@ -701,7 +719,11 @@ const EstablishmentLevel = ({
                                           >
                                             <Field
                                               className="field-width-staff"
-                                              type="number"
+                                              type="tel"
+                                              minlength="12" 
+                                              maxlength="12"
+                                              title="Number should contain 12 digits and No Character"
+                                              pattern="^(\d{12})$"
                                               name={`repeatable.${i}.cellNumber`}
                                               style={{ padding: "10px" }}
                                               value={row.cellNumber}
@@ -846,6 +868,8 @@ const EstablishmentLevel = ({
                         onSubmit={onSubmit}
                         description={description}
                         values={values}
+                        buttonEnability={buttonEnability} 
+                        setButtonEnability={setButtonEnability}
                       />
                     )}
                   </Form>

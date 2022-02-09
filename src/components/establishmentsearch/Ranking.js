@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import api from "../../api";
 import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
@@ -19,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId }) => {
+const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId,buttonEnability}) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     rankingorder: "",
@@ -44,6 +45,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       : "",
   });
   const store = Store();
+  const updatestore = UpdateStore();
   useEffect(() => {
     api("get", "/api/v1/classification/dropdown").then((res) =>
       setdropdownValue((preVal) => {
@@ -129,6 +131,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       caseFileId:casefileId
     };
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
+      updatestore({
+        activeNavbarTab: 2,
+      });
       {
         toast.success(t("Successfull"));
       }
@@ -199,6 +204,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "200px",
                 }}
               >
@@ -211,6 +218,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -223,6 +232,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "190px",
                 }}
               >
@@ -235,6 +246,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
+                  color:"#485372",
+                  fontWeight:"bold",
                   width: "180px",
                 }}
               >
@@ -306,6 +319,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
+                disabled={buttonEnability?.Rankingbutton}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

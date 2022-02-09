@@ -8,17 +8,15 @@ import Floppy from "../../assets/floppy.png";
 import { fabClasses, IconButton } from '@mui/material';
 import AccordionComponent from '../Accordion';
 
-
-
-
-
-
 const Implantation = (props) => {
     const [expanded, setExpanded] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    const onSubmit = (sectionindex, chapterindex)=>{
+        console.log("id",sectionindex,chapterindex);
+    }
     return (
         <> 
         <div className="etablissement">
@@ -38,7 +36,7 @@ const Implantation = (props) => {
                 return(
                     <div>
                   <div className='sections'>
-                      <AccordionComponent accordionData={data} completed={true} handleChange={handleChange} expanded={expanded} panelname={data.sectionName} />
+                      <AccordionComponent chapterindex={props.index} sectionindex={i} onSubmit={onSubmit} accordionData={data} completed={true} handleChange={handleChange} expanded={expanded} panelname={data.sectionName} />
                   </div>
               </div>
                 )

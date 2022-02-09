@@ -245,6 +245,7 @@ const FolderCreationSection = ({
   const [inputDisableState, setInputDisableState] = useState('');
   
   const [checkBoxRes, setCheckBoxRes] = useState();
+  
   useEffect(() => {
     setInputValues({
 
@@ -280,6 +281,7 @@ const FolderCreationSection = ({
       };
     });
   };
+  console.log(inputValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     ////////////for new cases//////////
@@ -287,15 +289,29 @@ const FolderCreationSection = ({
       let caseFileId = localStorage.getItem("establishmentid");
       let userdata = localStorage.getItem("userData");
       userdata = JSON.parse(userdata);
+      // if(inputValues.studyTypeId){
+      //   setInputValues((preVal) => {
+      //     return {
+      //       ...preVal,
+      //       visitTypeId: 0,
+      //     };
+      //   });
+      // }
+      // if(inputValues.visitTypeId){
+      //   setInputValues((preVal) => {
+      //     return {
+      //       ...preVal,
+      //       studyTypeId: 0,
+      //     };
+      //   });
+      // }
       const formdata = {
         ...inputValues,
         caseFileId: caseFileId,
         establishmentId: caseFileId,
         userid: userdata.userid,
-        visitTypeId:
-          inputValues.visitTypeId === "" ? 0 : inputValues.visitTypeId,
-        studyTypeId:
-          inputValues.studyTypeId === "" ? 0 : inputValues.studyTypeId,
+        visitTypeId: inputValues.caseTypeId==="1"? 0: inputValues.visitTypeId,
+        studyTypeId: inputValues.caseTypeId==="2"? 0: inputValues.studyTypeId,
       };
      
       if(store.activeCase==="newcase"){
@@ -411,7 +427,10 @@ const FolderCreationSection = ({
               iconstudytwo: true,
             };
           });
-          updatestore({ activeNavbarTab: 1 });
+          updatestore(
+            { activeNavbarTab: 1,
+              buttonenable:true
+          });
         }
         {
           toast.success(t("Successfull"));
@@ -523,6 +542,7 @@ const FolderCreationSection = ({
 
                             <div class="flex-form">
                               <select
+                                required
                                 className="dropdown"
                                 type="select"
                                 name="studyTypeId"
@@ -552,6 +572,7 @@ const FolderCreationSection = ({
                                 value={inputValues?.visitTypeId}
                                 required
                               >
+                                 <option value="">{t("Please choose")}</option>
                                 {dropdownValue.visittype.data?.map((item) => (
                                   <option value={item.value}>
                                     {item.text}

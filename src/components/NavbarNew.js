@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React,{useState, useEffect} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,17 +10,19 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
-;import MoreIcon from "@mui/icons-material/MoreVert";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/Vector.png"
 import Site from "../assets/site.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'
 import { Store } from "../StoreContext";
 import moment from "moment";
+import api from '../api/index';
 import 'moment/locale/fr'
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let [profile, setProfile] = useState({})
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { t, i18n } = useTranslation();
   const { language } = i18n;
@@ -29,6 +31,19 @@ export default function Navbar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   let user = localStorage.getItem("user");
   const store = Store();
+  useEffect(() => {
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+        .then((res) => {
+            console.log(res);
+            // localStorage.setItem('profileuser', res.firstName+ res.lastName);
+            if (res.status == 200) {
+                setProfile(res.data)
+            }
+        })
+        .catch((err) => console.log(err));
+}, [])
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -142,11 +157,11 @@ console.log(store);
            store.activeNavbarTab == "profile"  ?
            ""
            :
-           store.activeNavbarTab==2?
+           store.catTab===true?
            <div className="nav_headings">
-           <p>Visite périodique</p>
-           <p style={{fontWeight:"500"}} >La Grande Recre</p>
-           <p style={{fontSize:"12px"}}>Savigny-le-Temple / 202174-41</p>
+          { store.activeCase==="currentcases"?  <p>{store?.caseName}</p> : null }
+           <p style={{fontWeight:"500"}} >{store?.establishmentname}</p>
+          {store.activeCase==="currentcases"?  <p style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
          </div>
            :
            ""
@@ -156,14 +171,14 @@ console.log(store);
            
           <Box sx={{ flexGrow: 1 }} />
           <Box>
-            {
+            {/* {
               store.activeNavbarTab==2 ?
               <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
             </Button>
-              :
+              : */}
               <div style={{display:"flex"}}>
                 <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
                <Button variant="outlined"  onClick={() =>
@@ -174,7 +189,7 @@ console.log(store);
               </div>
              
 
-            }
+            
         
           </Box>
           <div className="bellIcon" style={{display:"flex"}}>
@@ -199,7 +214,7 @@ console.log(store);
               <AccountCircle />
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
-              <p style={{cursor:"pointer"}}>{user}</p>
+              <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
               <p style={{fontSize:"13px"}}>Préventioniste</p>
             </Box>
           </div>
