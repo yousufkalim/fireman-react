@@ -6,11 +6,12 @@
     width: 91%;
 }
 .profile_heading{
-    color:#485372;
-    font-size: 24px;
+    color: #485372;
+    font-size: 22px;
     font-weight: 600;
     margin-top: -27px;
     margin-bottom: 16px;
+    margin-left: 40px;
 }
 .profile_location{
     display: flex;
@@ -66,6 +67,7 @@
     border: none;
     background: #FFFFFF;
     padding: 8px 0px;
+    width: 80%;
 }
 .input_container select{
     color: #485372;
@@ -92,8 +94,11 @@
 
 .profile_form form .input_row{
     display: flex;
-    margin-left: -127px;
-    justify-content: space-around;
+    flex-flow: row wrap;
+    margin-left: 25px;
+}
+.profile_form .input_container{
+    width: 50%;
 }
 .profile_form .field_seprator{
     border-bottom: 1px solid #C5D3DB;
@@ -106,7 +111,7 @@
 border-radius: 10px;
     color:#485372;
     padding: 13px 15px;
-    margin-left: 46px;
+    margin-left: 25px;
 }
 
 .team_form_button{
@@ -162,3 +167,11 @@ border-radius: 14px;
     text-align: center;
     opacity: 1;
   }
+
+  .phonebook_heading1{
+    color: #485372;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: -27px;
+    margin-bottom: 20px;
+}

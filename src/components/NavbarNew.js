@@ -142,7 +142,7 @@ console.log(store);
       >
         <Toolbar>
         {
-             store.activeNavbarTab==2 || store.activeNavbarTab=="profile" ?
+             store.activeNavbarTab=="profile" ?
              <div className="dashboard_logo">
              <img width="40px" src={Vector} />
              </div>

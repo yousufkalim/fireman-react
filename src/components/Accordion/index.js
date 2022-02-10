@@ -19,7 +19,10 @@ import Floppy from "../../assets/floppy.png";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { IconButton } from '@mui/material';
 import CheckList from '../CheckList';
-
+import { Store } from '../../StoreContext';
+import api from '../../api/index';
+import { toast } from "react-toastify";
+import { useTranslation, Trans } from "react-i18next";
 
 const Accordion = styled((props) => (
 
@@ -59,33 +62,89 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const AccordionComponent=(props)=>{
+    const { t } = useTranslation();
+    const [sentenceText, setSentenceText] = useState("");
     const [values, setValues] = useState({
         sentenceId:"",
         sentencetext:"",
-        sentencemodified:""
+        sentencemodified:"",
+        seriesName:"",
+        sentenceNature:""
     });
-      const onClick = (sentenceid, text, modified)=>{
-          setValues((pre)=>{
-              return{
-                  ...pre,
-                sentenceId: sentenceid,
-                sentencetext:text,
-                sentencemodified:text
-              }
-          })
+    const [seriesValues, setSeriesValues] = useState([]);
+    const [subCheckValues, setSubCheckValues] = useState([]);
+    const store = Store();
+      const onClick = (sentenceid, text, seriesname, nature)=>{
+            console.log("71",sentenceid, text, seriesname, nature); 
+                setValues((pre)=>{
+                    return{
+                        ...pre,
+                      sentenceId: sentenceid,
+                      sentencetext:text,
+                      seriesName:seriesname,
+                      sentenceNature:nature
+                    }
+                })
+            
+                setSeriesValues((pre)=>[...pre.filter((obj)=>(obj.seriesName!=seriesname)), {completedSentence:nature==1?text:"", caseFileCheckListId: sentenceid,modifiedSentence:text,subCheck:[], seriesName:seriesname}])
+           
       }
-      const getModifiedSentence=(data, id)=>{
-          console.log(id);
-        setValues((pre)=>{
+      const getModifiedSentence=(text, sentenceid,nature, seriesname )=>{
+        console.log("89",sentenceid, text, seriesname, nature); 
+          setValues((pre)=>{
             return{
                 ...pre,
-                sentencemodified:data
+              sentenceId: sentenceid,
+              sentencetext:text,
+              seriesName:seriesname,
+              sentenceNature:nature
             }
         })
+    
+        setSeriesValues((pre)=>[...pre.filter((obj)=>(obj.seriesName!=seriesname)), {completedSentence:nature==1?text:"", caseFileCheckListId: sentenceid,modifiedSentence:text,subCheck:[],  seriesName:seriesname}])
+        
       } 
+      const getSubCheckListData =(id,text,sentenceNature,seriesname)=>{
+        console.log("Details",id,text,sentenceNature,seriesname);
+
+          setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=seriesname)),id!=""&&text!=""&&sentenceNature!=""&&seriesname!=""? {seriesname:seriesname, subCheckListId:id,modifiedSentence:text, completedSentence:sentenceNature==1?text:""}:""])
+        //  setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=sentenceDetails?.seriesname)),{seriesname:sentenceDetails.seriesname, subCheckListId:sentenceDetails.id,modifiedSentence:sentenceDetails.text, completedSentence:sentenceDetails.sentenceNature==1?sentenceDetails.text:""}])
+     }
+     console.log(seriesValues,"><>seriesValues outside");
      const onSubmit =(section,chapter)=>{
-         console.log("values",values);
+        console.log(seriesValues,"><>seriesValues");
+        console.log("subCheckValues",subCheckValues);
+        console.log(values,"values");
          console.log("/..",section,chapter);
+         let newdata=[]
+         let new2=[]
+          seriesValues?.map((item,index)=>{
+            subCheckValues?.map((sub)=>{  
+                if(sub.seriesname===item.seriesName){
+                    newdata.push({...item,  subCheck: [{completedSentence: sub.completedSentence, subCheckListId:sub.subCheckListId,modifiedSentence:sub.modifiedSentence}]})
+                } 
+            })
+         })
+         newdata.map(i=>{
+             new2=seriesValues.findIndex(s=>s.caseFileCheckListId ===i.caseFileCheckListId)
+              //new2.push( i)
+              seriesValues[new2]=i
+         })
+         console.log("sereewwww",seriesValues)
+        
+         const obj = {
+            caseFileId:store.caseFileId,
+            chapterIndex:chapter,
+            tabIndex:store.activeNavbarTab+1,
+            sectionIndex:section,
+            checks: seriesValues
+         }
+          api("post","/api/v1/checkList/save_tabs_checklist",obj).then((res)=>{
+            if(res.data===true){
+                toast.success(t("Successfull"));
+            }
+          })
+          console.log("obj", obj);
       }
     return(
         <>
@@ -101,7 +160,7 @@ const AccordionComponent=(props)=>{
                     props.accordionData.series.map((series,i)=>{
                         return(
                             <>
-              <CheckList getModifiedSentence={getModifiedSentence} onClick={onClick} chapterindex={props.chapterindex+1} sectionindex={props.sectionindex}  series={series.serialName} index={i} accordionData={series} />                    
+              <CheckList  onClick={onClick} getSubCheckListData={getSubCheckListData} getModifiedSentence={getModifiedSentence} setSentenceText={setSentenceText} chapterindex={props.chapterindex+1} sectionindex={props.sectionindex}  series={series.serialName} index={i} accordionData={series} />                    
                            </>
                         )
                     })

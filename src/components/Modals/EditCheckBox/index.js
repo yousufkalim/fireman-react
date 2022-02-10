@@ -60,7 +60,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
           console.log((props?.accordionData&&props.accordionData?.sentenceText.match(re) || []).join(''));
         }
    }, [props]);
-   
+   console.log("props.accordionData",props.seriesName);
     return (
         <div>
 
@@ -124,7 +124,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                   
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{props.saveChanges(sentence, props.accordionData.sectionSentencesId); props.setSubcheck(""); props.setOpen(false)}}>
+                    <Button autoFocus onClick={()=>{props.saveChanges(sentence?sentence:props.accordionData.sentenceText, props.accordionData.sectionSentencesId,props.accordionData.sentenceNature, props.seriesName); props.setSubcheck(""); props.setOpen(false)}}>
                         Save changes
                     </Button>
                 </DialogActions>

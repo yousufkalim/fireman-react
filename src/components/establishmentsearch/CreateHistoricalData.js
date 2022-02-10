@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from "@mui/material/styles";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
@@ -22,6 +23,16 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
+}));
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
 }));
 const CreateHistoricalData = ({
   establishmentid,
@@ -317,7 +328,9 @@ const CreateHistoricalData = ({
                                           width: "310px",
                                         }}
                                       >
+                                      
                                         {t("Urban planning references")}
+                                       
                                       </Box>
                                     </th>
                                     <th class="header-label">
@@ -1368,7 +1381,9 @@ const CreateHistoricalData = ({
                                           width: "310px",
                                         }}
                                       >
+                                       
                                         {t("Urban planning references")}
+                                       
                                       </Box>
                                     </th>
                                     <th class="header-label">

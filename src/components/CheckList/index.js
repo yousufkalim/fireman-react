@@ -25,6 +25,12 @@ const CheckList = (props) => {
         incomplete:"",
         subcheck:""
     });
+    const [sentenceDetails, setSentenceDetails] = useState({
+        sentenceNature:"",
+        seriesname:"",
+        text:"",
+        id:""
+      });
     const [checklists,setchecklists]=React.useState(props.accordionData.checkList && props.accordionData.checkList)
     const handleOpen = (data,i) => {
         setOpen(true)
@@ -32,10 +38,11 @@ const CheckList = (props) => {
     };
    
     const handleClose = () => setOpen(false);
-    const saveChanges=(sentence, sentenceId)=>{ 
+    const saveChanges=(sentence, sentenceId, nature, seriesname)=>{ 
+        console.log("sentence",sentence);
          const objIndex = checklists.findIndex((obj => obj?.sectionSentencesId === sentenceId));
          checklists[objIndex].sentenceText = sentence
-       props.getModifiedSentence(sentence, sentenceId)
+       props.getModifiedSentence(sentence, sentenceId, nature,seriesname)
 //    let a= checklists.map((data,i)=>{
 //        let dat={}
 //       if((props.accordionData.serialName+i)==checklistdata.id){
@@ -44,17 +51,18 @@ const CheckList = (props) => {
 //       return data
 //     })
     }
+
+   
     return (
         <>  
-            <h3 style={{ visibility: "hidden" }}>{props.accordionData.serialName}</h3>
+            <h3 >{props.accordionData.serialName}</h3>
             {
                 checklists &&
                 checklists.map((data, i) => {
                     return (
                         <div className='checklist'>
                             <div className='checklist_content'>
-                                <Checkbox 
-                                    
+                                <Checkbox  
                                     icon={<CircleUnchecked />}
                                     checkedIcon={<CircleCheckedFilled />}
                                     style={{
@@ -62,12 +70,24 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
-                                        props.onClick(data.sectionSentencesId, data.sentenceText)
+                                        if(data.sentenceNature!==1){
+                                            props.onClick(data.sectionSentencesId, data.sentenceText, props.accordionData.serialName, data.sentenceNature)
+                                        }
                                         console.log("data.subchecks",data);
                                         console.log("index", i);
                                         //setChacked(props.accordionData.serialName + i)
                                         if(data.sentenceNature===0){
                                             setSubcheck("")
+                                            // setSentenceDetails(()=>{
+                                            //     return{
+                                            //         seriesname:props.accordionData.serialName,
+                                            //         sentenceNature:data.sentenceNature,
+                                            //         text:data.sentenceText,
+                                            //         id:data.sectionSentencesId
+                                            //     }
+                                               
+                                            // })
+                                            props.getSubCheckListData("","", "", props.accordionData.serialName)
                                         }
                                         if(data.sentenceNature===1){
                                             console.log(data.sectionSentencesId)
@@ -75,6 +95,16 @@ const CheckList = (props) => {
                                             setIndex(i);
                                             setChacked(props.accordionData.serialName + i)
                                             setSubcheck("")  
+                                        //    setSentenceDetails(()=>{
+                                        //         return{
+                                        //             seriesname:props.accordionData.serialName,
+                                        //             sentenceNature:data.sentenceNature,
+                                        //             text:data.sentenceText,
+                                        //             id:data.sectionSentencesId
+                                        //         }
+                                               
+                                        //     })
+                                        props.getSubCheckListData("","", "", props.accordionData.serialName)
                                         }
                                         if(data.sentenceNature===2){
                                             setChacked(props.accordionData.serialName + i);
@@ -97,7 +127,7 @@ const CheckList = (props) => {
                                   
                             </div>
                             <div>
-                                <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); setIndex(i)}} sx={{ cursor: "pointer" }} />
+                                <CreateIcon onClick={()=>{handleOpen(data,props.accordionData.serialName + i); props.setSentenceText(data.sentenceText); setIndex(i)}} sx={{ cursor: "pointer" }} />
                             </div>
                         </div>
                     )
@@ -113,9 +143,13 @@ const CheckList = (props) => {
                                  setSubcheck={setSubcheck}
                                  setSubCheckIndex={setSubCheckIndex}
                                  subcheckIndex={subcheckIndex}
+                                 serialName={props.accordionData.serialName}
+                                 getSubCheckListData={props.getSubCheckListData}
+                                 setSentenceDetails={setSentenceDetails}
+                                 sentenceDetails={sentenceDetails}
                                  />
                                  :null}
-          <EditModal saveChanges={saveChanges}  accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} setSubcheck={setSubcheck}/>
+          <EditModal saveChanges={saveChanges} seriesName={props.accordionData.serialName}  accordionData={checklistdata} setOpen={setOpen} open={open} handleClose={handleClose} setSubcheck={setSubcheck}/>
            
         </>
     )
