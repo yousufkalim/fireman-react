@@ -74,19 +74,20 @@ const AccordionComponent=(props)=>{
     const [seriesValues, setSeriesValues] = useState([]);
     const [subCheckValues, setSubCheckValues] = useState([]);
     const store = Store();
-      const onClick = (sentenceid, text, seriesname, nature)=>{
-            console.log("71",sentenceid, text, seriesname, nature); 
+      const onClick = (sentenceid, text, seriesname, nature, serialid)=>{
+            console.log("71",sentenceid, text, seriesname, nature, serialid); 
                 setValues((pre)=>{
                     return{
                         ...pre,
                       sentenceId: sentenceid,
                       sentencetext:text,
                       seriesName:seriesname,
-                      sentenceNature:nature
+                      sentenceNature:nature,
+                      serialid:serialid
                     }
                 })
             
-                setSeriesValues((pre)=>[...pre.filter((obj)=>(obj.seriesName!=seriesname)), {completedSentence:nature==1?text:"", caseFileCheckListId: sentenceid,modifiedSentence:text,subCheck:[], seriesName:seriesname}])
+                setSeriesValues((pre)=>[...pre.filter((obj)=>(obj.seriesName!=seriesname)), {completedSentence:nature==1?text:"", serialId:serialid, caseFileCheckListId: sentenceid,modifiedSentence:text,subCheck:[], seriesName:seriesname}])
            
       }
       const getModifiedSentence=(text, sentenceid,nature, seriesname )=>{
@@ -107,7 +108,7 @@ const AccordionComponent=(props)=>{
       const getSubCheckListData =(id,text,sentenceNature,seriesname)=>{
         console.log("Details",id,text,sentenceNature,seriesname);
 
-          setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=seriesname)),id!=""&&text!=""&&sentenceNature!=""&&seriesname!=""? {seriesname:seriesname, subCheckListId:id,modifiedSentence:text, completedSentence:sentenceNature==1?text:""}:""])
+          setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=seriesname)), {seriesname:seriesname, subCheckListId:id,modifiedSentence:text, completedSentence:sentenceNature==1?text:""}])
         //  setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=sentenceDetails?.seriesname)),{seriesname:sentenceDetails.seriesname, subCheckListId:sentenceDetails.id,modifiedSentence:sentenceDetails.text, completedSentence:sentenceDetails.sentenceNature==1?sentenceDetails.text:""}])
      }
      console.log(seriesValues,"><>seriesValues outside");
@@ -140,6 +141,7 @@ const AccordionComponent=(props)=>{
             checks: seriesValues
          }
           api("post","/api/v1/checkList/save_tabs_checklist",obj).then((res)=>{
+              console.log("impres",res);
             if(res.data===true){
                 toast.success(t("Successfull"));
             }

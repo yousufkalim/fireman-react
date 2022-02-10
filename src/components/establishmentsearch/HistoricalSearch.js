@@ -354,7 +354,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           value={inputValues.establishmentName}
                         />
                       </div>
-                      <label className="checklist-heading"> Adresse</label>
+                      <div className="checklist-heading heading-establishment"> Adresse</div>
                       <br />
                       <label className="label-color">{t("City")} </label>
                       <div className="flex-form">
@@ -384,9 +384,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                       <div className="establishment-nom-mobile-container">
-                        <label className="checklist-heading">
+                        <div className="checklist-heading heading-establishment">
                           Responsable de sécurité
-                        </label>
+                        </div>
                         <div className="flex-form">
                           <label className="label-color">{t("Name")} </label>
                           <input
@@ -434,6 +434,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       </div>
 
                       <div className="establishment-typenom-container">
+                        <Box sx={{borderTop:"0.6px solid #C5D3DB", marginTop:"26px", marginBottom:"20px", width:"95%"}}></Box>
                         <label className="label-color">
                           {t("Channel type")}{" "}
                         </label>
@@ -477,6 +478,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           />
                         </div>
                       </div>
+                      <Box sx={{borderTop:"0.6px solid #C5D3DB", marginTop:"7px", marginBottom:"20px", width:"95%"}}></Box>
                       <label className="label-color">{t("First name")}</label>
                       <div className="flex-form">
                         <input

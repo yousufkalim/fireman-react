@@ -16,7 +16,7 @@
 @import url("./profile.css");
 @import url("./teammanagement.css");
 @import url("./OpenSearch/Foldercreation.css");
-
+@import url("./EsatablishmentTab/GeneralData.css");
 /* Defaults */
 * {
   padding: 0;

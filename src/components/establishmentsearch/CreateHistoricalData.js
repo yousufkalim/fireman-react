@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
@@ -18,22 +18,14 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Grid from "@mui/material/Grid";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const BootstrapTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-  },
-}));
+
 const CreateHistoricalData = ({
   establishmentid,
   setToggler,
@@ -42,7 +34,7 @@ const CreateHistoricalData = ({
   Icon,
   casefileId,
   buttonEnability,
-  setButtonEnability
+  setButtonEnability,
 }) => {
   const { t } = useTranslation();
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
@@ -50,6 +42,7 @@ const CreateHistoricalData = ({
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
   });
+  const [Open, setOpen] = useState(false)
   const newarr = historicalDataEstablishment?.map((val) => ({
     dateEvent: moment(val.histDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
     historicalObjectId: val.historicalObjectId,
@@ -78,10 +71,12 @@ const CreateHistoricalData = ({
     });
   }, []);
   const onSubmit = (values) => {
-    console.log("><>val",values)
+    console.log("><>val", values);
     const newarr = values.repeatable.map((object) => ({
       ...object,
-      historicalEventid: object.historicalEventId?object.historicalEventId:0,
+      historicalEventid: object.historicalEventId
+        ? object.historicalEventId
+        : 0,
       establishmentId: establishmentid,
       dateEvent: object.histDate,
       caseFileId: casefileId,
@@ -90,18 +85,18 @@ const CreateHistoricalData = ({
     //////for new cases
 
     if (store.activeCase === "newcase") {
-      console.log("newarr",newarr);
+      console.log("newarr", newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
-              console.log("dfxgchvjb",res);
-              setButtonEnability((pre)=>{
-                return{
+              console.log("dfxgchvjb", res);
+              setButtonEnability((pre) => {
+                return {
                   ...pre,
-                  establishmentlevelbutton:false
-                }
-              })
+                  establishmentlevelbutton: false,
+                };
+              });
               setToggler((pre) => {
                 return {
                   ...pre,
@@ -117,12 +112,12 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
-              console.log(res.data,"<>><><>/");
+              console.log(res.data, "<>><><>/");
               let form_data = new FormData();
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", res.data);
               form_data.append("HistoricalEventFilesId", "0");
-                     console.log("form_data",form_data);
+              console.log("form_data", form_data);
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
@@ -137,7 +132,7 @@ const CreateHistoricalData = ({
     }
     //////for currentcases
     if (store.activeCase === "currentcases") {
-      console.log(newarr,"current");
+      console.log(newarr, "current");
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
@@ -157,7 +152,7 @@ const CreateHistoricalData = ({
               {
                 toast.success(t("Successfull"));
               }
-              console.log("val.image",val.image);
+              console.log("val.image", val.image);
               let form_data = new FormData();
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", res.data);
@@ -228,7 +223,7 @@ const CreateHistoricalData = ({
               boxShadow: "none",
             }}
           >
-            {console.log(historicalDataEstablishment,"trdtyfg")}
+            {console.log(historicalDataEstablishment, "trdtyfg")}
             {store.activeCase === "newcase" ? (
               <Formik
                 onSubmit={(values) => onSubmit(values)}
@@ -328,9 +323,20 @@ const CreateHistoricalData = ({
                                           width: "310px",
                                         }}
                                       >
-                                      
-                                        {t("Urban planning references")}
-                                       
+                                        <Tooltip  sx={{
+                                              color: "#314A6C",
+                                              fontWeight: "600",
+                                              fontSize: "12px",
+                                            }} title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)">
+                                          <Button
+                                           
+                                          >
+                                            {" "}
+                                            {t(
+                                              "Urban planning references"
+                                            )}{" "}
+                                          </Button>
+                                        </Tooltip>
                                       </Box>
                                     </th>
                                     <th class="header-label">
@@ -1189,14 +1195,17 @@ const CreateHistoricalData = ({
 
                                       <th>
                                         <div>
-                                        {console.log("new", r)}
+                                          {console.log("new", r)}
+                                          <Tooltip title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)" arrow >
                                           <Field
+                                          autocomplete="off"
                                             className="field-width"
                                             name={`repeatable.${i}.urbanPlanningRef`}
                                             defaultValue={
                                               r && r?.urbanPlanningRef
                                             }
                                           />
+                                          </Tooltip>
                                         </div>
                                       </th>
                                       <th>
@@ -1381,9 +1390,20 @@ const CreateHistoricalData = ({
                                           width: "310px",
                                         }}
                                       >
-                                       
-                                        {t("Urban planning references")}
-                                       
+                                       <Tooltip  sx={{
+                                              color: "#314A6C",
+                                              fontWeight: "600",
+                                              fontSize: "12px",
+                                            }} title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)">
+                                          <Button
+                                           
+                                          >
+                                            {" "}
+                                            {t(
+                                              "Urban planning references"
+                                            )}{" "}
+                                          </Button>
+                                        </Tooltip>
                                       </Box>
                                     </th>
                                     <th class="header-label">
@@ -2083,13 +2103,15 @@ const CreateHistoricalData = ({
                                       </th>
                                       <th>
                                         {console.log("curr", r)}
-                                        <Field
-                                          className="field-width"
-                                          name={`repeatable.${i}.urbanPlanningRef`}
-                                          defaultValue={
-                                            r && r?.urbanPlanningRef
-                                          }
-                                        />
+                                        <Tooltip open={true} title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)" arrow >
+                                          <Field
+                                            className="field-width"
+                                            name={`repeatable.${i}.urbanPlanningRef`}
+                                            defaultValue={
+                                              r && r?.urbanPlanningRef
+                                            }
+                                          />
+                                          </Tooltip>
                                       </th>
                                       <th>
                                         <Box
