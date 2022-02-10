@@ -62,6 +62,10 @@ const Subchecklist = ({
   setSubcheck,
   subcheckIndex,
   setSubCheckIndex,
+  serialName,
+  getSubCheckListData,
+  setSentenceDetails,
+  sentenceDetails
 }) => {
   useEffect(() => {
     setOpen(true);
@@ -75,18 +79,28 @@ const Subchecklist = ({
   const [opensubCheck, setOpenSubcheck] = useState(false);
   const [subSentenceText, setSubSentenceText] = useState("");
   const [subSentenceId, setsubSentenceId] = useState("");
+  
   const handleClose = () => {
     setSnack(false);
   };
-  const saveChanges=(sentence, sentenceid)=>{
- console.log(sentence,sentenceid);
+ 
+  const saveChanges=(sentence, sentenceid, serialName, SentenceNature)=>{
+ setSentenceDetails((pre)=>{
+  return{
+   seriesname:serialName,
+    sentenceNature:SentenceNature,
+    text:sentence,
+    id:sentenceid
+  }
+})
  setCloseSatate(sentenceid)
- const objIndex = subcheckData?.findIndex((obj => obj?.sectionSubSentencesId === sentenceid));
+ const objIndex = subcheckData?.findIndex((obj => obj?.sectionSubSentencesId === sentenceid)); 
  console.log("objIndex",objIndex);
  subcheckData[objIndex].subSentenceText = sentence
  //console.log("objIndex",objIndex);
  console.log("sub", subcheckData);
   }
+  
   const action = (
     <React.Fragment>
       <Button color="secondary" size="small" onClick={handleClose}>
@@ -130,6 +144,17 @@ const Subchecklist = ({
                     }}
                     checked={subCheck == val?.sectionSubSentencesId}
                     onClick={() => {
+                      console.log("val?.sentenceNature",val?.sentenceNature);
+                     
+                      setSentenceDetails((pre)=>{
+                           return{
+                            seriesname:serialName,
+                             sentenceNature:val?.sentenceNature,
+                             text:val?.subSentenceText,
+                             id:val?.sectionSubSentencesId
+                           }
+                      })
+                    
                       if(val?.sentenceNature===1){
                         setSubSentenceText(val?.subSentenceText)
                         setsubSentenceId(val?.sectionSubSentencesId)
@@ -147,6 +172,12 @@ const Subchecklist = ({
                   <p>{parse(val?.subSentenceText)}</p>
                   </Box>
                   <CreateIcon onClick={()=>{
+                     setSentenceDetails((pre)=>{
+                      return{
+                        ...pre,
+                        sentenceNature:val?.sentenceNature
+                      }
+                 })
                     setOpenSubcheck(true) 
                     setsubSentenceId(val?.sectionSubSentencesId)
                     setSubSentenceText(val?.subSentenceText)}
@@ -173,6 +204,9 @@ const Subchecklist = ({
               onClick={() => {
                 console.log("closeSatate",closeSatate);
                 console.log("subCheck",subCheck);
+                console.log("sentenceDetails",sentenceDetails);
+                console.log("subSentenceText 195",subSentenceText);
+                getSubCheckListData(sentenceDetails.id,sentenceDetails.text,sentenceDetails.sentenceNature, sentenceDetails.seriesname)
                 if (
                   closeSatate == subCheck &&
                   closeSatate !== "" &&
@@ -199,6 +233,8 @@ const Subchecklist = ({
       openSubcheck={opensubCheck} 
       setOpenSubcheck={setOpenSubcheck}
       setSubcheck={setSubcheck}
+      serialName={serialName}
+      SentenceNature={sentenceDetails.sentenceNature}
       />
     </>
   );

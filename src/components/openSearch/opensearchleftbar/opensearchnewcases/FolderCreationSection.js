@@ -310,8 +310,8 @@ const FolderCreationSection = ({
         caseFileId: caseFileId,
         establishmentId: caseFileId,
         userid: userdata.userid,
-        visitTypeId: inputValues.caseTypeId==="1"? 0: inputValues.visitTypeId,
-        studyTypeId: inputValues.caseTypeId==="2"? 0: inputValues.studyTypeId,
+        visitTypeId: inputValues.caseTypeId==="1" || inputValues.caseTypeId==="3"? 0: inputValues.visitTypeId,
+        studyTypeId: inputValues.caseTypeId==="2" || inputValues.caseTypeId==="3"? 0: inputValues.studyTypeId,
       };
      
       if(store.activeCase==="newcase"){
@@ -319,7 +319,11 @@ const FolderCreationSection = ({
         console.log("formdata",formdata);
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
-          updatestore({ caseFileId: res.data });
+          updatestore({ 
+            caseFileId: res.data,
+            activeNavbarTab: inputValues.caseTypeId==="3"? 1:0,
+            buttonenable:inputValues.caseTypeId==="3"? true:false
+          });
           setInputValues((preVal) => {
             return {
               ...preVal,
