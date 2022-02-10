@@ -315,15 +315,11 @@ const FolderCreationSection = ({
       };
      
       if(store.activeCase==="newcase"){
-        console.log("post");
+        console.log("post", inputValues);
         console.log("formdata",formdata);
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
         .then((res) => {
-          updatestore({ 
-            caseFileId: res.data,
-            activeNavbarTab: inputValues.caseTypeId==="3"? 1:0,
-            buttonenable:inputValues.caseTypeId==="3"? true:false
-          });
+         
           setInputValues((preVal) => {
             return {
               ...preVal,
@@ -352,6 +348,18 @@ const FolderCreationSection = ({
               iconmain: true,
             };
           });
+          if(inputValues.caseTypeId==="3"){
+            updatestore({ 
+              caseFileId: res.data,
+              activeNavbarTab: inputValues.caseTypeId==="3"? 1:0,
+              buttonenable:inputValues.caseTypeId==="3"? true:false
+            }); 
+          }
+          else{
+            updatestore({ 
+              caseFileId: res.data,
+            });
+          }
         })
         .catch((err) => toast.error(err?.statusText));
       }

@@ -52,10 +52,10 @@ const CheckList = (props) => {
 //     })
     }
 
-   
+    console.log("<></>",props.accordionData);
     return (
         <>  
-            <h3 >{props.accordionData.serialName}</h3>
+            <h3 >{props.accordionData.serialName} {props.accordionData.serialId}</h3>
             {
                 checklists &&
                 checklists.map((data, i) => {
@@ -70,8 +70,9 @@ const CheckList = (props) => {
                                     }}
                                     checked={checked == props.accordionData.serialName + i}
                                     onClick={() => {
+                                         
                                         if(data.sentenceNature!==1){
-                                            props.onClick(data.sectionSentencesId, data.sentenceText, props.accordionData.serialName, data.sentenceNature)
+                                            props.onClick(data.sectionSentencesId, data.sentenceText, props.accordionData.serialName, data.sentenceNature, props.accordionData.serialId)
                                         }
                                         console.log("data.subchecks",data);
                                         console.log("index", i);
@@ -87,7 +88,7 @@ const CheckList = (props) => {
                                             //     }
                                                
                                             // })
-                                            props.getSubCheckListData("","", "", props.accordionData.serialName)
+                                            props.getSubCheckListData("0","", "", props.accordionData.serialName)
                                         }
                                         if(data.sentenceNature===1){
                                             console.log(data.sectionSentencesId)
@@ -104,7 +105,7 @@ const CheckList = (props) => {
                                         //         }
                                                
                                         //     })
-                                        props.getSubCheckListData("","", "", props.accordionData.serialName)
+                                        props.getSubCheckListData("0","", "", props.accordionData.serialName)
                                         }
                                         if(data.sentenceNature===2){
                                             setChacked(props.accordionData.serialName + i);

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import {  Grid, Paper } from "@mui/material"
+import Box from "@mui/material/Box";
 import Fireman from "../assets/fireman.png"
 import Firecart from "../assets/firecart.png"
 import Commentaries from "../assets/commentaries.png"
@@ -95,6 +96,10 @@ const EstablishmentSearchRightBar = () => {
 
                         <div className="left_side" >
                             <div className="first">
+                              {/* <Box className="logo">
+                              <img src={Fireman} />
+                              <FireExtinguisherIcon sx={{ color: "#9095A3" }} />
+                              </Box> */}
                                 <div className="logo_flex align">
                                     <div className="logo">
                                         <img src={Fireman} />
@@ -111,7 +116,7 @@ const EstablishmentSearchRightBar = () => {
                                     <div className="logo">
                                         <LocalFireDepartmentIcon sx={{ color: "#9095A3" }} />
 
-                                        {/* <img src={Fire} /> */}
+                                        
                                     </div>
                                     <div className="logo">
                                         <NotificationsIcon sx={{ color: "#9095A3" }} />
