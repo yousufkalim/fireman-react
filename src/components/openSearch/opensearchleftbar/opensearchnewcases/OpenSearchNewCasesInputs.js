@@ -11,6 +11,8 @@ import { Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Rightarrow from "../../../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
+import {Store} from '../../../../StoreContext';
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -45,6 +47,8 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
     status: "",
     ranking: "",
   });
+  const store = Store()
+
   useEffect(() => {
     api("get", "/api/v1/city/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -122,7 +126,13 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
        color:"#ffffff"
        }}> 
      <Typography variant="h6">
-     {t("For which institution will the file be created?")}
+     {
+      store.phoneBook ?
+      
+      t("What establishment are you looking for the security manager?")
+      :
+      t("For which institution will the file be created?")
+    }
 </Typography>
 <Typography sx={{color:"#A2AABE"}} variant="span">
 </Typography>
@@ -135,9 +145,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
           fontSize:"20px",
           boxShadow:"none"
         }}
-      >
-
-       
+      >   
+      {
+        store.phoneBook ?
+        ""
+        :
         <Box
         sx={{textAlign:"start", display:"flex", paddingLeft:"16px"}}
         >
@@ -146,6 +158,8 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
         <Button sx={{padding:"2px 2px"}}>{("Create")}</Button>
       </BootstrapTooltip>
         </Box>
+      } 
+     
         <Box
           sx={{
             display: "flex",
@@ -162,9 +176,15 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
               >
                 <Box sx={{display:"flex"}}> 
                 <div className="inputs-container">
-                  <Box sx={{fontSize:"20px"}}> 
-                <h5> {t("Existing establishment")}</h5>
-                </Box>
+                  {
+                    store.phoneBook ?
+                    ""
+                    :
+                    <Box sx={{fontSize:"20px"}}> 
+                    <h5> {t("Existing establishment")}</h5>
+                    </Box>
+                  }
+                 
                   <div className="flex-form">
                     <label className="label-color"> {t("Ref.")}</label>
                     <input

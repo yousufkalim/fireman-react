@@ -33,7 +33,8 @@ export function StoreProvider({ children }) {
     buttonenable:false,
     caseName:"",
     catTab:false,
-    phoneBook:false
+    phoneBook:false,
+    phonebookData:null
   });
 
   const updateStore = (data) => {

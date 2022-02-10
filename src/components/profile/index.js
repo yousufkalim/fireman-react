@@ -9,6 +9,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { Input } from '@mui/material';
 import { display } from '@mui/system';
 import { toast } from "react-toastify";
+import validator from 'validator' 
 
 
 
@@ -25,23 +26,32 @@ const Profile = () => {
 
 
     useEffect(() => {
-        let userId = localStorage.getItem("userData");
-        userId = JSON.parse(userId);
-        api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
-            .then((res) => {
-                console.log(res);
-                // localStorage.setItem('profileuser', res.firstName+ res.lastName);
-                if (res.status == 200) {
-                    setProfile(res.data)
-                    setFirstName(res.data.firstName);
-                    setlastName(res.data.lastName);
-                    setPhoneNo(res.data.phoneNo);
-                    setEmail(res.data.email);
-                }
-            })
-            .catch((err) => console.log(err));
+        getProfile();
+      
     }, [])
-
+ const getProfile=()=>{
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+        .then((res) => {
+            if (res.status == 200) {
+                setProfile(res.data)
+                setFirstName(res.data.firstName);
+                setlastName(res.data.lastName);
+                setPhoneNo(res.data.phoneNo);
+                setEmail(res.data.email);
+            }
+        })
+        .catch((err) => console.log(err));
+ }
+ const validatePhoneNumber = (e) => {
+    const isValidPhoneNumber = validator.isMobilePhone(e.target.value)
+    if(isValidPhoneNumber){
+        setPhoneNo(e.target.value)
+    }else{
+        console.log("gg")
+    }
+   }
  const chnageProfileImage=(e)=>{
      if(e.target.files){
         let objectURL = URL.createObjectURL(e.target.files[0])
@@ -55,26 +65,37 @@ const Profile = () => {
     let formData = new FormData();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    formData.append('UserId',userId?.userid)
-    formData.append('FirstName',FirstName)
-    formData.append('LastName',LastName)
-    formData.append('Email',Email)
-    formData.append('PhoneNo',PhoneNo)
-
-    api("put", `/api/v1/Users/updateprofile`,formData).then((res)=>{
-        if(res.data.message=="Record updated"){
-            toast.success("Record updated");
+    if(!Email && !FirstName && !LastName && !PhoneNo){
+        toast.error("Please fill all requied fields")
+    }else{
+        if(validator.isEmail(Email)){
+            formData.append('UserId',userId?.userid)
+            formData.append('FirstName',FirstName)
+            formData.append('LastName',LastName)
+            formData.append('Email',Email)
+            formData.append('PhoneNo',PhoneNo)
+            api("put", `/api/v1/Users/updateprofile`,formData).then((res)=>{
+                if(res.data.message=="Record updated"){
+                    getProfile()
+                    toast.success("Record updated");
+                }
+            })
+        }else{
+            toast.error("Email is not valid")
         }
-    })
-
+      
+    }
  }
+
+
     console.log("profile", profile)
     return (
 
         <div style={{ width: "91%" }} >
             <p className='profile_heading'>PROFIL D’UTILISATEUR</p>
             <div className="profile">
-                <div >
+                <div style={{display:"flex"}} >
+                    <div>
                     <div className='image_container'>
                         <img src={profile.profileImage ? profile.profileImage : image ? image:profileImage} />
                         <div class="overlay">
@@ -97,8 +118,9 @@ const Profile = () => {
                     <hr className='seprator' />
                     <h5 className='des_heading'>A propos de moi</h5>
                     <p className='des'>Nam suscipit felis sit amet convallis condimentum. Interdum et malesuada</p>
+                    </div>
+                    <div class="vl"></div>
                 </div>
-                <div class="vl"></div>
                 <div className='profile_form'>
                     <form>
                         <div className='input_row'>
@@ -119,7 +141,7 @@ const Profile = () => {
                             </div>
                             <div className='input_container'>
                                 <label>Numéro de téléphone</label>
-                                <input onChange={(e)=>{setPhoneNo(e.target.value)}} value={PhoneNo} />
+                                <input onChange={validatePhoneNumber} value={PhoneNo} />
                             </div>
                         </div>
                         <div className='field_seprator'></div>
