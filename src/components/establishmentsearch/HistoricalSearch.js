@@ -30,11 +30,16 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const { t, i18n } = useTranslation();
   const store = Store();
   const [Toggler, setToggler] = useState({
-    togglerhistoricalsearch: store.activeCase==="newcase"  || (store?.sectionindex === 0 && store?.tabindex===2) || store?.tabindex===1  ? true: false,
-    createhistoricaldata: store.activeCase==="newcase" || (store?.sectionindex === 1 && (store?.tabindex===2 || store?.tabindex===1)) || store?.tabindex===1? true: false,
-    establishmentlevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===2) || store?.tabindex===1? true: false,
-    togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2) || store?.tabindex===1? true: false,
-    togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    // togglerhistoricalsearch: store.activeCase==="newcase"  || (store?.sectionindex === 0 && store?.tabindex===2) || store?.tabindex===1  ? true: false,
+    // createhistoricaldata: store.activeCase==="newcase" || (store?.sectionindex === 1 && (store?.tabindex===2 || store?.tabindex===1)) || store?.tabindex===1? true: false,
+    // establishmentlevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    // togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    // togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2) || store?.tabindex===1? true: false,
+    togglerhistoricalsearch: false,
+     createhistoricaldata: false,
+     establishmentlevel:  false,
+     togglerstafflevel:  false,
+     togglerranking:false,
   });
   const [Icon, setIcon] = useState({
     iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) && store?.tabindex===2)? true: false,

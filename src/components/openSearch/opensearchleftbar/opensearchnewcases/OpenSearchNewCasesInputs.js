@@ -121,7 +121,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
        backgroundColor:"#3675B7", 
        borderRadius:"5px", 
       borderBottom:"1px solid #C5D3DB",
-       margin:"12px 4px",
+       margin:"3px 4px",
        padding:"10px",
        color:"#ffffff"
        }}> 
@@ -164,7 +164,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            padding: "10px",
+           
           }}
         >
           <Grid item md={12}>
@@ -217,6 +217,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                   <div className="flex-form">
                     <label className="label-color"> {t("Streel/Avenue")}</label>
                     <input type="search" onChange={handleChange} name="steet" />
+                    
                   </div>
                 </div>
                 <div className="inputs-container input-container-search">
@@ -270,18 +271,19 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                           </option>
                         ))}
                       </select>
+                      <Box sx={{textAlign:"right", paddingTop:"65px"}}> 
+                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                   {t("Search")}
+                          </Button>
+                    </Box>  
                     </div>
                    
                   </Box>
                  
                 </div>
                 </Box>   
-                <Divider sx={{margin:"20px 0px"}}/>
-                <Box sx={{textAlign:"right"}}> 
-                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
-                   {t("Search")}
-                          </Button>
-                    </Box>               
+               
+                          
               </form>
             </Item>
           </Grid>

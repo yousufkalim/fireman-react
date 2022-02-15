@@ -18,6 +18,8 @@ import {UpdateStore} from '../StoreContext'
 import { Store } from "../StoreContext";
 import moment from "moment";
 import api from '../api/index';
+import notificationicon from '../assets/noti.png'
+import ronaldo from '../assets/ronaldo.jpeg'
 import 'moment/locale/fr'
 
 export default function Navbar() {
@@ -129,7 +131,7 @@ export default function Navbar() {
       </MenuItem>
     </Menu>
   );
-console.log(store);
+
   return (
     <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
       <AppBar
@@ -142,7 +144,7 @@ console.log(store);
       >
         <Toolbar>
         {
-             store.activeNavbarTab=="profile" ?
+             store.activeNavbarTab=="profile" || store.catTab==true?
              <div className="dashboard_logo">
              <img width="40px" src={Vector} />
              </div>
@@ -159,9 +161,9 @@ console.log(store);
            :
            store.catTab===true?
            <div className="nav_headings">
-          { store.activeCase==="currentcases"?  <p>{store?.caseName}</p> : null }
-           <p style={{fontWeight:"500"}} >{store?.establishmentname}</p>
-          {store.activeCase==="currentcases"?  <p style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
+          { store.activeCase==="currentcases"?  <p className="casename">{store?.caseName}</p> : null }
+           <p className="establishmentname" >{store?.establishmentname}</p>
+          {store.activeCase==="currentcases"?  <p className="serial-name-num" style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
          </div>
            :
            ""
@@ -194,14 +196,13 @@ console.log(store);
           </Box>
           <div className="bellIcon" style={{display:"flex"}}>
             <IconButton
-              size="large"
+            disableRipple
+              size="small"
               aria-label="show 17 new notifications"
               color="inherit"
             >
                 <div className="icon">
-              <Badge badgeContent={17} color="error">
-                <NotificationsNoneOutlinedIcon />
-              </Badge>
+               <img src={notificationicon}/>
               </div>
             </IconButton>
             <IconButton
@@ -211,7 +212,7 @@ console.log(store);
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+             <img className="img-nav" src={ronaldo}/>
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
               <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>

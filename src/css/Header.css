@@ -27,8 +27,8 @@ h1 {
 
 .bellIcon .icon{
   background: white;
-  border-radius: 50%;
-  padding: 8px 10px;
+  border-radius: 100%;
+  padding: 8px 12px;
 }
 
 .bellIcon .css-1ei1svh-MuiButtonBase-root-MuiIconButton-root:hover{
@@ -42,7 +42,7 @@ h1 {
 
 .navbar_user p{
   color: #9095A3;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .side_bar{
@@ -60,15 +60,15 @@ h1 {
 }
 
 .icon svg{
-  fill: #68778A;
+  fill: #314A6C;
 
 }
 .icon svg:hover {
-  fill: #314A6C;
+  fill: #3675B7;
   
 }
 .active svg {
-  fill: #314A6C;
+  fill: #3675B7;
   
 }
 
@@ -146,7 +146,7 @@ h1 {
 }
 .css-1be5mm1-MuiLinearProgress-root-MuiMobileStepper-progress {
   width: 78% !important;
-  background-color: #C5D3DB !important;
+  background-color: aliceblue !important;
 }
 .css-8f6v64{
   width: 78% !important;

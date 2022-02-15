@@ -50,8 +50,7 @@ const Body = () => {
                 <>
                 <br />
                 <br />
-                <br />
-                <br />
+               
               </>
             }
           </Grid>

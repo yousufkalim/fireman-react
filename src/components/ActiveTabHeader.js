@@ -8,7 +8,7 @@ import { dividerClasses, Grid, Paper } from "@mui/material"
 import MobileStepper from '@mui/material/MobileStepper';
 import { useTranslation, Trans } from "react-i18next";
 import Dashboard from './home/index';
-
+import { Divider } from '@mui/material';
 
 const EstablishmentSearchActivePanel = ({setActiveLink}) => {
   const { t, i18n } = useTranslation();
@@ -115,15 +115,19 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
               })}
 
                         </div>
+                     {/* <Divider/> */}
+                    <Box sx={{position:"relative"}}> 
+                     <Box sx={{width:"78%", marginLeft:"8px", position:"absolute", border:"0.6px solid #C5D3DB", top:"-1px"}}/> 
                      
                         <MobileStepper
                             variant="progress"
                             steps={7}
                             position="static"
                             activeStep={store.activeNavbarTab ==="searchestablishment"? 1: store.activeNavbarTab+1}
-                            sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%" }}
+                            sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%", background:"aliceblue"}}
+
                         />
-                
+                </Box>
                     </Grid>
        
       }
