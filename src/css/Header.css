@@ -15,11 +15,6 @@ h1 {
 .nav_headings{
   color: #AFBCCA;
 }
-.nav_headings p{
-  font-size: 16px;
-}
-
-
 
 .bellIcon .css-1pz7awu-MuiButtonBase-root-MuiIconButton-root:hover {
   background-color: transparent !important;
@@ -29,6 +24,7 @@ h1 {
   background: white;
   border-radius: 100%;
   padding: 8px 12px;
+  margin-right: 10px;
 }
 
 .bellIcon .css-1ei1svh-MuiButtonBase-root-MuiIconButton-root:hover{
@@ -40,11 +36,11 @@ h1 {
  margin-right: -5px;
 }
 
-.navbar_user p{
+
+.user-text-dash{
   color: #9095A3;
   font-size: 18px;
 }
-
 .side_bar{
   display: flex;
   flex-direction: column;

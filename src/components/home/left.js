@@ -100,7 +100,7 @@ const update = UpdateStore();
                 </div>
                 </>
             } */}
-            <div  class="flip-box-left">
+            <div   class="flip-box-left">
   <div class="flip-box-inner-left">
     <div class="flip-box-front-left">
     <>
@@ -110,10 +110,10 @@ const update = UpdateStore();
                 <img src={Termines} style={{height:"200px", width:"450px"}}/>
                 <div className="text">DOSSIERS TERMINÉS</div>
                 </div>
-                <div style={{marginTop:"5px"}}>
-                <img style={{marginRight:"15px"}} src={Travail1} />
+                <Box sx={{marginTop:"5px"}}>
+                <img style={{marginRight:"22px"}} src={Travail1} />
                 <img src={Travail2} />
-                </div>
+                </Box>
                 </div>
                 </>
     </div>
@@ -132,7 +132,7 @@ const update = UpdateStore();
                         <p style={{fontSize:"16px",fontWeight:"600"}}>{data.establishmentName}</p>
                         </div>
                         </div>
-                        <p className="date">Dernière modification le {moment(data.updatedDate,"YYYY-MM-DD").format("YYYY-MM-DD")}</p>
+                        <p className="date">Dernière modification le {moment(data.updatedDate,"YYYY-MM-DD").format("DD/MM/YY")}</p>
                        
                         </Box>
                     )

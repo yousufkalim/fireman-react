@@ -51,8 +51,8 @@ const HomeRight = ({box ,setBox}) => {
           </div>
         )}
       </Box>
-      <div class="flip-box">
-        <div class="flip-box-inner">
+      <div  class="flip-box">
+        <div  class="flip-box-inner">
           <div class="flip-box-front">
             <div
               className="cours"

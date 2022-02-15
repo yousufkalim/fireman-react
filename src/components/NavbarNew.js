@@ -133,7 +133,7 @@ export default function Navbar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
+    <Box sx={{ flexGrow: 1, fontSize: "18px", width:"90%", margin:"auto" }}>
       <AppBar
         sx={{
           backgroundColor: "aliceblue",
@@ -163,7 +163,7 @@ export default function Navbar() {
            <div className="nav_headings">
           { store.activeCase==="currentcases"?  <p className="casename">{store?.caseName}</p> : null }
            <p className="establishmentname" >{store?.establishmentname}</p>
-          {store.activeCase==="currentcases"?  <p className="serial-name-num" style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
+          {store.activeCase==="currentcases"?  <p className="serial-name-num">{store?.cityname} / {store?.serialNum}</p>:null  }
          </div>
            :
            ""
@@ -171,30 +171,30 @@ export default function Navbar() {
 
         }
            
-          <Box sx={{ flexGrow: 1 }} />
-          <Box>
+          <Box sx={{flexGrow:'1'}} />
+          <Box sx={{marginRight:"120px"}}>
             {/* {
               store.activeNavbarTab==2 ?
-              <Button variant="outlined"  onClick={() =>
-                changeLanguage(`${language == "en" ? "fr" : "en"}`)
-              }>
-            {language == "fr" ? "English" : "French"}
-            </Button>
+            //   <Button variant="outlined"  onClick={() =>
+            //     changeLanguage(`${language == "en" ? "fr" : "en"}`)
+            //   }>
+            // {language == "fr" ? "English" : "French"}
+            // </Button>
               : */}
-              <div style={{display:"flex"}}>
+              <Box sx={{display:"flex"}}>
                 <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
-               <Button variant="outlined"  onClick={() =>
+               {/* <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
-            </Button>
-              </div>
+            </Button> */}
+              </Box>
              
 
             
         
           </Box>
-          <div className="bellIcon" style={{display:"flex"}}>
+          <Box className="bellIcon" sx={{display:"flex"}}>
             <IconButton
             disableRipple
               size="small"
@@ -215,10 +215,10 @@ export default function Navbar() {
              <img className="img-nav" src={ronaldo}/>
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
-              <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
-              <p style={{fontSize:"13px"}}>Préventioniste</p>
+              <p className={`${store.activeNavbarTab==="termine"? "":"user-text-dash"}`} style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
+              <p  style={{fontSize:"13px", color:"#A7B9CA"}}>Préventioniste</p>
             </Box>
-          </div>
+          </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
