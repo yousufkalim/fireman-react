@@ -18,6 +18,7 @@ import Home from "./home";
 import Profile from "./profile";
 import SideBar from "./SideBar";
 import TeamManagement from "../components/TeamManagement"
+import NavbarDashBoard from '../components/NavbarDashBoard'
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const getResponse = (data) => {
@@ -36,7 +37,8 @@ const Body = () => {
   console.log(store);
   return (
     <>
-      <NavbarNew />
+   {store.activeNavbarTab === "termine"?  <NavbarDashBoard />:null }  
+   {store.activeNavbarTab === "termine"? "":    <NavbarNew/> }
       <>
         <div className={store.activeNavbarTab === "termine" || store.activeNavbarTab === 10 || store.activeNavbarTab == "profile" ? "mainhome" : ""}>
 
@@ -50,8 +52,7 @@ const Body = () => {
                 <>
                 <br />
                 <br />
-                <br />
-                <br />
+               
               </>
             }
           </Grid>

@@ -18,6 +18,8 @@ import {UpdateStore} from '../StoreContext'
 import { Store } from "../StoreContext";
 import moment from "moment";
 import api from '../api/index';
+import notificationicon from '../assets/noti.png'
+import ronaldo from '../assets/ronaldo.jpeg'
 import 'moment/locale/fr'
 
 export default function Navbar() {
@@ -129,9 +131,9 @@ export default function Navbar() {
       </MenuItem>
     </Menu>
   );
-console.log(store);
+
   return (
-    <Box sx={{ flexGrow: 1, fontSize: "18px" }}>
+    <Box sx={{ flexGrow: 1, fontSize: "18px", width:"99%", margin:"auto" }}>
       <AppBar
         sx={{
           backgroundColor: "aliceblue",
@@ -142,7 +144,7 @@ console.log(store);
       >
         <Toolbar>
         {
-             store.activeNavbarTab=="profile" ?
+             store.activeNavbarTab=="profile" || store.catTab==true?
              <div className="dashboard_logo">
              <img width="40px" src={Vector} />
              </div>
@@ -159,9 +161,9 @@ console.log(store);
            :
            store.catTab===true?
            <div className="nav_headings">
-          { store.activeCase==="currentcases"?  <p>{store?.caseName}</p> : null }
-           <p style={{fontWeight:"500"}} >{store?.establishmentname}</p>
-          {store.activeCase==="currentcases"?  <p style={{fontSize:"12px"}}>{store?.cityname} / {store?.serialNum}</p>:null  }
+          { store.activeCase==="currentcases"?  <p className="casename">{store?.caseName}</p> : null }
+           <p className="establishmentname" >{store?.establishmentname}</p>
+          {store.activeCase==="currentcases"?  <p className="serial-name-num">{store?.cityname} / {store?.serialNum}</p>:null  }
          </div>
            :
            ""
@@ -169,39 +171,42 @@ console.log(store);
 
         }
            
-          <Box sx={{ flexGrow: 1 }} />
-          <Box>
+          <Box sx={{flexGrow:'1'}} />
+          {
+            store.activeNavbarTab == "termine"? ( 
+            <Box sx={{marginRight:"120px"}}>
             {/* {
               store.activeNavbarTab==2 ?
-              <Button variant="outlined"  onClick={() =>
-                changeLanguage(`${language == "en" ? "fr" : "en"}`)
-              }>
-            {language == "fr" ? "English" : "French"}
-            </Button>
+            //   <Button variant="outlined"  onClick={() =>
+            //     changeLanguage(`${language == "en" ? "fr" : "en"}`)
+            //   }>
+            // {language == "fr" ? "English" : "French"}
+            // </Button>
               : */}
-              <div style={{display:"flex"}}>
+              <Box sx={{display:"flex"}}>
                 <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
-               <Button variant="outlined"  onClick={() =>
+               {/* <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
             {language == "fr" ? "English" : "French"}
-            </Button>
-              </div>
+            </Button> */}
+              </Box>
              
 
             
         
-          </Box>
-          <div className="bellIcon" style={{display:"flex"}}>
+          </Box>):null
+          }
+         
+          <Box className="bellIcon" sx={{display:"flex"}}>
             <IconButton
-              size="large"
+            disableRipple
+              size="small"
               aria-label="show 17 new notifications"
               color="inherit"
             >
                 <div className="icon">
-              <Badge badgeContent={17} color="error">
-                <NotificationsNoneOutlinedIcon />
-              </Badge>
+               <img src={notificationicon}/>
               </div>
             </IconButton>
             <IconButton
@@ -211,13 +216,13 @@ console.log(store);
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+             <img className="img-nav" src={ronaldo}/>
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
-              <p style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
-              <p style={{fontSize:"13px"}}>Préventioniste</p>
+              <p className={`${store.activeNavbarTab==="termine"? "":"user-text-dash"}`} style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
+              <p  style={{fontSize:"13px", color:"#A7B9CA"}}>Préventioniste</p>
             </Box>
-          </div>
+          </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

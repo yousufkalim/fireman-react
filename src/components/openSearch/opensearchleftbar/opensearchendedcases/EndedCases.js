@@ -80,7 +80,7 @@ const EndedCases = () => {
       <>
        <Item
           sx={{
-            marginTop: "10px",
+            marginTop: "3px",
             borderRadius: "10px",
             boxShadow: "none",
           }}

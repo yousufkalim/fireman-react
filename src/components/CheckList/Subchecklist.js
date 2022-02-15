@@ -16,8 +16,8 @@ import { styled } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import CreateIcon from '@mui/icons-material/Create';
 import EditTextComp from './EditTextComp';
-
-
+import pencil from "../../assets/pencilediticon.png";
+import don from '../../assets/don.png'
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -138,7 +138,29 @@ const Subchecklist = ({
                   <Box sx={{display:"flex", alignItems: "center"}}> 
                   <Checkbox
                     icon={<CircleUnchecked />}
-                    checkedIcon={<CircleCheckedFilled />}
+                    checkedIcon={
+                      <svg
+                        style={{
+                          background: `${val.sentenceColor}`,
+                          padding: "9px 8px",
+                          borderRadius: "100%",
+                        }}
+                        width="13"
+                        height="10"
+                        viewBox="0 0 13 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.93143 9.80735C4.8085 9.93101 4.64077 10 4.46655 10C4.29232 10 4.1246 9.93101 4.00166 9.80735L0.288972 6.09406C-0.096324 5.70876 -0.096324 5.08398 0.288972 4.69941L0.753856 4.2344C1.13927 3.84911 1.76333 3.84911 2.14863 4.2344L4.46655 6.55244L10.7299 0.288972C11.1153 -0.096324 11.74 -0.096324 12.1247 0.288972L12.5896 0.753976C12.9748 1.13927 12.9748 1.76393 12.5896 2.14863L4.93143 9.80735Z"
+                          fill="white"
+                        />
+                      </svg>
+                    }
+                    style={{
+                      color: `${val?.sentenceColor}`,
+                      
+                    }}
                     style={{
                       color: `${val?.sentenceColor}`,
                     }}
@@ -171,7 +193,20 @@ const Subchecklist = ({
                   />
                   <p>{parse(val?.subSentenceText)}</p>
                   </Box>
-                  <CreateIcon onClick={()=>{
+                  <img src={pencil}
+                  onClick={()=>{
+                    setSentenceDetails((pre)=>{
+                     return{
+                       ...pre,
+                       sentenceNature:val?.sentenceNature
+                     }
+                })
+                   setOpenSubcheck(true) 
+                   setsubSentenceId(val?.sectionSubSentencesId)
+                   setSubSentenceText(val?.subSentenceText)}
+                 }
+                  />
+                  {/* <CreateIcon onClick={()=>{
                      setSentenceDetails((pre)=>{
                       return{
                         ...pre,
@@ -181,7 +216,7 @@ const Subchecklist = ({
                     setOpenSubcheck(true) 
                     setsubSentenceId(val?.sectionSubSentencesId)
                     setSubSentenceText(val?.subSentenceText)}
-                  }/>
+                  }/> */}
                 </Box>
               </>
             ))}

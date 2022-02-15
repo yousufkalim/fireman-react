@@ -15,11 +15,6 @@ h1 {
 .nav_headings{
   color: #AFBCCA;
 }
-.nav_headings p{
-  font-size: 16px;
-}
-
-
 
 .bellIcon .css-1pz7awu-MuiButtonBase-root-MuiIconButton-root:hover {
   background-color: transparent !important;
@@ -27,8 +22,9 @@ h1 {
 
 .bellIcon .icon{
   background: white;
-  border-radius: 50%;
-  padding: 8px 10px;
+  border-radius: 100%;
+  padding: 8px 12px;
+  margin-right: 10px;
 }
 
 .bellIcon .css-1ei1svh-MuiButtonBase-root-MuiIconButton-root:hover{
@@ -40,11 +36,11 @@ h1 {
  margin-right: -5px;
 }
 
-.navbar_user p{
-  color: #9095A3;
-  font-size: 14px;
-}
 
+.user-text-dash{
+  color: #9095A3;
+  font-size: 18px;
+}
 .side_bar{
   display: flex;
   flex-direction: column;
@@ -60,15 +56,15 @@ h1 {
 }
 
 .icon svg{
-  fill: #68778A;
+  fill: #314A6C;
 
 }
 .icon svg:hover {
-  fill: #314A6C;
+  fill: #3675B7;
   
 }
 .active svg {
-  fill: #314A6C;
+  fill: #3675B7;
   
 }
 
@@ -146,7 +142,7 @@ h1 {
 }
 .css-1be5mm1-MuiLinearProgress-root-MuiMobileStepper-progress {
   width: 78% !important;
-  background-color: #C5D3DB !important;
+  background-color: aliceblue !important;
 }
 .css-8f6v64{
   width: 78% !important;

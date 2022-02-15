@@ -1,7 +1,12 @@
-.etablissement h3{
-    color: #9095A3;
+.etablissement h5{
     margin-top: 22px;
     margin-right: 10px;
+    font-style: normal;
+font-weight: bold;
+font-size: 26px;
+line-height: 31px;
+letter-spacing: -0.02em;
+color: #9095A3;
 }
 
 .etablissement .chapter{
@@ -13,37 +18,37 @@
     padding-bottom: 12px;
 
 }
-
-.etablissement .chapter .svg{
+.icon-container{
+    display: flex;
+    position: relative;
+}
+.etablissement .chapter .icon{
 margin-top: 5px;
-}
-
-.etablissement .sections .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root{
-background-color: #3675B7 !important;
-color: #FFFFFF !important;
-border-radius: 10px !important;
-border: none !important;
-}
-
-.etablissement .sections .css-ahj2mt-MuiTypography-root {
-    font-size: 16px !important;
+cursor: pointer;
+font-weight: 600;
+font-size: 40px;
+position: absolute;
+top: -36px;
 }
 .etablissement .sections .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root .MuiAccordionSummary-content{
     position: relative;
 }
 .cehck_section{
     position: absolute;
-    right: 6px;
+    right: 30px;
+    height: 20px;
+    top: 30%;
 }
 .section_id{
     margin-right: 15px;
+    margin-top: 3px;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.5;
     letter-spacing: 0.00938em;
     border-right: 1px solid #5E93CB;
-    padding-right: 10px;
+    width:  37px;
 }
 
 
@@ -62,6 +67,9 @@ border: none !important;
 
 .etablissement .sections .checklist{
     background: #FFFFFF;
+    border: 1px solid rgba(0, 31, 79, 0.1);
+box-sizing: border-box;
+box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
     color: #9095A3;
     display: flex;
     /* min-height: 50px; */
@@ -69,17 +77,51 @@ border: none !important;
     vertical-align:middle;
     align-items: center;
     border-radius: 10px;
-    border: none;
+    
     margin-top: 10px;
     justify-content: space-between;
+
 }
 .checklist .checklist_content{
     display: flex;
     align-items: center;
+    min-height: 80px;
+    
 }
-.checklist .checklist_content p{
-    padding: 16px 10px;
-    text-align: justify;
+ .checklist-border{
+ border: 0.5px solid #3675B7 !important;
+ font-size: 18px !important;
+ line-height: 22px !important;
+ color: #3675B7 !important;
+ background: #F5F9FD !important;
+ }
+.checkbox-border{
+  min-height: 85px;
+  border-right: 1px solid #F0F3F6;
+  padding-left: 15px;
+  box-sizing: border-box;
+  
+}
+.checkbox-bord{
+  border-right: 0.5px solid #3675B7 !important;
+
+    font-size: 18px !important;
+    line-height: 22px !important;
+    color: #3675B7 !important;
+}
+.sentence{
+  padding: 16px 10px;
+  text-align: justify;
+  font-size: 18px;
+  font-weight: 500;
+   line-height: 22px;
+}
+
+.sentence-bold{
+  font-weight: bold;
+  color: #3675B7;
+  line-height: 22px;
+  font-size: 18px;
 }
 .etablissement .sections .css-ta84vm-MuiAccordionDetails-root{
     padding: 16px 0px !important;
@@ -123,6 +165,7 @@ border: none !important;
       }
       .left_side{
           /* margin-top: 55px; */
+         
       }
       .left_side .first{
         background-color: #FFFFFF !important;
@@ -130,7 +173,7 @@ border: none !important;
         padding: 17px 27px;
         border-radius: 10px;
         border: transparent;
-        height: 210px;
+        height: 165px;
         position: relative;
     }    
       
@@ -165,11 +208,37 @@ border: none !important;
           padding-left: 21px;
       }
 
-      .left_side .first .firecart{
+       .firecart{
         position: absolute;
         top: 14px;
         right: -58px;
       }
+
+      .firecart-two{
+        position: absolute;
+    top: -25px;
+    right: -28px;
+    width: 65px;
+}
+
+.icon-txt{
+display:flex;
+margin-left: 10px;
+}
+.icon-txt>*{
+  margin-right: 20px;
+}
+
+.accordian-details{
+  width:80%; 
+  margin:auto;
+   border-radius:12px; 
+   border:0.2px solid #9095A3; 
+   color:#B4BCC3; 
+   font-style:italic; 
+   font-size:12px;
+   margin-bottom :15px;
+}
       .left_side .Compagnon{
          background-color: #FFFFFF ;
          margin-top: 20px;
@@ -177,6 +246,7 @@ border: none !important;
          border-radius: 10px;
          border: transparent;
          padding: 17px 17px;
+         position: relative;
       }
       .left_side .Compagnon h4{
           color: #9095A3;
@@ -223,4 +293,42 @@ border: none !important;
 
       .checklist .ckeditor{
         margin: 20px 20px;
+      }
+
+      .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        background: #2BAD6F;
+      }
+      .dot-unactive{
+        height: 10px;
+        width: 10px;
+        border: 0.2px solid #000000;
+        border-radius: 50%;
+        display: inline-block;
+        background: #FFFFFF;
+      }
+      .chat-box>*{
+        padding-right: 15px;
+      }
+
+      .img-chat{
+        width: 22px;
+        height: 22px;
+        border-radius: 100%;
+      }
+
+      .img-txt> *{
+       padding-right: 5px;
+       display: flex;
+       align-items: center;
+      }
+
+      .chat-user{
+        font-weight: 500;
+font-size: 12px;
+line-height: 15px;
       }

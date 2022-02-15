@@ -1,0 +1,32 @@
+.establishmentname{
+    font-weight: 600;
+    color: #9095A3;
+    line-height: 139.2%;
+    font-size: 18px;
+    letter-spacing: -0.005em;
+}
+
+
+.serial-name-num{
+    letter-spacing: -0.005em;
+    font-style: italic;
+    color: #9095A3;
+    line-height: 139.2%;
+    font-weight: 600;
+    font-size: 12px;
+    
+}
+
+.casename{
+font-weight: 500;
+font-size: 16px;
+line-height: 19px;
+letter-spacing: -0.005em;
+color: #AFBCCA;
+}
+
+.img-nav{
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+}

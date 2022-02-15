@@ -2,8 +2,8 @@
 @import url("./Header.css");
 @import url("./login.css");
 @import url("./signup.css");
+@import url("./Navbar.css");
 @import url("./EsatablishmentTab/EstablishmentSearch.css");
-@import url("./EsatablishmentTab/etablissment.css");
 @import url("./leftbar.css");
 @import url("./opensearchfilterdata.css");
 @import url("./EsatablishmentTab/CreateHistoricalData.css");
@@ -17,6 +17,7 @@
 @import url("./teammanagement.css");
 @import url("./OpenSearch/Foldercreation.css");
 @import url("./EsatablishmentTab/GeneralData.css");
+@import url("./Implantation/implantation.css");
 /* Defaults */
 * {
   padding: 0;

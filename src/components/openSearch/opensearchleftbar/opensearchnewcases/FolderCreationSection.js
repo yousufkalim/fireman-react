@@ -55,10 +55,14 @@ const FolderCreationSection = ({
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
-    togglermain: store.activeCase==="newcase"? true : false,
-    togglerstudy: store.activeCase==="newcase"  || (store?.sectionindex === 1 && store?.tabindex===1) ? true : false,
-    togglerstudytwo: store.activeCase==="newcase" || compShow || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===1) ? true: false,
-    togglervisit: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===1)? true : false,
+    // togglermain: store.activeCase==="newcase"? true : false,
+    // togglerstudy: store.activeCase==="newcase"  || (store?.sectionindex === 1 && store?.tabindex===1) ? true : false,
+    // togglerstudytwo: store.activeCase==="newcase" || compShow || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===1) ? true: false,
+    // togglervisit: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===1)? true : false,
+       togglermain:  false,
+     togglerstudy: false,
+     togglerstudytwo:false,
+     togglervisit:  false,
   });
   const [Icon, setIcon] = useState({
     iconmain:

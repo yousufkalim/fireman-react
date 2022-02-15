@@ -1,13 +1,13 @@
 import * as React from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 import Button from '@mui/material/Button';
 import Rightarrow from "../../assets/rightarrow.png";
 import Leftarrow from "../../assets/leftarrow.png";
 import Floppy from "../../assets/floppy.png";
 import { fabClasses, IconButton } from '@mui/material';
 import AccordionComponent from '../Accordion';
-
+import Box from "@mui/material/Box";
 const Implantation = (props) => {
     const [expanded, setExpanded] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
@@ -21,12 +21,14 @@ const Implantation = (props) => {
         <> 
         <div className="etablissement">
             <div className='chapter'>
-                <h3>{props.accordionData.chapterName}</h3>
+                <h5>{props.accordionData.chapterName}</h5>
+               
                 {
                     expand ?
-                    <ExpandLessIcon sx={{cursor:"pointer"}} onClick={()=>{setExpand(false)}} />
+
+                    <Box className="icon-container"> <ExpandLessRoundedIcon className="icon" onClick={()=>{setExpand(false)}} /> </Box> 
                     :
-                    <ExpandMoreIcon sx={{cursor:"pointer"}} onClick={()=>{setExpand(true)}} />
+                   <Box className="icon-container"> <ExpandMoreRoundedIcon className="icon"  onClick={()=>{setExpand(true)}} /> </Box> 
 
                 }
             </div>
