@@ -112,7 +112,7 @@ font-weight: 700;
 
 .btm-img{
 height: 200px;
-width: 550px;
+width: 530px;
 }
 
 .coursimages{
@@ -135,7 +135,7 @@ width: 550px;
     position: absolute;
     top: 208px;
     left: 0px;
-    width: 302px;
+    width: 280px;
     padding: 28px 25px;
     background: linear-gradient(
 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
@@ -151,7 +151,7 @@ width: 550px;
 .allonys .text{
     position: absolute;
     top: 110px;
-    width: 500px;
+    width: 480px;
     padding: 14px 25px;
     background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
     -webkit-backdrop-filter: blur(11px);

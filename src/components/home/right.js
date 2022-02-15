@@ -67,7 +67,7 @@ const HomeRight = ({box ,setBox}) => {
                 <img className="img-two-right" src={Cours1} />
               </div>
               <div className="DOSSIERS_text">
-                <img style={{ height: "345px", width: "353px" }} src={Cours3} />
+                <img style={{ height: "345px", width: "330px" }} src={Cours3} />
                 <div className="text">DOSSIERS EN COURS</div>
               </div>
             </div>

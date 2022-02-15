@@ -125,7 +125,7 @@ const EstablishmentSearchRightBar = () => {
           sx={{
             background: "#FFFFFF",
             borderRadius: "10px",
-            width: "70%",
+            width: "80%",
             padding: "20px",
             color: "#9095A3",
             marginBottom: "25px",

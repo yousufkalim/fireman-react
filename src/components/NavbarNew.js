@@ -133,7 +133,7 @@ export default function Navbar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, fontSize: "18px", width:"90%", margin:"auto" }}>
+    <Box sx={{ flexGrow: 1, fontSize: "18px", width:"99%", margin:"auto" }}>
       <AppBar
         sx={{
           backgroundColor: "aliceblue",

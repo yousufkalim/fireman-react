@@ -9,10 +9,10 @@ const Home=()=>{
     return(
         <>
        
-        <Grid   xs={5}>
+        <Grid  xs={5}>
         <HomeLeft  box={box} setBox ={setBox}/>
       </Grid>
-      <Grid sx={{display:"flex", justifyContent:"center"}}  xs={6}>
+      <Grid  sx={{display:"flex", justifyContent:"center"}}  xs={6}>
       <HomeRight box={box} setBox ={setBox}/>
       </Grid>
      
