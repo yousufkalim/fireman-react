@@ -172,7 +172,9 @@ export default function Navbar() {
         }
            
           <Box sx={{flexGrow:'1'}} />
-          <Box sx={{marginRight:"120px"}}>
+          {
+            store.activeNavbarTab == "termine"? ( 
+            <Box sx={{marginRight:"120px"}}>
             {/* {
               store.activeNavbarTab==2 ?
             //   <Button variant="outlined"  onClick={() =>
@@ -193,7 +195,9 @@ export default function Navbar() {
 
             
         
-          </Box>
+          </Box>):null
+          }
+         
           <Box className="bellIcon" sx={{display:"flex"}}>
             <IconButton
             disableRipple
