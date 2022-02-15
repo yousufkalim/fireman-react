@@ -178,6 +178,8 @@ const NavbarDashBoard = () => {
             </IconButton>
           </Box>
           </Box>
+          
+      {renderMenu}
     </Box>
     
     </>
