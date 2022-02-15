@@ -149,7 +149,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
                 paddingBottom: "10px",
               }}
             >
-              <label> {t("Less Eight Meter")}</label>
+              <label className="label-descriptif"> {t("Less Eight Meter")}</label>
               <input
                 className="checkbox"
                 type="checkbox"
@@ -159,7 +159,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
               />
             </Box>
             <Box sx={{ display: "flex" }}>
-              <label> {t("More Eight Meter")}</label>
+              <label className="label-descriptif"> {t("More Eight Meter")}</label>
               <input
                 className="checkbox"
                 type="checkbox"

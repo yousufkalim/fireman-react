@@ -33,6 +33,7 @@
   font-weight: 500 !important;
   font-size: 17px !important;
   line-height: 17px !important;
+ 
 }
 
 .css-rtrcn9-MuiTablePagination-root:last-child{
@@ -41,6 +42,7 @@
     font-weight: 500 !important;
     font-size: 14px !important;
     line-height: 17px !important;
+   
 }
 /* for build */
 .css-157y7ev .MuiDataGrid-row {
@@ -54,4 +56,8 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 15px;
+  
+}
+.css-157y7ev .MuiDataGrid-cell{
+  border-bottom:none !important;
 }

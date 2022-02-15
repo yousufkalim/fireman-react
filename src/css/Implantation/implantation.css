@@ -129,8 +129,8 @@ box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
 }
 
   .custom-checkbox-root .MuiSvgIcon-root{
-    width: 30px;
-    height: 30px;
+    width: 29px;
+    height: 29px;
   }
 
   .edit_icon{
@@ -193,7 +193,7 @@ box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
         justify-content: center;
         margin-top: 8px;
         text-align: center;
-        width: 80px;
+        width: 100px;
       }
 
       .left_side .logo img{

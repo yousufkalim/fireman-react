@@ -185,9 +185,15 @@ const AccordionComponent = (props) => {
     <>
       <Accordion
         expanded={props.expanded === props.panelname}
-        onChange={props.handleChange(props.panelname)}
+        onChange={props.handleChange(props.panelname) }
+        //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
+         //console.log("rs", res);
+        //})}}
       >
         <AccordionSummary
+         onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
+         console.log("rs", res);
+        })}}
           expandIcon={
             <svg
               width="19"
