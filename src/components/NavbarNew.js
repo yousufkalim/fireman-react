@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Vector from "../assets/Vector.png"
+import Vector from "../assets/nav.svg"
 import Site from "../assets/site.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'

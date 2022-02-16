@@ -194,6 +194,7 @@ const EstablishmentSearchRightBar = () => {
 
             <Box>
               <Box
+              className="chat-box"
                 sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -203,7 +204,8 @@ const EstablishmentSearchRightBar = () => {
                   boxSizing: "border-box",
                   padding: "12px 15px 20px 15px",
                   overflowY: "scroll",
-                  minHeight: "30px",
+                  height: "150px",
+
                 }}
               >
                 <Box
@@ -253,7 +255,36 @@ const EstablishmentSearchRightBar = () => {
                   </Box>
                   <span class="dot"></span>
                 </Box>
-
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    padding: "5px 0px",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }} className="img-txt">
+                    <img className="img-chat" src={don} />
+                    <span className="chat-user">Ronaldo </span>
+                  </Box>
+                  <span class="dot"></span>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    padding: "5px 0px",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }} className="img-txt">
+                    <img className="img-chat" src={don} />
+                    <span className="chat-user">Ronaldo </span>
+                  </Box>
+                  <span class="dot"></span>
+                </Box>
                 <Box
                   sx={{
                     display: "flex",
@@ -343,7 +374,7 @@ const EstablishmentSearchRightBar = () => {
           <Accordion
             sx={{
               paddingTop: "10px",
-
+              
               borderTopLeftRadius: "10.757px !important",
               borderTopRightRadius: "10.757px !important",
               boxShadow: "none",
@@ -418,6 +449,7 @@ const EstablishmentSearchRightBar = () => {
                 borderTopRightRadius: "0px !important",
                 boxShadow: "none",
                 margin: "0px !important",
+                borderTop:"0.645422px solid #EAEFF3 !important"
               }}
             >
               <AccordionSummary

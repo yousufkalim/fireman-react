@@ -322,7 +322,7 @@ margin-left: 10px;
       }
 
       .img-txt> *{
-       padding-right: 5px;
+       margin-right: 12px;
        display: flex;
        align-items: center;
       }

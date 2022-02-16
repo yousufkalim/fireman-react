@@ -9,209 +9,209 @@ i18n
     // fallbackLng: ["fr", "en"],
     // we init with resources
     resources: {
-      en: {
-        translations: {
-          //toast message
-          "Successfull": "Successfull",
-          // Create establishments
-          "For which institution will the file be created?":
-            "For which institution will the file be created?",
-            "What establishment are you looking for the security manager?":
-            "What establishment are you looking for the security manager?",
+      // en: {
+      //   translations: {
+      //     //toast message
+      //     "Successfull": "Successfull",
+      //     // Create establishments
+      //     "For which institution will the file be created?":
+      //       "For which institution will the file be created?",
+      //       "What establishment are you looking for the security manager?":
+      //       "What establishment are you looking for the security manager?",
             
-          "Status": "Status",
-          "Name": "Name",
-          "Address":"Address",
-          "Type Classification": "Type Classification",
-          "City": "City",
-          "Ref.": "Ref.",
-          "CAT Ranking": "CAT Ranking",
-          "Streel/Avenue": "Streel/Avenue",
-          "Existing establishment": "Existing establishment",
-          "New Establishment": "New Establishment",
-          "Create": "Create",
-          "Search": "Search",
-          // navbar, sidebars
-          "HOMEPAGE": "HOMEPAGE",
-          "IN PROGRESS": "IN PROGRESS",
-          "ENDED": "ENDED",
-          "PHONE BOOK": "PHONE BOOK",
-          "MULTIMEDIA": "MULTIMEDIA",
-          "TEAM MANAGMENT":"TEAM MANAGMENT",
-          "Opening": "Opening",
-          "Establishment": "Establishment",
-          "Location": "Location",
-          "Clearance": "Clearance",
-          "Category": "Category",
-          "Fireguard Training": "Fireguard Training",
-          "Fire Extinguisher Training": "Fire Extinguisher Training",
-          "Fire Awareness Training": "Fire Awareness Training",
-          "Fire alarm Drive": "Fire alarm Drive",
-          "Companion": "Companion",
-          "Comments": "Comments",
-          "Video tutorial": "Video tutorial",
-          "Notes": "Notes",
-          "Chat": "Chat",
-          "Assistance": "Assistance",
-          "Please choose": "Please choose",
-          //opentab
-          "Folder creation": "Folder creation",
-          "Service": "Service",
-          "VALIDATE": "VALIDATE",
-          "Town Planning Documents": "Town Planning Documents",
-          "Details Of Object": "Details Of Object",
-          "Capture": "Capture",
-          "Origin": "Origin",
-          "Average": "Average",
-          "Date": "Date",
-          "Urban planning references": "Urban planning references",
-          "Request Type": "Request Type",
-          "Applicant": "Applicant",
-          "Phone": "Phone",
-          //checkboxesSentences
-          "Written pieces": "Written pieces",
+      //     "Status": "Status",
+      //     "Name": "Name",
+      //     "Address":"Address",
+      //     "Type Classification": "Type Classification",
+      //     "City": "City",
+      //     "Ref.": "Ref.",
+      //     "CAT Ranking": "CAT Ranking",
+      //     "Streel/Avenue": "Streel/Avenue",
+      //     "Existing establishment": "Existing establishment",
+      //     "New Establishment": "New Establishment",
+      //     "Create": "Create",
+      //     "Search": "Search",
+      //     // navbar, sidebars
+      //     "HOMEPAGE": "HOMEPAGE",
+      //     "IN PROGRESS": "IN PROGRESS",
+      //     "ENDED": "ENDED",
+      //     "PHONE BOOK": "PHONE BOOK",
+      //     "MULTIMEDIA": "MULTIMEDIA",
+      //     "TEAM MANAGMENT":"TEAM MANAGMENT",
+      //     "Opening": "Opening",
+      //     "Establishment": "Establishment",
+      //     "Location": "Location",
+      //     "Clearance": "Clearance",
+      //     "Category": "Category",
+      //     "Fireguard Training": "Fireguard Training",
+      //     "Fire Extinguisher Training": "Fire Extinguisher Training",
+      //     "Fire Awareness Training": "Fire Awareness Training",
+      //     "Fire alarm Drive": "Fire alarm Drive",
+      //     "Companion": "Companion",
+      //     "Comments": "Comments",
+      //     "Video tutorial": "Video tutorial",
+      //     "Notes": "Notes",
+      //     "Chat": "Chat",
+      //     "Assistance": "Assistance",
+      //     "Please choose": "Please choose",
+      //     //opentab
+      //     "Folder creation": "Folder creation",
+      //     "Service": "Service",
+      //     "VALIDATE": "VALIDATE",
+      //     "Town Planning Documents": "Town Planning Documents",
+      //     "Details Of Object": "Details Of Object",
+      //     "Capture": "Capture",
+      //     "Origin": "Origin",
+      //     "Average": "Average",
+      //     "Date": "Date",
+      //     "Urban planning references": "Urban planning references",
+      //     "Request Type": "Request Type",
+      //     "Applicant": "Applicant",
+      //     "Phone": "Phone",
+      //     //checkboxesSentences
+      //     "Written pieces": "Written pieces",
 
-          //establishmenttab
-          "City": "City",
-          "State": "State",
-          "You are about to transform a group of establishments into an establishment.The history and reference of the XX group will now be linked to this new establishment.":
-            "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.",
-          "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group":
-            "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group",
-          "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.":
-            "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.",
-          "General data": "General data",
-          "Name Of Establishment Ref": "Name Of Establishment Ref",
-          "Name Establishment": "Name Establishment",
-          "Channel type": "Channel type",
-          "Channel name": "Channel name",
-          "First name": "First name",
-          "Historical": "Historical",
-          "Description": "Description",
-          "Staff table": "Staff table",
-          "Ranking": "Ranking",
-          "Number": "Number",
-          "Object": "Object",
-          "Opinion": "Opinion",
-          "Clarifications – Will appear in the report":
-            "Clarifications – Will appear in the report",
-          "Attachment": "Attachment",
-          "Level": "Level",
-          "Cell number": "Cell number",
-          "Cell name": "Cell name",
-          "Not accessible to the public": "Not accessible to the public",
-          "Local at risk": "Local at risk",
-          "Comments": "Comments",
-          "Site (if applicable)": "Site (if applicable)",
-          "Description presenting the establishment and the activities":
-            "Description presenting the establishment and the activities",
-          "Low floor of the last accessible level":
-            "Low floor of the last accessible level",
-          "Cell": "Cell",
-          "Local / Space / Type of audience":
-            "Local / Space / Type of audience",
-          "Surface accessible to the public":
-            "Surface accessible to the public",
-          "Calculation rule X": "Calculation rule X",
-          "Staff": "Staff",
-          "Less Eight Meter": "Less Eight Meter",
-          "More Eight Meter": "More Eight Meter",
-          "Applicable order(s)": "Applicable order(s)",
-          "Classification ERP TYPE": "Classification ERP TYPE",
-          "ERP CAT ranking": "ERP CAT ranking",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.  The box in the PRECISIONS column begins with It's about ...":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.  The box in the PRECISIONS column begins with It's about ...",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports.The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:...":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports.The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:...",
-          "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. The box in the PRECISIONS column begins with The changes relate to...":
-            "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. The box in the PRECISIONS column begins with The changes relate to...",
-          "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The unfavorable opinion is based on:...":
-            "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The unfavorable opinion is based on:...",
-          "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to...  then after a space  The absence of an opinion is justified by:...":
-            "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to...  then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type. The box in the PRECISIONS column begins with It's about... ":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type. The box in the PRECISIONS column begins with It's about... ",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:... ":
-            "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:... ",
-          "Give any parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels. The box in the PRECISIONS column begins with The parts received are ...":
-            "Give any parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels. The box in the PRECISIONS column begins with The parts received are ...",
-          "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The parts received are... then after a space  The unfavorable opinion is based on:...":
-            "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The parts received are... then after a space  The unfavorable opinion is based on:...",
-          "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The parts received are... ” then after a space  The absence of an opinion is justified by:...":
-            "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The parts received are... ” then after a space  The absence of an opinion is justified by:...",
-          "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...":
-            "Donnez les raisons de l'avis défavorable. EX : L'avis défavorable est motivé par :- la non-conformité des installations de désenfumage de circulation ;- l'absence de formalisation des consignes d'évacuation. La case de la colonne PRECISIONS commence par L'avis défavorable est fondé sur :...",
-          "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...":
-            "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...",
-          "Give the motivations for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The absence of an opinion is justified by:...":
-            "Give the motivations for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system The box in the PRECISIONS column begins with  The work relates to...":
-            "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system The box in the PRECISIONS column begins with  The work relates to...",
-          "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The work relates to...  then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The work relates to...  then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The work relates to...  then after a space  The absence of an opinion is justified by:...":
-            "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The work relates to...  then after a space  The absence of an opinion is justified by:...",
-          "You may give some details on the general nature of the modifications. EX The modifications relate to the smoke extraction of the circulation of the floors »The box in the PRECISIONS column begins with  The changes relate to...":
-            "You may give some details on the general nature of the modifications. EX The modifications relate to the smoke extraction of the circulation of the floors »The box in the PRECISIONS column begins with  The changes relate to...",
-          "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the unfavorable opinion.EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The changes relate to... then after a space  The unfavorable opinion is based on:...":
-            "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the unfavorable opinion.EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The changes relate to... then after a space  The unfavorable opinion is based on:...",
-          "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the without opinion.EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The absence of an opinion is justified by:...":
-            "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the without opinion.EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on...":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on...",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on...  then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on...  then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The absence of an opinion is justified by:...":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on... ":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on... ",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations; -  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations; -  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on...  then after a space  The absence of an opinion is justified by:...":
-            "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on...  then after a space  The absence of an opinion is justified by:...",
-          "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...":
-            "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...",
-          "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...":
-            "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...",
-          "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...":
-            "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...",
-          "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...":
-            "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...",
-          "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...":
-            "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...",
-          "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...":
-            "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system. The box in the PRECISIONS column begins with  The opinion relates to ...":
-            "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system. The box in the PRECISIONS column begins with  The opinion relates to ...",
-          "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  The lack of automatic fire detection on the ground floor. The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The unfavorable opinion is based on:...":
-            "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  The lack of automatic fire detection on the ground floor. The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The unfavorable opinion is based on:...",
-          "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of precise plans.The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The absence of an opinion is justified by:...":
-            "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of precise plans.The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the request and the compensatory measures validated by the commission. EX: The request relates to the structure's lack of fire stability. As a compensatory measure, a category A fire safety system is set up with generalized automatic detection. The box in the PRECISIONS column begins with  The request relates to...  then after a space  In compensatory measures...":
-            "If necessary, give some details on the nature of the request and the compensatory measures validated by the commission. EX: The request relates to the structure's lack of fire stability. As a compensatory measure, a category A fire safety system is set up with generalized automatic detection. The box in the PRECISIONS column begins with  The request relates to...  then after a space  In compensatory measures...",
-          "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  Compensatory measures that do not allow the evacuation time to be reduced;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The request relates to... ” then after a space  The unfavorable opinion is based on:...":
-            "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  Compensatory measures that do not allow the evacuation time to be reduced;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The request relates to... ” then after a space  The unfavorable opinion is based on:...",
-          "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of the plans mentioned in the file .The box in the PRECISIONS column begins with  The request relates to...  then after a space  The absence of an opinion is justified by:...":
-            "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of the plans mentioned in the file .The box in the PRECISIONS column begins with  The request relates to...  then after a space  The absence of an opinion is justified by:...",
-          "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...":
-            "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...",
-          "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire  safety system. The box in the PRECISIONS column begins with The formal notice relates to ...":
-            "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire  safety system. The box in the PRECISIONS column begins with The formal notice relates to ...",
+      //     //establishmenttab
+      //     "City": "City",
+      //     "State": "State",
+      //     "You are about to transform a group of establishments into an establishment.The history and reference of the XX group will now be linked to this new establishment.":
+      //       "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment.",
+      //     "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group":
+      //       "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group",
+      //     "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.":
+      //       "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name.",
+      //     "General data": "General data",
+      //     "Name Of Establishment Ref": "Name Of Establishment Ref",
+      //     "Name Establishment": "Name Establishment",
+      //     "Channel type": "Channel type",
+      //     "Channel name": "Channel name",
+      //     "First name": "First name",
+      //     "Historical": "Historical",
+      //     "Description": "Description",
+      //     "Staff table": "Staff table",
+      //     "Ranking": "Ranking",
+      //     "Number": "Number",
+      //     "Object": "Object",
+      //     "Opinion": "Opinion",
+      //     "Clarifications – Will appear in the report":
+      //       "Clarifications – Will appear in the report",
+      //     "Attachment": "Attachment",
+      //     "Level": "Level",
+      //     "Cell number": "Cell number",
+      //     "Cell name": "Cell name",
+      //     "Not accessible to the public": "Not accessible to the public",
+      //     "Local at risk": "Local at risk",
+      //     "Comments": "Comments",
+      //     "Site (if applicable)": "Site (if applicable)",
+      //     "Description presenting the establishment and the activities":
+      //       "Description presenting the establishment and the activities",
+      //     "Low floor of the last accessible level":
+      //       "Low floor of the last accessible level",
+      //     "Cell": "Cell",
+      //     "Local / Space / Type of audience":
+      //       "Local / Space / Type of audience",
+      //     "Surface accessible to the public":
+      //       "Surface accessible to the public",
+      //     "Calculation rule X": "Calculation rule X",
+      //     "Staff": "Staff",
+      //     "Less Eight Meter": "Less Eight Meter",
+      //     "More Eight Meter": "More Eight Meter",
+      //     "Applicable order(s)": "Applicable order(s)",
+      //     "Classification ERP TYPE": "Classification ERP TYPE",
+      //     "ERP CAT ranking": "ERP CAT ranking",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.  The box in the PRECISIONS column begins with It's about ...":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.  The box in the PRECISIONS column begins with It's about ...",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports.The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:...":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports.The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:...",
+      //     "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. The box in the PRECISIONS column begins with The changes relate to...":
+      //       "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. The box in the PRECISIONS column begins with The changes relate to...",
+      //     "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The unfavorable opinion is based on:...":
+      //       "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The unfavorable opinion is based on:...",
+      //     "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to...  then after a space  The absence of an opinion is justified by:...":
+      //       "Optionally give the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to...  then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type. The box in the PRECISIONS column begins with It's about... ":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type. The box in the PRECISIONS column begins with It's about... ",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  It's about ...  then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:... ":
+      //       "If necessary, give some details on the nature of the proposed establishment. EX: This is an EHPAD (82 accommodation) in a building of the R-1 + 3 type.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  It's about ...  then after a space  The absence of an opinion is justified by:... ",
+      //     "Give any parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels. The box in the PRECISIONS column begins with The parts received are ...":
+      //       "Give any parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels. The box in the PRECISIONS column begins with The parts received are ...",
+      //     "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The parts received are... then after a space  The unfavorable opinion is based on:...":
+      //       "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The parts received are... then after a space  The unfavorable opinion is based on:...",
+      //     "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The parts received are... ” then after a space  The absence of an opinion is justified by:...":
+      //       "Give the parts of the establishment that have been received. EX: The parts accepted are the ground floor, and the first two levels.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The parts received are... ” then after a space  The absence of an opinion is justified by:...",
+      //     "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...":
+      //       "Donnez les raisons de l'avis défavorable. EX : L'avis défavorable est motivé par :- la non-conformité des installations de désenfumage de circulation ;- l'absence de formalisation des consignes d'évacuation. La case de la colonne PRECISIONS commence par L'avis défavorable est fondé sur :...",
+      //     "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...":
+      //       "Give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The unfavorable opinion is based on:...",
+      //     "Give the motivations for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The absence of an opinion is justified by:...":
+      //       "Give the motivations for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system The box in the PRECISIONS column begins with  The work relates to...":
+      //       "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system The box in the PRECISIONS column begins with  The work relates to...",
+      //     "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The work relates to...  then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The work relates to...  then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The work relates to...  then after a space  The absence of an opinion is justified by:...":
+      //       "If necessary, give some details on the nature of the planned work. EX: The work concerns the extension of 2e floor and complete replacement of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The work relates to...  then after a space  The absence of an opinion is justified by:...",
+      //     "You may give some details on the general nature of the modifications. EX The modifications relate to the smoke extraction of the circulation of the floors »The box in the PRECISIONS column begins with  The changes relate to...":
+      //       "You may give some details on the general nature of the modifications. EX The modifications relate to the smoke extraction of the circulation of the floors »The box in the PRECISIONS column begins with  The changes relate to...",
+      //     "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the unfavorable opinion.EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The changes relate to... then after a space  The unfavorable opinion is based on:...":
+      //       "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the unfavorable opinion.EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The changes relate to... then after a space  The unfavorable opinion is based on:...",
+      //     "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the without opinion.EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The absence of an opinion is justified by:...":
+      //       "You may give some details on the general nature of the modifications. EX: The modifications relate to the smoke extraction of the circulation of the floors. Then give the reasons for the without opinion.EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports ”.The box in the PRECISIONS column begins with  The changes relate to... ” then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on...":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on...",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on...  then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on...  then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The absence of an opinion is justified by:...":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on... ":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage .The box in the PRECISIONS column begins with  The reception is on... ",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations; -  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations; -  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The reception is on... ” then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on...  then after a space  The absence of an opinion is justified by:...":
+      //       "If necessary, give some details on the nature of the work received. EX: The reception covers the smoke extraction installations at 3e stage.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of regulatory verification reports .The box in the PRECISIONS column begins with  The reception is on...  then after a space  The absence of an opinion is justified by:...",
+      //     "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...":
+      //       "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...",
+      //     "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...":
+      //       "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...",
+      //     "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...":
+      //       "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...",
+      //     "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...":
+      //       "Give the new classification of the establishment, if necessary. EX: Reclassification in type X of 3rd category ”.The box in the PRECISIONS column begins with  Reclassification in...",
+      //     "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...":
+      //       "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  the unfavorable opinion in progress;-  inconsistencies relating to workforce declarations. The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The unfavorable opinion is based on:...",
+      //     "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...":
+      //       "Give the requested classification if necessary. EX: Request for reclassification in type X of 3e category Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of a coherent declaration of the workforce .The box in the PRECISIONS column begins with  Request for reclassification in... ” then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system. The box in the PRECISIONS column begins with  The opinion relates to ...":
+      //       "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system. The box in the PRECISIONS column begins with  The opinion relates to ...",
+      //     "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  The lack of automatic fire detection on the ground floor. The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The unfavorable opinion is based on:...":
+      //       "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  non-compliance of circulation smoke extraction installations;-  The lack of automatic fire detection on the ground floor. The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The unfavorable opinion is based on:...",
+      //     "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of precise plans.The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The absence of an opinion is justified by:...":
+      //       "If necessary, give some details on the nature of the opinion requested. EX: The opinion relates to the functional specifications of the fire safety system.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of precise plans.The box in the PRECISIONS column begins with  The opinion relates to ...  then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the request and the compensatory measures validated by the commission. EX: The request relates to the structure's lack of fire stability. As a compensatory measure, a category A fire safety system is set up with generalized automatic detection. The box in the PRECISIONS column begins with  The request relates to...  then after a space  In compensatory measures...":
+      //       "If necessary, give some details on the nature of the request and the compensatory measures validated by the commission. EX: The request relates to the structure's lack of fire stability. As a compensatory measure, a category A fire safety system is set up with generalized automatic detection. The box in the PRECISIONS column begins with  The request relates to...  then after a space  In compensatory measures...",
+      //     "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  Compensatory measures that do not allow the evacuation time to be reduced;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The request relates to... ” then after a space  The unfavorable opinion is based on:...":
+      //       "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the unfavorable opinion. EX: The unfavorable opinion is motivated by:-  Compensatory measures that do not allow the evacuation time to be reduced;-  the lack of formalization of evacuation instructions. The box in the PRECISIONS column begins with  The request relates to... ” then after a space  The unfavorable opinion is based on:...",
+      //     "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of the plans mentioned in the file .The box in the PRECISIONS column begins with  The request relates to...  then after a space  The absence of an opinion is justified by:...":
+      //       "You may give some details on the nature of the request. EX: The request relates to the structure's lack of fire stability.Then give the reasons for the without opinion. EX: The absence of an opinion is motivated by the non-presentation of the plans mentioned in the file .The box in the PRECISIONS column begins with  The request relates to...  then after a space  The absence of an opinion is justified by:...",
+      //     "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...":
+      //       "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...",
+      //     "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire  safety system. The box in the PRECISIONS column begins with The formal notice relates to ...":
+      //       "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire  safety system. The box in the PRECISIONS column begins with The formal notice relates to ...",
 
-          "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...":
-            "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...",
-          "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
-            "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
-          "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
-            "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
-          "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
-            "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
-        },
-      },
+      //     "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...":
+      //       "If necessary, give some details on the nature of the formal notice. EX: The mayor's formal notice concerns the repair of the fire safety system. ”The box in the PRECISIONS column begins with The formal notice relates to ...",
+      //     "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
+      //       "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
+      //     "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
+      //       "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
+      //     "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...":
+      //       "If necessary, give some details about the intervention. EX: Emergency intervention for gas leaks in the establishment. 124 evacuated. The leak came from the shut-off valve in the kitchen. The box in the PRECISIONS column begins with Emergency response for ...",
+      //   },
+      // },
       fr: {
         translations: {
           //
@@ -235,12 +235,12 @@ i18n
           // navbar, sidebars
           "HOMEPAGE": "ACCUEIL",
           "IN PROGRESS": "EN COURS",
-          "ENDED": "TERMINÉ",
+          "ENDED": "TERMINÉS",
           "PHONE BOOK": "ANNUAIRE",
           "MULTIMEDIA": "MULTIMÉDIA",
           "Opening": "Ouverture",
           "Establishment": "Etablissement",
-          "TEAM MANAGMENT":"Gestion d'équipe",
+          "TEAM MANAGMENT":"GESTION D'ÉQUIPE",
           "Location": "Implantation",
           "Clearance": "Dégagement",
           "Category": "Categorie",
