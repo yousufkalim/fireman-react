@@ -191,7 +191,7 @@ width: 530px;
 
 .recre .progress{
     width: 142px;
-    margin-left: 100px;
+    /* margin-left: 100px; */
     margin-top: 23px;
     position: relative;
 }
