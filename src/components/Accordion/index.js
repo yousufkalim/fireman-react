@@ -69,6 +69,7 @@ const AccordionComponent = (props) => {
     sentenceNature: "",
   });
   const [seriesValues, setSeriesValues] = useState([]);
+  const [alreadyChecked, setAlreadyChecked] = useState([])
   const [subCheckValues, setSubCheckValues] = useState([]);
   const store = Store();
   const onClick = (sentenceid, text, seriesname, nature, serialid) => {
@@ -185,9 +186,22 @@ const AccordionComponent = (props) => {
     <>
       <Accordion
         expanded={props.expanded === props.panelname}
-        onChange={props.handleChange(props.panelname)}
+        onChange={props.handleChange(props.panelname) }
+        //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
+         //console.log("rs", res);
+        //})}}
       >
         <AccordionSummary
+         //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
+         //console.log("rs", res);
+         //console.log("store", store);
+         //console.log("sec", props.accordionData.sectionId);
+        //})}}
+        onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
+          setAlreadyChecked(res?.data)
+         console.log("rs", res?.data);
+         console.log("<seriesdata>", props.accordionData.series);
+        })}}
           expandIcon={
             <svg
               width="19"
@@ -250,6 +264,7 @@ const AccordionComponent = (props) => {
                     series={series.serialName}
                     index={i}
                     accordionData={series}
+                    alreadyChecked={alreadyChecked}
                   />
                 </>
               );

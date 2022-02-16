@@ -41,41 +41,51 @@ const EstablishmentSearchCurrentCases = () => {
       headerName: "Type",
       minWidth: 120,
       color: "#8D919D",
+      borderBottom:"none"
+
     },
     { 
       field: "refNum", 
       headerName: `${t("REF #")}`, 
       minWidth: 100, 
-      color: "#8D919D" },
+      color: "#8D919D",
+      borderBottom:"none"
+     },
     {
       field: "commisionName",
       headerName: "Commission",
       minWidth: 150,
       color: "#8D919D",
+      borderBottom:"none"
     },
     {
       field: "commisionDate",
       headerName: "Date COM.",
       minWidth: 150,
       color: "#8D919D",
+      borderBottom:"none"
     },
     {
       field: "establishmentName",
       headerName: `${t("Name Of Establishment Ref")}`,
       minWidth: 220,
       color: "#8D919D",
+      borderBottom:"none"
     },
     {
       field: "cityName",
       headerName: `${t("City")}`,
       minWidth: 130,
       color: "#8D919D",
+      borderBottom:"none"
     },
     { 
       field: "state", 
       headerName: `${t("State")}`, 
       minWidth: 150, 
-      color: "#8D919D" },    
+      color: "#8D919D",
+      borderBottom:"none"
+    },    
   ];
   
   const onRowClick = (params) => {
@@ -165,6 +175,7 @@ const EstablishmentSearchCurrentCases = () => {
                 field: val.field,
                 headerName: val.headerName,
                 minWidth: val.minWidth,
+                borderBottom:val.borderBottom
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
                 id: val.caseFileId,

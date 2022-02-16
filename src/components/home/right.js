@@ -95,7 +95,9 @@ const HomeRight = ({box ,setBox}) => {
                         </div>
                       </div>
                       <div className="progress">
-                        <Progress percent={data.completionPercentage} />
+                        <Progress 
+                         
+                        percent={data.completionPercentage} />
                       </div>
                     </div>
                   );

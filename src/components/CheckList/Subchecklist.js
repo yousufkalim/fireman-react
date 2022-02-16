@@ -65,7 +65,8 @@ const Subchecklist = ({
   serialName,
   getSubCheckListData,
   setSentenceDetails,
-  sentenceDetails
+  sentenceDetails,
+  alreadyChecked
 }) => {
   useEffect(() => {
     setOpen(true);
@@ -116,8 +117,38 @@ const Subchecklist = ({
       </IconButton>
     </React.Fragment>
   );
-  console.log("sub", subcheckData);
+  
+  let newdata = [];
+  let new2=[]
+ const a =   alreadyChecked?.map((val)=>(
+  val.subchecks
+ )
+   )
+   var merged = [].concat.apply([], a);
+  
+  console.log("con", merged);
 
+  const newarray = merged?.map((val)=>{
+    subcheckData.map((valtwo)=>{
+      if(valtwo.sectionSubSentencesId===val.sectionSubSentenceId){
+              newdata.push({
+                ...valtwo,
+                alreadychecked:val.sectionSubSentenceId
+              })
+            }
+            // return{
+            //   ...valtwo
+            // }
+    })    
+  })
+  newdata.map((i) => {
+    new2 = subcheckData.findIndex(
+      (s) => s.sectionSentencesId === i.sectionSentencesId
+    );
+    subcheckData[new2] = i;
+  });
+  console.log("sub", subcheckData);
+  console.log("newdata",new2);
   return (
     <>
       {
@@ -164,7 +195,7 @@ const Subchecklist = ({
                     style={{
                       color: `${val?.sentenceColor}`,
                     }}
-                    checked={subCheck == val?.sectionSubSentencesId}
+                    checked={subCheck? subCheck == val?.sectionSubSentencesId : val?.sectionSubSentencesId===val?.alreadychecked}
                     onClick={() => {
                       console.log("val?.sentenceNature",val?.sentenceNature);
                      

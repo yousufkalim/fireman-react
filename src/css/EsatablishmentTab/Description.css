@@ -17,3 +17,7 @@ textarea::placeholder {
     margin-left: 5px;
     zoom: 2;
 }
+
+.label-descriptif{
+    width: 17%;
+}

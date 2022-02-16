@@ -58,7 +58,26 @@ const CheckList = (props) => {
     //     })
   };
 
-  console.log("<></>", props.index);
+ 
+  let newdata = [];
+  let new2=[]
+  const newarray = props?.alreadyChecked.map((val)=>{
+    checklists.map((valtwo)=>{
+      if(valtwo.sectionSentencesId===val.sectionSentencesId){
+              newdata.push({
+                ...valtwo,
+                alreadychecked:val.sectionSentencesId
+              })
+            }
+    })    
+  })
+   newdata.map((i) => {
+    new2 = checklists.findIndex(
+      (s) => s.sectionSentencesId === i.sectionSentencesId
+    );
+    checklists[new2] = i;
+  });
+  console.log("checklistparent", checklists);
   return (
     <>
     {
@@ -107,7 +126,7 @@ const CheckList = (props) => {
                   style={{
                     color: `${data.sentenceColor}`,
                   }}
-                  checked={checked == props.accordionData.serialName + i}
+                  checked={checked? checked == props.accordionData.serialName + i : data?.alreadychecked===data?.sectionSentencesId}
                   onClick={() => {
                     if (data.sentenceNature !== 1) {
                       props.onClick(
@@ -228,6 +247,7 @@ const CheckList = (props) => {
           getSubCheckListData={props.getSubCheckListData}
           setSentenceDetails={setSentenceDetails}
           sentenceDetails={sentenceDetails}
+          alreadyChecked={props?.alreadyChecked}
         />
       ) : null}
       <EditModal
