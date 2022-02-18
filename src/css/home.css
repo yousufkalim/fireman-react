@@ -3,40 +3,41 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.accueilHome .heading1{
-font-size: 25px;
-font-weight: 700;
-color: #314A6C;
-margin-top: 23px;
+.heading1{
+    font-size: 25px;
+    font-weight: 700;
+    color: #314A6C;
+    margin-top: 23px;
+    text-align: start;
+    margin: 0px 25px;
+    padding-top: 20px;
 }
 
-.accueilHome .countData{
+.countData{
     display: flex;
-    margin-top: 13px;
+    justify-content: start;
+    margin-top: 25px;
 }
-.accueilHome .countData{
-    text-align: center;
-}
-.accueilHome .count{
+ 
+ .count{
 color: #3675B7;
 font-size: 50px;
 font-weight: 700;
+text-align: center;
 }
 
-.accueilHome .count_des{
+ .count_des{
     color: #5D718C;
     font-size: 18px;
+    text-align: center;
 }
-
-.accueilHome .heading2{
+ .heading2{
     color: #42AEFF ;
     font-weight: 700;
+    display: flex;
 }
 
-.heading2 {
-    display: flex;
-    margin-top: 26px;
-  }
+
 
 .heading2 div{
     border-bottom: 2px solid #42AEFF;
@@ -58,10 +59,10 @@ font-weight: 700;
 
  .termines_text .text{
     position: absolute;
-    top: 53%;
-    left: 50%;
+    top: 43%;
+    left: 46%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    width: 407px;
     padding: 23px 25px;
     background: linear-gradient(89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
     backdrop-filter: blur(11px);
@@ -82,28 +83,24 @@ font-weight: 700;
 }
    .vl {
     border-left: 2px solid #42AEFF;
-    height: 135px;
-    margin-top: 17px;
+    height: 150px;
+    margin-top: 3px;
     margin-left: 9px;
 }
 .vl-dosier{
     border-left: 2px solid #42AEFF;
-    height: 195px;
+    height: 185px;
     margin-top: 17px;
     margin-left: 9px;
 }
 
 .accueilHome_right_bottom .vl {
     border-left: 2px solid #42AEFF;
-    height: 75px;
-    margin-top: 17px;
-    margin-left: 21px;
+    height: 45px;
 }
 
 .accueilHome_right_bottom{
-    display: flex;
-    position: absolute;
-    top: 400px;
+   margin-top: 10px;
 }
 
 .cours{
@@ -111,8 +108,7 @@ font-weight: 700;
 }
 
 .btm-img{
-height: 200px;
-width: 530px;
+    border: 1px blue;
 }
 
 .coursimages{
@@ -120,20 +116,20 @@ width: 530px;
 }
 .img-one-right{
     height: 190px;
-    width: 200px;
+    width: 170px;
     display: block;
     margin-bottom: 5px;
 }
 .img-two-right{
     height: 150px;
-    width: 200px;
+    width: 170px;
 }
 .DOSSIERS_text {
     position: relative;
 }
 .DOSSIERS_text .text {
     position: absolute;
-    top: 208px;
+    top: 160px;
     left: 0px;
     width: 280px;
     padding: 28px 25px;
@@ -145,19 +141,24 @@ width: 530px;
     font-size: 22px;
 }
 .allonys {
-    position: relative;
+   display: flex;
+   justify-content: center;
+  position: relative;
+  margin-left: 40px;
+  
 }
 
 .allonys .text{
-    position: absolute;
-    top: 110px;
-    width: 480px;
-    padding: 14px 25px;
-    background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
-    -webkit-backdrop-filter: blur(11px);
-    backdrop-filter: blur(11px);
-    color: #FFFFFF;
-    font-size: 22px;
+  position: absolute;
+  top: 96px;
+  width: 460px;
+  padding: 14px 25px;
+  background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  color: #FFFFFF;
+  font-size: 22px;
+  left: 0;
 }
 
 .recre{ 
@@ -180,7 +181,11 @@ width: 530px;
 .recre p{
     color: #314A6C;
 }
-
+.percentage p{
+  color: #3675B7;
+  text-align: end;
+  font-weight: 600;
+}
 .recre .date{
     font-size: 10px;
     line-height: 12px;
@@ -228,68 +233,35 @@ text-transform: capitalize;
 margin-top: 10px;
 
 }
-.hoverbox-right{
-    padding: 20px 10px 10px 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-box-sizing: border-box;
-border-radius: 21px;
+.v-text{
+    padding: 0px 30px;
 }
 
 
-.flip-box {
-    width: 80%;
-    perspective: 1000px;
-    padding: 0px 50px;
-  }
-  
-  .flip-box-inner {
-    position: relative;
-    display: flex;
-    width: 100%;
-    
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-  }
-  
-   .flip-box-inner:hover {
-    transform: rotateY(180deg);
-  }
-  
-  .flip-box-front, .flip-box-back {
-    position: absolute;
-    width: 100%;
-   
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  
-  .flip-box-front {
-    display: flex;
-    color: black;
-   
+.parent-left-box{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
   }
 
-  .v-text{
-     position: absolute;
-    
-  }
-  
-  .flip-box-back {
-    color: white;
-    transform: rotateY(180deg);
-    height: 80%;
-  }
 
-/* for left */
+
+
+
+
   .flip-box-left {
-    width: 100%;
+    background-color: transparent;
+    width:90%;
+    height: 420px;
     perspective: 1000px;
+    margin: auto;
   }
   
   .flip-box-inner-left {
     position: relative;
     width: 100%;
+    height: 100%;
+    text-align: start;
     transition: transform 0.8s;
     transform-style: preserve-3d;
   }
@@ -298,9 +270,10 @@ border-radius: 21px;
     transform: rotateY(180deg);
   }
   
-  .flip-box-front-left, .flip-box-back-left{
+  .flip-box-front-left, .flip-box-back-left {
     position: absolute;
     width: 100%;
+    height: 420px;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
@@ -311,6 +284,63 @@ border-radius: 21px;
   }
   
   .flip-box-back-left {
+    
     color: white;
     transform: rotateY(180deg);
   }
+
+
+
+
+  /* for right */
+
+
+
+  .flip-box-right {
+    background-color: transparent;
+    width: 85%;
+    height: 380px;
+    perspective: 1000px;
+    margin: auto;
+  }
+  
+  .flip-box-inner-right {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-box-right:hover .flip-box-inner-right {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-box-front-right, .flip-box-back-right {
+    position: absolute;
+    width: 100%;
+    height: 380px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .flip-box-front-right {
+   
+    color: black;
+    display: flex;
+  }
+  
+  .flip-box-back-right {
+      display: flex;
+   
+    color: white;
+    transform: rotateY(180deg);
+  }
+.hoverbox-right{
+    width: 80%;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+box-sizing: border-box;
+border-radius: 21px;
+}
