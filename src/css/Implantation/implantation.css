@@ -314,6 +314,25 @@ margin-left: 10px;
       .chat-box>*{
         padding-right: 15px;
       }
+      .chat-box-scroll::-webkit-scrollbar {
+        width: 6px;
+        max-height:4px;
+      }
+      .chat-box-scroll::-webkit-scrollbar-track {
+        border-radius: 10px;
+       
+      }
+       
+      /* Handle */
+      .chat-box-scroll::-webkit-scrollbar-thumb {
+        background: #3675B7; 
+       
+        border-radius: 10px;
+        background-clip: padding-box;
+      }
+      
+      /* Handle on hover */
+      
 
       .img-chat{
         width: 22px;

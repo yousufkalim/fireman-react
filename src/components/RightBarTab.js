@@ -192,17 +192,18 @@ const EstablishmentSearchRightBar = () => {
               <small>(3) </small>
             </Box>
 
-            <Box>
+            <Box sx={{padding:"20px 10px",  border: "0.2px solid #ADA7A7",
+                  borderRadius: "16px",}}>
+             
               <Box
-              className="chat-box"
+                className="chat-box-scroll"
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  border: "0.2px solid #ADA7A7",
-                  borderRadius: "16px",
+                 
                   boxSizing: "border-box",
-                  padding: "12px 15px 20px 15px",
+                  padding: "0px 15px 0px 15px",
                   overflowY: "scroll",
                   height: "150px",
 
@@ -215,6 +216,8 @@ const EstablishmentSearchRightBar = () => {
                     alignItems: "center",
                     width: "100%",
                     padding: "5px 0px",
+                    
+                   
                   }}
                 >
                   <Box sx={{ display: "flex" }} className="img-txt">
@@ -230,7 +233,7 @@ const EstablishmentSearchRightBar = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     width: "100%",
-                    padding: "5px 0px",
+                    paddingBottom:"10px"
                   }}
                 >
                   <Box sx={{ display: "flex" }} className="img-txt">
@@ -246,7 +249,7 @@ const EstablishmentSearchRightBar = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     width: "100%",
-                    padding: "5px 0px",
+                    paddingBottom:"10px"
                   }}
                 >
                   <Box sx={{ display: "flex" }} className="img-txt">
@@ -261,7 +264,7 @@ const EstablishmentSearchRightBar = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     width: "100%",
-                    padding: "5px 0px",
+                    paddingBottom:"10px"
                   }}
                 >
                   <Box sx={{ display: "flex" }} className="img-txt">
@@ -276,7 +279,7 @@ const EstablishmentSearchRightBar = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     width: "100%",
-                    padding: "5px 0px",
+                    paddingBottom:"10px"
                   }}
                 >
                   <Box sx={{ display: "flex" }} className="img-txt">
@@ -301,6 +304,7 @@ const EstablishmentSearchRightBar = () => {
                   <span class="dot dot-unactive"></span>
                 </Box>
               </Box>
+             
             </Box>
           </Box>
         </Box>
@@ -384,8 +388,8 @@ const EstablishmentSearchRightBar = () => {
             <AccordionSummary
               expandIcon={
                 <svg
-                  width="6"
-                  height="11"
+                  width="20"
+                  height="20"
                   viewBox="0 0 6 11"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -521,11 +525,9 @@ const EstablishmentSearchRightBar = () => {
                   <Typography sx={{ color: "#B4BCC3" }}> Chat</Typography>
                 </Box>
               </AccordionSummary>
-              <AccordionDetails className="accordian-details">
+              <AccordionDetails sx={{height:"100px"}} className="accordian-details">
                 <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
+                 
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -573,11 +575,9 @@ const EstablishmentSearchRightBar = () => {
                 <Typography sx={{ color: "#B4BCC3" }}> Assistance</Typography>
               </Box>
             </AccordionSummary>
-            <AccordionDetails className="accordian-details">
+            <AccordionDetails sx={{height:"100px"}} className="accordian-details">
               <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
+               
               </Typography>
             </AccordionDetails>
           </Accordion>

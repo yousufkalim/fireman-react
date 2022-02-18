@@ -135,7 +135,7 @@ const NavbarDashBoard = () => {
              </div>
       </Box>
        
-       <Box sx={{display:"flex", justifyContent:"space-between", alignItems:'center', width:"44%"}}> 
+       <Box sx={{display:"flex", justifyContent:"space-between", alignItems:'center', width:"42%"}}> 
       <Box sx={{display:"flex"}}>
                 <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
               </Box>
