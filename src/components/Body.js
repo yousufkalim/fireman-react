@@ -21,6 +21,7 @@ import TeamManagement from "../components/TeamManagement"
 import NavbarDashBoard from '../components/NavbarDashBoard'
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
+  const [sideBar, setSideBar] = useState(false)
   const getResponse = (data) => {
     setResponseData(data);
   };
@@ -32,7 +33,7 @@ const Body = () => {
     })
   }, [])
 
-
+   
   const store = Store()
   console.log(store);
   return (
@@ -64,7 +65,7 @@ const Body = () => {
             <Grid item xs={1}>
               {/* <SideBar /> */}
               <LeftBarTab
-                getResponse={getResponse}
+                getResponse={getResponse} 
               />
             </Grid>
 
@@ -96,7 +97,7 @@ const Body = () => {
                 store.activeNavbarTab == "profile" ? <Profile />
                   :
                   <>
-                    <Grid item xs={8}>
+                    <Grid item xs={sideBar? 8 : 10}>
                       {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                       {store.activeNavbarTab === 1 ? <EstablishmentSearchContainer /> : null}
                       {store.activeNavbarTab === "currentcases" ? <OpenSearchCurrentCases currentcasesData={responseData} /> : null}
@@ -109,8 +110,8 @@ const Body = () => {
                       {store.activeNavbarTab === "team" ? <TeamManagement /> : null}
 
                     </Grid>
-                    <Grid item xs={3}>
-                      <RightBarTab />
+                    <Grid item xs={sideBar? 3: 1}>
+                      <RightBarTab sideBar={sideBar} setSideBar={setSideBar}/>
                     </Grid>
                   </>
             }

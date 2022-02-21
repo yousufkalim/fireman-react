@@ -13,44 +13,85 @@
 .flex-form {
   display: -webkit-box;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
   z-index: 10;
   position: relative;
   width: 95%;
   margin: 5px 0px;
-  padding-bottom: 15px;
 }
 .label-color{
   color: #314A6C;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
+  width: 30%;
+  display:flex;
+}
+.label-cp{
+  color: #314A6C;
+  font-size: 16px;
+  font-weight: 500;
+  width: 21%;
+  display: flex;
+}
+.label-commune{
+  width: 17% !important;
 }
 .flex-form > * {
   border: 0;
   background: #fff;
-  line-height: 38px;
+  line-height: 18px;
   border-radius: 0;
   outline: 0;
   -webkit-appearance: none;
 }
-
+.cp{
+  
+  justify-content: flex-start !important;
+  width: 51% !important;
+}
+.cp input[type="search"]{
+  width: 74% !important;
+}
+.dropdown-tracktype{
+  width: 65% !important;
+}
+.channel-name input[type="search"]{
+  width: 66% !important;
+}
+.nom-et-form{
+  width: 99% !important;
+}
+.statusid{
+  width: 62% !important;
+}
+.label-status{
+  width: 25% !important;
+}
+.label-estab-nom{
+  width: 60% !important;
+}
 .flex-form input[type="search"] {
      border-radius: 10px;
   background-color: #F1F5F9;
-  padding: 5px 15px;
+  padding: 10px 15px;
   font-weight: 600;
+  width: 100%;
 }
 .flex-form input[type="tel"] {
   border-radius: 10px;
 background-color: #F1F5F9;
-padding: 5px 15px;
+padding: 10px 15px;
 font-weight: 600;
+width: 95%;
 }
 .flex-form input[type="email"] {
   border-radius: 10px;
 background-color: #F1F5F9;
-padding: 5px 15px;
+padding: 10px 15px;
 font-weight: 600;
+width: 95%;
 }
 .flex-form input[type="number"] {
   border-radius: 10px;
@@ -76,10 +117,13 @@ font-weight: 600;
   width: 50%;
   font-size: 13px;
 }
+.flex-form-responsable{
+  margin-right: 15px !important;
+}
 .dropdown {
   border-radius: 10px;
   background-color: #F1F5F9;
-  padding: 5px 15px;
+  padding: 10px 15px;
   font-weight: 600;
   font-size: 15px;
   width: 100%;
@@ -248,11 +292,10 @@ margin-top: 20px;
 
 /* historical search */
 .establishment-typenom-container{
-  padding-top: 20px;
-  padding-bottom: 38px;
+  padding-top: 14.2px;
 }
 .establishment-nom-mobile-container{
-margin-top: 100px;
+margin-top: 40px;
 }
 .dropdown-historical{
 width: 15%;
