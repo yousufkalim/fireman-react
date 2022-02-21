@@ -50,9 +50,10 @@ text-align: center;
     width: 90%;
 }
 
-.accueilHome .travail .termines_text{
+ .termines_text{
     position: relative;
     display: inline-block;
+    height: 100%;
 }
 
 
@@ -242,6 +243,8 @@ margin-top: 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      height: 100%;
+      width:80%;
   }
 
 

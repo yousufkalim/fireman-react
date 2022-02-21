@@ -47,7 +47,7 @@ const HomeRight = ({ box, setBox }) => {
 
   return (
     <>
-      <Box>
+      {/* <Box>
         <div class="flip-box-right">
           <div class="flip-box-inner-right">
             <div class="flip-box-front-right">
@@ -70,8 +70,10 @@ const HomeRight = ({ box, setBox }) => {
               <div className="v-text">
                 <p className="vertical_text">DOSSIERS EN COURS</p>
                 <div class="vl-dosier"></div>
-              </div>
+              </div> */}
+             
               <div className="hoverbox-right">
+            
                 {projects &&
                   projects.map((data) => {
                     return (
@@ -108,7 +110,8 @@ const HomeRight = ({ box, setBox }) => {
                   </p>
                 </div>
               </div>
-            </div>
+
+            {/* </div>
           </div>
         </div>
       </Box>
@@ -129,7 +132,7 @@ const HomeRight = ({ box, setBox }) => {
             <p className="vertical_text">ALLONS-Y</p>
           </Box>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

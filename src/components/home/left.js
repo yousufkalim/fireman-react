@@ -50,14 +50,14 @@ const update = UpdateStore();
         <Box className="countData">
                <Box sx={{ width:"38%"}}>
                    <p className="count">{counts.completed}</p>
-                   <p className="count_des">projets terminés</p>
+                   <p className="count_des">DOCUMENTS(S) terminés</p>
                     </Box>
                     <Box sx={{ width:"38%"}}>
                        <p className="count">{counts.inProgress}</p>
-                       <p className="count_des">projets en cours</p>
+                       <p className="count_des">MESSAGE(S) RECU(S)</p>
                        </Box>
         </Box>
-        <div class="flip-box-left">
+        {/* <div class="flip-box-left">
   <div class="flip-box-inner-left">
     <div class="flip-box-front-left">
     <Box sx={{padding:"40px 0px 15px 0px"}}>
@@ -97,7 +97,7 @@ const update = UpdateStore();
              </Box> 
     </div>
   </div>
-</div>
+</div> */}
         </Box>
         </>
     )
