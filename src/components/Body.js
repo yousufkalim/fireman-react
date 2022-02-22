@@ -29,7 +29,7 @@ const Body = () => {
   useEffect(() => {
     updatestore({
       activeCase: "newcase",
-      activeNavbarTab: "termine"
+      activeNavbarTab: "termine",
     })
   }, [])
 

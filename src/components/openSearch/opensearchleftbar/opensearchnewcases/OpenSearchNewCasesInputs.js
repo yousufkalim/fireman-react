@@ -151,11 +151,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
         ""
         :
         <Box
-        sx={{textAlign:"start", display:"flex", paddingLeft:"16px"}}
+        sx={{textAlign:"start", display:"flex", paddingLeft:"8px"}}
         >
           <h5>{t("New Establishment")}</h5>
           <BootstrapTooltip title="Sera mis en œuvre plus tard">
-        <Button sx={{padding:"2px 2px"}}>{("Create")}</Button>
+        <Button sx={{padding:"2px 15px"}}>{("Create")}</Button>
       </BootstrapTooltip>
         </Box>
       } 
@@ -180,7 +180,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                     store.phoneBook ?
                     ""
                     :
-                    <Box sx={{fontSize:"20px"}}> 
+                    <Box sx={{fontSize:"20px", paddingBottom:"10px"}}> 
                     <h5> {t("Existing establishment")}</h5>
                     </Box>
                   }
@@ -271,19 +271,20 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                           </option>
                         ))}
                       </select>
-                      <Box sx={{textAlign:"right", paddingTop:"65px"}}> 
-                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
-                   {t("Search")}
-                          </Button>
-                    </Box>  
+                     
                     </div>
                    
                   </Box>
                  
                 </div>
+               
                 </Box>   
                
-                          
+                <Box sx={{textAlign:"right", width:"97%"}}> 
+                    <Button   type="submit" endIcon={<img className='icon-validate' src={Rightarrow} />} sx={{ background: "#3675B7", ':hover': { background: "#3675B7" } }} variant="contained">
+                   {t("Search")}
+                          </Button>
+                    </Box>          
               </form>
             </Item>
           </Grid>

@@ -114,7 +114,9 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
   const onClick = (activelefttab) => {
     if(activelefttab=="annuaire"){
       update({ phoneBook:true });
-
+    }
+    if(activelefttab!="annuaire"){
+      update({ phoneBook:false });
     }
     update({ activeNavbarTab: activelefttab,catTab:false });
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab

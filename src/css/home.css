@@ -56,19 +56,22 @@ text-align: center;
     height: 100%;
 }
 
-
+.cursor{
+  cursor: pointer;
+}
 
  .termines_text .text{
-    position: absolute;
-    top: 43%;
-    left: 46%;
-    transform: translate(-50%, -50%);
-    width: 407px;
-    padding: 23px 25px;
-    background: linear-gradient(89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
-    backdrop-filter: blur(11px);
-    color: #FFFFFF;
-    font-size: 22px;
+  position: absolute;
+  top: 43%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  width: 79%;
+  padding: 23px 25px;
+  background: linear-gradient(89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  color: #FFFFFF;
+  font-size: 22px;
 }
 
 
@@ -129,17 +132,22 @@ text-align: center;
     position: relative;
 }
 .DOSSIERS_text .text {
-    position: absolute;
-    top: 160px;
-    left: 0px;
-    width: 280px;
-    padding: 28px 25px;
-    background: linear-gradient(
-89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
-    -webkit-backdrop-filter: blur(11px);
-    backdrop-filter: blur(11px);
-    color: #FFFFFF;
-    font-size: 22px;
+  position: absolute;
+  top: 160px;
+  left: 0px;
+  width: 78.8%;
+  padding: 23px 25px;
+  background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  color: #FFFFFF;
+  font-size: 22px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
 }
 .allonys {
    display: flex;
@@ -188,7 +196,7 @@ text-align: center;
   font-weight: 600;
 }
 .recre .date{
-    font-size: 10px;
+    font-size: 17px;
     line-height: 12px;
     display: flex;
     align-items: center;
@@ -341,8 +349,8 @@ margin-top: 10px;
     transform: rotateY(180deg);
   }
 .hoverbox-right{
-    width: 80%;
-    padding: 15px;
+    width: 93%;
+    padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.1);
 box-sizing: border-box;
 border-radius: 21px;

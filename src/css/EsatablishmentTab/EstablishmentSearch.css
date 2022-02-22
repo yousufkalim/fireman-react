@@ -13,7 +13,7 @@
 .flex-form {
   display: -webkit-box;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   flex-direction: row;
   z-index: 10;
@@ -36,7 +36,11 @@
   display: flex;
 }
 .label-commune{
-  width: 17% !important;
+  width: 15% !important;
+}
+.flex-form .commune-dropdown{
+  width: 83% !important;
+  padding: 15px 15px !important;
 }
 .flex-form > * {
   border: 0;
@@ -49,13 +53,17 @@
 .cp{
   
   justify-content: flex-start !important;
-  width: 51% !important;
+  width: 48% !important;
 }
 .cp input[type="search"]{
-  width: 74% !important;
+  width: 69% !important;
+}
+.form-est-mail input[type="email"]{
+  width: 92% !important;
 }
 .dropdown-tracktype{
   width: 65% !important;
+  padding: 15px 15px !important;
 }
 .channel-name input[type="search"]{
   width: 66% !important;
@@ -72,26 +80,43 @@
 .label-estab-nom{
   width: 60% !important;
 }
+.flex-form-foldercreation  input[type="search"]{
+  width: 86% !important;
+  padding: 15px 15px !important;
+}
+.townplanning-flex{
+  padding-right: 10px;
+}
+.nom-et-form input[type="search"]{
+  width: 100% !important;
+}
+.townplanning-flex input[type="date"]{
+  width: 75% !important;
+}
+.townplanning-flex input[type="search"]{
+width: 80% !important;
+padding: 15px 15px !important;
+}
 .flex-form input[type="search"] {
      border-radius: 10px;
   background-color: #F1F5F9;
-  padding: 10px 15px;
+  padding: 15px 15px;
   font-weight: 600;
-  width: 100%;
+  width: 70%;
 }
 .flex-form input[type="tel"] {
   border-radius: 10px;
 background-color: #F1F5F9;
-padding: 10px 15px;
+padding: 15px 15px;
 font-weight: 600;
-width: 95%;
+width: 72%;
 }
 .flex-form input[type="email"] {
   border-radius: 10px;
 background-color: #F1F5F9;
-padding: 10px 15px;
+padding: 15px 15px;
 font-weight: 600;
-width: 95%;
+width: 75%;
 }
 .flex-form input[type="number"] {
   border-radius: 10px;
@@ -106,6 +131,7 @@ font-weight: 600;
   padding: 5px 15px;
   font-weight: 600;
   font-size: 15px;
+  width:80%
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -120,19 +146,26 @@ font-weight: 600;
 .flex-form-responsable{
   margin-right: 15px !important;
 }
+.flex-form-responsable input[type="tel"]{
+  width: 93% !important;
+}
 .dropdown {
   border-radius: 10px;
   background-color: #F1F5F9;
-  padding: 10px 15px;
+  padding: 15px 15px;
   font-weight: 600;
   font-size: 15px;
-  width: 100%;
+  width: 70%;
   color: #8D919D;
 }
-
+.dropdown-folder-creation{
+  width: 86%;
+  padding: 15px 15px !important;
+}
 
 .dropdown-townplanning{
-  width: 95%;
+  width: 80%;
+  padding: 15px 15px !important;
 }
 
 .icon-validate{

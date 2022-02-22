@@ -52,11 +52,11 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs(props) {
-let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionData.sentenceText)
+let [sentence,setSentence]=React.useState((props.accordionData?.sentenceText?props.accordionData?.sentenceText: props.text))
    
    useEffect(() => {
     var re = /[_]+/g;
-        if(props.accordionData.sentenceText){
+        if(props.accordionData?.sentenceText){
           console.log((props?.accordionData&&props.accordionData?.sentenceText.match(re) || []).join(''));
         }
    }, [props]);
@@ -80,7 +80,7 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                     
                     <CKEditor 
                         editor={ClassicEditor}
-                        data={props.accordionData.sentenceText}
+                        data={props.accordionData?.sentenceText?props.accordionData?.sentenceText:props?.text}
                         config={{
                             toolbar: ['bold', 'italic', "undo", "redo", 'underline', 'NumberedList', 'BulletedList']
                         }}
@@ -121,10 +121,10 @@ let [sentence,setSentence]=React.useState(props.accordionData&& props.accordionD
                         //console.log(e.target.value[value-1])
                         }} defaultValue={props.accordionData.sentenceText}/> */}
                     </div>
-                  
+                  {console.log("se",sentence)}
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{props.saveChanges(sentence?sentence:props.accordionData.sentenceText, props.accordionData.sectionSentencesId,props.accordionData.sentenceNature, props.seriesName); props.setSubcheck(""); props.setOpen(false)}}>
+                    <Button autoFocus onClick={()=>{props.saveChanges(sentence?sentence:props.accordionData?.sentenceText?props.accordionData.sentenceText:props.text, props.accordionData?.sectionSentencesId?props.accordionData?.sectionSentencesId:props?.checklistid,props.accordionData?.sentenceNature?props.accordionData?.sentenceNature:"", props?.seriesName?props?.seriesName:""); props?.setSubcheck(""); props.setOpen(false)}}>
                         Save changes
                     </Button>
                 </DialogActions>

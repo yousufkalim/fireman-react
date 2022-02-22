@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import { styled } from "@mui/material/styles";
 import { Grid, Paper } from "@mui/material";
 import { Store } from "../StoreContext";
@@ -33,6 +33,7 @@ const AccordionSummary = styled((props) => (
 
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
+    visibility:"hidden"
   },
 }));
 const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
@@ -45,8 +46,12 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
      assistance:false,
      compagnon:false
    })
- 
+  useEffect(() => {
+    setSideBar(false)
+  }, [])
+  
   const store = Store();
+  console.log("sideBar",sideBar);
   return (
     <>
 
@@ -86,7 +91,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                 assistance:false,
                 compagnon:false
                }
-             })}}> <CloseIcon/></span>
+             })}}> <CloseIcon className="close-icon"/></span>
               <svg
                 width="21"
                 height="20"
@@ -263,6 +268,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
      {   
      activeTab.compagnon?(
         <div className="Compagnon">
+          <Box sx={{display:"flex"}}> 
            <span  onClick={()=>{ setSideBar(false); setActiveTab(()=>{
                return{
                 chat:false,
@@ -270,8 +276,9 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                 assistance:false,
                 compagnon:false
                }
-             })}}> <CloseIcon/></span>
+             })}}> <CloseIcon className="close-icon"/></span>
           <h4>{t("Companion")}</h4>
+          </Box>
           <div className="Compagnon_icons">
             <img src={Commentaries} />
             <p>{t("Comments")}</p>
@@ -281,7 +288,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
             <p>{t("Video tutorial")}</p>
           </div>
          
-            <img className="firecart-two" src={Firecart} />
+           
          
         </div>
      ):null
@@ -302,20 +309,6 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
             }}
           >
             <AccordionSummary
-              expandIcon={
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 6 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.83705 4.70792L1.29221 0.163155C1.18709 0.0579554 1.04677 0 0.897146 0C0.747525 0 0.607203 0.0579554 0.502086 0.163155L0.16739 0.497768C-0.0503995 0.715807 -0.0503995 1.07018 0.16739 1.28789L3.98381 5.10431L0.163155 8.92496C0.0580384 9.03016 0 9.1704 0 9.31993C0 9.46964 0.0580384 9.60988 0.163155 9.71516L0.497852 10.0497C0.603051 10.1549 0.74329 10.2128 0.892911 10.2128C1.04253 10.2128 1.18285 10.1549 1.28797 10.0497L5.83705 5.50078C5.94242 5.39524 6.00029 5.25434 5.99996 5.10455C6.00029 4.95419 5.94242 4.81337 5.83705 4.70792Z"
-                    fill="green"
-                  />
-                </svg>
-              }
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
@@ -327,7 +320,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                 assistance:false,
                 compagnon:false
                }
-             })}}> <CloseIcon/></span>
+             })}}> <CloseIcon className="close-icon"/></span>
                 <svg
                   width="23"
                   height="25"
@@ -386,20 +379,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
             }}
           >
             <AccordionSummary
-              expandIcon={
-                <svg
-                  width="6"
-                  height="11"
-                  viewBox="0 0 6 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5.83705 4.70792L1.29221 0.163155C1.18709 0.0579554 1.04677 0 0.897146 0C0.747525 0 0.607203 0.0579554 0.502086 0.163155L0.16739 0.497768C-0.0503995 0.715807 -0.0503995 1.07018 0.16739 1.28789L3.98381 5.10431L0.163155 8.92496C0.0580384 9.03016 0 9.1704 0 9.31993C0 9.46964 0.0580384 9.60988 0.163155 9.71516L0.497852 10.0497C0.603051 10.1549 0.74329 10.2128 0.892911 10.2128C1.04253 10.2128 1.18285 10.1549 1.28797 10.0497L5.83705 5.50078C5.94242 5.39524 6.00029 5.25434 5.99996 5.10455C6.00029 4.95419 5.94242 4.81337 5.83705 4.70792Z"
-                    fill="#9095A2"
-                  />
-                </svg>
-              }
+             
               aria-controls="panel3a-content"
               id="panel3a-header"
             >
@@ -411,7 +391,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                 assistance:false,
                 compagnon:false
                }
-             })}}> <CloseIcon/></span>
+             })}}> <CloseIcon className="close-icon"/></span>
                 <svg
                   width="23"
                   height="22"

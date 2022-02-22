@@ -220,7 +220,9 @@ box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
     right: -28px;
     width: 65px;
 }
-
+.close-icon{
+  color: #9095A3;
+}
 .icon-txt{
 display:flex;
 margin-left: 10px;
@@ -252,8 +254,8 @@ margin-left: 10px;
       .left_side .Compagnon h4{
           color: #9095A3;
           font-weight: 500;
-          border-bottom: 1px solid #E7EDF2;
           padding-bottom: 10px;
+          margin-left: 10px;
       }
       
       .left_side .Compagnon .Compagnon_icons{

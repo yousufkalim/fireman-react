@@ -528,7 +528,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   <div className="heading-establishment"> 
                       
                       <span className="checklist-heading line"> Nom et statut</span> 
-                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"83%", marginTop:"12px"}}></Box>
+                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"86.2%", marginTop:"12px"}}></Box>
                        </div>
                        <div className="flex-form nom-et-form">
                         
@@ -568,11 +568,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   <div className="heading-establishment"> 
                       
                   <span className="checklist-heading"> Adresse</span> 
-                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"88%", marginTop:"12px", marginLeft:"14px"}}></Box>
+                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"90%", marginTop:"12px", marginLeft:"14px"}}></Box>
                        </div>
                    <Box sx={{display:"flex", padding:"10px 0px"}}> 
                        <div className="flex-form">
-                        <label className="label-color">{t("Number")}</label>
+                        <label className="label-color label-general">{t("Number")}</label>
                           <input
                           required
                              type="search"
@@ -616,7 +616,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
 
                         <Box sx={{display:"flex", justifyContent:"flex-start"}}>
                         <div className="flex-form cp">
-                        <label className="label-cp">CP</label>
+                        <label className="label-cp label-general">CP</label>
                         <input
                         required
                           type="search"
@@ -628,7 +628,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <div className="flex-form">
                       <label className="label-color label-commune">{t("City")} </label>
                         <select
-                          className="dropdown"
+                          className="dropdown commune-dropdown"
                           type="select"
                           name="cityId"
                           value={inputValues.cityId}
@@ -648,10 +648,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   <Box>
                   <div className="heading-establishment">
                         <span className="checklist-heading heading-est"> Responsable de sécurité</span>  
-                          <Box sx={{borderTop:"3px solid #C5D3DB", width:"70%", marginTop:"11px", marginLeft:"12px"}}></Box>
+                          <Box sx={{borderTop:"3px solid #C5D3DB", width:"76%", marginTop:"11px", marginLeft:"12px"}}></Box>
                         </div>
                         <Box sx={{display:"flex"}}>
-                        <div className="flex-form flex-form-responsable">
+                        <div className="flex-form flex-form-responsable nom-et-form">
                           <label className="label-color">{t("Name")} </label>
                           <input
                           required
@@ -661,7 +661,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             value={inputValues.securityManagerLastName.toUpperCase()}
                           />
                         </div>
-                        <div className="flex-form">
+                        <div className="flex-form nom-et-form">
                       <label className="label-color">{t("First name")}</label>
                         <input
                         required
@@ -689,7 +689,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </div>
                        
                     
-                      <div className="flex-form">
+                      <div className="flex-form form-est-mail">
                       <label className="label-color">Mail</label>
                         <input
                         required
