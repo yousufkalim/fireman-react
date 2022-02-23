@@ -27,6 +27,7 @@
   font-weight: 500;
   width: 30%;
   display:flex;
+  white-space: nowrap;
 }
 .label-cp{
   color: #314A6C;
@@ -80,8 +81,8 @@
 .label-estab-nom{
   width: 60% !important;
 }
-.flex-form-foldercreation  input[type="search"]{
-  width: 86% !important;
+.flex-form-foldercreation input[type="search"]{
+  width: 70% !important;
   padding: 15px 15px !important;
 }
 .townplanning-flex{
@@ -131,7 +132,7 @@ font-weight: 600;
   padding: 5px 15px;
   font-weight: 600;
   font-size: 15px;
-  width:80%
+  width:63%
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -159,7 +160,7 @@ font-weight: 600;
   color: #8D919D;
 }
 .dropdown-folder-creation{
-  width: 86%;
+  width: 70%;
   padding: 15px 15px !important;
 }
 

@@ -39,7 +39,7 @@ const EstablishmentSearchCurrentCases = () => {
     {
       field: "typeref",
       headerName: "Type",
-      minWidth: 120,
+      minWidth: 250,
       color: "#8D919D",
       borderBottom:"none"
 

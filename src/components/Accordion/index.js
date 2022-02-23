@@ -181,26 +181,17 @@ const AccordionComponent = (props) => {
       }
     });
     console.log("obj", obj);
+    console.log("props.accordionData.sectionId", props.accordionData.sectionId);
   };
   return (
     <>
       <Accordion
         expanded={props.expanded === props.panelname}
         onChange={props.handleChange(props.panelname) }
-        //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
-         //console.log("rs", res);
-        //})}}
       >
         <AccordionSummary
-         //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
-         //console.log("rs", res);
-         //console.log("store", store);
-         //console.log("sec", props.accordionData.sectionId);
-        //})}}
-        onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
+         onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
           setAlreadyChecked(res?.data)
-         console.log("rs", res?.data);
-         console.log("<seriesdata>", props.accordionData.series);
         })}}
           expandIcon={
             <svg

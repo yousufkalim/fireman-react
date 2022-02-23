@@ -73,7 +73,7 @@ const EditTextComp = ({openSubcheck, setOpenSubcheck,subSentenceText,setSubSente
                 maxWidth="lg"
             >
                 <BootstrapDialogTitle id="customized-dialog-title">
-                    Edit title 
+                    Edit
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <div className='ckeditor'>
@@ -109,7 +109,7 @@ const EditTextComp = ({openSubcheck, setOpenSubcheck,subSentenceText,setSubSente
                     }}
                         
                         >
-                        Save changes
+                        Save
                     </Button>
                 </DialogActions>
             </BootstrapDialog>

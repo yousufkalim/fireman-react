@@ -117,7 +117,8 @@ const Subchecklist = ({
       </IconButton>
     </React.Fragment>
   );
-  
+  console.log("sub120", subcheckData);
+  console.log("alreadyChecked",alreadyChecked);
   let newdata = [];
   let new2=[]
  const a =   alreadyChecked?.map((val)=>(
@@ -133,7 +134,8 @@ const Subchecklist = ({
       if(valtwo.sectionSubSentencesId===val.sectionSubSentenceId){
               newdata.push({
                 ...valtwo,
-                alreadychecked:val.sectionSubSentenceId
+                subSentenceText:val.modifiedSentenceText,
+                alreadychecked:val.sectionSubSentenceId,
               })
             }
             // return{
@@ -141,14 +143,13 @@ const Subchecklist = ({
             // }
     })    
   })
+  console.log("newdata",newdata);
   newdata.map((i) => {
     new2 = subcheckData.findIndex(
-      (s) => s.sectionSentencesId === i.sectionSentencesId
+      (s) => s.sectionSubSentencesId === i.sectionSubSentencesId
     );
     subcheckData[new2] = i;
   });
-  console.log("sub", subcheckData);
-  console.log("newdata",new2);
   return (
     <>
       {
@@ -160,7 +161,7 @@ const Subchecklist = ({
           maxWidth="lg"
         >
           <BootstrapDialogTitle id="customized-dialog-title">
-            Edit title
+            Edit
           </BootstrapDialogTitle>
           <DialogContent dividers>
             {subcheckData?.map((val) => (
@@ -286,7 +287,7 @@ const Subchecklist = ({
               }}
               autoFocus
             >
-              Save changes
+              Save
             </Button>
           </DialogActions>
         </BootstrapDialog>

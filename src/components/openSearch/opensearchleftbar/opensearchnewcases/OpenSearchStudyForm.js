@@ -32,6 +32,7 @@ const EstablishmentSearchStudyForm = ({
   study,
   casefileId,
   setCheckboxObj,
+  checkboxObj,
   postCheckboxesData,
   Studydata,
   currentcasescaseFileId,
@@ -214,7 +215,7 @@ setstate((pre) => {
   const saveChanges = (sentence, sentenceId, nature, seriesname) => {
     console.log("sentence", sentence);
     console.log("sentence", sentenceId);
-    console.log("study",study);
+    console.log("checkboxObj",checkboxObj);
     console.log("item?.chkList", townplanning?.map((val)=>{
      const a =    val.chkList.findIndex(
         (obj) => obj?.caseFileCheckListId === sentenceId
@@ -234,6 +235,7 @@ setstate((pre) => {
       }
      }));
     setText("")
+
   };
 
   const handleChange = (e, sectiontype) => {
