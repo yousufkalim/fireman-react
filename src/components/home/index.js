@@ -120,7 +120,7 @@ const Home = () => {
                 xs={4}
               >
                 <div className="DOSSIERS_text">
-                  <div className="text">DOSSIERS EN COURS</div>
+                  <div className="text">MESSAGE(S) RECU(S)</div>
                 </div>
                 <img
                   onClick={() => {

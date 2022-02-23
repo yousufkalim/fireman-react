@@ -212,31 +212,7 @@ setstate((pre) => {
   }, []);
   //////
   const handleClose = () => setOpen(false);
-  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
-    console.log("sentence", sentence);
-    console.log("sentence", sentenceId);
-    console.log("checkboxObj",checkboxObj);
-    console.log("item?.chkList", townplanning?.map((val)=>{
-     const a =    val.chkList.findIndex(
-        (obj) => obj?.caseFileCheckListId === sentenceId
-      )
-      console.log(a,"index");
-     if(a>-1){
-      val.chkList[a].name=sentence
-     }
-    }));
-    console.log("item?.chkList", study?.map((val)=>{
-      const a =    val.chkList.findIndex(
-         (obj) => obj?.caseFileCheckListId === sentenceId
-       )
-       console.log(a,"index");
-      if(a>-1){
-       val.chkList[a].name=sentence
-      }
-     }));
-    setText("")
-
-  };
+ 
 
   const handleChange = (e, sectiontype) => {
     const name = e.target.name;
@@ -370,7 +346,36 @@ setstate((pre) => {
       .catch((err) => toast.error(err?.statusText));
 
   };
-
+  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
+     const newdata = []
+     let new2 = [];
+     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+      newdata.map((i) => {
+      new2 = checkboxObj.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      checkboxObj[new2].completedSentence = sentence;
+    });  
+    console.log("item?.chkList", townplanning?.map((val)=>{
+     const a =    val.chkList.findIndex(
+        (obj) => obj?.caseFileCheckListId === sentenceId
+      )
+      console.log(a,"index");
+     if(a>-1){
+      val.chkList[a].name=sentence
+     }
+    }));
+    console.log("item?.chkList", study?.map((val)=>{
+      const a =    val.chkList.findIndex(
+         (obj) => obj?.caseFileCheckListId === sentenceId
+       )
+       console.log(a,"index");
+      if(a>-1){
+       val.chkList[a].name=sentence
+      }
+     }));
+    setText("")
+  };
   const handleSubmitdetailsobj = (e) => {
     console.log(">?",state.studycheck);
     e.preventDefault();
@@ -393,6 +398,10 @@ setstate((pre) => {
     }
    
   };
+
+
+  console.log("|||||||",townplanning);
+  console.log("|||||||study",study);
   return (
     <>
        <Box
@@ -667,7 +676,7 @@ setstate((pre) => {
                                 color: "#3675B7",
                               }}
                             >
-                              {val.name}
+                              {val.modifiedSentence?val.modifiedSentence:val.name}
                             </Box>
                           </Box>
                         </div>
@@ -805,7 +814,7 @@ setstate((pre) => {
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                            {val.modifiedSentence?val?.modifiedSentence:val?.name}
                           </Box>
                         </Box>
                       </div>

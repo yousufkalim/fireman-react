@@ -136,11 +136,19 @@ const EstablishmentSearchVisitForm = ({
     console.log("sentence", sentence);
     console.log("sentence", sentenceId);
     console.log("study",visit);
+    const newdata = []
+     let new2 = [];
+     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+      newdata.map((i) => {
+      new2 = checkboxObj.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      checkboxObj[new2].completedSentence = sentence;
+    }); 
     console.log("item?.chkList", visit?.map((val)=>{
      const a =    val.chkList.findIndex(
         (obj) => obj?.caseFileCheckListId === sentenceId
       )
-      console.log(a,"index");
      if(a>-1){
       val.chkList[a].name=sentence
      }
@@ -220,7 +228,7 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                            onClick={()=>{ 
-                            if(val.name.match(/[_]/g)){
+                            if(val.name.match(/[_]/g) && val.modifiedSentence.match(/[_]/g)){
                               setOpen(true);
                               setText(val?.name);
                               setId(val?.caseFileCheckListId)
@@ -255,7 +263,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                          {val.modifiedSentence?val?.modifiedSentence:val?.name}
                           </Box>
                         </Box>
                       </div>

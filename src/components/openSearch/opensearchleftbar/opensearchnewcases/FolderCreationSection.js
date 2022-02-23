@@ -429,6 +429,7 @@ const FolderCreationSection = ({
         : checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
+        console.log("responcecheckbox", res);
         setCheckBoxRes(res.status);
         if (data === "studytwo") {
           setToggler((pre) => {
