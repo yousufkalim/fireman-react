@@ -80,7 +80,7 @@ const Subchecklist = ({
   const [opensubCheck, setOpenSubcheck] = useState(false);
   const [subSentenceText, setSubSentenceText] = useState("");
   const [subSentenceId, setsubSentenceId] = useState("");
-  
+   const [first, setfirst] = useState()
   const handleClose = () => {
     setSnack(false);
   };
@@ -143,13 +143,14 @@ const Subchecklist = ({
             // }
     })    
   })
-  console.log("newdata",newdata);
   newdata.map((i) => {
     new2 = subcheckData.findIndex(
       (s) => s.sectionSubSentencesId === i.sectionSubSentencesId
     );
     subcheckData[new2] = i;
   });
+
+
   return (
     <>
       {
@@ -166,6 +167,7 @@ const Subchecklist = ({
           <DialogContent dividers>
             {subcheckData?.map((val) => (
               <>
+            
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent:"space-between" }}>
                   <Box sx={{display:"flex", alignItems: "center"}}> 
                   <Checkbox
@@ -197,6 +199,7 @@ const Subchecklist = ({
                       color: `${val?.sentenceColor}`,
                     }}
                     checked={subCheck? subCheck == val?.sectionSubSentencesId : val?.sectionSubSentencesId===val?.alreadychecked}
+                    
                     onClick={() => {
                       console.log("val?.sentenceNature",val?.sentenceNature);
                      
@@ -269,15 +272,18 @@ const Subchecklist = ({
           <DialogActions>
             <Button
               onClick={() => {
+
+                console.log(closeSatate==subCheck);
                 console.log("closeSatate",closeSatate);
                 console.log("subCheck",subCheck);
                 console.log("sentenceDetails",sentenceDetails);
                 console.log("subSentenceText 195",subSentenceText);
+               const arr =  alreadyChecked.map((val)=>(val.subchecks))
+               var merged = [].concat.apply([], arr);
+                const b= merged.map((val)=>(val.sectionSubSentenceId))
                 getSubCheckListData(sentenceDetails.id,sentenceDetails.text,sentenceDetails.sentenceNature, sentenceDetails.seriesname)
                 if (
-                  closeSatate == subCheck &&
-                  closeSatate !== "" &&
-                  subCheck !== ""
+                  (closeSatate == subCheck &&closeSatate !== "" && subCheck !== "") || subCheck===sentenceDetails.id ||  b.length>0
                 ) {
                   setOpen(false);
                   setCloseSatate("");

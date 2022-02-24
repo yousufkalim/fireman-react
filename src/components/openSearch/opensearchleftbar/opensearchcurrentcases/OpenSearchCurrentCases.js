@@ -96,6 +96,7 @@ const EstablishmentSearchCurrentCases = () => {
       activeCase: "currentcases",
       sectionindex: params.row.val.sectionIndex,
       tabindex:params.row.val.tabIndex,
+      chapterIndex:params.row.val.chapterIndex,
       catTab:true,
       caseName: params.row.val?.studyCaseName? params.row.val?.studyCaseName :params.row.val?.visitTypeName,
       establishmentname: params?.row?.val?.establishmentName,

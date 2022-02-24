@@ -92,9 +92,6 @@ const CheckList = (props) => {
       {checklists &&
         checklists.map((data, i) => {
           return (
-            
-           
-          
             <div
               className={`checklist ${
                 checked == props.accordionData.serialName + i
