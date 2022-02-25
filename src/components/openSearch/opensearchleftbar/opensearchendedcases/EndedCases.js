@@ -31,6 +31,7 @@ const EndedCases = () => {
         {
           field: "typeref",
           headerName: "Type",
+          minWidth: 250, 
           color: "#8D919D",
         },
         { 

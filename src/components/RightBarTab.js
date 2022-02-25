@@ -14,6 +14,7 @@ import Accordion from "@mui/material/Accordion";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import Chat from './chat/IndexTwo'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -259,6 +260,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
               </Box>
              
             </Box>
+           
           </Box>
   ):null
 }

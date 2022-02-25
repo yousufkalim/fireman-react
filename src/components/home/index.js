@@ -139,7 +139,7 @@ const Home = () => {
               </Grid>
               <Grid className="cursor" item xs={4}>
                 <img
-                  style={{ height: "90%", width: "83%" }}
+                  style={{ height: "90%", width: "83%", borderRadius:"2%" }}
                   onClick={() => {
                     update({ activeNavbarTab: "searchestablishment" });
                   }}
