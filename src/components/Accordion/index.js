@@ -16,6 +16,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
+
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { useTranslation, Trans } from "react-i18next";
@@ -60,6 +61,10 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const AccordionComponent = (props) => {
   const { t } = useTranslation();
+  const [sectionDetail, setSectiondDetail] = useState({
+    sectionind:"",
+    chapterindex:""
+  });
   const [sentenceText, setSentenceText] = useState("");
   const [values, setValues] = useState({
     sentenceId: "",
@@ -72,8 +77,10 @@ const AccordionComponent = (props) => {
   const [alreadyChecked, setAlreadyChecked] = useState([])
   const [subCheckValues, setSubCheckValues] = useState([]);
   const store = Store();
+  console.log("chapterindex<><><",props.chapterindex);
+  console.log("props.sedc", props.sectionindex);
+  console.log("props.completed", sectionDetail);
   const onClick = (sentenceid, text, seriesname, nature, serialid) => {
-    console.log("71", sentenceid, text, seriesname, nature, serialid);
     setValues((pre) => {
       return {
         ...pre,
@@ -98,7 +105,6 @@ const AccordionComponent = (props) => {
     ]);
   };
   const getModifiedSentence = (text, sentenceid, nature, seriesname) => {
-    console.log("89", sentenceid, text, seriesname, nature);
     setValues((pre) => {
       return {
         ...pre,
@@ -121,8 +127,6 @@ const AccordionComponent = (props) => {
     ]);
   };
   const getSubCheckListData = (id, text, sentenceNature, seriesname) => {
-    console.log("Details", id, text, sentenceNature, seriesname);
-
     setSubCheckValues((pre) => [
       ...pre.filter((obj) => obj.seriesname != seriesname),
       {
@@ -134,12 +138,8 @@ const AccordionComponent = (props) => {
     ]);
     //  setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=sentenceDetails?.seriesname)),{seriesname:sentenceDetails.seriesname, subCheckListId:sentenceDetails.id,modifiedSentence:sentenceDetails.text, completedSentence:sentenceDetails.sentenceNature==1?sentenceDetails.text:""}])
   };
-  console.log(seriesValues, "><>seriesValues outside");
+ console.log("store",store);
   const onSubmit = (section, chapter) => {
-    console.log(seriesValues, "><>seriesValues");
-    console.log("subCheckValues", subCheckValues);
-    console.log(values, "values");
-    console.log("/..", section, chapter);
     let newdata = [];
     let new2 = [];
     seriesValues?.map((item, index) => {
@@ -174,6 +174,7 @@ const AccordionComponent = (props) => {
       sectionIndex: section,
       checks: seriesValues,
     };
+    console.log("object", obj);
     api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
       console.log("impres", res);
       if (res.data === true) {
@@ -187,21 +188,16 @@ const AccordionComponent = (props) => {
       <Accordion
         expanded={props.expanded === props.panelname}
         onChange={props.handleChange(props.panelname) }
-        //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
-         //console.log("rs", res);
-        //})}}
       >
         <AccordionSummary
-         //onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
-         //console.log("rs", res);
-         //console.log("store", store);
-         //console.log("sec", props.accordionData.sectionId);
-        //})}}
-        onClick={()=>{api("get",`/api/v1/checkList/show_section_selected_checklist/${2503}/${1}`).then((res)=>{
-          setAlreadyChecked(res?.data)
-         console.log("rs", res?.data);
-         console.log("<seriesdata>", props.accordionData.series);
-        })}}
+       
+        
+         onClick={()=>{
+            if(store.activeCase!="newcase"){
+              api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
+                setAlreadyChecked(res?.data)
+              })
+            }}}
           expandIcon={
             <svg
               width="19"
@@ -231,8 +227,9 @@ const AccordionComponent = (props) => {
           <Typography sx={{ fontSize: "20px" }}>
             {props.accordionData.sectionName}
           </Typography>
-          {props.completed ? (
-            <svg
+          {
+           ((props.chapterindex+1 <= store.chapterIndex)&&(store.activeCase!="newcase")|| (props.sectionindex===sectionDetail.sectionind&&props.chapterindex===sectionDetail.chapterindex)) ?(
+              <svg
               className="cehck_section"
               width="32"
               height="21"
@@ -245,9 +242,8 @@ const AccordionComponent = (props) => {
                 fill="white"
               />
             </svg>
-          ) : (
-            ""
-          )}
+            ):null
+          }
         </AccordionSummary>
         <AccordionDetails>
           {props.accordionData.series &&
@@ -312,8 +308,17 @@ const AccordionComponent = (props) => {
                   PRECEDENT
                 </Button>
                 <Button
-                  onClick={() =>
+                  onClick={() =>{
+                    setSectiondDetail(()=>{
+                      return{
+                        sectionind:props.sectionindex,
+                        chapterindex:props.chapterindex
+                      }
+                    })
                     onSubmit(props.sectionindex + 1, props.chapterindex + 1)
+
+                    console.log("sbm", props.sectionindex);
+                  }
                   }
                   endIcon={<img className="" src={Rightarrow} />}
                   sx={{

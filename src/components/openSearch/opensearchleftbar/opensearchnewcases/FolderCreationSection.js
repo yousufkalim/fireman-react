@@ -429,6 +429,7 @@ const FolderCreationSection = ({
         : checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
+        console.log("responcecheckbox", res);
         setCheckBoxRes(res.status);
         if (data === "studytwo") {
           setToggler((pre) => {
@@ -486,7 +487,9 @@ const FolderCreationSection = ({
               }}
             >
               <Typography variant="h6">{t("Folder creation")}</Typography>
-              {Icon.iconmain ? <DoneIcon /> : null}
+              {Icon.iconmain ? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
+</svg> : null}
             </Box>
             <Accordion
               sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
@@ -506,10 +509,11 @@ const FolderCreationSection = ({
                   >
                     <Box sx={{ display: "flex" }}>
                       <div className="inputs-container">
-                        <label className="label-color">Type</label> <br />
+                       
                         <div class="flex-form">
+                        <label className="label-color">Type</label> 
                           <select
-                            className="dropdown"
+                            className="dropdown dropdown-folder-creation"
                             type="select"
                             name="caseTypeId"
                             onChange={handleChange}
@@ -522,11 +526,12 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                        <label className="label-color">Commission</label>
-                        <br />
+                      
+                       
                         <div class="flex-form">
+                        <label className="label-color">Commission</label>
                           <select
-                            className="dropdown"
+                            className="dropdown dropdown-folder-creation"
                             type="select"
                             name="commisionTypeId"
                             onChange={handleChange}
@@ -539,8 +544,9 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
+                       
+                        <div class="flex-form flex-form-foldercreation">
                         <label className="label-color">Agent</label>
-                        <div class="flex-form">
                           <input
                             type="search"
                             onChange={handleChange}
@@ -554,12 +560,13 @@ const FolderCreationSection = ({
                        
                         {inputDisableState === "1"? (
                           <>
-                            <label className="label-color"> Etude</label>
+                          
 
                             <div class="flex-form">
+                            <label className="label-color"> Etude</label>
                               <select
                                 required
-                                className="dropdown"
+                                className="dropdown dropdown-folder-creation"
                                 type="select"
                                 name="studyTypeId"
                                 onChange={handleChange}
@@ -578,10 +585,11 @@ const FolderCreationSection = ({
                         ) : null}
                         {inputDisableState === "2"? (
                           <>
-                            <label className="label-color">Visite </label>
+                           
                             <div class="flex-form">
+                            <label className="label-color">Visite </label>
                               <select
-                                className="dropdown"
+                                className="dropdown dropdown-folder-creation"
                                 type="select"
                                 name="visitTypeId"
                                 onChange={handleChange}
@@ -601,8 +609,9 @@ const FolderCreationSection = ({
                         <Box  >
                         </Box>
                         <Box className={`${inputDisableState ==="1" || inputDisableState ==="2"? "more":"less"}`}> 
-                        <label className="label-color">Date commission </label>
+                       
                         <div class="flex-form">
+                        <label className="label-color">Date commission </label>
                           <input
                             type="date"
                             onChange={handleChange}
@@ -612,8 +621,9 @@ const FolderCreationSection = ({
                           />
                         </div>
                         </Box>
+                      
+                        <div class="flex-form flex-form-foldercreation">
                         <label className="label-color">Groupement</label>
-                        <div class="flex-form">
                           <input
                             type="search"
                             onChange={handleChange}
@@ -622,8 +632,9 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
+                       
+                        <div class="flex-form flex-form-foldercreation">
                         <label className="label-color">{t("Service")}</label>
-                        <div class="flex-form">
                           <input
                             type="search"
                             onChange={handleChange}
@@ -706,7 +717,9 @@ const FolderCreationSection = ({
                   }}
                 >
                   <Typography variant="h6">{t("Details Of Object")}</Typography>
-                  {Icon.iconvisit ? <DoneIcon /> : null}
+                  {Icon.iconvisit ? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
+</svg> : null}
                 </Box>
                 <Accordion
                   sx={{ margin: "3px 10px !important", borderRadius: "10px" }}

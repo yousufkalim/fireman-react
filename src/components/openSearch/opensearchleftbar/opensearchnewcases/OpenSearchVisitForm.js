@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
+import EditModal from '../../../Modals/EditCheckBox'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -71,6 +72,12 @@ const EstablishmentSearchVisitForm = ({
       };
     });
   }, [visit]);
+ 
+ 
+  const [open, setOpen] = React.useState(false);
+  const [subCheck, setSubcheck] = React.useState("");
+  const [text, setText] = React.useState("");
+  const [checklistid, setId] = React.useState("");
   const store = Store();
   const { t, i18n } = useTranslation();
   const handleChange = (e, sectiontype) => {
@@ -124,7 +131,30 @@ const EstablishmentSearchVisitForm = ({
     }
   };
   const updatestore = UpdateStore();
-  console.log(checkboxObj);
+  const handleClose = () => setOpen(false);
+  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
+    console.log("sentence", sentence);
+    console.log("sentence", sentenceId);
+    console.log("study",visit);
+    const newdata = []
+     let new2 = [];
+     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+      newdata.map((i) => {
+      new2 = checkboxObj.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      checkboxObj[new2].completedSentence = sentence;
+    }); 
+    console.log("item?.chkList", visit?.map((val)=>{
+     const a =    val.chkList.findIndex(
+        (obj) => obj?.caseFileCheckListId === sentenceId
+      )
+     if(a>-1){
+      val.chkList[a].name=sentence
+     }
+    }))
+    setText("")
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("}{}{}",checkboxObj);
@@ -197,6 +227,13 @@ const EstablishmentSearchVisitForm = ({
                       <div class="container">
                         <div class="group">
                           <input
+                           onClick={()=>{ 
+                            if(val.name.match(/[_]/g) && val.modifiedSentence.match(/[_]/g)){
+                              setOpen(true);
+                              setText(val?.name);
+                              setId(val?.caseFileCheckListId)
+                            }
+                            }}
                             type="checkbox"
                             defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                             id={val.caseFileCheckListId}
@@ -226,7 +263,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                          {val.modifiedSentence?val?.modifiedSentence:val?.name}
                           </Box>
                         </Box>
                       </div>
@@ -234,6 +271,15 @@ const EstablishmentSearchVisitForm = ({
                   </>
                 ))}
               </Box>
+              <EditModal
+        setOpen={setOpen}
+        open={open}
+        handleClose={handleClose}
+        text={text}
+        saveChanges={saveChanges}
+        setSubcheck={setSubcheck}
+        checklistid={checklistid}
+      />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"

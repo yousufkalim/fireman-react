@@ -29,6 +29,7 @@ export function StoreProvider({ children }) {
     activeCase:"",
     caseFileId:"",
     sectionindex:"",
+    chapterIndex:"",
     tabindex:"",
     buttonenable:false,
     caseName:"",

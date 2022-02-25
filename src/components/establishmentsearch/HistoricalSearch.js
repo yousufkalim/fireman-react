@@ -22,7 +22,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
@@ -214,7 +213,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     
     
   };
-  console.log(store);
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedObj = {
@@ -330,7 +328,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                padding: "10px",
+               
               }}
             >
               <Grid item md={12}>
@@ -344,12 +342,17 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   type="submit"
                   onSubmit={handleSubmit}
                 >
-                  <Box sx={{ display: "flex" }}>
+                  {/* <Box sx={{ display: "flex" }}>
                     <div className="inputs-container">
+                    <div className="heading-establishment"> 
+                      
+                      <span className="checklist-heading top-head"> Nom et statut</span> 
+                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"64%", marginTop:"12px", marginLeft:"24px"}}></Box>
+                       </div>
+                      <div className="flex-form form-top">
                       <label className="label-color">
                         {t("Name Establishment")}
                       </label>
-                      <div className="flex-form">
                         <input
                         required
                           type="search"
@@ -359,10 +362,16 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           value={inputValues.establishmentName}
                         />
                       </div>
-                      <div className="checklist-heading heading-establishment"> Adresse</div>
+                      <div className="heading-establishment"> 
+                      
+                     <span className="checklist-heading heading-est"> Adresse</span> 
+                      <Box sx={{borderTop:"3px solid #C5D3DB", width:"95%", marginTop:"12px"}}></Box>
+                      </div>
+                    
                       <br />
-                      <label className="label-color">{t("City")} </label>
+                  
                       <div className="flex-form">
+                      <label className="label-color">{t("City")} </label>
                         <select
                           className="dropdown"
                           type="select"
@@ -389,8 +398,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                       <div className="establishment-nom-mobile-container">
-                        <div className="checklist-heading heading-establishment">
-                          Responsable de sécurité
+                     
+                        <div className="heading-establishment">
+                        <span className="checklist-heading heading-est"> Responsable de sécurité</span>  
+                          <Box sx={{borderTop:"3px solid #C5D3DB", width:"33%", marginTop:"7px"}}></Box>
                         </div>
                         <div className="flex-form">
                           <label className="label-color">{t("Name")} </label>
@@ -403,8 +414,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           />
                         </div>
 
-                        <label className="label-color">Mobile </label>
+                       
                         <div className="flex-form">
+                        <label className="label-color">Mobile </label>
                           <input
                           required
                              type="tel"
@@ -420,8 +432,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       </div>
                     </div>
                     <div className="inputs-container">
+                    <Box sx={{borderTop:"3px solid #C5D3DB", width:"95%", marginTop:"16.3px"}}></Box>
+                      <div className="flex-form form-top">
                       <label className="label-color">{t("Status")} </label>
-                      <div className="flex-form">
                         <select
                           className="dropdown"
                           type="select"
@@ -439,11 +452,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       </div>
 
                       <div className="establishment-typenom-container">
-                        <Box sx={{borderTop:"0.6px solid #C5D3DB", marginTop:"26px", marginBottom:"20px", width:"95%"}}></Box>
+                        <Box sx={{borderTop:"3px solid #C5D3DB", width:"95%", marginTop:"7px"}}></Box>
+                     
+                        <div className="flex-form channel">
                         <label className="label-color">
                           {t("Channel type")}{" "}
                         </label>
-                        <div className="flex-form">
                           <select
                             className="dropdown"
                             type="select"
@@ -472,8 +486,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             value={inputValues.channelName.toUpperCase()}
                           />
                         </div>
-                        <label className="label-color">{t("Number")}</label>
+                       
                         <div className="flex-form">
+                        <label className="label-color">{t("Number")}</label>
                           <input
                           required
                              type="search"
@@ -483,9 +498,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           />
                         </div>
                       </div>
-                      <Box sx={{borderTop:"0.6px solid #C5D3DB", marginTop:"7px", marginBottom:"20px", width:"95%"}}></Box>
-                      <label className="label-color">{t("First name")}</label>
+                      <Box sx={{borderTop:"3px solid #C5D3DB", marginTop:"16px", marginBottom:"20px", width:"95%"}}></Box>
+                    
                       <div className="flex-form">
+                      <label className="label-color">{t("First name")}</label>
                         <input
                         required
                           type="search"
@@ -494,8 +510,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           value={inputValues.securityManagerName}
                         />
                       </div>
-                      <label className="label-color">Mail</label>
+                    
                       <div className="flex-form">
+                      <label className="label-color">Mail</label>
                         <input
                         required
                           type="email"
@@ -505,9 +522,187 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                     </div>
+                  </Box> */}
+
+                  <Box>
+                  <div className="heading-establishment"> 
+                      
+                      <span className="checklist-heading line"> Nom et statut</span> 
+                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"86.2%", marginTop:"12px"}}></Box>
+                       </div>
+                       <div className="flex-form nom-et-form">
+                        
+                      <label className="label-color label-estab-nom">
+                        {t("Name Establishment")}
+                      </label>
+                        <input
+                        required
+                          type="search"
+                          value={inputValues.establishmentName}
+                          onChange={handleChange}
+                          name="establishmentName"
+                          value={inputValues.establishmentName}
+                        />
+                   
+                        <div className="flex-form form-top">
+                      <label className="label-color label-status">{t("Status")} </label>
+                        <select
+                          className="dropdown statusid"
+                          type="select"
+                          name="statusId"
+                          onChange={handleChange}
+                          value={inputValues.statusId}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.status.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      </div>
                   </Box>
-                  <Divider sx={{ margin: "20px 0px" }} />
-                  <Box sx={{ textAlign: "right" }}>
+
+                  <Box>
+                  <div className="heading-establishment"> 
+                      
+                  <span className="checklist-heading"> Adresse</span> 
+                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"90%", marginTop:"12px", marginLeft:"14px"}}></Box>
+                       </div>
+                   <Box sx={{display:"flex", padding:"10px 0px"}}> 
+                       <div className="flex-form">
+                        <label className="label-color label-general">{t("Number")}</label>
+                          <input
+                          required
+                             type="search"
+                            onChange={handleChange}
+                            name="estNumber"
+                            value={inputValues.estNumber}
+                          />
+                        </div>
+                        <div className="flex-form">
+                        <label className="label-color">
+                          {t("Channel type")}{" "}
+                        </label>
+                          <select
+                            className="dropdown dropdown-tracktype"
+                            type="select"
+                            name="trackTypeId"
+                            onChange={handleChange}
+                            value={inputValues.trackTypeId}
+                          >
+                            <option value="">Choisissez s'il vous plaît</option>
+                            {dropdownValue.tracktype.data?.map((item) => (
+                              <option key={item.value} value={item.value}>
+                                {item.text}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex-form channel-name">
+                          <label className="label-color">
+                            {t("Channel name")}
+                          </label>
+                          <input
+                          required
+                            type="search"
+                            onChange={handleChange}
+                            name="channelName"
+                            value={inputValues.channelName.toUpperCase()}
+                          />
+                        </div>
+                        </Box>
+
+                        <Box sx={{display:"flex", justifyContent:"flex-start"}}>
+                        <div className="flex-form cp">
+                        <label className="label-cp label-general">CP</label>
+                        <input
+                        required
+                          type="search"
+                          onChange={handleChange}
+                          name="zipCode"
+                          value={inputValues.zipCode}
+                        />
+                      </div>
+                      <div className="flex-form">
+                      <label className="label-color label-commune">{t("City")} </label>
+                        <select
+                          className="dropdown commune-dropdown"
+                          type="select"
+                          name="cityId"
+                          value={inputValues.cityId}
+                          onChange={handleChange}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.cityId.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                     
+                        </Box>
+                  </Box>
+                  <Box>
+                  <div className="heading-establishment">
+                        <span className="checklist-heading heading-est"> Responsable de sécurité</span>  
+                          <Box sx={{borderTop:"3px solid #C5D3DB", width:"76%", marginTop:"11px", marginLeft:"12px"}}></Box>
+                        </div>
+                        <Box sx={{display:"flex"}}>
+                        <div className="flex-form flex-form-responsable nom-et-form">
+                          <label className="label-color">{t("Name")} </label>
+                          <input
+                          required
+                            type="search"
+                            onChange={handleChange}
+                            name="securityManagerLastName"
+                            value={inputValues.securityManagerLastName.toUpperCase()}
+                          />
+                        </div>
+                        <div className="flex-form nom-et-form">
+                      <label className="label-color">{t("First name")}</label>
+                        <input
+                        required
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerName"
+                          value={inputValues.securityManagerName}
+                        />
+                      </div>  
+                      </Box> 
+                      <Box sx={{display:"flex"}}>
+                        <div className="flex-form flex-form-responsable">
+                        <label className="label-color">Mobile </label>
+                          <input
+                          required
+                             type="tel"
+                             minlength="12" 
+                             maxlength="12"
+                             title="Number should contain 12 digits and No Character"
+                             pattern="^(\d{12})$"
+                            onChange={handleChange}
+                            name="securityManagerMobile"
+                            value={inputValues.securityManagerMobile}
+                          />
+                        </div>
+                       
+                    
+                      <div className="flex-form form-est-mail">
+                      <label className="label-color">Mail</label>
+                        <input
+                        required
+                          type="email"
+                          onChange={handleChange}
+                          name="securityManagerEmail"
+                          value={inputValues.securityManagerEmail}
+                        />
+                      </div>
+                      </Box>
+                  </Box>
+              
+                  <Box sx={{ textAlign: "right", width:"97%", paddingTop:"5px" }}>
                     <Button
                       type="submit"
                       disabled={buttonEnability?.historicalmainbutton}

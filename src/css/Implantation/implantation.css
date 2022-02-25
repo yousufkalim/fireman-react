@@ -220,7 +220,9 @@ box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
     right: -28px;
     width: 65px;
 }
-
+.close-icon{
+  color: #9095A3;
+}
 .icon-txt{
 display:flex;
 margin-left: 10px;
@@ -238,6 +240,7 @@ margin-left: 10px;
    font-style:italic; 
    font-size:12px;
    margin-bottom :15px;
+   height: 59vh;
 }
       .left_side .Compagnon{
          background-color: #FFFFFF ;
@@ -251,8 +254,8 @@ margin-left: 10px;
       .left_side .Compagnon h4{
           color: #9095A3;
           font-weight: 500;
-          border-bottom: 1px solid #E7EDF2;
           padding-bottom: 10px;
+          margin-left: 10px;
       }
       
       .left_side .Compagnon .Compagnon_icons{
@@ -335,8 +338,8 @@ margin-left: 10px;
       
 
       .img-chat{
-        width: 22px;
-        height: 22px;
+        width: 26px;
+        height: 26px;
         border-radius: 100%;
       }
 
@@ -348,6 +351,22 @@ margin-left: 10px;
 
       .chat-user{
         font-weight: 500;
-font-size: 12px;
+font-size: 16px;
 line-height: 15px;
       }
+
+
+      .icon-cart{
+        width:50%;
+      }
+
+      .side-bar-toggle{
+        display: flex;
+        justify-content: end;
+        align-items: flex-end;
+      }
+
+      .side-bar-toggle>*{
+        padding-bottom: 10px;
+      }
+

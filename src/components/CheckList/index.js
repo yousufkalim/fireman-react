@@ -58,7 +58,6 @@ const CheckList = (props) => {
     //     })
   };
 
- 
   let newdata = [];
   let new2=[]
   const newarray = props?.alreadyChecked.map((val)=>{
@@ -66,11 +65,13 @@ const CheckList = (props) => {
       if(valtwo.sectionSentencesId===val.sectionSentencesId){
               newdata.push({
                 ...valtwo,
+                sentenceText:val.modifiedSentenceText,
                 alreadychecked:val.sectionSentencesId
               })
             }
     })    
   })
+  console.log("newdata",newdata);
    newdata.map((i) => {
     new2 = checklists.findIndex(
       (s) => s.sectionSentencesId === i.sectionSentencesId
@@ -91,9 +92,6 @@ const CheckList = (props) => {
       {checklists &&
         checklists.map((data, i) => {
           return (
-            
-           
-          
             <div
               className={`checklist ${
                 checked == props.accordionData.serialName + i

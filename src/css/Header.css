@@ -118,7 +118,7 @@ h1 {
 .header_selection {
   padding-left: 10px;
   margin-bottom: 19px;
-  padding-top: 19px;
+  /* padding-top: 10px; */
   display: flex;
 }
 .header_selection a{

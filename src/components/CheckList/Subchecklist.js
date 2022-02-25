@@ -80,7 +80,7 @@ const Subchecklist = ({
   const [opensubCheck, setOpenSubcheck] = useState(false);
   const [subSentenceText, setSubSentenceText] = useState("");
   const [subSentenceId, setsubSentenceId] = useState("");
-  
+   const [first, setfirst] = useState()
   const handleClose = () => {
     setSnack(false);
   };
@@ -117,7 +117,8 @@ const Subchecklist = ({
       </IconButton>
     </React.Fragment>
   );
-  
+  console.log("sub120", subcheckData);
+  console.log("alreadyChecked",alreadyChecked);
   let newdata = [];
   let new2=[]
  const a =   alreadyChecked?.map((val)=>(
@@ -133,7 +134,8 @@ const Subchecklist = ({
       if(valtwo.sectionSubSentencesId===val.sectionSubSentenceId){
               newdata.push({
                 ...valtwo,
-                alreadychecked:val.sectionSubSentenceId
+                subSentenceText:val.modifiedSentenceText,
+                alreadychecked:val.sectionSubSentenceId,
               })
             }
             // return{
@@ -143,12 +145,12 @@ const Subchecklist = ({
   })
   newdata.map((i) => {
     new2 = subcheckData.findIndex(
-      (s) => s.sectionSentencesId === i.sectionSentencesId
+      (s) => s.sectionSubSentencesId === i.sectionSubSentencesId
     );
     subcheckData[new2] = i;
   });
-  console.log("sub", subcheckData);
-  console.log("newdata",new2);
+
+
   return (
     <>
       {
@@ -160,11 +162,12 @@ const Subchecklist = ({
           maxWidth="lg"
         >
           <BootstrapDialogTitle id="customized-dialog-title">
-            Edit title
+            Edit
           </BootstrapDialogTitle>
           <DialogContent dividers>
             {subcheckData?.map((val) => (
               <>
+            
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent:"space-between" }}>
                   <Box sx={{display:"flex", alignItems: "center"}}> 
                   <Checkbox
@@ -196,6 +199,7 @@ const Subchecklist = ({
                       color: `${val?.sentenceColor}`,
                     }}
                     checked={subCheck? subCheck == val?.sectionSubSentencesId : val?.sectionSubSentencesId===val?.alreadychecked}
+                    
                     onClick={() => {
                       console.log("val?.sentenceNature",val?.sentenceNature);
                      
@@ -268,15 +272,18 @@ const Subchecklist = ({
           <DialogActions>
             <Button
               onClick={() => {
+
+                console.log(closeSatate==subCheck);
                 console.log("closeSatate",closeSatate);
                 console.log("subCheck",subCheck);
                 console.log("sentenceDetails",sentenceDetails);
                 console.log("subSentenceText 195",subSentenceText);
+               const arr =  alreadyChecked.map((val)=>(val.subchecks))
+               var merged = [].concat.apply([], arr);
+                const b= merged.map((val)=>(val.sectionSubSentenceId))
                 getSubCheckListData(sentenceDetails.id,sentenceDetails.text,sentenceDetails.sentenceNature, sentenceDetails.seriesname)
                 if (
-                  closeSatate == subCheck &&
-                  closeSatate !== "" &&
-                  subCheck !== ""
+                  (closeSatate == subCheck &&closeSatate !== "" && subCheck !== "") || subCheck===sentenceDetails.id ||  b.length>0
                 ) {
                   setOpen(false);
                   setCloseSatate("");
@@ -286,7 +293,7 @@ const Subchecklist = ({
               }}
               autoFocus
             >
-              Save changes
+              Save
             </Button>
           </DialogActions>
         </BootstrapDialog>

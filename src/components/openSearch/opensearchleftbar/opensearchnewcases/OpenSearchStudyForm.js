@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
+import EditModal from '../../../Modals/EditCheckBox'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -31,6 +32,7 @@ const EstablishmentSearchStudyForm = ({
   study,
   casefileId,
   setCheckboxObj,
+  checkboxObj,
   postCheckboxesData,
   Studydata,
   currentcasescaseFileId,
@@ -48,6 +50,10 @@ const EstablishmentSearchStudyForm = ({
   const store = Store();
   console.log(Studydata);
   const updatestore = UpdateStore();
+  const [open, setOpen] = React.useState(false);
+  const [subCheck, setSubcheck] = React.useState("");
+  const [text, setText] = React.useState("");
+  const [checklistid, setId] = React.useState("");
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
     caseAverageId: Studydata?.data?.caseAverageId
@@ -205,6 +211,8 @@ setstate((pre) => {
     });
   }, []);
   //////
+  const handleClose = () => setOpen(false);
+ 
 
   const handleChange = (e, sectiontype) => {
     const name = e.target.name;
@@ -338,7 +346,36 @@ setstate((pre) => {
       .catch((err) => toast.error(err?.statusText));
 
   };
-
+  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
+     const newdata = []
+     let new2 = [];
+     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+      newdata.map((i) => {
+      new2 = checkboxObj.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      checkboxObj[new2].completedSentence = sentence;
+    });  
+    console.log("item?.chkList", townplanning?.map((val)=>{
+     const a =    val.chkList.findIndex(
+        (obj) => obj?.caseFileCheckListId === sentenceId
+      )
+      console.log(a,"index");
+     if(a>-1){
+      val.chkList[a].name=sentence
+     }
+    }));
+    console.log("item?.chkList", study?.map((val)=>{
+      const a =    val.chkList.findIndex(
+         (obj) => obj?.caseFileCheckListId === sentenceId
+       )
+       console.log(a,"index");
+      if(a>-1){
+       val.chkList[a].name=sentence
+      }
+     }));
+    setText("")
+  };
   const handleSubmitdetailsobj = (e) => {
     console.log(">?",state.studycheck);
     e.preventDefault();
@@ -361,6 +398,10 @@ setstate((pre) => {
     }
    
   };
+
+
+  console.log("|||||||",townplanning);
+  console.log("|||||||study",study);
   return (
     <>
        <Box
@@ -384,7 +425,9 @@ setstate((pre) => {
         >
         
           <Typography variant="h6">{t("Town Planning Documents")}</Typography>
-          { Icon.iconstudy? <DoneIcon /> : null}
+          { Icon.iconstudy? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
+</svg> : null}
         </Box>
         <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudy? true: false}>
         <AccordionSummary
@@ -416,15 +459,17 @@ setstate((pre) => {
               className="establishment-form"
               onSubmit={(e) => handleSubmit(e, "townplanning")}
             >
-              <Box sx={{ textAlign: "start" }}>
+              <Box className="townplanning-heading">
+
                 <label className="checklist-heading">{t("Capture")}</label>
+                <Box sx={{borderTop:"3px solid #C5D3DB", width:"92%", marginTop:"12px", marginLeft:"14px"}}></Box>
               </Box>
-              <Divider sx={{ margin: "15px 0px" }} />
+             
               <Box sx={{ display: "flex" }}></Box>
 
               <Box>
                 <Box sx={{ display: "flex", textAlign: "start" }}>
-                  <div className="flex-form">
+                  <div className="flex-form townplanning-flex">
                     <label className="label-color"> {t("Origin")}</label>
                     <select
                       className="dropdown dropdown-townplanning"
@@ -441,7 +486,7 @@ setstate((pre) => {
                     </select>
                   </div>
 
-                  <div className="flex-form">
+                  <div className="flex-form townplanning-flex">
                     <label className="label-color"> {t("Average")}</label>
                     <select
                       className="dropdown dropdown-townplanning"
@@ -460,10 +505,10 @@ setstate((pre) => {
                 </Box>
 
                 <Box sx={{ display: "flex", textAlign: "start" }}>
-                  <div className="flex-form">
+                  <div className="flex-form townplanning-flex">
                     <label className="label-color">{t("Date")}</label>
                     <input
-                      className="dropdown-townplanning townplanning-date-input"
+                      className=" townplanning-date-input"
                       onChange={handleChange}
                       name="townPlanningDate"
                       value={formValues?.townPlanningDate}
@@ -471,7 +516,7 @@ setstate((pre) => {
                       required
                     />
                   </div>
-                  <div className="flex-form">
+                  <div className="flex-form townplanning-flex">
                     <label className="label-color">Réception service</label>
                     <input
                     className="townplanning-date-input"
@@ -491,13 +536,13 @@ setstate((pre) => {
                     />
                   </div>
                 </Box>
-                <Box sx={{ textAlign: "start" }}>
+                <Box className="townplanning-heading">
                   <label className="checklist-heading">{t("Urban planning references")}</label>
+                  <Box sx={{borderTop:"3px solid #C5D3DB", width:"76%", marginTop:"12px", marginLeft:"14px"}}></Box>
                 </Box>
-                <Divider sx={{ margin: "15px 0px" }} />
                 <Box sx={{ display: "flex", textAlign: "start" }}>
-                  <div className="flex-form">
-                    <label className="label-color">{t("Request Type")} </label>
+                  <div className="flex-form townplanning-flex">
+                    <label className="label-color label-demande">{t("Request Type")} </label>
 
                     <select
                       className="dropdown dropdown-townplanning"
@@ -514,7 +559,7 @@ setstate((pre) => {
                     </select>
                   </div>
 
-                  <div class="flex-form ">
+                  <div class="flex-form townplanning-flex">
                     <label className="label-color">Ref. </label>
                     <input
                       type="search"
@@ -525,12 +570,13 @@ setstate((pre) => {
                     />
                   </div>
                 </Box>
-                <Box sx={{ textAlign: "start" }}>
-                  <label className="label-color">{t("Applicant")}</label>
+                <Box className="townplanning-heading">
+                  <label className="checklist-heading">{t("Applicant")}</label>
+                  <Box sx={{borderTop:"3px solid #C5D3DB", width:"87%", marginTop:"12px", marginLeft:"14px"}}></Box>
                 </Box>
-                <Divider sx={{ margin: "15px 0px" }} />
+               
                 <Box sx={{ display: "flex", textAlign:"start" }}>
-                  <div class="flex-form">
+                  <div class="flex-form townplanning-flex">
                     <label className="label-color">{t("Name")} </label>
                     <input
                       className="dropdown-townplanning"
@@ -542,7 +588,7 @@ setstate((pre) => {
                     />
                   </div>
 
-                  <div class="flex-form">
+                  <div class="flex-form townplanning-flex">
                     <label className="label-color"> {t("Phone")}</label>
                     <input
                       type="tel"
@@ -557,8 +603,8 @@ setstate((pre) => {
                     />
                   </div>
                 </Box>
-                <Box sx={{ dispaly: "flex", width: "50%",textAlign:"start" }}>
-                  <div class="flex-form">
+                <Box sx={{ dispaly: "flex", width: "51.5%",textAlign:"start" }}>
+                  <div class="flex-form townplanning-flex">
                     <label className="label-color">Mail</label>
                     <input
                       type="email"
@@ -593,6 +639,13 @@ setstate((pre) => {
                         <div class="container">
                           <div class="group">
                             <input
+                             onClick={()=>{ 
+                              if(val.name.match(/[_]/g)){
+                                setOpen(true);
+                                setText(val?.name);
+                                setId(val?.caseFileCheckListId)
+                              }
+                              }}
                               type="checkbox"
                               defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                               id={val.caseFileCheckListId}
@@ -623,7 +676,7 @@ setstate((pre) => {
                                 color: "#3675B7",
                               }}
                             >
-                              {val.name}
+                              {val.modifiedSentence?val.modifiedSentence:val.name}
                             </Box>
                           </Box>
                         </div>
@@ -632,7 +685,15 @@ setstate((pre) => {
                   ))}
                 </Grid>
               </Box>
-             
+              <EditModal
+        setOpen={setOpen}
+        open={open}
+        handleClose={handleClose}
+        text={text}
+        saveChanges={saveChanges}
+        setSubcheck={setSubcheck}
+        checklistid={checklistid}
+      />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
@@ -675,7 +736,9 @@ setstate((pre) => {
           }}
         >
           <Typography variant="h6">{t("Details Of Object")}</Typography>
-          { Icon.iconstudytwo? <DoneIcon /> : null}
+          { Icon.iconstudytwo? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
+</svg>: null}
         </Box>
         <Accordion sx={{margin:"3px 10px !important", borderRadius:"10px"}} expanded={ Toggler.togglerstudytwo? true: false}>
         <AccordionSummary
@@ -709,10 +772,19 @@ setstate((pre) => {
                       </label>
                     </Box>
                     <Divider />
+                    {console.log("716",item?.chkList)}
                     {item?.chkList?.map((val) => (
+                    
                       <div class="container">
                         <div class="group">
                           <input
+                           onClick={()=>{ 
+                            if(val.name.match(/[_]/g)){
+                              setOpen(true);
+                              setText(val?.name);
+                              setId(val?.caseFileCheckListId)
+                            }
+                            }}
                             type="checkbox"
                             defaultChecked={store.activeCase==="currentcases"?val.isSelected:""}
                             id={val.caseFileCheckListId}
@@ -742,7 +814,7 @@ setstate((pre) => {
                               color: "#3675B7",
                             }}
                           >
-                            {val.name}
+                            {val.modifiedSentence?val?.modifiedSentence:val?.name}
                           </Box>
                         </Box>
                       </div>
@@ -750,6 +822,15 @@ setstate((pre) => {
                   </>
                 ))}
               </Box>
+              <EditModal
+        setOpen={setOpen}
+        open={open}
+        handleClose={handleClose}
+        text={text}
+        saveChanges={saveChanges}
+        setSubcheck={setSubcheck}
+        checklistid={checklistid}
+      />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                 disabled={buttonEnability.detailsobject}
