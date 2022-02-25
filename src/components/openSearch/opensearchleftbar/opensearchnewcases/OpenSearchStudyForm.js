@@ -54,6 +54,7 @@ const EstablishmentSearchStudyForm = ({
   const [subCheck, setSubcheck] = React.useState("");
   const [text, setText] = React.useState("");
   const [checklistid, setId] = React.useState("");
+  const [sectionType, setSectionType] = useState("")
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
     caseAverageId: Studydata?.data?.caseAverageId
@@ -298,6 +299,73 @@ setstate((pre) => {
       };
     });
   };
+  const saveChanges = (sentence, sentenceId, nature, seriesname, sectiontype) => {
+    console.log("sectiontype",sectiontype);
+    const newdata = []
+    let new2 = [];
+    newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+    if(store.activeCase==="newcase"){
+      newdata.map((i) => {
+        new2 = checkboxObj.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+   
+        console.log("new2",sectiontype );
+        console.log("checkboxObj",checkboxObj);
+        console.log("state.check",state.check);
+        checkboxObj[new2].completedSentence = sentence;
+      }); 
+    }
+      
+
+   if (store.activeCase  === "currentcases"){
+    if(sectiontype!==2){
+    newdata.map((i) => {
+      new2 = state.check.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      console.log("new2", new2);
+      console.log("state.check",state.check);
+      console.log("state.studycheck",state.studycheck);
+      state.check[new2].completedSentence = sentence;
+    }); 
+  }
+
+  if(sectiontype===2){
+    newdata.map((i) => {
+      new2 = state.studycheck.findIndex(
+        (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      );
+      console.log("new2", new2);
+      console.log("state.check",state.check);
+      console.log("state.studycheck",state.studycheck);
+      state.studycheck[new2].completedSentence = sentence;
+    }); 
+  }
+
+   }
+   console.log("item?.chkList", townplanning?.map((val)=>{
+    const a =    val.chkList.findIndex(
+       (obj) => obj?.caseFileCheckListId === sentenceId
+     )
+     console.log(a,"index");
+    if(a>-1){
+     val.chkList[a].name=sentence
+    }
+   }));
+   console.log("item?.chkList", study?.map((val)=>{
+     const a =    val.chkList.findIndex(
+        (obj) => obj?.caseFileCheckListId === sentenceId
+      )
+      console.log(a,"index");
+     if(a>-1){
+      val.chkList[a].name=sentence
+     }
+    }));
+   setText("")
+ };
+
+ console.log("sectionType",sectionType);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
@@ -346,36 +414,7 @@ setstate((pre) => {
       .catch((err) => toast.error(err?.statusText));
 
   };
-  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
-     const newdata = []
-     let new2 = [];
-     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
-      newdata.map((i) => {
-      new2 = checkboxObj.findIndex(
-        (s) => s.caseFileCheckListId === i.caseFileCheckListId
-      );
-      checkboxObj[new2].completedSentence = sentence;
-    });  
-    console.log("item?.chkList", townplanning?.map((val)=>{
-     const a =    val.chkList.findIndex(
-        (obj) => obj?.caseFileCheckListId === sentenceId
-      )
-      console.log(a,"index");
-     if(a>-1){
-      val.chkList[a].name=sentence
-     }
-    }));
-    console.log("item?.chkList", study?.map((val)=>{
-      const a =    val.chkList.findIndex(
-         (obj) => obj?.caseFileCheckListId === sentenceId
-       )
-       console.log(a,"index");
-      if(a>-1){
-       val.chkList[a].name=sentence
-      }
-     }));
-    setText("")
-  };
+
   const handleSubmitdetailsobj = (e) => {
     console.log(">?",state.studycheck);
     e.preventDefault();
@@ -644,6 +683,7 @@ setstate((pre) => {
                                 setOpen(true);
                                 setText(val?.name);
                                 setId(val?.caseFileCheckListId)
+                                setSectionType(val?.sectionType)
                               }
                               }}
                               type="checkbox"
@@ -693,6 +733,7 @@ setstate((pre) => {
         saveChanges={saveChanges}
         setSubcheck={setSubcheck}
         checklistid={checklistid}
+        sectionType={sectionType}
       />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
@@ -783,6 +824,7 @@ setstate((pre) => {
                               setOpen(true);
                               setText(val?.name);
                               setId(val?.caseFileCheckListId)
+                              setSectionType(val?.sectionType)
                             }
                             }}
                             type="checkbox"
@@ -830,6 +872,7 @@ setstate((pre) => {
         saveChanges={saveChanges}
         setSubcheck={setSubcheck}
         checklistid={checklistid}
+        sectionType={sectionType}
       />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
