@@ -70,7 +70,7 @@ setFormInputs({...formInputs,[e.target.name]:e.target.value})
                             </div>
                             <div className="input-field">
                                 <label className="login-label">Mot de passe</label>
-                                <input required name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
+                                <input required name="password" value={formInputs.password} onChange={onChange} type="password" />
                             </div>
                             <Link to="/forgetpassword">Mot de passe oublié ?</Link>
                             {loading}

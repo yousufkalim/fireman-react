@@ -173,7 +173,7 @@ const NavbarDashBoard = () => {
             >
               <Box ref={ref}  sx={{display:"flex", flexDirection:"column", position:"relative"}}> 
              <img  onClick={()=>{setLogout(true)}} className="img-nav" src={ronaldo}/>
-             { logout?  <p  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
+             { logout?  <p className='logout-btn'  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
 
             </Box>
             

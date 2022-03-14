@@ -305,21 +305,20 @@ setstate((pre) => {
     let new2 = [];
     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
     if(store.activeCase==="newcase"){
-      // newdata.map((i) => {
-      //   new2 = checkboxObj.findIndex(
-      //     (s) => s.caseFileCheckListId === i.caseFileCheckListId
-      //   );
-        
-        
-        
-
-        // console.log("sectiontype",sectiontype );
-      //   console.log("new2",new2);
-      //   console.log("checkboxObj",checkboxObj);
-      //   console.log("townplanning",townplanning);
-      //   console.log("state.check",state.check);
-      //   //checkboxObj[new2].completedSentence = sentence;
-      // }); 
+      newdata.map((i) => {
+        new2 = checkboxObj.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+        console.log("sectiontype",sectiontype );
+        console.log("new2",new2);
+        console.log("checkboxObj",checkboxObj);
+        console.log("townplanning",townplanning);
+        console.log("state.check",state.check);
+        if(new2>-1){
+          checkboxObj[new2].completedSentence = sentence;
+        }
+       
+      }); 
     }
       
     townplanning.map((val)=>{
@@ -342,7 +341,9 @@ setstate((pre) => {
       console.log("new2", new2);
       console.log("state.check",state.check);
       console.log("state.studycheck",state.studycheck);
+      if(new2>-1){
       state.check[new2].completedSentence = sentence;
+      }
     }); 
   }
 
@@ -354,7 +355,9 @@ setstate((pre) => {
       console.log("new2", new2);
       console.log("state.check",state.check);
       console.log("state.studycheck",state.studycheck);
+      if(new2>-1){
       state.studycheck[new2].completedSentence = sentence;
+      }
     }); 
   }
 
