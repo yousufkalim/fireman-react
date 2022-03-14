@@ -70,11 +70,6 @@ h1 {
 .active svg {
   fill: #3675B7;
 }
-.active svg path{
-  fill: #3675B7;
-}
-
-
 .side_bar .css-i4bv87-MuiSvgIcon-root{
   color: #314A6C;
   font-size: 45px;  

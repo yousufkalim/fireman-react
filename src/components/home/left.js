@@ -57,15 +57,15 @@ const HomeLeft = ({ setBox, box }) => {
         <Box className="countData">
           <Box sx={{ width: "38%" }}>
             <p className="count">
-              {counts.completed ? counts.completed : <CircularProgress />}
+              {counts.completed ? counts.completed : 0}
             </p>
             <p className="count_des">DOCUMENT(S) TÉRMINÉ(S)</p>
           </Box>
           <Box sx={{ width: "38%" }}>
             <p className="count">
-              {counts.inProgress ? counts.inProgress : <CircularProgress />}
+              {counts.inProgress ? counts.inProgress : 0}
             </p>
-            <p className="count_des">DOSSIERS EN COURS</p>
+            <p className="count_des">MESSAGE(S) RECU(S)</p>
           </Box>
         </Box>
       </Box>

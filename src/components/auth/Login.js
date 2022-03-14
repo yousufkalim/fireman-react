@@ -9,8 +9,8 @@ import {UpdateStore} from '../../StoreContext'
 import { useState } from "react";
 import Loader from './Loader';
 import Home from '../home/index';
-
-
+import ForgetPassword from './ForgetPassword'
+import { Link } from "react-router-dom";
 
 
 const Login = () => {
@@ -72,7 +72,7 @@ setFormInputs({...formInputs,[e.target.name]:e.target.value})
                                 <label className="login-label">Mot de passe</label>
                                 <input required name="password" value={formInputs.password} onChange={onChange} placeholder="+1 234 567890" type="password" />
                             </div>
-                            <a >Mot de passe oublié ?</a>
+                            <Link to="/forgetpassword">Mot de passe oublié ?</Link>
                             {loading}
 
                            {loading?<Loader/>:""} 

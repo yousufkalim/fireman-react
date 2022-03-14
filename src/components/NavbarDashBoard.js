@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useRef} from 'react'
 import useState from 'react-usestateref'
 import Box from "@mui/material/Box";
 import Site from "../assets/site.png"
@@ -15,17 +15,19 @@ import moment from "moment";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import api from '../api/index';
 import { Store } from "../StoreContext";
-import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import useClickOutside from 'use-click-outside';
 import jwt from 'jwt-decode'
 const NavbarDashBoard = () => {
+  
     const [anchorEl, setAnchorEl] = React.useState(null);
     let [profile, setProfile] = useState({})
-
+    const ref = useRef();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [ connection, setConnection ] = useState(null);
     const [state, setState, counterRef] = useState({
       connection: "",
     })
+    const [logout, setLogout] = useState(false)
     const isMenuOpen = Boolean(anchorEl);
     const update = UpdateStore()
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);  
@@ -67,9 +69,6 @@ const NavbarDashBoard = () => {
             localStorage.removeItem("userData");
             window.location.replace ("/login");
            })
-           
-          
-       
         }
       else{
         alert("not connected to server")
@@ -85,21 +84,9 @@ const NavbarDashBoard = () => {
     const menuId = "primary-search-account-menu";
     const renderMenu = (
       <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
       >
         <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+        
       </Menu>
     );
   
@@ -146,7 +133,9 @@ const NavbarDashBoard = () => {
         </MenuItem>
       </Menu>
     );
-    
+    useClickOutside(ref, () => {
+     setLogout(false)
+    });
   
   return (
     <>
@@ -182,7 +171,12 @@ const NavbarDashBoard = () => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-             <img  className="img-nav" src={ronaldo}/>
+              <Box ref={ref}  sx={{display:"flex", flexDirection:"column", position:"relative"}}> 
+             <img  onClick={()=>{setLogout(true)}} className="img-nav" src={ronaldo}/>
+             { logout?  <p  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
+
+            </Box>
+            
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 20px" ,cursor:"pointer"}}>
               <p className={`${store.activeNavbarTab==="termine"? "":"user-text-dash"}`} style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>

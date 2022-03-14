@@ -1,4 +1,4 @@
-import  React,{ useEffect} from "react";
+import  React,{ useEffect, useRef} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,9 +22,12 @@ import ronaldo from '../assets/ronaldo.jpeg'
 import 'moment/locale/fr'
 import useState from 'react-usestateref'
 import jwt from 'jwt-decode'
+import useClickOutside from 'use-click-outside';
 export default function Navbar({Story}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   let [profile, setProfile] = useState({})
+  const [logout, setLogout] = useState(false)
+  const ref = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const store = Store()
   const isMenuOpen = Boolean(anchorEl);
@@ -78,19 +81,19 @@ export default function Navbar({Story}) {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      // anchorEl={anchorEl}
+      // anchorOrigin={{
+      //   vertical: "top",
+      //   horizontal: "right",
+      // }}
+      // id={menuId}
+      // keepMounted
+      // transformOrigin={{
+      //   vertical: "top",
+      //   horizontal: "right",
+      // }}
+      // open={isMenuOpen}
+      //onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
@@ -139,6 +142,9 @@ export default function Navbar({Story}) {
       </MenuItem>
     </Menu>
   );
+  useClickOutside(ref, () => {
+    setLogout(false)
+   });
   console.log("store",store);
   return (
     <Box sx={{ flexGrow: 1, fontSize: "18px", width:"99%", margin:"auto" }}>
@@ -224,7 +230,12 @@ export default function Navbar({Story}) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-             <img className="img-nav" src={ronaldo}/>
+              <Box ref={ref}  sx={{display:"flex", flexDirection:"column", position:"relative"}}> 
+             <img  onClick={()=>{setLogout(true)}} className="img-nav" src={ronaldo}/>
+             { logout?  <p  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
+
+            </Box>
+            
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
               <p className={`${store.activeNavbarTab==="termine"? "":"user-text-dash"}`} style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>

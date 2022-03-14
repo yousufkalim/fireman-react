@@ -30,6 +30,7 @@ const Body = () => {
        assistance:'',
        sectionId:""
   })
+
   const [sideBar, setSideBar] = useState(false)
   const [connect, setConnect] = useState(null)
   const [state, setState, counterRef] = useState({
@@ -52,7 +53,7 @@ const Body = () => {
       userId:userData.Id
     })
     const newConnection = new HubConnectionBuilder()
-  .withUrl("http://160.153.249.64:6164/chatHub")
+  .withUrl("https://160.153.249.64:6164/chatHub")
       .withAutomaticReconnect()
       .build();
      console.log("started", newConnection);

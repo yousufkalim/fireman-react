@@ -305,18 +305,33 @@ setstate((pre) => {
     let new2 = [];
     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
     if(store.activeCase==="newcase"){
-      newdata.map((i) => {
-        new2 = checkboxObj.findIndex(
-          (s) => s.caseFileCheckListId === i.caseFileCheckListId
-        );
-   
-        console.log("new2",sectiontype );
-        console.log("checkboxObj",checkboxObj);
-        console.log("state.check",state.check);
-        checkboxObj[new2].completedSentence = sentence;
-      }); 
+      // newdata.map((i) => {
+      //   new2 = checkboxObj.findIndex(
+      //     (s) => s.caseFileCheckListId === i.caseFileCheckListId
+      //   );
+        
+        
+        
+
+        // console.log("sectiontype",sectiontype );
+      //   console.log("new2",new2);
+      //   console.log("checkboxObj",checkboxObj);
+      //   console.log("townplanning",townplanning);
+      //   console.log("state.check",state.check);
+      //   //checkboxObj[new2].completedSentence = sentence;
+      // }); 
     }
       
+    townplanning.map((val)=>{
+      newdata.map((i) => {
+        new2 = val.chkList.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+        console.log("new2",new2);
+        console.log(val.chkList);
+        //checkboxObj[new2].completedSentence = sentence;
+      });    
+  })
 
    if (store.activeCase  === "currentcases"){
     if(sectiontype!==2){
