@@ -67,13 +67,13 @@ const NavbarDashBoard = () => {
         if(store.connection){
            store.connection?.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(()=>{
             localStorage.removeItem("userData");
-            window.location.replace ("/login");
+            window.location = "/login";
            })
         }
       else{
         alert("not connected to server")
         localStorage.removeItem("userData");
-        window.location.replace ("/login");
+        window.location = "/login";
       }
      
     };

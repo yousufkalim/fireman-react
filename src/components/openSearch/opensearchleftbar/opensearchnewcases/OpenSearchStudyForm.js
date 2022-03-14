@@ -320,17 +320,7 @@ setstate((pre) => {
        
       }); 
     }
-      
-    townplanning.map((val)=>{
-      newdata.map((i) => {
-        new2 = val.chkList.findIndex(
-          (s) => s.caseFileCheckListId === i.caseFileCheckListId
-        );
-        console.log("new2",new2);
-        console.log(val.chkList);
-        //checkboxObj[new2].completedSentence = sentence;
-      });    
-  })
+    
 
    if (store.activeCase  === "currentcases"){
     if(sectiontype!==2){

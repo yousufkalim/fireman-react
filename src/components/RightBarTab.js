@@ -240,7 +240,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 />
               </svg>
               <span> Chat</span>
-              <small>(3) </small>
+              <small>({users.length}) </small>
             </Box>
 
            
