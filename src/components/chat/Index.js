@@ -1,367 +1,468 @@
-import React, { Component } from "react";
-import ChatSidebar from "../components/Chats/ChatSidebar";
-import ChatSide from "../components/Chats/ChatSide";
-import NoChatSelected from "../components/Chats/NoChatSeletcted";
-import WebServicesManager from "../WebServicesManager/WebServicesManager";
-import jwtDecode from "jwt-decode";
-import { Base64 } from "js-base64";
-import { Message } from "react-chat-ui";
-import Loader from "./Loader";
+import React from 'react'
+import ChatSideTwo from './ChatSideTwo'
+import {  useEffect, useRef } from "react";
+import useState from 'react-usestateref'
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import ChatWindow from './ChatWindow'
+import jwt from 'jwt-decode'
+import api from "../../api/index";
+import ChatSideBarTwo from './ChatSideBarTwo'
+import Box from "@mui/material/Box";
+const Index = () => {
+  const [state, setState] = useState({
+    messageList: [],
+    chatList: [],
+    userData: null,
+    activeChat: "",
+    activeReciever: "",
+    message: "",
+    search: "",
+    searchList: [],
+    isLoading: true,
+    connection: "",
+    msglist:[]
+  })
+  const [ connection, setConnection,counterRef ] = useState(null);
+  const [ chat, setChat ] = useState([]);
+  const latestChat = useRef(null);
+  latestChat.current = chat;
+ 
+ useEffect(() => {
+  const newConnection = new HubConnectionBuilder()
+  .withUrl("http://160.153.249.64:6164/chatHub")
+      .withAutomaticReconnect()
+      .build();
 
-
-
-// useEffect(() => {
-//     var token = localStorage.getItem("userdata");
-//     var decoded = jwtDecode(token);
-//     var userData = JSON.parse(Base64.decode(decoded.userData));
-//     this.setState({ userData });
-//     // list all chat list
-//     this.loadChatListData(token, userData.id);
-// }, [])
-
-
-const chat = ()=> {
-    const [messageList, setmessageList] = useState([])
-const [chatlist, setchatList] = useState([])
-const [userData, setuserData] = useState(null)
-const [activeChat, setactiveChat] = useState("")
-const [activeReciever, setactiveReciever] = useState("")
-const [search, setsearch] = useState("")
-const [searchList, setsearchList] = useState([])
-const [isLoading, setisLoading] = useState(true)
-  WebServicesManager = new WebServicesManager();
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       messageList: [],
-//       chatList: [],
-//       userData: null,
-//       activeChat: "",
-//       activeReciever: "",
-//       message: "",
-//       search: "",
-//       searchList: [],
-//       isLoading: true,
-//     };
-//   }
-
+  setConnection(newConnection);
+}, []);
 
 useEffect(() => {
-    var token = localStorage.getItem("userdata");
-    var decoded = jwtDecode(token);
-    var userData = JSON.parse(Base64.decode(decoded.userData));
-    setuserData({ userData });
-    // list all chat list
-    loadChatListData(token, userData.id);
+  console.log("connection",connection);
+  if (connection) {
+      connection.start()
+          .then(result => {
+              console.log('Connected!');
+              var token = localStorage.getItem("userData");
+              const userData = jwt(token);
+              const userId=userData.Id
+              api("get",`/api/v1/chat/GetChatList/${userData.Id}`).then((res)=>{
+                console.log("chat res", res.data.data);
+                var chatlist = [];
+                res?.data?.data?.map((chat) => {
+                 var a = chat.userA
+                 var b = chat.userB
+                 console.log(a,"usera");
+                 console.log(b,"userb");
+                 console.log("userId",userId);
+                 console.log("a?.employeeId",a?.employeeId);
+                 console.log("b?.employeeId",b?.employeeId);
+                 console.log("userId",userId);
+                 if (a?.employeeId != userId) {
+                  console.log("user1.id");
+                  console.log("<>><>><", a);
+                  console.log("<>><>><", b);
+                   chatlist.push({
+                     chatroom_id: chat.id,
+                     chatroom_label: `${a?.empFirstName} ${a?.empLastName}`,
+                     user_role: a?.role,
+                     reciever: a?.employeeId,
+                     unread: false,
+                     isOnline: a?.isOnline,
+                     lastSeen: a?.lastSeen,
+                     block: chat?.block,
+                     blockBy: chat?.blockBy,
+                   });
+                   //this.setState({ isLoading: false });
+                   setState((pre)=>{
+                     return{
+                      ...pre,
+                      isLoading:false
+                     }
+                   })
+                 } else {
+                   if (b?.employeeId != userId) {
+                     console.log("user2.id");
+                     chatlist.push({
+                       chatroom_id: chat?.id,
+                       chatroom_label: `${b?.empFirstName} ${b?.empLastName}`,
+                       user_role: b?.role,
+                       reciever: b?.employeeId,
+                       unread: false,
+                       isOnline: b?.isOnline,
+                       lastSeen: b?.lastSeen,
+                       block: chat?.block,
+                       blockBy: chat?.blockBy,
+                     });
+                   }
+                   setState((pre)=>{
+                     return{
+                      ...pre,
+                      isLoading:false
+                     }
+                   })
+                 }
+             console.log("chatlist",chatlist);    
+                 return null;
+               });
+               console.log("res?.data?.data",res?.data?.data);
+               console.log("res?.data?.data[0].userA.employeeId",res?.data?.data[0].userA.employeeId);
+               console.log(userId);
+               if (res?.data?.data[0].userA.employeeId != userId) {
+                 setState((pre)=>{
+                   return{
+                     ...pre,
+                  activeReciever:res?.data?.data[0].userA.employeeId
+                   }
+                 })
+               } else {
+                 setState((pre)=>{
+                   return{
+                     ...pre,
+                  activeReciever:res?.data?.data[0].userB.employeeId
+                   }
+                 })
+               }
+               console.log("chatList",chatlist);
+               // this.state.connection.on(
+               //   "blockStatus",
+               //   (userId, chatId, blockStatus) => {
+               //     const { chatList, connection } = this.state;
+               //     console.log("after block user int ", userId, chatId, blockStatus);
+               //     const newChatList = chatList.map((chat) =>
+               //       chat.chatroom_id === chatId
+               //         ? { ...chat, block: blockStatus, blockBy: userId }
+               //         : chat
+               //     );
+               //     console.log("after block check ", newChatList);
+               //     this.setState({ chatList: newChatList }, () => {
+               //       console.log("after block user chatlist ", chatList);
+               //     });
+               //     console.log("after block user in ", chatList);
+               //     console.log("after block user int ", userId, chatId, blockStatus);
+               //   }
+               // );
+               console.log("id", res?.data?.data?.id);
+               setState((pre)=>{
+                 return{
+                 ...pre,
+                 activeChat:res?.data?.data?.id
+                 }
+               })
+                 // { activeChat: responseData[0]?.id }
+               setState((pre)=>{
+                 return{
+                   ...pre,
+                   chatList:chatlist
+                 }
+               })
+                var chat_active = parseInt(localStorage.getItem("activeChat"));
+                console.log("chat_active",chat_active);
+                if (chat_active) {
+                 let active;
+                 const findChat = res?.data?.data.find(
+                   (item) => item.id === chat_active
+                 );
+                 console.log("findChat",findChat);
+                 if (findChat.userA.employeeId !== userId) {
+                   active = findChat.userA.employeeId;
+                 } else {
+                   active = findChat.userB.employeeId;
+                 }
+                 console.log("find chat ", findChat);
+                 console.log("find chat active", active);
+                 var chatinfois = state.chatList.find(
+                   (item) => item.chatroom_id === chat_active
+                 );
+                 // console.log("chatinfois", chatinfois);
+             
+                
+             
+             
+                 setState((pre)=>{
+                   return{
+                     ...pre,
+                     activeChat: chat_active,
+                     activeReciever: active
+                   }
+                 })
+                 loadActiveChatMessage(
+                   token,
+                   state.activeChat,
+                   userId
+                 );
+               } else {
+                 chat_active = state.activeChat;
+                 var chatinfois = state.chatList.find(
+                   (item) => item.chatroom_id === chat_active
+                 );
+                 // console.log("chat_active", chat_active);
+             
+                 this.loadActiveChatMessage(token, chat_active, userId);
+                 this.setState({ isLoading: false });
+               }
+             //console.log("userId, isOnline, lastSeen, status",userId, isOnline, lastSeen, status);
+              connection.on(
+                 "checkIsOnline",
+                 (userId, isOnline, lastSeen, status) => {
+                   if (userData.Id !== userId) {
+                     console.log("user is online now", userId);
+                     // chatList.map((chat) => {
+                     //   console.log("chat list => ", chat);
+                     //   if (userId === chat.reciever) {
+                     //     let newChatList = chatList.map((chat, index) =>
+                     //       chat.reciever === userId
+                     //         ? { ...chat, isOnline: true }
+                     //         : chat
+                     //     );
+             
+                     //     this.setState({ chatList: newChatList }, () => {
+                     //       console.log("new chatlis ", chatList);
+                     //       console.log("old chatlis ", newChatList);
+                     //     });
+                     //   }
+                     // });
+             
+                     let newChatList = chatlist.map((chat, index) =>
+                       chat.reciever == userId
+                         ? { ...chat, isOnline, lastSeen, status }
+                         : chat
+                     );
+             
+                     if (status !== "") {
+                       console.log("extra messages", chat_active);
+                       chat_active = this.state.activeChat;
+                       this.loadActiveChatMessage(token, chat_active, userData.Id);
+                     } else {
+                       console.log("extra messages not ", chat_active);
+                     }
+             
+                     setState({ chatList: newChatList }
+                       
+                       );
+                   }
+                 }
+               );
+             
+               connection.on("msgSeenStatus", (usrId, chatId, seen) => {
+                 chat_active = this.state.activeChat;
+                 if (chatId === chat_active && userData.Id !== usrId) {
+                   if (seen !== "") {
+                     console.log("extra messages seen", chat_active);
+                     chat_active = this.state.activeChat;
+                     this.loadActiveChatMessage(token, chat_active, userData.Id);
+                   } else {
+                     console.log("extra messages seen not ", chat_active);
+                   }
+                 }
+               });
+               // check props
+             
+               // add socketio listenrs
+               // this.state.chatList.map((chat) => {
+               // this.state.connection.on("ReceiveMessage", (user, message) => {
+               //   console.log("message => ", message);
+               // });
+              connection.on(
+                 "CheckIsOnline",
+                 (userId, isOnline, status) => {
+                   console.log("check online ", isOnline);
+                   console.log("check online id ", userId);
+                 }
+               );
+                loadActiveChatMessage(
+                 token,
+                 chat_active,
+                 userId
+               );
+             
+               })
+              connection.on('ReceiveMessage', (message, chat) => {
+                  console.log("message", message);
+                  console.log("message", chat);
+                  const updatedChat = [...latestChat.current];
+                  if(userData.Id!=message.sender){
+                    message.isSender=false;
+                    message.status=""
+                    updatedChat.push(message);
+                    connection.send("activeChat", message.reciever, chat.chatInfoId)
+
+                  }
+                  else{
+                    const status =
+                    message.readMsg == "Send"
+                      ? "sent"
+                      : message.readMsg == "Delivered"
+                      ? "received"
+                      : message.readMsg == "Seen" && "read";
+                    message.isSender=true;
+                    message.status=status
+                    updatedChat.push(message);
+                  }
+                  setChat(updatedChat);
+              });
+
+               connection.on("msgSeenStatus", (usrId, chatId, seen) => {
+
+                console.log(">?<><><><",usrId, chatId, seen);
+               })
+                
+          })
+          .catch(e => console.log('Connection failed: ', e));
+  }
+}, [connection]);
+useEffect(() => {
+  var token = localStorage.getItem("userData");
+  var chat_active = localStorage.getItem("activeChat");
+  const userData = jwt(token);
+  console.log("<>?",userData);
+  console.log("<>??????",userData.Id)
+  setState((pre)=>{
+    return{
+      ...pre,
+      userData:userData
+    }
+  })
+  // list all chat list
+  loadChatListData(token, userData.Id, chat_active);
+ 
 }, [])
-//   componentWillMount() {
-//     var token = localStorage.getItem("userdata");
-//     var decoded = jwtDecode(token);
-//     var userData = JSON.parse(Base64.decode(decoded.userData));
-//     this.setState({ userData });
-//     // list all chat list
-//     this.loadChatListData(token, userData.id);
-//   }
 
-  // load messages
+const loadChatListData =(token, userId)=>{
+  console.log("run localchatlistdata107");
+  console.log(userId);
+  var token = localStorage.getItem("userData");
+  const userData = jwt(token);
+  
 
-  loadChatListData = (token, userId) => {
-    // this.WebServicesManager.getApiWithParamCall(
-    //   {
-    //     endPoint: "Chat/GetChatList",
-    //     dataToFetch: userId,
-    //     token,
-    //   },
-    //api("get","Chat/GetChatList").then(()=>{})
-     api("get","Chat/GetChatList").then(( responseData) => {
-        var chatList = [];
-        if (responseData.length > 0) {
-          responseData.map((chat) => {
-            var user1 = JSON.parse(chat.userA);
-            var user2 = JSON.parse(chat.userB);
-            // debugger;
-            if (user1.id !== userId) {
-              chatList.push({
-                chatroom_id: chat.id,
-                chatroom_label: `${user1.firstName} ${user1.surName}`,
-                user_role: user1.role,
-                reciever: user1.id,
-                unread: false,
-              });
-              //this.setState({ isLoading: false });
-              setisLoading(false)
-            } else {
-              chatList.push({
-                chatroom_id: chat.id,
-                chatroom_label: `${user2.firstName} ${user2.surName}`,
-                user_role: user2.role,
-                reciever: user2.id,
-                unread: false,
-              });
-              //this.setState({ isLoading: false });
-              setisLoading(false)
-            }
-          });
-          // debugger;
-          if (JSON.parse(responseData[0].userA).id !== userId) {
-            // this.setState({
-            //   activeReciever: JSON.parse(responseData[0].userA).id,
-            // });
-            setactiveReciever(JSON.parse(responseData[0].userA).id)
-          } else {
-            // this.setState({
-            //   activeReciever: JSON.parse(responseData[0].userB).id,
-            // });
-            setactiveReciever(JSON.parse(responseData[0].userB).id)
-          }
+}
+const loadActiveChatMessage = (token, chatId, userId)=>{
+  
+  console.log("chatId",chatId);
+  api("get", `/api/v1/chat/GetMessages/${chatId}`).then((responseMessages)=>{
+    console.log("active chat ", responseMessages);
+    var messagelist = [];
+    if (responseMessages.data.data.messages.length > 0) {
+      responseMessages.data.data.messages.map((message) => {
+        message = message;
+        var messageObject;
 
-          //setactiveChat(responseData[0].id)
-
-          this.setState(
-              { chatList, activeChat: responseData[0].id }, () => {
-            // check props
-            var chat_active = localStorage.getItem("activeChat");
-            if (chat_active) {
-              var chatinfois = this.state.chatList.find(
-                (item) => item.chatroom_id === chat_active
-              );
-              this.setState(
-                {
-                  activeChat: chat_active,
-                  activeReciever: chatinfois.reciever,
-                },
-                () => {
-                  this.loadActiveChatMessage(
-                    token,
-                    this.state.activeChat,
-                    userId
-                  );
-                }
-              );
-            } else {
-              chat_active = this.state.activeChat;
-              this.loadActiveChatMessage(token, chat_active, userId);
-              this.setState({ isLoading: false });
-            }
-            // add socketio listenrs
-            this.state.chatList.map((chat) => {
-              window.socket.on(`recieveMessage${chat.chatroom_id}`, (data) => {
-                if (data.chat.id === this.state.activeChat) {
-                  const { message } = data;
-                  const { userData, messageList } = this.state;
-                  var messageObject;
-                  if (message.Sender !== userData.id) {
-                    var chatinfo = this.state.chatList.find(
-                      (item) => item.chatroom_id === data.chat.id
-                    );
-                    messageObject = new Message({
-                      id: 1,
-                      message: message.Message,
-                      senderName: chatinfo.chatroom_label,
-                    });
-                  } else {
-                    messageObject = new Message({
-                      id: 0,
-                      message: message.Message,
-                    });
-                  }
-                  this.setState({
-                    messageList: [...messageList, messageObject],
-                    message: "",
-                  });
-                } else {
-                  var chatis = this.state.chatList;
-                  var index = chatis.indexOf(
-                    chatis.find((item) => item.chatroom_id === data.chat.id)
-                  );
-                  if (index !== -1) {
-                    chatis[index].unread = true;
-                    this.setState({ chatList: chatis });
-                  }
-                }
-              });
-            });
-          });
+        if (message.sender != userId) {
+          messageObject = {
+            isSender: false,
+            message: message.message,
+            status: "",
+          };
         } else {
-          console.log("No Chat List Found");
-          //this.setState({ isLoading: false });
-          setisLoading(false)
+          const status =
+            message.readMsg == "Send"
+              ? "sent"
+              : message.readMsg == "Delivered"
+              ? "received"
+              : message.readMsg == "Seen" && "read";
+
+          messageObject = {
+            isSender: true,
+            message: message.message,
+            status: status,
+          };
         }
-      }
-    );
-  };
-
-  loadActiveChatMessage = (token, chatId, userId) => {
-    // this.WebServicesManager.getApiCall(
-    //   {
-    //     endPoint: `Chat/GetMessages/?chatId=${chatId}`,
-    //     token,
-    //   },
-    api("get","Chat/GetChatList").then((statusCode, responseMessages) => {
-        var messageList = [];
-        if (responseMessages.messages.length > 0) {
-          responseMessages.messages.map((message) => {
-            message = JSON.parse(message);
-            var messageObject;
-            if (message.sender !== userId) {
-              messageObject = new Message({
-                id: 1,
-                message: message.message,
-              });
-            } else {
-              messageObject = new Message({
-                id: 0,
-                message: message.message,
-              });
-            }
-            messageList.push(messageObject);
-          });
-          this.setState({ messageList });
-        }
-      }
-    );
-  };
-
-useEffect(() => {
-    if (window.socket) {
-        window.socket.on(`new_message_5fb373d710d7ea35b4b8f0e5`, (message) => {
-          window.alert(message);
-        });
-      }
-}, [])
-
-
-//   componentDidMount() {
-//     // window.
-//     // socket = io(ENDPOINT);
-//     if (window.socket) {
-//       window.socket.on(`new_message_5fb373d710d7ea35b4b8f0e5`, (message) => {
-//         window.alert(message);
-//       });
-//     }
-//   }
-
-
-useEffect(() => {
-    localStorage.removeItem("activeChat");
-}, [])
-
-//   componentWillUnmount() {
-//     localStorage.removeItem("activeChat");
-//   }
-
-  sendMessage = (e) => {
-    e.preventDefault();
-    //const { activeReciever, message, userData } = this.state;
-    const info = {
-      Sender: userData.id,
-      Reciever: activeReciever,
-      Message: message,
-    };
-    if (message !== "") {
-      window.socket.emit("sendMessage", info);
+        messagelist.push(messageObject);
+        return null;
+      });
+          setChat(messagelist)
+          console.log("state",state)
+  console.log("state.connection",state.connection);
     }
+  })
+}
+const sendMessage = async (user, message) => {
+  var token = localStorage.getItem("userData");
+  var chat_active = localStorage.getItem("activeChat");
+  const userData = jwt(token);
+  console.log(user,message);
+ 
+  const info = {
+    Sender: parseInt(userData.Id),
+    Reciever: state.activeReciever,
+    message: message,
   };
-
-  changeChat = (chat) => {
-    var token = localStorage.getItem("userdata");
-    localStorage.removeItem("activeChat");
-    var chatListis = this.state.chatList;
-    var index = chatListis.indexOf(
-      chatListis.find((item) => item.chatroom_id === chat.chatroom_id)
-    );
-    if (index !== -1) {
-      chatListis[index].unread = false;
-      this.setState({ chatList: chatListis });
-    }
-    this.setState(
-      {
-        activeChat: chatListis[index].chatroom_id,
-        activeReciever: chatListis[index].reciever,
-        messageList: [],
-        message: "",
-      },
-      () => {
-        console.log(this.state);
-        this.loadActiveChatMessage(
-          token,
-          chatListis[index].chatroom_id,
-          this.state.userData.id
-        );
+  if (connection._connectionStarted) {
+    
+    console.log("hit",info);
+      try {
+          await connection.send('SendMessage', info, info);
       }
-    );
-  };
-
-  changeMessage = (e) => {
-    this.setState({ message: e.target.value });
-  };
-
-  filterChats = (e) => {
-    this.setState({ search: e.target.value }, () => {
-      // make filtering here
-      if (this.state.search) {
-        var filterChat = this.state.chatList.filter((item) =>
-          item.chatroom_label
-            .toLowerCase()
-            .includes(this.state.search.toLocaleLowerCase())
-        );
-        this.setState({ searchList: filterChat });
-      } else {
-        this.setState({ searchList: [] });
+      catch(e) {
+          console.log(e);
       }
-    });
-  };
+  }
+  else {
+      alert('No connection to server yet.');
+  }
+}
+const changeChat = (chat) => {
+  console.log("chatchange", chat);
 
-  selectChat = (id) => {
-    var findChat = this.state.searchList.find(
-      (item) => item.chatroom_id === id
-    );
-    this.setState({ searchList: [], search: "" }, () => {
-      if (findChat) this.changeChat(findChat);
-    });
-    // on select function clicked find that chat id and call fuction changeChat
-  };
+  var token = localStorage.getItem("userdata");
+  localStorage.removeItem("activeChat");
+  var chatListis = state.chatList;
+  var index = chatListis.indexOf(
+    chatListis.find((item) => item.chatroom_id == chat.chatroom_id)
+  );
+  if (index != -1) {
+    chatListis[index].unread = false;
+    // this.setState({ chatList: chatListis });
+    setState((pre)=>{
+     return{
+       ...pre,
+       chatList: chatListis
+     }
+    })
+  }
+  // setState(
+  //   {
+  //     activeChat: chatListis[index].chatroom_id,
+  //     activeReciever: chatListis[index].reciever,
+  //     messageList: [],
+  //     message: "",
+  //   })
+   setState((pre)=>{
+     return{
+       ...pre,
+       activeChat: chatListis[index].chatroom_id,
+       activeReciever: chatListis[index].reciever,
+       messageList: [],
+       message: "",
+     }
+   })
+      console.log("connection signalr ", state.connection);
+      localStorage.setItem("activeChat",  chatListis[index].chatroom_id);
+      console.log("activeReciever",state.activeReciever);
+      loadActiveChatMessage(
+        token,
+        chatListis[index].chatroom_id,
+        state.userData.Id
+      );
+    
+  
+};
 
-  
-    return (
-       
-      <div className="chatApp">
-        {/* sidebar */}
-        <div className="chatApp__body">
-          <ChatSidebar
-            chatList={this.state.chatList}
-            chatChange={this.changeChat}
-            activeChat={this.state.activeChat}
-            selectChat={this.selectChat}
-            filterChats={this.filterChats}
-            search={this.state.search}
-            searchList={this.state.searchList}
-          />
-          {this.state.activeChat ? (
-            <ChatSide
-              messageList={this.state.messageList}
-              sendMessage={this.sendMessage}
-              changeMessage={this.changeMessage}
-              messageValue={this.state.message}
-              activeChat={this.state.chatList.find(
-                (chat) => chat.chatroom_id === this.state.activeChat
-              )}
-            />
-          ) : (
-            <div className="loading">
-              {this.state.isLoading ? (
-                <Loader isLoading={true} />
-              ) : (
-                <NoChatSelected />
-              )}
-            </div>
-          )}
-        </div>
-        {/* moment(new Date(1605596088).toISOString()).format("DD/MM/YYYY HH:mm") */}
-      </div>
-      
-    )
-  
+  return (
+    <>
+     <Box sx={{display:"flex"}}>  
+
+       <ChatSideBarTwo
+        chatList={state.chatList}
+        chatChange={changeChat}
+       />
+          <Box sx={{width:'100%'}}> 
+           <ChatWindow chat={chat}/>
+           <ChatSideTwo sendMessage={sendMessage} />
+          </Box>
+          
+        </Box>
+    </>
+  )
 }
 
-export default ChatView;
+export default Index

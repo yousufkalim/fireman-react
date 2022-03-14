@@ -65,7 +65,7 @@ const HomeLeft = ({ setBox, box }) => {
             <p className="count">
               {counts.inProgress ? counts.inProgress : <CircularProgress />}
             </p>
-            <p className="count_des">MESSAGE(S) RECU(S)</p>
+            <p className="count_des">DOSSIERS EN COURS</p>
           </Box>
         </Box>
       </Box>

@@ -49,7 +49,7 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
       id: "newcases",
       text: "ENDED",
       icon: (
-        <svg width="21" height="31" viewBox="0 0 21 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="21" height="31" viewBox="0 0 22 31" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M19.2101 0.0102277L1.47918 3.68419C1.23957 3.76406 0.999965 4.00367 0.999965 4.32314C0.999965 4.72249 1.31944 4.9621 1.63892 4.9621H19.3698C19.849 4.9621 20.1685 4.64262 20.1685 4.16341V0.808916C20.1685 0.329703 19.6893 -0.0696412 19.2101 0.0102277Z" fill="#314A6C"/>
         <path d="M0.161205 7.43355C0.161205 6.88126 0.608921 6.43355 1.16121 6.43355H20C20.5523 6.43355 21 6.88126 21 7.43355V30C21 30.5523 20.5523 31 20 31H1.1612C0.60892 31 0.161205 30.5523 0.161205 30V7.43355Z" fill="#314A6C"/>
         <g clip-path="url(#clip0_1_16)">
@@ -57,7 +57,7 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
         </g>
         <defs>
         <clipPath id="clip0_1_16">
-        <rect width="9" height="9" fill="white" transform="translate(6 14)"/>
+        <rect width="22" height="31" fill="white" transform="translate(6 14)"/>
         </clipPath>
         </defs>
         </svg>

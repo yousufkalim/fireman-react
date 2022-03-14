@@ -230,6 +230,10 @@ margin-left: 10px;
 .icon-txt>*{
   margin-right: 20px;
 }
+.accordian-notes{
+  font-size: 15px !important;
+  padding: 10px;
+}
 
 .accordian-details{
   width:80%; 
@@ -240,7 +244,13 @@ margin-left: 10px;
    font-style:italic; 
    font-size:12px;
    margin-bottom :15px;
-   height: 59vh;
+   height: 59vh !important;
+}
+.textarea-accordian{
+display: flex;
+}
+.textarea-accordian textarea::placeholder {
+   color:#B4BCC3  !important;
 }
       .left_side .Compagnon{
          background-color: #FFFFFF ;
@@ -264,17 +274,27 @@ margin-left: 10px;
           margin-top: 20px;
           padding: 5px 10px;
           display: flex;
-          display: flex;
-          align-items: center;
+          width: 95%;
+          overflow: auto;
       }
 
       .left_side .Compagnon .Compagnon_icons p{
         color: #B4BCC3;
-        font-size: 12px;
+        font-size: 18px;
         margin-left: 15px;
         font-weight: 500;
-
+        color: #9095A3;
       }
+      
+    .comments{
+      height: 40vh;
+      align-items: start !important;
+    }
+
+    .v-tut{
+      height: 20vh;
+      align-items: start !important;
+    }
 
       .left_side .Compagnon .notes{
         display: flex;
@@ -370,3 +390,6 @@ line-height: 15px;
         padding-bottom: 10px;
       }
 
+.spacing>*{
+  padding-bottom: 10px;
+}

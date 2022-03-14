@@ -63,9 +63,15 @@ h1 {
   fill: #3675B7;
   
 }
+.icon svg :hover{
+  fill: #3675B7 !important;
+}
+
 .active svg {
   fill: #3675B7;
-  
+}
+.active svg path{
+  fill: #3675B7;
 }
 
 

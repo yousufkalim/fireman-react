@@ -100,7 +100,7 @@ const Home = () => {
                       src={Termines}
                       style={{ height: "90%", width: "90%" }}
                     />
-                    <div className="text">DOSSIERS TERMINÉS</div>
+                    <div className="text">DOCUMENT(S) TÉRMINÉ(S)</div>
                   </div>
                 </Grid>
               }
@@ -120,7 +120,7 @@ const Home = () => {
                 xs={4}
               >
                 <div className="DOSSIERS_text">
-                  <div className="text">MESSAGE(S) RECU(S)</div>
+                  <div className="text">DOSSIERS EN COURS</div>
                 </div>
                 <img
                   onClick={() => {

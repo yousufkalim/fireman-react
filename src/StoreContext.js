@@ -35,7 +35,8 @@ export function StoreProvider({ children }) {
     caseName:"",
     catTab:false,
     phoneBook:false,
-    phonebookData:null
+    phonebookData:null,
+    connection:""
   });
 
   const updateStore = (data) => {

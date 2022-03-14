@@ -1,19 +1,11 @@
 import React, { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
-import CreateIcon from "@mui/icons-material/Create";
 import parse from "html-react-parser";
 import EditModal from "../Modals/EditCheckBox";
 import Subchecklist from "./Subchecklist";
-import Button from "@mui/material/Button";
-import Rightarrow from "../../assets/rightarrow.png";
-import Leftarrow from "../../assets/leftarrow.png";
-import Floppy from "../../assets/floppy.png";
 import pencil from "../../assets/pencilediticon.png";
-import { IconButton } from "@mui/material";
-import don from "../../assets/don.png";
 const CheckList = (props) => {
   const [open, setOpen] = React.useState(false);
   const [checklistdata, setChecklistdata] = React.useState({});
@@ -32,23 +24,26 @@ const CheckList = (props) => {
     seriesname: "",
     text: "",
     id: "",
+    sectionid:""
   });
   const [checklists, setchecklists] = React.useState(
     props.accordionData.checkList && props.accordionData.checkList
   );
+  console.log("series",props.accordionData);
   const handleOpen = (data, i) => {
     setOpen(true);
     setChecklistdata({ ...data, id: i });
   };
 
   const handleClose = () => setOpen(false);
-  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
-    console.log("sentence", sentence);
+  const saveChanges = (sentence, sentenceId, nature, seriesname, sectiontype, serialid) => {
+    console.log("sentence", serialid);
+    console.log("seriesnme", seriesname);
     const objIndex = checklists.findIndex(
       (obj) => obj?.sectionSentencesId === sentenceId
     );
     checklists[objIndex].sentenceText = sentence;
-    props.getModifiedSentence(sentence, sentenceId, nature, seriesname);
+    props.getModifiedSentence(sentence, sentenceId, nature, seriesname,serialid);
     //    let a= checklists.map((data,i)=>{
     //        let dat={}
     //       if((props.accordionData.serialName+i)==checklistdata.id){
@@ -133,6 +128,7 @@ const CheckList = (props) => {
                         props.accordionData.serialName,
                         data.sentenceNature,
                         props.accordionData.serialId
+                        //props.sectionid
                       );
                     }
                     console.log("data.subchecks", data);
@@ -153,7 +149,9 @@ const CheckList = (props) => {
                         "0",
                         "",
                         "",
-                        props.accordionData.serialName
+                        props.accordionData.serialName,
+                        //props.sectionid
+                        props.accordionData.serialId
                       );
                     }
                     if (data.sentenceNature === 1) {
@@ -175,7 +173,9 @@ const CheckList = (props) => {
                         "0",
                         "",
                         "",
-                        props.accordionData.serialName
+                        props.accordionData.serialName,
+                        //props.sectionid
+                        props.accordionData.serialId
                       );
                     }
                     if (data.sentenceNature === 2) {
@@ -246,11 +246,13 @@ const CheckList = (props) => {
           setSentenceDetails={setSentenceDetails}
           sentenceDetails={sentenceDetails}
           alreadyChecked={props?.alreadyChecked}
+          sectionid={props.accordionData.serialId}
         />
       ) : null}
       <EditModal
         saveChanges={saveChanges}
         seriesName={props.accordionData.serialName}
+        sectionid={props.accordionData.serialId}
         accordionData={checklistdata}
         setOpen={setOpen}
         open={open}

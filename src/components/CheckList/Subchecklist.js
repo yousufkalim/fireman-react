@@ -66,7 +66,8 @@ const Subchecklist = ({
   getSubCheckListData,
   setSentenceDetails,
   sentenceDetails,
-  alreadyChecked
+  alreadyChecked,
+  sectionid
 }) => {
   useEffect(() => {
     setOpen(true);
@@ -80,18 +81,18 @@ const Subchecklist = ({
   const [opensubCheck, setOpenSubcheck] = useState(false);
   const [subSentenceText, setSubSentenceText] = useState("");
   const [subSentenceId, setsubSentenceId] = useState("");
-   const [first, setfirst] = useState()
   const handleClose = () => {
     setSnack(false);
   };
  
-  const saveChanges=(sentence, sentenceid, serialName, SentenceNature)=>{
+  const saveChanges=(sentence, sentenceid, serialName, SentenceNature, sectionId)=>{
  setSentenceDetails((pre)=>{
   return{
    seriesname:serialName,
     sentenceNature:SentenceNature,
     text:sentence,
-    id:sentenceid
+    id:sentenceid,
+    sectionid:sectionId
   }
 })
  setCloseSatate(sentenceid)
@@ -205,6 +206,7 @@ const Subchecklist = ({
                      
                       setSentenceDetails((pre)=>{
                            return{
+                            sectionid:sectionid,
                             seriesname:serialName,
                              sentenceNature:val?.sentenceNature,
                              text:val?.subSentenceText,
@@ -281,7 +283,7 @@ const Subchecklist = ({
                const arr =  alreadyChecked.map((val)=>(val.subchecks))
                var merged = [].concat.apply([], arr);
                 const b= merged.map((val)=>(val.sectionSubSentenceId))
-                getSubCheckListData(sentenceDetails.id,sentenceDetails.text,sentenceDetails.sentenceNature, sentenceDetails.seriesname)
+                getSubCheckListData(sentenceDetails.id,sentenceDetails.text,sentenceDetails.sentenceNature, sentenceDetails.seriesname,sentenceDetails.sectionid )
                 if (
                   (closeSatate == subCheck &&closeSatate !== "" && subCheck !== "") || subCheck===sentenceDetails.id ||  b.length>0
                 ) {
@@ -308,6 +310,7 @@ const Subchecklist = ({
       setSubcheck={setSubcheck}
       serialName={serialName}
       SentenceNature={sentenceDetails.sentenceNature}
+      sectionid={sectionid}
       />
     </>
   );

@@ -1,4 +1,5 @@
 
+import React, { useEffect } from "react";
 import { Grid, Paper } from "@mui/material"
 import { styled } from "@mui/material/styles";
 import logo from '../../assets/LoginfromLogo.png'
@@ -8,13 +9,15 @@ import {UpdateStore} from '../../StoreContext'
 import { useState } from "react";
 import Loader from './Loader';
 import Home from '../home/index';
-;
+
 
 
 
 const Login = () => {
+    
 const [formInputs,setFormInputs]=useState({email:"",password:""});
 const [loading, setloading] = useState(false);
+const updatestore = UpdateStore()
     const handleSubmit = (event) => {
         setloading(true)
         const data = new FormData(event.currentTarget);
@@ -25,6 +28,7 @@ const [loading, setloading] = useState(false);
                 password: formInputs.password,
               })
                 .then((res) => {
+
                     setloading(false);
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
@@ -33,6 +37,7 @@ const [loading, setloading] = useState(false);
                     usertoken: res?.data?.token,
                     userid: res?.data?.userId,
                   };
+                
                   localStorage.setItem("userData", JSON.stringify(dataObj));
                    window.location = "/body";
                 })

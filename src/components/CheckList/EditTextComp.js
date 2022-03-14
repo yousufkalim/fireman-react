@@ -56,7 +56,18 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-const EditTextComp = ({openSubcheck, setOpenSubcheck,subSentenceText,setSubSentenceText,subSentenceId,setSubcheck, saveChanges,serialName,SentenceNature}) => {
+const EditTextComp = ({
+    openSubcheck, 
+    setOpenSubcheck,
+    subSentenceText,
+    setSubSentenceText,
+    subSentenceId,
+    setSubcheck, 
+    saveChanges,
+    serialName,
+    SentenceNature,
+    sectionid
+}) => {
     const handleClose=()=>{
         setOpenSubcheck(false)
     }
@@ -102,7 +113,7 @@ const EditTextComp = ({openSubcheck, setOpenSubcheck,subSentenceText,setSubSente
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={()=>{
-                        saveChanges(subSentenceText,subSentenceId, serialName, SentenceNature); 
+                        saveChanges(subSentenceText,subSentenceId, serialName, SentenceNature,sectionid); 
                         setSubcheck(subSentenceId); 
                         setOpenSubcheck(false);
                         

@@ -125,7 +125,17 @@ let [sentence,setSentence]=React.useState((props.accordionData?.sentenceText?pro
                   {console.log("sectionType",props.sectionType)}
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{props.saveChanges(sentence?sentence:props.accordionData?.sentenceText?props.accordionData.sentenceText:props.text, props.accordionData?.sectionSentencesId?props.accordionData?.sectionSentencesId:props?.checklistid,props.accordionData?.sentenceNature?props.accordionData?.sentenceNature:"", props?.seriesName?props?.seriesName:"", props.sectionType? props.sectionType:""); props?.setSubcheck(""); props.setOpen(false);}}>
+                    <Button autoFocus onClick={()=>{
+                        props.saveChanges(
+                        sentence?sentence:props.accordionData?.sentenceText?props.accordionData.sentenceText:props.text, 
+                        props.accordionData?.sectionSentencesId?props.accordionData?.sectionSentencesId:props?.checklistid,
+                        props.accordionData?.sentenceNature?props.accordionData?.sentenceNature:"", 
+                        props?.seriesName?props?.seriesName:"", 
+                        props.sectionType? props.sectionType:"",
+                        props.sectionid? props.sectionid:""
+                        ); 
+                        props?.setSubcheck(""); props.setOpen(false);
+                        }}>
                         Save changes
                     </Button>
                 </DialogActions>

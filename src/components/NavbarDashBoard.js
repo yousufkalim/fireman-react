@@ -1,6 +1,6 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect} from 'react'
+import useState from 'react-usestateref'
 import Box from "@mui/material/Box";
-import Vector from "../assets/Vector.png"
 import Site from "../assets/site.png"
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
@@ -15,17 +15,23 @@ import moment from "moment";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import api from '../api/index';
 import { Store } from "../StoreContext";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import jwt from 'jwt-decode'
 const NavbarDashBoard = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     let [profile, setProfile] = useState({})
+
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-   
-   
+    const [ connection, setConnection ] = useState(null);
+    const [state, setState, counterRef] = useState({
+      connection: "",
+    })
     const isMenuOpen = Boolean(anchorEl);
     const update = UpdateStore()
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);  
     let user = localStorage.getItem("user");
     const store = Store();
+    console.log("dash",store);
     useEffect(() => {
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
@@ -51,8 +57,26 @@ const NavbarDashBoard = () => {
     const handleMenuClose = () => {
       setAnchorEl(null);
       handleMobileMenuClose();
-      localStorage.removeItem("userData");
-      window.location = "/login";
+      
+      var token = localStorage.getItem("userData");
+      const userData = jwt(token);
+      const bool = false;
+      const logoutTime = "";
+        if(store.connection){
+           store.connection?.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(()=>{
+            localStorage.removeItem("userData");
+            window.location.replace ("/login");
+           })
+           
+          
+       
+        }
+      else{
+        alert("not connected to server")
+        localStorage.removeItem("userData");
+        window.location.replace ("/login");
+      }
+     
     };
   
     const handleMobileMenuOpen = (event) => {
