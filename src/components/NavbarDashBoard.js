@@ -65,10 +65,10 @@ const NavbarDashBoard = () => {
       const bool = false;
       const logoutTime = "";
         if(store.connection){
-           store.connection?.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(()=>{
+           //store.connection?.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(()=>{
             localStorage.removeItem("userData");
             window.location = "/login";
-           })
+           //})
         }
       else{
         alert("not connected to server")
