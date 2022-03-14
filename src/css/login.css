@@ -87,9 +87,10 @@ font-size: 20px;
 
 .form-heading{
   color: #314A6C;
-  font-size: 38px;
+  font-size: 32px;
   line-height: 62.93px;
   font-weight: 600;
   padding-bottom: 30px;
   margin-top: 20%;
+  white-space: nowrap;
 }
