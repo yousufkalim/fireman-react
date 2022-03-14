@@ -1,11 +1,6 @@
 import * as React from 'react';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
-import Button from '@mui/material/Button';
-import Rightarrow from "../../assets/rightarrow.png";
-import Leftarrow from "../../assets/leftarrow.png";
-import Floppy from "../../assets/floppy.png";
-import { fabClasses, IconButton } from '@mui/material';
 import AccordionComponent from '../Accordion';
 import Box from "@mui/material/Box";
 const Implantation = (props) => {

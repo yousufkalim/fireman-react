@@ -11,8 +11,7 @@ const ChatSideBarTwo = (props) => {
     var chat_active = localStorage.getItem("activeChat");
      const isUserProvided = chat_active && chat_active !== '';
      const isMessageProvided = message && message !== '';
-
-    if (isUserProvided && isMessageProvided) {
+    if (isMessageProvided) {
         props.sendMessage(chat_active, message);
     } 
     else {

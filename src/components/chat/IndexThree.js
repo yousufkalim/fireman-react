@@ -223,7 +223,7 @@ activeReciever: active,
     setState({ isLoading: false });
   }
 
-  store.connection.on(
+  store?.connection?.on(
     "checkIsOnline",
     (userId, isOnline, lastSeen, status) => {
       console.log(userId, isOnline, lastSeen, status);

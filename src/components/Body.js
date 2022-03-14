@@ -27,7 +27,8 @@ const Body = () => {
   const [rightBarData, setRightBarData] = useState({
        videoLink:'',
        comments:'',
-       assistance:''
+       assistance:'',
+       sectionId:""
   })
   const [sideBar, setSideBar] = useState(false)
   const [connect, setConnect] = useState(null)
@@ -43,9 +44,12 @@ const Body = () => {
   
   
   useEffect(() => {
+    var token = localStorage.getItem("userData");
+    const userData = jwt(token);
     updatestore({
       activeCase: "newcase",
       activeNavbarTab: "termine",
+      userId:userData.Id
     })
     const newConnection = new HubConnectionBuilder()
   .withUrl("http://160.153.249.64:6164/chatHub")

@@ -20,6 +20,7 @@ import api from '../api/index'
 import jwt from 'jwt-decode'
 import Modal from '@mui/material/Modal';
 import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
+import { toast } from "react-toastify";
 //import Chat from './chat/IndexTwo'
 import Chat from './chat/IndexThree'
 //import Chat from './chat/Index'
@@ -67,6 +68,9 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
      assistance:false,
      compagnon:false
    })
+   const [inputValues, setInputValues] = useState({
+    notes:""
+   })
    const [open, setOpen] = React.useState(false);
    const handleOpen = () =>{ setOpen(true); 
    
@@ -88,8 +92,6 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
   }, [])
   
   const store = Store();
-  console.log("users",users);
-
   const ChatWithUser = (userID) => {
     console.log("useridforchat",userID);
     handleOpen();
@@ -104,6 +106,37 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
       // })
       
       })};
+      const onChange =(e)=>{
+          const value= e.target.value;
+          const name =e.target.name;
+           setInputValues((pre)=>{
+             return{
+              ...pre,
+              [name]:value
+             }
+           })
+      }
+      const getFileData =(event)=>{
+          const data =event.target.files[0]
+          let form_data = new FormData();
+          form_data.append("docFile", data);
+          console.log(data);
+      }
+      const onMouseLeave =()=>{
+        const obj={
+          notesSentence:inputValues?.notes,
+          caseFileId:store?.caseFileId,
+          employeeId:store?.userId,
+          sectionId:rightBarData.sectionId
+        }
+
+        api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
+          if(res.data===true){
+            toast.success(t("Successfull"));
+          }
+         console.log(res);
+        })
+      }
   return (
     <>
    <div>
@@ -361,10 +394,11 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
             </AccordionSummary>
             <Box className="textarea-accordian" > 
             <TextareaAutosize
-           
-            // value={videoLink}
+             value={inputValues?.notes}
              className="accordian-details accordian-notes"
-              onChange={(e)=>{console.log(e.target.value);}}
+             name="notes"
+            onChange={onChange}
+            onMouseLeave={onMouseLeave}
              />
     </Box>
           </Accordion>
@@ -414,12 +448,32 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 <Typography sx={{ color: "#B4BCC3" }}> Assistance</Typography>
               </Box>
             </AccordionSummary>
-            <AccordionDetails className="accordian-details">
-              <Typography>
-             {/* {videoLink} */}
+            <Box className="textarea-accordian"> 
+            <input
+             type="file"
+             onChange={getFileData}
+             />
+            <TextareaAutosize
+             value={inputValues?.notes}
+             className="accordian-notes accordian-assistance"
+             name="notes"
+            onChange={onChange}
+            onMouseLeave={onMouseLeave}
+             />
+            
+    </Box>
+            {/* <AccordionDetails className="accordian-details">
+            <TextareaAutosize
+             value={inputValues?.notes}
+            
+             name="notes"
+            onChange={onChange}
+            onMouseLeave={onMouseLeave}
+             />
+              { <Typography>
              {rightBarData?.assistance}
-              </Typography>
-            </AccordionDetails>
+              </Typography> }
+            </AccordionDetails> */}
           </Accordion>
          ):null
 }

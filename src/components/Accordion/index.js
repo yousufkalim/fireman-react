@@ -16,7 +16,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
-
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { useTranslation, Trans } from "react-i18next";
@@ -214,7 +213,8 @@ const AccordionComponent = (props) => {
             props.setRightBarData((pre)=>{
              return{
                ...pre,
-               videoLink:res.data
+               videoLink:res.data,
+               sectionId:props.accordionData?.sectionId
              }
             })
 
