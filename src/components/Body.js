@@ -53,7 +53,7 @@ const Body = () => {
       userId:userData.Id
     })
     const newConnection = new HubConnectionBuilder()
-  .withUrl("https://fireman-chat.falconconsulting.fr")
+  .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
       .withAutomaticReconnect()
       .build();
      console.log("started", newConnection);
