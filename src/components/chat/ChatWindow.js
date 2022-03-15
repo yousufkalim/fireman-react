@@ -15,7 +15,7 @@ const ChatWindow = (props) => {
       useEffect(scrollToBottom, [props.chat]);
      
     console.log("chat", props.chat);
-    //console.log("activeChat",props.activeChat.chatroom_label);
+    console.log("activeChat",props.activeChat?.chatroom_label);
     const chat = props.chat
         .map(m => 
         

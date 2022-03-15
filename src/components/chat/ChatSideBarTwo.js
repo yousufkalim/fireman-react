@@ -16,7 +16,7 @@ const ChatSideBarTwo = (props) => {
                 
                 </Box>
               {console.log("props.chatList",props.chatList)}
-              {props.chatList.map((chat) => (
+              {props.chatList?.map((chat) => (
                 <div
                   className={
                     props.activeChat === chat.chatroom_id

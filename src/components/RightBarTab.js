@@ -21,10 +21,11 @@ import jwt from 'jwt-decode'
 import Modal from '@mui/material/Modal';
 import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
 import { toast } from "react-toastify";
+import TextField from '@mui/material/TextField';
 //import Chat from './chat/IndexTwo'
 import Chat from './chat/IndexThree'
 //import Chat from './chat/Index'
-
+import SendIcon from '@mui/icons-material/Send';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -68,8 +69,10 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
      assistance:false,
      compagnon:false
    })
+   const [imageData, setImageData] = useState("")
    const [inputValues, setInputValues] = useState({
-    notes:""
+    notes:"",
+    assistance:""
    })
    const [open, setOpen] = React.useState(false);
    const handleOpen = () =>{ setOpen(true); 
@@ -79,7 +82,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
      setOpen(false); 
   }
    const [users, setUsers] = useState([])
-   const [chatId, setChatId,counterRef] = useState()
+
   useEffect(() => {
     setSideBar(false);
     var token = localStorage.getItem("userData");
@@ -121,22 +124,34 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
           let form_data = new FormData();
           form_data.append("docFile", data);
           console.log(data);
+          setImageData(data)
       }
-      const onMouseLeave =()=>{
+      const sendNotes = ()=>{
         const obj={
-          notesSentence:inputValues?.notes,
-          caseFileId:store?.caseFileId,
-          employeeId:store?.userId,
-          sectionId:rightBarData.sectionId
-        }
-
-        api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
-          if(res.data===true){
-            toast.success(t("Successfull"));
-          }
-         console.log(res);
-        })
+              notesSentence:inputValues?.notes,
+              caseFileId:store?.caseFileId,
+              employeeId:store?.userId,
+              sectionId:rightBarData.sectionId
+            }
+            api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
+                  if(res.data===true){
+                    toast.success(t("Successfull"));
+                  }
+                  else{
+                    toast.error("error")
+                  }
+                })
       }
+   const sendAssistance =()=>{
+    const obj={
+      notesSentence:inputValues?.notes,
+      caseFileId:store?.caseFileId,
+      employeeId:store?.userId,
+      sectionId:rightBarData.sectionId
+    }
+    console.log(imageData,"imageData");
+   }
+      
   return (
     <>
    <div>
@@ -390,6 +405,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 <Typography sx={{ color: "#B4BCC3" }}>
                    Notes
                    </Typography>
+                   <SendIcon onClick={sendNotes} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian" > 
@@ -398,8 +414,9 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
              className="accordian-details accordian-notes"
              name="notes"
             onChange={onChange}
-            onMouseLeave={onMouseLeave}
+             
              />
+          
     </Box>
           </Accordion>
           ):null
@@ -446,19 +463,29 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                   />
                 </svg>
                 <Typography sx={{ color: "#B4BCC3" }}> Assistance</Typography>
+                <SendIcon onClick={sendAssistance} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian"> 
-            <input
-             type="file"
-             onChange={getFileData}
-             />
+             <label className="file-label"> Enter Your File
+    <input  onChange={getFileData} className="file-inp" type="file" size="60" />
+    </label> 
+
+                     <TextField
+          id="standard-textarea"
+          label="Subject"
+          placeholder="Subject"
+          multiline
+          variant="standard"
+          size="small"
+          sx={{width:"80%", margin:"auto", padding:"10px 0px"}}
+        />
+
             <TextareaAutosize
-             value={inputValues?.notes}
+             value={inputValues?.assistance}
              className="accordian-notes accordian-assistance"
-             name="notes"
+             name="assistance"
             onChange={onChange}
-            onMouseLeave={onMouseLeave}
              />
             
     </Box>

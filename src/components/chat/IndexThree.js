@@ -32,7 +32,7 @@ const IndexThree = () => {
   latestChat.current = chat;
  useEffect(() => {
   const newConnection = new HubConnectionBuilder()
-  .withUrl("http://160.153.249.64:6164/chatHub")
+  .withUrl("https://fireman-chat.falconconsulting.fr")
       .withAutomaticReconnect()
       .build();
   setConnection(newConnection);
@@ -406,8 +406,8 @@ console.log(state);
        />
           <Box sx={{width:'100%'}}>
            <ChatWindow chat={chat}
-           activeChat={state.chatList.find(
-            (chat) => chat.chatroom_id ==state.activeChat
+           activeChat={state.chatList?.find(
+            (chat) => chat?.chatroom_id ==state.activeChat
           )}
            />
            <ChatSideTwo sendMessage={sendMessage} 

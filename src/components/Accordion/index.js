@@ -226,14 +226,7 @@ const AccordionComponent = (props) => {
                 }
                })
             })
-              api("get",`/api/v1/checkList/section_assistance/${props.accordionData?.sectionId}`).then((res)=>{
-                props.setRightBarData((pre)=>{
-                  return{
-                    ...pre,
-                    assistance:res?.data
-                  }
-                 })
-              })
+             
            })
 
            //
