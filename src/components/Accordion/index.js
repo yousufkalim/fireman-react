@@ -227,7 +227,7 @@ const AccordionComponent = (props) => {
                })
                
             })
-            api("get",`/api/v1/checkList/section_notes/${props.accordionData?.sectionId}`).then((res)=>{
+            api("get",`/api/v1/checkList/section_notes/${props.accordionData?.sectionId}/${store?.caseFileId}`).then((res)=>{
               console.log(res);
               props.setRightBarData((pre)=>{
                 return{

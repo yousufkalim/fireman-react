@@ -143,13 +143,12 @@ const Home = () => {
                
               </Grid>
               <Grid className="cursor" item xs={4}>
-              <Box sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
+              <Box  onClick={() => {
+                    update({ activeNavbarTab: "searchestablishment" });
+                  }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
 
               <img
                   style={{ height: "98%", width: "83%", borderRadius:"2%" }}
-                  onClick={() => {
-                    update({ activeNavbarTab: "searchestablishment" });
-                  }}
                   src={bg}
                 />
                <div className="text-nov">NOUVEAU DOSSIER</div>
