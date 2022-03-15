@@ -12,7 +12,7 @@ import moment from "moment";
 import { UpdateStore } from "../../StoreContext";
 import BackspaceSharpIcon from "@mui/icons-material/BackspaceSharp";
 import Termines from "../../assets/termines.png";
-import Cours3 from "../../assets/courset.png";
+import Cours3 from "../../assets/cthree.png";
 import { motion } from "framer-motion/dist/framer-motion";
 
 import bg from "../../assets/bg.jpg";
@@ -98,7 +98,7 @@ const Home = () => {
                   >
                     <img
                       src={Termines}
-                      style={{ height: "90%", width: "90%" }}
+                      style={{ height: "98%", width: "90%" }}
                     />
                     <div className="text">DOCUMENT(S) TÉRMINÉ(S)</div>
                   </div>
@@ -131,7 +131,7 @@ const Home = () => {
                       };
                     });
                   }}
-                  style={{ height: "90%", width: "90%" }}
+                  style={{ height: "auto", width: "90%" }}
                   src={Cours3}
                 />
                   <div className="text">DOSSIERS EN COURS</div>
@@ -140,7 +140,7 @@ const Home = () => {
               </Grid>
               <Grid className="cursor" item xs={4}>
                 <img
-                  style={{ height: "90%", width: "83%", borderRadius:"2%" }}
+                  style={{ height: "98%", width: "83%", borderRadius:"2%" }}
                   onClick={() => {
                     update({ activeNavbarTab: "searchestablishment" });
                   }}

@@ -70,7 +70,7 @@ const TeamManagement = () => {
 
                 </div>
                 <div className='input_cont'>
-                    <label>Mobile</label>
+                    <label>Numéro mobile</label>
                     <input disabled value={store.phonebookData?.securityManagerMobile}  />
                 </div>
             </div>
