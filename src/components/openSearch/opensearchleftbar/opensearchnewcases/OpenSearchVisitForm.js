@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
-import EditModal from '../../../Modals/EditCheckBox'
+import EditModal from '../../../Modals/EditCheckBox';
+import parse from "html-react-parser";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -228,12 +229,14 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                            onClick={()=>{ 
-                            if(val.name.match(/[_]/g) && val.modifiedSentence.match(/[_]/g)){
+                            if(val.name.match(/[_]/g)){
                               setOpen(true);
                               setText(val?.name);
                               setId(val?.caseFileCheckListId)
                             }
-                            }}
+                             console.log(val.name);
+                            }
+                          }
                             type="checkbox"
                             defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                             id={val.caseFileCheckListId}
@@ -263,7 +266,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                          {val.modifiedSentence?val?.modifiedSentence:val?.name}
+                          {val.modifiedSentence?parse(val?.modifiedSentence):parse(val?.name)}
                           </Box>
                         </Box>
                       </div>

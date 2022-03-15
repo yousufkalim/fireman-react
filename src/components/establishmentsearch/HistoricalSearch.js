@@ -67,40 +67,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   
   
   const [inputValues, setInputValues] = useState({
-    establishmentName: generalDataEstablishment.establishmentName
-      ? generalDataEstablishment.establishmentName
-      : "",
-    statusId: generalDataEstablishment.statusId
-      ? generalDataEstablishment.statusId
-      : "",
-    cityId: generalDataEstablishment.cityId
-      ? generalDataEstablishment.cityId
-      : "",
-    trackTypeId: generalDataEstablishment.trackTypeId
-      ? generalDataEstablishment.trackTypeId
-      : "",
-    zipCode: generalDataEstablishment.zipCode
-      ? generalDataEstablishment.zipCode
-      : "",
-    channelName: generalDataEstablishment.channelName
-      ? generalDataEstablishment.channelName
-      : "",
-    estNumber: generalDataEstablishment.estNumber
-      ? generalDataEstablishment.estNumber
-      : "",
-    securityManagerName: generalDataEstablishment.securityManagerName
-      ? generalDataEstablishment.securityManagerName
-      : "",
-    securityManagerLastName: generalDataEstablishment.securityManagerLastName
-      ? generalDataEstablishment.securityManagerLastName
-      : "",
-    securityManagerMobile: generalDataEstablishment.securityManagerMobile
-      ? generalDataEstablishment.securityManagerMobile
-      : "",
-    securityManagerEmail: generalDataEstablishment.securityManagerEmail
-      ? generalDataEstablishment.securityManagerEmail
-      : "",
-      estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:""
   });
   useEffect(() => {
     setInputValues({
@@ -137,7 +103,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       securityManagerEmail: generalDataEstablishment.securityManagerEmail
         ? generalDataEstablishment.securityManagerEmail
         : "",
-        estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:""
+        estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:"",
+        estSerial: generalDataEstablishment.estSerial?  generalDataEstablishment.estSerial:""
     });
   }, [generalDataEstablishment]);
   useEffect(() => {
@@ -213,6 +180,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     
     
   };
+  console.log(generalDataEstablishment,"generalDataEstablishment");
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedObj = {
@@ -221,6 +189,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
+      console.log(updatedObj);
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
           setButtonEnability((pre)=>{
@@ -530,11 +499,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <span className="checklist-heading line"> Nom et statut</span> 
                        <Box sx={{borderTop:"3px solid #C5D3DB", width:"86.2%", marginTop:"12px"}}></Box>
                        </div>
-                       <div className="flex-form nom-et-form">
-                        
-                      <label className="label-color label-estab-nom">
-                        {t("Name Establishment")}
-                      </label>
+                      
+                      <Box sx={{display:"flex", padding:"10px 0px"}}> 
+                       <div className="flex-form">
+                        <label className="label-color label-general"> {t("Name")}</label>
                         <input
                         required
                           type="search"
@@ -543,10 +511,25 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           name="establishmentName"
                           value={inputValues.establishmentName}
                         />
-                   
-                        <div className="flex-form form-top">
-                      <label className="label-color label-status">{t("Status")} </label>
-                        <select
+                        </div>
+                        <div className="flex-form refnum-est">
+                        <label className="label-color">
+                        RefNum
+                        </label>
+                        <input
+                        required
+                          type="search"
+                          value={inputValues.estSerial}
+                          onChange={handleChange}
+                          name="estSerial"
+                          value={inputValues?.estSerial}
+                        />
+                        </div>
+                        <div className="flex-form channel-name">
+                          <label className="label-color">
+                          {t("Status")}
+                          </label>
+                          <select
                           className="dropdown statusid"
                           type="select"
                           name="statusId"
@@ -560,8 +543,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             </option>
                           ))}
                         </select>
-                      </div>
-                      </div>
+                        </div>
+                        </Box>
                   </Box>
 
                   <Box>
@@ -609,7 +592,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             type="search"
                             onChange={handleChange}
                             name="channelName"
-                            value={inputValues.channelName.toUpperCase()}
+                            value={inputValues?.channelName?.toUpperCase()}
                           />
                         </div>
                         </Box>
@@ -658,7 +641,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             type="search"
                             onChange={handleChange}
                             name="securityManagerLastName"
-                            value={inputValues.securityManagerLastName.toUpperCase()}
+                            value={inputValues?.securityManagerLastName?.toUpperCase()}
                           />
                         </div>
                         <div className="flex-form nom-et-form">

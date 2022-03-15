@@ -19,6 +19,7 @@ import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 import EditModal from '../../../Modals/EditCheckBox'
+import parse from "html-react-parser";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -269,6 +270,7 @@ setstate((pre) => {
 
     }
     if (!checked) {
+      setOpen(false)
       if (store.activeCase==="newcase") {
         console.log("called compshow");
         setCheckboxObj((pre) => [
@@ -724,7 +726,8 @@ setstate((pre) => {
                                 color: "#3675B7",
                               }}
                             >
-                              {val.modifiedSentence?val.modifiedSentence:val.name}
+                              {val.modifiedSentence? parse(val.modifiedSentence):parse(val.name)}
+                             
                             </Box>
                           </Box>
                         </div>
@@ -864,7 +867,7 @@ setstate((pre) => {
                               color: "#3675B7",
                             }}
                           >
-                            {val.modifiedSentence?val?.modifiedSentence:val?.name}
+                            {val.modifiedSentence?parse(val?.modifiedSentence):parse(val?.name)}
                           </Box>
                         </Box>
                       </div>

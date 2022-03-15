@@ -79,8 +79,9 @@
   width: 25% !important;
 }
 .label-estab-nom{
-  width: 60% !important;
+  width: 24% !important;
 }
+
 .flex-form-foldercreation input[type="search"]{
   width: 70% !important;
   padding: 15px 15px !important;
@@ -88,8 +89,11 @@
 .townplanning-flex{
   padding-right: 10px;
 }
+.refnum-est input[type="search"]{
+  width:65% !important;
+}
 .nom-et-form input[type="search"]{
-  width: 100% !important;
+  width: 97% !important;
 }
 .townplanning-flex input[type="date"]{
   width: 75% !important;
