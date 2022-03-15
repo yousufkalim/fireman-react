@@ -66,7 +66,7 @@ text-align: center;
   left: 45%;
   transform: translate(-50%, -50%);
   width: 79%;
-  padding: 23px 25px;
+  padding: 4% 5.5%;
   background: linear-gradient(89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
   -webkit-backdrop-filter: blur(11px);
   backdrop-filter: blur(11px);
@@ -133,10 +133,11 @@ text-align: center;
 }
 .DOSSIERS_text .text {
   position: absolute;
-  top: 140px;
-  left: 0px;
+  top: 43%;
+  left: 45%;
+  transform: translate(-50%, -50%);
   width: 78.8%;
-  padding: 23px 25px;
+  padding: 4% 5.5%;
   background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
   -webkit-backdrop-filter: blur(11px);
   backdrop-filter: blur(11px);

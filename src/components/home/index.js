@@ -120,8 +120,6 @@ const Home = () => {
                 xs={4}
               >
                 <div className="DOSSIERS_text">
-                  <div className="text">DOSSIERS EN COURS</div>
-                </div>
                 <img
                   onClick={() => {
                     setActiveBlock(() => {
@@ -136,6 +134,9 @@ const Home = () => {
                   style={{ height: "90%", width: "90%" }}
                   src={Cours3}
                 />
+                  <div className="text">DOSSIERS EN COURS</div>
+                </div>
+               
               </Grid>
               <Grid className="cursor" item xs={4}>
                 <img
