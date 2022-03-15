@@ -467,14 +467,14 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian"> 
-             <label className="file-label"> Enter Your File
+             <label className="file-label">  {t("Attachment")}
     <input  onChange={getFileData} className="file-inp" type="file" size="60" />
     </label> 
 
                      <TextField
           id="standard-textarea"
-          label="Subject"
-          placeholder="Subject"
+          label="Sujette"
+          placeholder="Sujette"
           multiline
           variant="standard"
           size="small"

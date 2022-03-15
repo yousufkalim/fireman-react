@@ -32,7 +32,7 @@ const IndexThree = () => {
   latestChat.current = chat;
  useEffect(() => {
   const newConnection = new HubConnectionBuilder()
-  .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
+  .withUrl("http://160.153.249.64:6164/chatHub")
       .withAutomaticReconnect()
       .build();
   setConnection(newConnection);

@@ -72,7 +72,7 @@ setFormInputs({...formInputs,[e.target.name]:e.target.value})
                                 <label className="login-label">Mot de passe</label>
                                 <input required name="password" value={formInputs.password} onChange={onChange} type="password" />
                             </div>
-                            <Link to="/forgetpassword">Mot de passe oublié ?</Link>
+                            <Link to="/forgetpassword"><p className="forget-pss">Mot de passe oublié?</p></Link>
                             {loading}
 
                            {loading?<Loader/>:""} 
