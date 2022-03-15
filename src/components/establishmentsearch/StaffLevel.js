@@ -483,7 +483,7 @@ const StaffLevel = ({
                                 <input
                                   className="field-width-staff"
                                   type="number"
-                                  defaultValue={p.cellNumber}
+                                  defaultValue={Math.abs(p.cellNumber)}
                                   onChange={(e) => {
                                     setpeople((curr) =>
                                       curr.map((x) =>
@@ -611,7 +611,7 @@ const StaffLevel = ({
                             >
                               <input
                                 className="field-width-staff"
-                                defaultValue={p?.publicInfo}
+                                defaultValue={Math.abs(p?.publicInfo)}
                                 onChange={(e) => {
                                   setpeople((curr) =>
                                     curr.map((x) =>
@@ -639,7 +639,7 @@ const StaffLevel = ({
                             >
                               <input
                                 className="field-width-staff"
-                                defaultValue={p?.staffInfo}
+                                defaultValue={Math.abs(p?.staffInfo)}
                                 onChange={(e) => {
                                   setpeople((curr) =>
                                     curr.map((x) =>
@@ -670,9 +670,9 @@ const StaffLevel = ({
                             >
                               <input
                                 className="field-width-staff"
-                                value={
+                                value={Math.abs(
                                   parseInt(p?.publicInfo) +
-                                  parseInt(p.staffInfo)
+                                  parseInt(p.staffInfo))
                                 }
                                 type="number"
                               />

@@ -189,9 +189,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
-      console.log(updatedObj);
+      alert("new")
+      console.log("ddfddfdfdfdfdfdffd",updatedObj);
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
+          console.log(res,"ghj><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+          if(res.data===true){
           setButtonEnability((pre)=>{
             return{
               ...pre,
@@ -213,6 +216,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               iconhistoricalsearch: true,
             };
           });
+        }
         })
         .catch((err) => {
           console.log(err);
@@ -222,6 +226,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (store.activeCase === "currentcases") {
       api("put", "/api/v1/update_generaldata_establishment", updatedObj)
         .then((res) => {
+          if(res.data===true){
           {
             toast.success(t("Successfull"));
           }
@@ -245,6 +250,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               iconhistoricalsearch: true,
             };
           });
+        
+        }
+        
         })
         .catch((err) => console.log(err));
     }

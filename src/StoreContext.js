@@ -37,7 +37,8 @@ export function StoreProvider({ children }) {
     phoneBook:false,
     phonebookData:null,
     connection:"",
-    userId:""
+    userId:"",
+    role:""
   });
 
   const updateStore = (data) => {

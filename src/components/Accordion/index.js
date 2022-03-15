@@ -225,8 +225,18 @@ const AccordionComponent = (props) => {
                   comments:res?.data
                 }
                })
+               
             })
-             
+            api("get",`/api/v1/checkList/section_notes/${props.accordionData?.sectionId}`).then((res)=>{
+              console.log(res);
+              props.setRightBarData((pre)=>{
+                return{
+                  ...pre,
+                  notes:res?.data
+                }
+               })
+               
+            })
            })
 
            //

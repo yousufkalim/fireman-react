@@ -32,7 +32,10 @@ const updatestore = UpdateStore()
                     setloading(false);
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
-                   localStorage.setItem('user', user?.email);
+                  localStorage.setItem('tokenData', user)
+                  localStorage.setItem('user', user?.email);
+                  localStorage.setItem('roleSerial', res?.data?.roleSerial)
+                  localStorage.setItem('loggedInUser', res?.data?.userId)
                   const dataObj = {
                     usertoken: res?.data?.token,
                     userid: res?.data?.userId,

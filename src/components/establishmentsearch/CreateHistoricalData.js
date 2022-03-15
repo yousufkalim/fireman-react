@@ -1238,7 +1238,7 @@ const CreateHistoricalData = ({
                                                   sx={{ padding: "5px" }}
                                                   xs={8}
                                                 >
-                                                  <span
+                                                  <a
                                                     onClick={() => {
                                                       api(
                                                         "get",
@@ -1248,9 +1248,10 @@ const CreateHistoricalData = ({
                                                       });
                                                     }}
                                                     href={val.fileURL}
+                                                    target="_blank"
                                                   >
                                                     {val.fileName}
-                                                  </span>
+                                                  </a>
                                                 </Grid>
                                               </>
                                             ))}

@@ -32,8 +32,9 @@ const Home = () => {
     itemtwo: false,
     itemthree: false,
   });
+  let [counts, setCount] = useState();
+  const [prog, setProg] = useState()
   const [animate, setAnimate] = useState(false)
-  let [counts, setCount] = useState({});
   let [projects, setProjects] = useState([]);
 
   const update = UpdateStore();
@@ -72,6 +73,7 @@ const Home = () => {
       }
     });
   };
+  console.log("chgkjljhv",prog);
   return (
     <>
       <Box sx={{ width: "91%" }}>
@@ -79,7 +81,7 @@ const Home = () => {
           <>
             <Grid container>
               <Grid sx={{ marginBottom: "40px" }} item xs={12}>
-                <HomeLeft />
+                <HomeLeft  setProg={setProg}/>
               </Grid>
               {
                 <Grid className="cursor" item xs={4}>
@@ -100,7 +102,8 @@ const Home = () => {
                       src={Termines}
                       style={{ height: "98%", width: "90%" }}
                     />
-                    <div className="text">DOCUMENT(S) TÉRMINÉ(S)</div>
+                      {console.log("<><><><<",counts)}
+                  {prog===0 ||prog===1|| !prog ?<div className="text">DOCUMENT TÉRMINÉ</div>:<div className="text">DOCUMENTS TÉRMINÉS</div> }
                   </div>
                 </Grid>
               }
@@ -135,17 +138,22 @@ const Home = () => {
                   src={Cours3}
                 />
                   <div className="text">DOSSIERS EN COURS</div>
+                  {counts===0 ||counts===1|| !counts?<div className="text">DOSSIER EN COURS</div>:<div className="text">DOSSIERS EN COURS</div> }
                 </div>
                
               </Grid>
               <Grid className="cursor" item xs={4}>
-                <img
+              <Box sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
+
+              <img
                   style={{ height: "98%", width: "83%", borderRadius:"2%" }}
                   onClick={() => {
                     update({ activeNavbarTab: "searchestablishment" });
                   }}
                   src={bg}
                 />
+               <div className="text-nov">NOUVEAU DOSSIER</div>
+              </Box>
               </Grid>
             </Grid>
           </>

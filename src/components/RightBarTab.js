@@ -63,6 +63,18 @@ const style = {
 const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
+  const [inputValues, setInputValues] = useState({
+   
+   })
+  useEffect(() => {
+    setInputValues(()=>{
+      return{
+        notes:rightBarData.notes,
+        assistance:rightBarData.assistance
+      }
+    })
+  }, [rightBarData])
+  
    const [activeTab, setActiveTab] = useState({
      chat:false,
      notes:false,
@@ -71,10 +83,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
    })
    const [imageData, setImageData] = useState("")
    const [image, setImage] = useState(null)
-   const [inputValues, setInputValues] = useState({
-    notes:"",
-    assistance:""
-   })
+   
    const [open, setOpen] = React.useState(false);
    const handleOpen = () =>{ setOpen(true); 
    
@@ -137,6 +146,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
               employeeId:store?.userId,
               sectionId:rightBarData.sectionId
             }
+            console.log(obj);
             api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
                   if(res.data===true){
                     toast.success(t("Successfull"));

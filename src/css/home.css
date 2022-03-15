@@ -72,6 +72,8 @@ text-align: center;
   backdrop-filter: blur(11px);
   color: #FFFFFF;
   font-size: 22px;
+  display: flex;
+  justify-content: center;
 }
 
 
@@ -137,6 +139,26 @@ text-align: center;
   left: 45%;
   transform: translate(-50%, -50%);
   width: 78.8%;
+  padding: 4% 5.5%;
+  background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
+  -webkit-backdrop-filter: blur(11px);
+  backdrop-filter: blur(11px);
+  color: #FFFFFF;
+  font-size: 22px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.DOSSIERS_text .text-nov{
+  position: absolute;
+  top: 43%;
+  left: 41.5%;
+  transform: translate(-50%, -50%);
+  width: 71.8%;
   padding: 4% 5.5%;
   background: linear-gradient( 89.79deg, #3675B7 0.15%, rgba(66, 174, 255, 0.511875) 78.74%, rgba(66, 174, 255, 0.34) 137.32%);
   -webkit-backdrop-filter: blur(11px);

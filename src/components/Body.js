@@ -28,7 +28,8 @@ const Body = () => {
        videoLink:'',
        comments:'',
        assistance:'',
-       sectionId:""
+       sectionId:"",
+       notes:""
   })
 
   const [sideBar, setSideBar] = useState(false)
@@ -47,10 +48,12 @@ const Body = () => {
   useEffect(() => {
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
+    var roleser= localStorage.getItem("roleSerial");
     updatestore({
       activeCase: "newcase",
       activeNavbarTab: "termine",
-      userId:userData.Id
+      userId:userData.Id,
+      role:roleser
     })
     const newConnection = new HubConnectionBuilder()
   .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
