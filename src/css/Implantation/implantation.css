@@ -249,8 +249,10 @@ margin-left: 10px;
   margin: 10px auto;
   border-radius: 5px;
 }
+
+
 .accordian-assistance{
-  height: 28vh !important;
+  height: 38vh !important;
   width:75%; 
   margin: 10px auto;
    border-radius:12px; 
@@ -259,6 +261,9 @@ margin-left: 10px;
    font-style:italic; 
    font-size:12px;
    margin-bottom :15px;
+}
+.pic-detail{
+margin: 0 8%;
 }
 .accordian-details{
   width:80%; 

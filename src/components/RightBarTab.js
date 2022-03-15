@@ -70,6 +70,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
      compagnon:false
    })
    const [imageData, setImageData] = useState("")
+   const [image, setImage] = useState(null)
    const [inputValues, setInputValues] = useState({
     notes:"",
     assistance:""
@@ -120,6 +121,9 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
            })
       }
       const getFileData =(event)=>{
+        if (event.target.files && event.target.files[0]) {
+          setImage(event.target.files[0].name);
+        }
           const data =event.target.files[0]
           let form_data = new FormData();
           form_data.append("docFile", data);
@@ -469,8 +473,9 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
             <Box className="textarea-accordian"> 
              <label className="file-label">  {t("Attachment")}
     <input  onChange={getFileData} className="file-inp" type="file" size="60" />
+    
     </label> 
-
+    <p className="pic-detail">{image}</p>
                      <TextField
           id="standard-textarea"
           label="Sujette"
