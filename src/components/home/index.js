@@ -159,6 +159,8 @@ const Home = () => {
         ) : null}
         {activeBlock.itemone ? (
           <>
+          <Box className="cross-icon"> 
+
             <BackspaceSharpIcon
              className="cursor"
               onClick={() => {
@@ -173,6 +175,7 @@ const Home = () => {
                 setAnimate(true)
               }}
             />
+            </Box>
             <motion.div
               initial={{ opacity: 0, translateX: -100, translateY: -100 }}
               animate={{ opacity: 1, translateX: 0, translateY: 0 }}
@@ -224,6 +227,7 @@ const Home = () => {
         ) : null}
         {activeBlock.itemtwo ? (
           <>
+            <Box className="cross-icon"> 
             <BackspaceSharpIcon
              className="cursor"
               sx={{ marginBottom: "10px" }}
@@ -238,11 +242,13 @@ const Home = () => {
                 });
               }}
             />
+            </Box>
             <HomeRight/>
           </>
         ) : null}
         {activeBlock.itemthree ? (
           <>
+           <Box className="cross-icon"> 
             <BackspaceSharpIcon
              className="cursor"
               onClick={() => {
@@ -256,6 +262,7 @@ const Home = () => {
                 });
               }}
             />
+             </Box> 
           </>
         ) : null}
       </Box>

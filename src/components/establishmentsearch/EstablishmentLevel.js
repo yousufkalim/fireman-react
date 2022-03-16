@@ -231,7 +231,7 @@ const EstablishmentLevel = ({
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             padding: "0px 5px",
-                                            width: "212px",
+                                            width: "140px",
                                           }}
                                         >
                                           <span>{t("Cell number")}</span>
@@ -389,7 +389,7 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
+                                              className="field-width-staff field-width-cellnum"
                                               type="number"
                                               name={`repeatable.${i}.cellNumber`}
                                               value={row.cellNumber}
@@ -578,7 +578,7 @@ const EstablishmentLevel = ({
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             padding: "0px 5px",
-                                            width: "212px",
+                                            width: "140px",
                                           }}
                                         >
                                           <span>{t("Cell number")}</span>
@@ -735,7 +735,7 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
+                                              className="field-width-staff field-width-cellnum"
                                               type="tel"
                                               minlength="12" 
                                               maxlength="12"
@@ -758,7 +758,7 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
+                                              className="field-width-staff "
                                               name={`repeatable.${i}.cellName`}
                                               style={{ padding: "10px" }}
                                             />

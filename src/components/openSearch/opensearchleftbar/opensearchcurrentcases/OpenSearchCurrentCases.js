@@ -166,8 +166,10 @@ const EstablishmentSearchCurrentCases = () => {
             <DataGrid
               sx={{ border: "none" }}
               pageSize={pageSize}
+              labelRowsPerPage={"Lignes par page"}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[25, 50, 100]}
+              TablePagination
                pagination
               onCellClick={(params, event) => onRowClick(params, event)}
               sortModel={sortModel}

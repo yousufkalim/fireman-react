@@ -522,7 +522,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </div>
                         <div className="flex-form refnum-est">
                         <label className="label-color">
-                        RefNum
+                        REF. #
                         </label>
                         <input
                         required

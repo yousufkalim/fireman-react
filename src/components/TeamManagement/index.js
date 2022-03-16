@@ -173,6 +173,9 @@ const TeamManagement = () => {
                 pageSize={pageSize}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rowsPerPageOptions={[25, 50, 100]}
+                TablePagination
+                labelRowsPerPage={"Lignes par page"}
+                TablePagination
                 pagination
                 onCellDoubleClick={(params, event) =>
                   cellDoubleClick(params, event)

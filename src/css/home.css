@@ -152,7 +152,11 @@ text-align: center;
   -webkit-box-align: center;
           align-items: center;
 }
-
+.cross-icon{
+  text-align: right;
+  width: 92.5%;
+  color: #314A6C;
+}
 .DOSSIERS_text .text-nov{
   position: absolute;
   top: 43%;

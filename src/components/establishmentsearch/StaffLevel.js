@@ -233,7 +233,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "212px",
+                            width: "140px",
                           }}
                         >
                           {t("Cell")}
@@ -290,7 +290,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "215px",
+                            width: "100px",
                           }}
                         >
                           Public
@@ -305,7 +305,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "215px",
+                            width: "100px",
                           }}
                         >
                           {t("Staff")}
@@ -320,7 +320,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "215px",
+                            width: "100px",
                           }}
                         >
                           Total
@@ -481,7 +481,7 @@ const StaffLevel = ({
                             >
                               {
                                 <input
-                                  className="field-width-staff"
+                                  className="field-width-staff field-width-cellnum"
                                   type="number"
                                   defaultValue={Math.abs(p.cellNumber)}
                                   onChange={(e) => {
@@ -610,7 +610,7 @@ const StaffLevel = ({
                               }}
                             >
                               <input
-                                className="field-width-staff"
+                                className="field-width-staff staff-feild-width"
                                 defaultValue={Math.abs(p?.publicInfo)}
                                 onChange={(e) => {
                                   setpeople((curr) =>
@@ -638,7 +638,7 @@ const StaffLevel = ({
                               }}
                             >
                               <input
-                                className="field-width-staff"
+                                className="field-width-staff staff-feild-width"
                                 defaultValue={Math.abs(p?.staffInfo)}
                                 onChange={(e) => {
                                   setpeople((curr) =>
@@ -669,7 +669,7 @@ const StaffLevel = ({
                               }}
                             >
                               <input
-                                className="field-width-staff"
+                                className="field-width-staff staff-feild-width"
                                 value={Math.abs(
                                   parseInt(p?.publicInfo) +
                                   parseInt(p.staffInfo))

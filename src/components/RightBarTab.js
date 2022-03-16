@@ -64,7 +64,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
   const [inputValues, setInputValues] = useState({
-   
+    subject:""
    })
   useEffect(() => {
     setInputValues(()=>{
@@ -103,7 +103,6 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
  console.log("chat res", res);
 })
   }, [])
-  
   const store = Store();
   const ChatWithUser = (userID) => {
     console.log("useridforchat",userID);
@@ -157,13 +156,29 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 })
       }
    const sendAssistance =()=>{
-    const obj={
-      notesSentence:inputValues?.notes,
-      caseFileId:store?.caseFileId,
-      employeeId:store?.userId,
-      sectionId:rightBarData.sectionId
-    }
-    console.log(imageData,"imageData");
+    let form_data = new FormData();
+    form_data.append("EmailFileAttachment", imageData);
+    form_data.append("EmployeeId", parseInt(store?.userId));
+    form_data.append("EmailSubject", inputValues.subject);
+    form_data.append("EmailBody", inputValues.assistance);
+    
+     api("post","/api/v1/checkList/section_assistance", form_data).then((res)=>{
+       console.log(res.data)
+       if(res.data.success===true){
+        setImage("")
+        setInputValues((pre)=>{
+          return{
+            ...pre,
+            assistance:"",
+            subject:""
+          }
+        })
+        toast.success("Email envoyé");
+       }
+       else{
+        toast.error("error")
+       }
+     })
    }
       
   return (
@@ -345,13 +360,13 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
           <div className="Compagnon_icons v-tut">
             <SlowMotionVideoIcon sx={{ color: "#9095A2" }} />
             {/* <p>{t("Video tutorial")}</p> */}
-           <p><a href={`${rightBarData.videoLink}`} target="_blank">{rightBarData.videoLink} </a>  </p> 
+           <p><a href={`${rightBarData.videoLink}`} target="_blank">{rightBarData.videoLink?rightBarData.videoLink:"...loading"} </a>  </p> 
           </div>
          
           <div className="Compagnon_icons comments">
             <img src={Commentaries} />
             {/* <p>{t("Comments")}</p> */}
-             <p > {rightBarData.comments}</p>
+             <p > {rightBarData.comments?rightBarData.comments:"...loading"}</p>
           </div> 
          
          
@@ -485,16 +500,19 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
     <input  onChange={getFileData} className="file-inp" type="file" size="60" />
     
     </label> 
-    <p className="pic-detail">{image}</p>
-                     <TextField
-          id="standard-textarea"
-          label="Sujette"
-          placeholder="Sujette"
-          multiline
-          variant="standard"
-          size="small"
-          sx={{width:"80%", margin:"auto", padding:"10px 0px"}}
-        />
+    <p className="pic-detail">{image.slice(0,36)+"..."}</p>
+      <TextField 
+      id="filled-basic" 
+      label="Sujette" 
+      variant="filled" 
+       placeholder="Sujette"
+       multiline
+       name="subject"
+       value={inputValues?.subject}
+       size="small"
+       onChange={onChange}
+       sx={{width:"85%", margin:"auto", padding:"15px 5px"}}
+      />
 
             <TextareaAutosize
              value={inputValues?.assistance}

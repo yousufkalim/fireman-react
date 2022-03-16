@@ -89,8 +89,10 @@ const EndedCases = () => {
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
             pageSize={pageSize}
+            labelRowsPerPage={"Lignes par page"}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[25, 50, 100]}
+            TablePagination
              pagination
               sx={{ border: "none" }}
               sortModel={sortModel}

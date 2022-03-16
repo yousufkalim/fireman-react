@@ -1235,7 +1235,7 @@ const CreateHistoricalData = ({
                                             {r?.filesData?.map((val) => (
                                               <>
                                                 <Grid
-                                                  sx={{ padding: "5px" }}
+                                                  sx={{ padding: "5px", alignItems:"end", display:"flex" }}
                                                   xs={8}
                                                 >
                                                   <a

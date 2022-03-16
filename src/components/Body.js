@@ -113,7 +113,7 @@ const sendid = async()=>{
             {
               store.catTab
               ?
-              <ActiveTabHeader />
+              <ActiveTabHeader sideBar={sideBar}/>
                 :
                 <>
                 <br />

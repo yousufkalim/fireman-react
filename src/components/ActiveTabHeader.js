@@ -10,7 +10,7 @@ import { useTranslation, Trans } from "react-i18next";
 import Dashboard from './home/index';
 import { Divider } from '@mui/material';
 
-const EstablishmentSearchActivePanel = ({setActiveLink}) => {
+const EstablishmentSearchActivePanel = ({sideBar}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
   const [activeTab, setActiveTab] = useState(0);
@@ -116,17 +116,26 @@ const EstablishmentSearchActivePanel = ({setActiveLink}) => {
 
                         </div>
                      {/* <Divider/> */}
-                    <Box sx={{position:"relative"}}> 
-                     <Box sx={{width:"78%", marginLeft:"8px", position:"absolute", border:"0.6px solid #C5D3DB", top:"-1px"}}/> 
-                     
-                        <MobileStepper
+                    <Box className="prog-box" sx={{position:"relative", width:sideBar?"75%":"95%", marginLeft:"3%", marginBottom:"20px"}}> 
+                      {/* <Box sx={{width:"100%", marginLeft:"8px", position:"absolute", border:"0.6px solid #C5D3DB"}}/> 
+                       */}
+                        {/* <MobileStepper
                             variant="progress"
                             steps={7}
                             position="static"
                             activeStep={store.activeNavbarTab ==="searchestablishment"? 1: store.activeNavbarTab+1}
                             sx={{flexGrow: 1, margin:"8px", padding:"0", width:"100%", background:"aliceblue"}}
 
-                        />
+                        /> */}
+                        <progress style={{width:"100%", margin:"auto", background:"aliceblue"}} id="file" 
+                        value={store.activeNavbarTab ==="searchestablishment" ||  
+                        store.activeNavbarTab ==="currentcases" ||
+                        store.activeNavbarTab==0  ? 0.7: store.activeNavbarTab==1?store.activeNavbarTab+0.3:store.activeNavbarTab } 
+                        max="5"
+                        > 
+                        32% 
+                        </progress>
+                      
                 </Box>
                     </Grid>
        

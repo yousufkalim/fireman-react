@@ -326,6 +326,11 @@ flex-direction: column;
       height: 20vh;
       align-items: start !important;
     }
+    .v-tut a{
+      color: #9095A3;
+      font-size: 15px;
+    }
+
 
       .left_side .Compagnon .notes{
         display: flex;
