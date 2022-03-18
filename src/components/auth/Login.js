@@ -15,6 +15,7 @@ import Home from '../home/index';
 const Login = () => {
 const [formInputs,setFormInputs]=useState({email:"",password:""});
 const [loading, setloading] = useState(false);
+
     const handleSubmit = (event) => {
         setloading(true)
         const data = new FormData(event.currentTarget);
@@ -26,9 +27,15 @@ const [loading, setloading] = useState(false);
               })
                 .then((res) => {
                     setloading(false);
-                  const token = res?.data?.token;
-                  const user = jwt(token); // decode your token here
-                   localStorage.setItem('user', user?.email);
+                    const token = res?.data?.token;
+                    const user = jwt(token); // decode your token here
+                    
+                    localStorage.setItem('tokenData', user)
+                    localStorage.setItem('user', user?.email);
+                    localStorage.setItem('roleSerial', res?.data?.roleSerial)
+                    localStorage.setItem('loggedInUser', res?.data?.userId)
+                   
+                   
                   const dataObj = {
                     usertoken: res?.data?.token,
                     userid: res?.data?.userId,
@@ -37,6 +44,7 @@ const [loading, setloading] = useState(false);
                    window.location = "/body";
                 })
                 .catch((err) => console.log(err));
+                
         }else{
 
         }

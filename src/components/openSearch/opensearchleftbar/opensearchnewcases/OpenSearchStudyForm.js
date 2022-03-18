@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import Box from "@mui/material/Box";
 import api from "../../../../api/index";
 import Grid from "@mui/material/Grid";
@@ -523,7 +523,7 @@ setstate((pre) => {
                       type="search"
                       onChange={handleChange}
                       name="receptionServiceDate"
-                      type="date"
+                      //type="date"
                       value={
                         formValues?.receptionServiceDate
                           ? formValues?.receptionServiceDate

@@ -4,6 +4,7 @@ import LeftBarTab from "../components/LeftBarTab";
 import RightBarTab from "../components/RightBarTab";
 import ActiveTabHeader from "./ActiveTabHeader";
 import OpenSearchNewCases from "./openSearch/opensearchleftbar/opensearchnewcases/OpenSearchNewCases";
+import TeamManagementForm from './TeamManagement/TeamManagementForm'
 import OpenSearchCurrentCases from "./openSearch/opensearchleftbar/opensearchcurrentcases/OpenSearchCurrentCases";
 import EstablishmentSearchContainer from './establishmentsearch/EstablishmentSearchContainer'
 import Implantation from './Implantation/index'
@@ -19,7 +20,9 @@ import Profile from "./profile";
 import SideBar from "./SideBar";
 import TeamManagement from "../components/TeamManagement"
 import NavbarDashBoard from '../components/NavbarDashBoard'
+
 const Body = () => {
+  const [videoLink, setVideoLink] = useState()
   const [responseData, setResponseData] = useState([]);
   const [sideBar, setSideBar] = useState(false)
   const getResponse = (data) => {
@@ -27,10 +30,14 @@ const Body = () => {
   };
   const updatestore = UpdateStore()
   useEffect(() => {
+
+    const UserRole = localStorage.getItem("roleSerial");
     updatestore({
       activeCase: "newcase",
       activeNavbarTab: "termine",
+      role:UserRole
     })
+    console.log(UserRole);
   }, [])
 
    
@@ -101,14 +108,13 @@ const Body = () => {
                       {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                       {store.activeNavbarTab === 1 ? <EstablishmentSearchContainer /> : null}
                       {store.activeNavbarTab === "currentcases" ? <OpenSearchCurrentCases currentcasesData={responseData} /> : null}
-                      {store.activeNavbarTab === 2 ? <Implantation /> : null}
+                      {store.activeNavbarTab === 2 ? <Implantation setVideoLink={setVideoLink} /> : null}
                       {store.activeNavbarTab === 0 || store.activeNavbarTab === "termine" ? <FolderCreationContainer /> : null}
                       {store.activeNavbarTab === "searchestablishment" ? <OpenSearchNewCases /> : null}
                       {store.activeNavbarTab === "multimedia" ? "En cours de développement" : null}
                       {store.activeNavbarTab === "newcases" ? <EndedCases endedcases={responseData} /> : null}
                       {store.activeNavbarTab === "annuaire" ? <OpenSearchNewCases /> : null}
                       {store.activeNavbarTab === "team" ? <TeamManagement /> : null}
-
                     </Grid>
                     <Grid item xs={sideBar? 3: 1}>
                       <RightBarTab sideBar={sideBar} setSideBar={setSideBar}/>

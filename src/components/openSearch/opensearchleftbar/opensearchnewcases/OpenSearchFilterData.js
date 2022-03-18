@@ -47,7 +47,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
     },
   ]);
 const onRowClick =(data, event)=>{
- console.log("data",data)
+  console.log("data",data)
   event.defaultMuiPrevented = true;
   if(store.phoneBook){
     api("get", `/api/v1/get_establishment_phonebook/${data.id}`).then((res) => {

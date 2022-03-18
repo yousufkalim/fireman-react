@@ -16,6 +16,7 @@ const api = async (method = "get", uri, body) => {
         } else {
           console.log("API Error --------> ", {...err});
           toast.error(err?.response?.data?.errorMessage!=null ? err?.response?.data?.errorMessage[0] : err?.response?.statusText);
+          console.log('19', err?.response?.statusText);
           reject(err);
         }
       });

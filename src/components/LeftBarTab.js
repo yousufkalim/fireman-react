@@ -4,9 +4,14 @@ import api from "../api/index";
 import annauire from '../assets/book.png'
 import { useTranslation, Trans } from "react-i18next";
 import { Store, UpdateStore } from "../StoreContext";
+import jwt from 'jwt-decode';
+
 const EstablishmentSearchLeftBar = ({ getResponse }) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
+
+  const [showResults, setShowResults] = React.useState(false)
+
 
   const [active, setActive] = useState("newcases");
   const update = UpdateStore();
@@ -139,20 +144,60 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
     }
   };
   const store = Store()
+
+const index = items.findIndex(val => val.id === "team");
+console.log("INDEX VAL",index)
+
+const UserRole = localStorage.getItem("roleSerial");
+console.log("USER ROLE", UserRole)
+
+var loggedInUserDataID = localStorage.getItem("loggedInUser");
+console.log("loggedInUserDataID being stored in local storage", loggedInUserDataID)
+
+var token = localStorage.getItem("userData");
+var decodedtoken = jwt(token);
+console.log("TOKEN DATAA",decodedtoken);
+
   return (
     <>
+      
+      
+    
+
+      {(() => {
+        if ( store.role == "4" || store.role == "5" ) {
+          return (
+            items[index] = ""
+          )
+        }  
+      })()}
+
       {items.map((item, i) => {
         const className = active === item.id ? "active" : "";
         return (
           <>
             <Box
-              onClick={() => onClick(item.id)}
+              onClick={() => 
+            
+                // if (item.id == "team"){
+                // item.icon
+                // }
+                // else{
+                // onClick(item.id)
+                // }
+                onClick(item.id)
+              
+              }
               sx={{ justifyContent: "center" }}
             >
               <div className="leftbar-icon-text">
                 {/* <span  className={`unactive leftbar-icon-text ${className}`}>{item.icon} </span> */}
                 <a href="#">
-                  <div  class={store.activeNavbarTab==item.id? `icon active`:"icon"}>{item.icon}</div>
+                  <div  class={store.activeNavbarTab==item.id? `icon active`:"icon"}>
+
+                    {item.icon}
+                    
+                    </div>
                 </a>
                 <span className="leftbar-text" id={item.id}>{t(item.text)}</span>
               </div>

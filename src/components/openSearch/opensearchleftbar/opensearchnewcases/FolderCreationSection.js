@@ -571,7 +571,7 @@ const FolderCreationSection = ({
                                 name="studyTypeId"
                                 onChange={handleChange}
                                 value={inputValues?.studyTypeId}
-                                required
+
                               >
                                 <option value="">{t("Please choose")}</option>
                                 {dropdownValue.studytype.data?.map((item) => (
@@ -744,7 +744,6 @@ const FolderCreationSection = ({
                       visit={state.visit}
                       casefileId={inputValues.caseid}
                       setCheckboxObj={setCheckboxObj}
-                      checkboxObj={checkboxObj}
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
                       currentcasescaseFileId={dropdownValue?.foldercreationvalues?.data?.caseFileId}
