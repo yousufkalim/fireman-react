@@ -9,10 +9,11 @@ import moment from "moment";
 const EndedCases = () => {
     const [endedcases, setendedcases] = useState([]);
     const [pageSize, setPageSize] = React.useState(25);
+    const store = Store()
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    const store = Store()
+   
     api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/0`).then(
       (res) => {
         console.log(res);

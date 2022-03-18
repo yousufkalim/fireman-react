@@ -1,24 +1,24 @@
-import profileImage from "../../assets/profile.png";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useEffect, useState } from "react";
-import api from "../../api/index";
-import jwt from 'jwt-decode'
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { alertTitleClasses, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
-import TeamManagmentForm from './TeamManagmentForm'
+import api from "../../api/index";
 import { useTranslation, Trans } from "react-i18next";
 import { UpdateStore, Store } from "../../StoreContext";
-
+import TeamManagmentForm from "./TeamManagmentForm";
+import jwt from "jwt-decode";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { FormControlLabel, IconButton } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
+import DeleteConfirmation from "../DeleteConfirmation";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
 const TeamManagement = () => {
   const [child, setChild] = useState(true);
   let [importedData, setImportedData] = useState([]);
@@ -27,12 +27,14 @@ const TeamManagement = () => {
   const [usersData, setUsersData] = useState([]);
   const [CompName, setCompName] = useState("");
   const [inputsdata, setInputsdata] = useState([]);
+  const [userDelete, setUserDelete] = useState([]);
   const [sortModel, setSortModel] = useState([
     {
       field: "commune",
       sort: "asc",
     },
   ]);
+  const [open, setOpen] = React.useState(false);
   useEffect(() => {
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
@@ -43,6 +45,25 @@ const TeamManagement = () => {
       setUsersData(res);
     });
   }, []);
+  const MatEdit = ({ index }) => {
+    const handleDeleteClick = () => {
+      setOpen(true);
+      //showDeleteModal(1012);
+    };
+    return (
+      <FormControlLabel
+        control={
+          <IconButton
+            color="secondary"
+            aria-label="add an alarm"
+            onClick={handleDeleteClick}
+          >
+            <DeleteIcon style={{ color: red[500] }} />
+          </IconButton>
+        }
+      />
+    );
+  };
   const column = [
     {
       field: "empFirstName",
@@ -86,28 +107,30 @@ const TeamManagement = () => {
       color: "#8D919D",
       borderBottom: "none",
     },
-    // {
-    //   field: "deleteIcon",
-    //   minWidth: 130,
-    //   color: "#8D919D",
-    //   borderBottom: "none",
-    //   sortable: false,
-    //   width: 140,
-    //   disableClickEventBubbling: true,
-    //   renderCell: (params) => {
-    //     return (
-    //       <div
-    //         className="d-flex justify-content-between align-items-center"
-    //         style={{ cursor: "pointer" }}
-    //       >
-    //         <MatEdit index={params.row.id} />
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      field: "deleteIcon",
+      headerName: "",
+      sortable: false,
+      width: 50,
+      renderCell: (params) => {
+        return (
+          <div style={{ cursor: "pointer" }}>
+            <MatEdit index={params.row.id} />
+          </div>
+        );
+      },
+    },
   ];
   const updatestore = UpdateStore();
   const store = Store();
+  const cellClick = (params, event) => {
+    api("get", `/api/v1/Users/userDetails/${params.row.val.employeeId}`).then(
+      (response) => {
+        setUserDelete(response);
+      }
+    );
+  };
+  console.log("OOOOOOOOOOOOO UserDelete", userDelete);
   const cellDoubleClick = (params, event) => {
     console.log("rafiaoutput", params.row.val);
     setChild(false);
@@ -144,21 +167,38 @@ const TeamManagement = () => {
     <>
       {child ? (
         <>
+          <DeleteConfirmation
+            setOpen={setOpen}
+            open={open}
+            userDelete={userDelete}
+          />
           <div style={{ textAlign: "right", padding: "10px" }}>
-            <Button
+            <button
               type="submit"
               onClick={callForm}
               endIcon={<img className="icon-validate" />}
-              sx={{
+              style={{
+                display: "inline-flex",
                 background: "#3675B7",
+                color: "white",
+                padding: "6px 16px",
                 textAlign: "right",
-                fontSize: "12.97px",
+                fontSize: "0.875rem",
+                outline: "0",
+                border: "0",
+                margin: "0",
+                lineHeight: "1.75",
+                letterSpacing: "0.02857em",
+                textTansform: "uppercase",
+                minWidth: "64px",
+                padding: "6px 16px",
+                borderRadius: "4px",
                 ":hover": { background: "#3675B7" },
               }}
               variant="contained"
             >
               Nouvel utilisateur
-            </Button>
+            </button>
           </div>
           <Item
             sx={{
@@ -171,18 +211,10 @@ const TeamManagement = () => {
               <DataGrid
                 sx={{ border: "none" }}
                 pageSize={pageSize}
-                componentsProps={{
-                  pagination: { 
-                    component: "div", // here
-                    labelRowsPerPage: "Lignes par page",
-                  }
-                }}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rowsPerPageOptions={[25, 50, 100]}
-                TablePagination
-                labelRowsPerPage={"Lignes par page"}
-                TablePagination
                 pagination
+                onCellClick={(params, event) => cellClick(params, event)}
                 onCellDoubleClick={(params, event) =>
                   cellDoubleClick(params, event)
                 }
@@ -193,6 +225,10 @@ const TeamManagement = () => {
                   headerName: val.headerName,
                   minWidth: val.minWidth,
                   borderBottom: val.borderBottom,
+                  sortable: val.sortable,
+                  width: val.width,
+                  disableClickEventBubbling: val.disableClickEventBubbling,
+                  renderCell: val.renderCell,
                 }))}
                 rows={usersData.data?.map((val, index) => ({
                   id: val.employeeId,
@@ -217,5 +253,4 @@ const TeamManagement = () => {
     </>
   );
 };
-
 export default TeamManagement;
