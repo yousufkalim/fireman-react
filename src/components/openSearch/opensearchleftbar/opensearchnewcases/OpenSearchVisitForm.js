@@ -116,6 +116,7 @@ const EstablishmentSearchVisitForm = ({
       }
     }
     if (!checked) {
+      setOpen(false);
       if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
@@ -144,12 +145,15 @@ const EstablishmentSearchVisitForm = ({
     const newdata = []
      let new2 = [];
      newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+     if(store.activeCase==="newcase"){
       newdata.map((i) => {
       new2 = checkboxObj.findIndex(
         (s) => s.caseFileCheckListId === i.caseFileCheckListId
       );
       checkboxObj[new2].completedSentence = sentence;
     }); 
+
+  }
     console.log("item?.chkList", visit?.map((val)=>{
      const a =    val.chkList.findIndex(
         (obj) => obj?.caseFileCheckListId === sentenceId
@@ -158,8 +162,25 @@ const EstablishmentSearchVisitForm = ({
       val.chkList[a].name=sentence
      }
     }))
+    if (store.activeCase  === "currentcases"){
+    
+      newdata.map((i) => {
+        new2 = state.visitcheck.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+        console.log("check");
+        console.log("new2", new2);
+        console.log("state.check",state.visitcheck);
+       
+        if(new2>-1){
+        state.visitcheck[new2].completedSentence = sentence;
+        }
+      }); 
+    }
     setText("")
   };
+
+  console.log("fghj", state.visitcheck);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("}{}{}",checkboxObj);
