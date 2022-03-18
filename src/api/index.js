@@ -16,6 +16,10 @@ const api = async (method = "get", uri, body) => {
         } else {
           console.log("API Error --------> ", {...err});
           toast.error(err?.response?.data?.errorMessage!=null ? err?.response?.data?.errorMessage[0] : err?.response?.statusText);
+          if(err?.response?.status === 401){
+            localStorage.removeItem("userData");
+            window.location = "/login";
+          }
           reject(err);
         }
       });

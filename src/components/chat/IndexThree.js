@@ -347,6 +347,7 @@ const sendMessage = async (user, message) => {
     console.log("hit",info);
       try {
           await connection.send('SendMessage', info, info);
+          //await connection.send('SendNotification', state.activeReciever);
       }
       catch(e) {
           console.log(e);

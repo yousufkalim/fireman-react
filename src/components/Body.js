@@ -11,8 +11,7 @@ import Implantation from './Implantation/index'
 import NavbarNew from './NavbarNew'
 import { Store } from '../StoreContext'
 import { UpdateStore } from '../StoreContext'
-import Dashboard from './dashboard/Dashboard';
-import FolderCreationSection from './openSearch/opensearchleftbar/opensearchnewcases/FolderCreationSection';
+import { toast } from "react-toastify";
 import FolderCreationContainer from './openSearch/opensearchleftbar/opensearchnewcases/FolderCreationContainer';
 import EndedCases from './openSearch/opensearchleftbar/opensearchendedcases/EndedCases';
 import Home from "./home";
@@ -48,12 +47,12 @@ const Body = () => {
   useEffect(() => {
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
-    var roleser= localStorage.getItem("roleSerial");
+    var roleuser= localStorage.getItem("roleSerial");
     updatestore({
       activeCase: "newcase",
       activeNavbarTab: "termine",
       userId:userData.Id,
-      role:roleser
+      role:roleuser
     })
     const newConnection = new HubConnectionBuilder()
   .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
@@ -75,6 +74,7 @@ const Body = () => {
         connection:newConnection
       })
       sendid();
+      //receiveNotification();
     })
     .catch((err) =>
       console.log("Error while establishing connection :(", err.message)
@@ -100,6 +100,27 @@ const sendid = async()=>{
         
       }
 }
+// const receiveNotification = async () => {
+//   if (counterRef.current.connection) {
+//     try {
+   
+//       await counterRef.current.connection.on("RecieveNotification", (message) => {
+//          console.log(message);
+//         if (store.userId == message) {
+//           toast.success("New message received", {
+//             limit: "3",
+//           });
+//         }
+//         console.log("new msg ... => ", message);
+//       });
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   } else {
+//     // alert("No connection to server yet.");
+//     console.log("No connection to server yet in Admin.js");
+//   }
+// };
   console.log(store);
   return (
     <>

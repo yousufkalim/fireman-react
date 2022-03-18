@@ -13,13 +13,13 @@ import moment from "moment";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import DoneIcon from "@mui/icons-material/Done";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
 import EditModal from '../../../Modals/EditCheckBox'
 import parse from "html-react-parser";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -90,6 +90,7 @@ const EstablishmentSearchStudyForm = ({
   });
   useEffect(() => {
     ///////for townplanning checkboxes
+    console.log(townplanning,"townplanning");
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -99,23 +100,27 @@ const EstablishmentSearchStudyForm = ({
             caseFileCheckListId: val.caseFileCheckListId, 
             sectionType:val.sectionType, 
             casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
+            completedSentence:val?.name
           }})
       ).map((val) => val.filter((val) =>{ 
         return{
-          caseFileCheckListId: val.caseFileCheckListId,
-          sectionType: val.sectionType, 
-          casefileId: val.casefileId 
+          caseFileCheckListId: val?.caseFileCheckListId,
+          sectionType: val?.sectionType, 
+          casefileId: val?.casefileId,
+          completedSentence:val?.name 
         }
       }));
     let merged = [].concat.apply([], ab);
+    console.log(merged,"merged<>?");
     setstate((pre) => {
       return {
         ...pre,
         check: merged.map((val) => {
           return{
-            caseFileCheckListId: val.caseFileCheckListId,
-            sectionType: val.sectionType, 
-            casefileId: val.casefileId 
+            caseFileCheckListId: val?.caseFileCheckListId,
+            sectionType: val?.sectionType, 
+            casefileId: val?.casefileId,
+            completedSentence:val?.completedSentence  
           }
         }
         ),
@@ -124,8 +129,10 @@ const EstablishmentSearchStudyForm = ({
  ///////for townplanning checkboxes
 
   }, [townplanning]);
-  console.log(CompName);
+
+  console.log(state.check);
   useEffect(() => {
+    console.log(study);
     const studycheckboxes = study?.map((val) =>
     val.chkList
       .filter((item) => item.isSelected == true)
@@ -134,15 +141,18 @@ const EstablishmentSearchStudyForm = ({
         caseFileCheckListId: val.caseFileCheckListId, 
         sectionType:val.sectionType, 
         casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
+        completedSentence:val?.name
       }})
   ).map((val) => val.filter((val) =>{ 
     return{
       caseFileCheckListId: val.caseFileCheckListId,
       sectionType: val.sectionType, 
-      casefileId: val.casefileId 
+      casefileId: val.casefileId,
+       completedSentence:val?.name
     }
   }));
 let mergedstudy = [].concat.apply([], studycheckboxes);
+console.log(mergedstudy,"fgchvjbkjn");
 setstate((pre) => {
   return {
     ...pre,
@@ -150,13 +160,16 @@ setstate((pre) => {
       return{
         caseFileCheckListId: val.caseFileCheckListId,
         sectionType: val.sectionType, 
-        casefileId: val.casefileId 
+        casefileId: val.casefileId,
+        completedSentence:val?.completedSentence
       }
     }
     ),
   };
 });
   }, [study]);
+
+  console.log(state.studycheck,"171");
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId ? Studydata?.data?.originId : townplanningValues?.originId,
@@ -236,7 +249,8 @@ setstate((pre) => {
             return{
               caseFileCheckListId:parseInt(val.caseFileCheckListId),
               casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
-              sectionType:sectiontype
+              sectionType:sectiontype,
+              completedSentence:val?.completedSentence  
             }
           }), 
           obj],
@@ -252,7 +266,8 @@ setstate((pre) => {
             return{
               caseFileCheckListId:parseInt(val.caseFileCheckListId),
               casefileId: casefileId ? casefileId : currentcasescaseFileId?.data?.caseFileId,
-              sectionType:sectiontype
+              sectionType:sectiontype,
+              completedSentence:val?.completedSentence  
             }
           }), 
           obj],
@@ -323,13 +338,14 @@ setstate((pre) => {
       }); 
     }
     
-
+   console.log(state.check,"{}");
    if (store.activeCase  === "currentcases"){
     if(sectiontype!==2){
     newdata.map((i) => {
       new2 = state.check.findIndex(
         (s) => s.caseFileCheckListId === i.caseFileCheckListId
       );
+      console.log("check");
       console.log("new2", new2);
       console.log("state.check",state.check);
       console.log("state.studycheck",state.studycheck);
@@ -344,6 +360,7 @@ setstate((pre) => {
       new2 = state.studycheck.findIndex(
         (s) => s.caseFileCheckListId === i.caseFileCheckListId
       );
+      console.log("studycheck");
       console.log("new2", new2);
       console.log("state.check",state.check);
       console.log("state.studycheck",state.studycheck);
@@ -374,7 +391,7 @@ setstate((pre) => {
     }));
    setText("")
  };
-
+console.log(state.check,"385");
  console.log("sectionType",sectionType);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -396,7 +413,7 @@ setstate((pre) => {
           postCheckboxesData("townplanning");
         }
         if (store.activeCase === "currentcases") {
-          console.log(state.check);
+          console.log(state.check,"state.check");
           console.log("called courrent");
           api("post", `/api/v1/casefiles/save_casefile_checklist`,  state.check.length===0? ([{
             caseFileId:currentcasescaseFileId?.data?.caseFileId,
@@ -676,6 +693,7 @@ setstate((pre) => {
                       padding: "10px",
                     }}
                   ></Box>
+                  {console.log(townplanning,"townplanning")}
                   {townplanning?.map((item, i) => (
                     <>
                       <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
@@ -726,7 +744,7 @@ setstate((pre) => {
                                 color: "#3675B7",
                               }}
                             >
-                              {val.modifiedSentence? parse(val.modifiedSentence):parse(val.name)}
+                              {parse(val.name)}
                              
                             </Box>
                           </Box>
@@ -867,7 +885,7 @@ setstate((pre) => {
                               color: "#3675B7",
                             }}
                           >
-                            {val.modifiedSentence?parse(val?.modifiedSentence):parse(val?.name)}
+                            {parse(val?.name)}
                           </Box>
                         </Box>
                       </div>

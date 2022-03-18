@@ -148,7 +148,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
+          `Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe ${inputValues?.establishmentName}  seront désormais liées à ce nouvel établissement..`
         )}`
       );
     }
@@ -156,7 +156,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
+          `Vous êtes sur le point de transformer un établissement en groupement d'établissements L'historique et la référence de l'établissement ${inputValues?.establishmentName} seront désormais liés à ce nouveau groupe.`
         )}`
       );
     }
@@ -167,7 +167,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name."
+          `Vous êtes sur le point de changer le nom d'un établissement ou d'un groupe deétablissements. L'historique de l'établissement ${generalDataEstablishment?.establishmentName}  et la référence seront désormais lié à ce nouveau nom.`
         )}`
       );
     }
@@ -189,7 +189,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
-      alert("new")
       console.log("ddfddfdfdfdfdfdffd",updatedObj);
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {

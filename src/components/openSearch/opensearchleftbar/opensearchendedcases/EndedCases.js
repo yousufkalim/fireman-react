@@ -58,6 +58,13 @@ const EndedCases = () => {
           color: "#8D919D",
         },
         {
+          field: "Ref#",
+          headerName: `${t("Ref#")}`,
+          minWidth: 150,
+          color: "#8D919D",
+          borderBottom:"none"
+        },
+        {
           field: "cityName",
           headerName: `${t("City")}`,
           minWidth: 130,
@@ -89,6 +96,12 @@ const EndedCases = () => {
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
             pageSize={pageSize}
+            componentsProps={{
+              pagination: { 
+                component: "div", // here
+                labelRowsPerPage: "Lignes par page",
+              }
+            }}
             labelRowsPerPage={"Lignes par page"}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[25, 50, 100]}

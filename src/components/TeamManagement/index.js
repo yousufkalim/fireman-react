@@ -171,6 +171,12 @@ const TeamManagement = () => {
               <DataGrid
                 sx={{ border: "none" }}
                 pageSize={pageSize}
+                componentsProps={{
+                  pagination: { 
+                    component: "div", // here
+                    labelRowsPerPage: "Lignes par page",
+                  }
+                }}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rowsPerPageOptions={[25, 50, 100]}
                 TablePagination

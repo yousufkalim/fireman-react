@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
 import { UpdateStore } from "../../../../StoreContext";
 import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import moment from "moment";
+import Button from '@mui/material/Button';
+import { FormControlLabel } from "@material-ui/core";
+import CloudDoneSharpIcon from '@mui/icons-material/CloudDoneSharp';
+import { toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import { useDemoData } from '@mui/x-data-grid-generator';
+
+const useStyles = makeStyles({
+  root: {
+      '&.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+          outline: 'none',
+      },
+  }
+});
 const EstablishmentSearchCurrentCases = () => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
@@ -15,6 +30,11 @@ const EstablishmentSearchCurrentCases = () => {
     tabindex: "",
     establishmentId:""
   });
+  const { data } = useDemoData({
+    labelRowsPerPage:"Lignes par page"
+  });
+  const classes = useStyles();
+
   const [pageSize, setPageSize] = React.useState(25);
   useEffect(() => {
     let userId = localStorage.getItem("userData");
@@ -35,6 +55,27 @@ const EstablishmentSearchCurrentCases = () => {
     },
   ]);
   const updatestore = UpdateStore();
+  const MatEdit = ({ params }) => {
+    return (
+      <FormControlLabel
+        control={
+         
+          <Button onClick={()=>{ api("put", `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`).then((res)=>{
+                 console.log(res, "validate");
+
+                 if(res.data===true){
+                  toast.success(t("Successfull"));
+                 }
+          }).catch((err)=>{
+            toast.error("error")
+          })}} variant="contained" endIcon={<CloudDoneSharpIcon/>}>
+          Valider
+        </Button>
+         
+        }
+      />
+    );
+  };
   const column = [
     {
       field: "typeref",
@@ -73,19 +114,40 @@ const EstablishmentSearchCurrentCases = () => {
       borderBottom:"none"
     },
     {
+      field: "Ref#",
+      headerName: `${t("Ref#")}`,
+      minWidth: 150,
+      color: "#8D919D",
+      borderBottom:"none"
+    },
+    {
       field: "cityName",
       headerName: `${t("City")}`,
       minWidth: 180,
       color: "#8D919D",
       borderBottom:"none"
     },
+       
     { 
       field: "state", 
       headerName: `${t("State")}`, 
       minWidth: 150, 
       color: "#8D919D",
       borderBottom:"none"
-    },    
+    },
+    {
+      field: "Validate",
+      headerName: "",
+      sortable: false,
+      minWidth:140,
+      renderCell: (params) => {
+        return (
+          <div style={{ cursor: "pointer" }}>
+            <MatEdit params={params} />
+          </div>
+        );
+      },
+    },
   ];
   
   const onRowClick = (params) => {
@@ -162,23 +224,31 @@ const EstablishmentSearchCurrentCases = () => {
             boxShadow: "none",
           }}
         >
-          <div style={{ height: "71vh", width: "100%" }}>
+          <Box sx={{ height: "71vh", width: "100%" }}>
             <DataGrid
+            className={classes.root}
               sx={{ border: "none" }}
+              {...data}
               pageSize={pageSize}
-              labelRowsPerPage={"Lignes par page"}
+              componentsProps={{
+                pagination: { 
+                  component: "div", // here
+                  labelRowsPerPage: "Lignes par page",
+                }
+              }}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[25, 50, 100]}
-              TablePagination
                pagination
-              onCellClick={(params, event) => onRowClick(params, event)}
+               onCellDoubleClick={(params, event) => onRowClick(params, event)}
+              
               sortModel={sortModel}
               onSortModelChange={(model) => setSortModel(model)}
               columns={column.map((val, index) => ({
                 field: val.field,
                 headerName: val.headerName,
                 minWidth: val.minWidth,
-                borderBottom:val.borderBottom
+                borderBottom:val.borderBottom,
+                renderCell: val.renderCell
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
                 id: val.caseFileId,
@@ -194,7 +264,7 @@ const EstablishmentSearchCurrentCases = () => {
                 val: val,
               }))}
             />
-          </div>
+          </Box>
         </Item>
       )}
     </>

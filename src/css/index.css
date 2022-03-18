@@ -1,5 +1,6 @@
 /* Importing all CSS files */
 @import url("./Header.css");
+@import url("./currentcases.css");
 @import url("./login.css");
 @import url("./signup.css");
 @import url("./Navbar.css");

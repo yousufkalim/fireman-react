@@ -47,6 +47,7 @@ const EstablishmentSearchVisitForm = ({
               caseFileCheckListId: val.caseFileCheckListId,
               sectionType: val.sectionType,
               casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              completedSentence:val?.name
             };
           })
       )
@@ -56,6 +57,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
+            completedSentence:val?.name
           };
         })
       );
@@ -68,6 +70,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
+            completedSentence:val?.name
           };
         }),
       };
@@ -100,6 +103,7 @@ const EstablishmentSearchVisitForm = ({
                   caseFileCheckListId: parseInt(val.caseFileCheckListId),
                   casefileId: casefileId ? casefileId : currentcasescaseFileId,
                   sectionType: sectiontype,
+                  completedSentence:val?.completedSentence  
                 };
               }),
               obj,
@@ -266,7 +270,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                          {val.modifiedSentence?parse(val?.modifiedSentence):parse(val?.name)}
+                          {parse(val?.name)}
                           </Box>
                         </Box>
                       </div>

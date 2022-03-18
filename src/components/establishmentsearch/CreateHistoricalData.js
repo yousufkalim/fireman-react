@@ -1196,8 +1196,7 @@ const CreateHistoricalData = ({
                                       <th>
                                         <div>
                                           {console.log("new", r)}
-                                          <Tooltip title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)" arrow >
-                                          <Field
+                                            <Field
                                           autocomplete="off"
                                             className="field-width"
                                             name={`repeatable.${i}.urbanPlanningRef`}
@@ -1205,7 +1204,7 @@ const CreateHistoricalData = ({
                                               r && r?.urbanPlanningRef
                                             }
                                           />
-                                          </Tooltip>
+                                         
                                         </div>
                                       </th>
                                       <th>
@@ -1361,7 +1360,7 @@ const CreateHistoricalData = ({
                                           width: "150px",
                                         }}
                                       >
-                                        {"Opinion"}
+                                       {t("Opinion")}
                                       </Box>
                                     </th>
                                     <th class="header-label">
@@ -1402,7 +1401,7 @@ const CreateHistoricalData = ({
                                             {" "}
                                             {t(
                                               "Urban planning references"
-                                            )}{" "}
+                                            )}
                                           </Button>
                                         </Tooltip>
                                       </Box>
@@ -2104,7 +2103,6 @@ const CreateHistoricalData = ({
                                       </th>
                                       <th>
                                         {console.log("curr", r)}
-                                        <Tooltip open={true} title="Inscrire le numéro de la demande correspondante (PC, AT, courrier…)" arrow >
                                           <Field
                                             className="field-width"
                                             name={`repeatable.${i}.urbanPlanningRef`}
@@ -2112,7 +2110,7 @@ const CreateHistoricalData = ({
                                               r && r?.urbanPlanningRef
                                             }
                                           />
-                                          </Tooltip>
+                                 
                                       </th>
                                       <th>
                                         <Box
@@ -2141,10 +2139,10 @@ const CreateHistoricalData = ({
                                             {r?.filesData?.map((val) => (
                                               <>
                                                 <Grid
-                                                  sx={{ padding: "5px" }}
+                                                    sx={{ padding: "5px", alignItems:"end", display:"flex" }}
                                                   xs={8}
                                                 >
-                                                  <span
+                                                  <a
                                                     onClick={() => {
                                                       api(
                                                         "get",
@@ -2156,7 +2154,7 @@ const CreateHistoricalData = ({
                                                     href={val.fileURL}
                                                   >
                                                     {val.fileName}
-                                                  </span>
+                                                  </a>
                                                 </Grid>
                                               </>
                                             ))}

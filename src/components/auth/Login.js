@@ -11,12 +11,13 @@ import Loader from './Loader';
 import Home from '../home/index';
 import ForgetPassword from './ForgetPassword'
 import { Link } from "react-router-dom";
-
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Box from "@mui/material/Box";
 const Login = () => {
     
 const [formInputs,setFormInputs]=useState({email:"",password:""});
 const [loading, setloading] = useState(false);
+const [ToggleType, setToggleType] = useState(true)
 const updatestore = UpdateStore()
     const handleSubmit = (event) => {
         setloading(true)
@@ -50,6 +51,9 @@ const updatestore = UpdateStore()
         }
        
       };
+      const changeType =()=>{
+        setToggleType(!ToggleType)
+      }
 const onChange=(e)=>{
 setFormInputs({...formInputs,[e.target.name]:e.target.value})
 }
@@ -73,7 +77,10 @@ setFormInputs({...formInputs,[e.target.name]:e.target.value})
                             </div>
                             <div className="input-field">
                                 <label className="login-label">Mot de passe</label>
-                                <input required name="password" value={formInputs.password} onChange={onChange} type="password" />
+                                <input required name="password" value={formInputs.password} onChange={onChange} type={ToggleType? "password": "text"} />
+                             <Box onClick={changeType}>
+                             <VisibilityIcon  sx={{position:"absolute", right:"0%", bottom:"15%"}}/>
+                                  </Box>   
                             </div>
                             <Link to="/forgetpassword"><p className="forget-pss">Mot de passe oublié?</p></Link>
                             {loading}

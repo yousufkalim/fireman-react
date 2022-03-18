@@ -360,13 +360,13 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
           <div className="Compagnon_icons v-tut">
             <SlowMotionVideoIcon sx={{ color: "#9095A2" }} />
             {/* <p>{t("Video tutorial")}</p> */}
-           <p><a href={`${rightBarData.videoLink}`} target="_blank">{rightBarData.videoLink?rightBarData.videoLink:"...loading"} </a>  </p> 
+           <p><a href={`${rightBarData.videoLink}`} target="_blank">{rightBarData?.videoLink} </a>  </p> 
           </div>
          
           <div className="Compagnon_icons comments">
             <img src={Commentaries} />
             {/* <p>{t("Comments")}</p> */}
-             <p > {rightBarData.comments?rightBarData.comments:"...loading"}</p>
+             <p > {rightBarData?.comments}</p>
           </div> 
          
          
@@ -500,7 +500,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
     <input  onChange={getFileData} className="file-inp" type="file" size="60" />
     
     </label> 
-    <p className="pic-detail">{image.slice(0,36)+"..."}</p>
+    <p className="pic-detail">{image?.slice? image?.slice(0,36)+"...":""}</p>
       <TextField 
       id="filled-basic" 
       label="Sujette" 
