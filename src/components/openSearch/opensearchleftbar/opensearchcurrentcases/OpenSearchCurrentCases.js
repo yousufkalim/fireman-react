@@ -67,6 +67,9 @@ const EstablishmentSearchCurrentCases = () => {
                  if(res.data===true){
                   toast.success(t("Successfull"));
                  }
+                 else{
+                   toast.error("Le dossier n'est pas complet")
+                 }
           }).catch((err)=>{
             toast.error("error")
           })}} variant="contained" endIcon={<CloudDoneSharpIcon/>}>
