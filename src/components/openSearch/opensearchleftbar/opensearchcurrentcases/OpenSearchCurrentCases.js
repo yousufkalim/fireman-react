@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
-import { UpdateStore } from "../../../../StoreContext";
+import { Store,UpdateStore } from "../../../../StoreContext";
 import FolderCreationContainer from '../opensearchnewcases/FolderCreationContainer';
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -36,10 +36,11 @@ const EstablishmentSearchCurrentCases = () => {
   const classes = useStyles();
 
   const [pageSize, setPageSize] = React.useState(25);
+  const store = Store()
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/1`).then(
+    api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/1`).then(
       (res) => {
         setcurrentcasesData(res);
       }

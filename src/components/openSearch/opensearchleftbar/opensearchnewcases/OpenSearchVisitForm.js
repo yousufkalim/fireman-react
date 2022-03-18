@@ -70,7 +70,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
-            completedSentence:val?.name
+            completedSentence:val?.completedSentence
           };
         }),
       };

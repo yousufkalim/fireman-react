@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTranslation, Trans } from "react-i18next";
 import api from '../../../../api/index';
+import { Store } from "../../../../StoreContext";
 import moment from "moment";
 const EndedCases = () => {
     const [endedcases, setendedcases] = useState([]);
@@ -11,7 +12,8 @@ const EndedCases = () => {
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
+    const store = Store()
+    api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/0`).then(
       (res) => {
         console.log(res);
         setendedcases(res);

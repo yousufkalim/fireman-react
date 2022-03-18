@@ -123,7 +123,7 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
     if (activelefttab === "currentcases") {
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
-      api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/1`).then(
+      api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/1`).then(
         (res) => {
           getResponse(res);
         }
