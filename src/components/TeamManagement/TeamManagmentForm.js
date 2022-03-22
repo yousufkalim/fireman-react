@@ -13,11 +13,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
   const [isDisabled, setIsDisabled] = useState(false);
  
   useEffect(() => {
-    console.log(importedData);
-    console.log("WWWWWWWWWWWWWW employee id", importedData?.employeeId);
-    console.log(prefilledData);
-    console.log(importedData);
- 
     if (importedData) {
       setIsDisabled(true);
     }

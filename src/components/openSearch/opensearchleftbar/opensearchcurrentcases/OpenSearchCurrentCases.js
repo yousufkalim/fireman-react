@@ -179,7 +179,7 @@ const EstablishmentSearchCurrentCases = () => {
       });
       
     }
-    if (params.row.val.tabIndex === 2 &&  params.row.val.sectionIndex===5) {
+    if ((params.row.val.tabIndex === 2 &&  params.row.val.sectionIndex===5)||params.row.val.tabIndex === 3) {
       updatestore({
         activeNavbarTab: 2,
         establishmentId: params.row.val.establishmentId,

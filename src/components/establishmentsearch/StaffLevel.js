@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
+import don from '../../assets/donne.svg'
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
@@ -184,7 +185,7 @@ const StaffLevel = ({
         }}
       >
         <Typography variant="h6">{t("Staff table")}</Typography>
-        {Icon.iconstafflevel ? <DoneIcon /> : null}
+        {Icon.iconstafflevel ?  <img src={don}/> : null}
       </Box>
       <Accordion
         sx={{ margin: "10px 10px !important",borderRadius:"10px" }}

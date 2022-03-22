@@ -84,14 +84,16 @@ const EstablishmentSearchVisitForm = ({
   const [checklistid, setId] = React.useState("");
   const store = Store();
   const { t, i18n } = useTranslation();
-  const handleChange = (e, sectiontype) => {
+  const handleChange = (e, sectiontype, sentence) => {
     const checked = e.target.checked;
     const id = e.target.id;
+       console.log(visit,"rdxfghjk");
     if (checked) {
       const obj = {
         caseFileCheckListId: parseInt(id),
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
         sectionType: sectiontype,
+        completedSentence:sentence
       };
       if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
@@ -265,7 +267,7 @@ const EstablishmentSearchVisitForm = ({
                             type="checkbox"
                             defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                             id={val.caseFileCheckListId}
-                            onChange={(e) => handleChange(e, val.sectionType)}
+                            onChange={(e) => handleChange(e, val?.sectionType, val?.name)}
                           />
                           <label
                             className="dropdown-checkbox"

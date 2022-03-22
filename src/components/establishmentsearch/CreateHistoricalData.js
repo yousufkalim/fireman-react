@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
+import don from '../../assets/donne.svg'
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import { Formik, Field, Form, FieldArray } from "formik";
@@ -39,6 +40,7 @@ const CreateHistoricalData = ({
   const { t } = useTranslation();
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
+    const messagesEndRef = useRef(null);
   const [dropdownValue, setdropdownValue] = useState({
     objectDropdown: "",
   });
@@ -62,6 +64,9 @@ const CreateHistoricalData = ({
       });
     });
   }, []);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
   useEffect(() => {
     api(
       "get",
@@ -70,6 +75,12 @@ const CreateHistoricalData = ({
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
+  
+
+   const onChange =()=>{
+     alert("dfg")
+    scrollToBottom();
+   }
   const onSubmit = (values) => {
     console.log("><>val", values);
     const newarr = values.repeatable.map((object) => ({
@@ -199,12 +210,13 @@ const CreateHistoricalData = ({
           margin: "auto",
         }}
       >
-        <Typography variant="h6">{t("Historical")}</Typography>
-        {Icon.createhistoricaldata ? <DoneIcon /> : null}
+        <Typography  variant="h6">{t("Historical")}</Typography>
+        {Icon.createhistoricaldata ? <img src={don}/> : null}
       </Box>
       <Accordion
         sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
         expanded={Toggler.createhistoricaldata ? true : false}
+        onChange={onChange}
       >
         <AccordionSummary
           sx={{ display: "none" }}
@@ -225,6 +237,7 @@ const CreateHistoricalData = ({
           >
             {console.log(historicalDataEstablishment, "trdtyfg")}
             {store.activeCase === "newcase" ? (
+              <> 
               <Formik
                 onSubmit={(values) => onSubmit(values)}
                 enableReinitialize={true}
@@ -1286,12 +1299,25 @@ const CreateHistoricalData = ({
                       >
                         {t("VALIDATE")}
                       </Button>
+                     
                     </Box>
+                   
                   </Form>
+                 
+                  
+                 
+                  
                 )}
+               
               />
+            
+            <div ref={messagesEndRef} /> 
+              </>
             ) : null}
-
+          
+          
+            
+          
             {store.activeCase === "currentcases" ? (
               <Formik
                 onSubmit={(values) => onSubmit(values)}
@@ -2194,6 +2220,7 @@ const CreateHistoricalData = ({
                 )}
               />
             ) : null}
+              <div ref={messagesEndRef} />
           </Item>
         </AccordionDetails>
       </Accordion>

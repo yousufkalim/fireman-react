@@ -32,6 +32,7 @@ export function StoreProvider({ children }) {
     chapterIndex:"",
     tabindex:"",
     buttonenable:false,
+    btnenableImpantation:true,
     caseName:"",
     catTab:false,
     phoneBook:false,

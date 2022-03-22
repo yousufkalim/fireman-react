@@ -106,6 +106,7 @@ const AccordionComponent = (props) => {
       },
     ]);
   };
+  console.log(store,"nn");
   const getModifiedSentence = (text, sentenceid, nature, seriesname,serialid) => {
     console.log("serialid",serialid);
     setValues((pre) => {
@@ -147,6 +148,7 @@ const AccordionComponent = (props) => {
   };
  console.log("store",store);
   const onSubmit = (section, chapter) => {
+    console.log(alreadyChecked,"alreadyChecked");
     let newdata = [];
     let new2 = [];
     console.log("seriesValues",seriesValues);
@@ -182,10 +184,11 @@ const AccordionComponent = (props) => {
       tabIndex: store.activeNavbarTab + 1,
       sectionIndex: section,
       checks: seriesValues,
+      caseFileSelectedAnswerId:alreadyChecked[0]?.caseFileSelectedAnswerId?alreadyChecked[0]?.caseFileSelectedAnswerId:0
     };
     console.log("object", obj);
     api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
-     
+    console.log(res,"response");
       if (res.data === true) {
         props.setExpandchild(true)
         toast.success(t("Successfull"));
@@ -244,6 +247,7 @@ const AccordionComponent = (props) => {
            
             if(store.activeCase!="newcase"){
               api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
+               console.log("alread", res.data);
                 setAlreadyChecked(res?.data)
               })
             }
@@ -276,10 +280,10 @@ const AccordionComponent = (props) => {
             {props.accordionData.sectionId}
           </div>
           <Typography sx={{ fontSize: "20px" }}>
-            {props.accordionData.sectionName}
+            {props?.accordionData.sectionName}
           </Typography>
           {
-           ((props.chapterindex+1 <= store.chapterIndex)&&(store.activeCase!="newcase")|| (props.sectionindex===sectionDetail.sectionind&&props.chapterindex===sectionDetail.chapterindex)) ?(
+           ((props.chapterindex+1 <= store.chapterIndex && props.sectionindex+1<=store.sectionindex)&&(store.activeCase!="newcase")|| (props.sectionindex===sectionDetail.sectionind&&props.chapterindex===sectionDetail.chapterindex)) ?(
               <svg
               className="cehck_section"
               width="32"
@@ -360,6 +364,7 @@ const AccordionComponent = (props) => {
                   PRECEDENT
                 </Button>
                 <Button
+                disabled={store?.btnenableImpantation}
                   onClick={() =>{
                     setSectiondDetail(()=>{
                       return{

@@ -134,7 +134,7 @@ h1 {
   background-color: aliceblue;
 }
 .prog-box progress::-webkit-progress-value {
-  transition: width 0.4s ease 0.4s;
+  transition: width 0.3s ease 0.3s;
   background-color: #3675b7;
   box-shadow: 0px 4px 8px rgba(16, 95, 230, 0.29);
   margin-bottom: -2px;

@@ -10,7 +10,7 @@ import CreateHistoricalData from "./CreateHistoricalData";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
 import DialogBox from "../DialogBox";
-import Divider from "@mui/material/Divider";
+import don from '../../assets/donne.svg'
 import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
 import EstablishmentLevel from "./EstablishmentLevel";
@@ -41,11 +41,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
      togglerranking:false,
   });
   const [Icon, setIcon] = useState({
-    iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) && store?.tabindex===2)? true: false,
-    createhistoricaldata: store.activeCase === "currentcases" && ((store.sectionindex===2 || store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&&store?.tabindex===2) ? true: false,
-    establishmentlevel: store.activeCase === "currentcases" && (( store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&&store?.tabindex===2) ? true:false,
-    iconstafflevel: store.activeCase === "currentcases" && (( store.sectionindex===4 || store.sectionindex===5) && store?.tabindex===2) ? true:false,
-    iconranking: store.activeCase === "currentcases" &&  store.sectionindex===5 && store?.tabindex===2 ? true:false,
+    iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) &&  store?.tabindex===2)||store.tabindex===3? true: false,
+    createhistoricaldata: store.activeCase === "currentcases" && ((store.sectionindex===2 || store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&& store?.tabindex===2)||store.tabindex===3 ? true: false,
+    establishmentlevel: store.activeCase === "currentcases" && (( store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&& store?.tabindex===2)||store.tabindex===3 ? true:false,
+    iconstafflevel: store.activeCase === "currentcases" && (( store.sectionindex===4 || store.sectionindex===5) &&  store?.tabindex===2)||store.tabindex===3 ? true:false,
+    iconranking: (store.activeCase === "currentcases" &&  store.sectionindex===5 &&  store?.tabindex===2) ||store.tabindex===3? true:false,
   });
   const [buttonEnability, setButtonEnability] = useState({
     historicalmainbutton:store.buttonenable ||  store.activeCase === "currentcases"? false:true,
@@ -280,7 +280,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         }}
       >
         <Typography variant="h6">{t("General data")}</Typography>
-        {Icon.iconhistoricalsearch ? <DoneIcon /> : null}
+        {Icon.iconhistoricalsearch ? <img src={don}/> : null}
       </Box>
       <Accordion
         sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
@@ -569,6 +569,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             onChange={handleChange}
                             name="estNumber"
                             value={inputValues.estNumber}
+                            type="tel"
+                            minlength="12" 
+                            maxlength="12"
+                            title="Number should contain 12 digits and No Character"
+                            pattern="^(\d{12})$"
                           />
                         </div>
                         <div className="flex-form">

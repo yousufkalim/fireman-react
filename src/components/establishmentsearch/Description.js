@@ -10,9 +10,26 @@ import { Box } from "@mui/system";
 import { Store } from "../../StoreContext";
 import Rightarrow from "../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
+import don from '../../assets/donne.svg'
+import Tooltip from '@mui/material/Tooltip';
 const Description = ({ values, onSubmit, description, buttonEnability }) => {
   const { t, i18n } = useTranslation();
   const store = Store();
+  const [tooltip, setTooltip] = useState(
+    {one:`Rappel: un site est un ensemble d’établissements isolés exploités par la même personne physique ou morale.
+  Exemple: Lycée dont l’internat, l’externat, le gymnase et le restaurant scolaire sont des établissements isolés.
+  Exemple de rédaction du descriptif d’un site : 
+  « Le site GROUPE SCOLAIRE DE LA REPUBLIQUE comprend plusieurs établissements isolés:
+  - l’établissement ECOLE PRIMAIRE, de type R de 3ecatégorie;
+  - L’établissement ECOLE MATERNELLE, de type R de 3ecatégorie;
+  - L’établissement RESTAURANT SCOLAIRE, de type N de 4ecatégorie.`,
+  two:`Décrire en quelques mots le statut, les activités et le type de bâtiment. Le texte apparaitra dans le rapport juste avant le descriptif.
+  ETABLISSEMENT SIMPLE
+  Ex: Il s’agit d’un EHPAD de 80 lits dans un bâtiment du type R+4. 
+  GROUPEMENT D’ETABLISSEMENT
+  Ex: Il s’agit d’un groupement d’établissements comprenant xx cellules (commerces, cabinet médical, bureaux). Le bâtiment est du type R+1-1."
+  className="textarea-width`
+    })
   const [inputValues, setInputValues] = useState({
     site: description?.siteDescription ? description?.siteDescription : "",
     establishmentdescription: description?.description
@@ -86,6 +103,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
             <Typography  className="label-textarea">{t("Site (if applicable)")}</Typography>
           </AccordionSummary>
           <AccordionDetails>
+          <Tooltip title={tooltip.one}>
             <TextareaAutosize
               aria-label="minimum height"
               minRows={3}
@@ -101,6 +119,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
               - L’établissement RESTAURANT SCOLAIRE, de type N de 4ecatégorie. "
               onChange={onChange}
             />
+             </Tooltip>
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -114,6 +133,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
+          <Tooltip title={tooltip.two}>
             <TextareaAutosize
             style={{
               background:"#F1F5F9"
@@ -130,6 +150,7 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
               className="textarea-width"
               onChange={onChange}
             />
+              </Tooltip>
           </AccordionDetails>
         </Accordion>
         <Accordion>

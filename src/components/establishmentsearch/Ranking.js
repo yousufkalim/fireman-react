@@ -10,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
+import don from '../../assets/donne.svg'
 import { useTranslation, Trans } from "react-i18next";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -131,8 +132,11 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       caseFileId:casefileId
     };
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
+      console.log(res, "resranking");
+      if(res.data===true){
       updatestore({
         activeNavbarTab: 2,
+        btnenableImpantation:false
       });
       {
         toast.success(t("Successfull"));
@@ -149,6 +153,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
           iconranking: true,
         };
       });
+    }
+    }).catch((err)=>{
+       console.log(err);
     });
   };
 
@@ -176,7 +183,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
         }}
       >
         <Typography variant="h6"> {t("Ranking")}</Typography>
-        {Icon.iconranking ? <DoneIcon /> : null}
+        {Icon.iconranking ? <img src={don}/> : null}
       </Box>
 
       <Accordion
@@ -260,21 +267,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               onSubmit={handleSubmit}
             >
               <Box sx={{ textAlign: "start", padding: "10px" }}>
-                <select
-                  className="field-width-ranking"
-                  type="select"
-                  name="rankingOrderId"
-                  onChange={handleChange}
-                  value={inputValues.rankingOrderId}
-                >
-                  <option value="">{t("Please choose")}</option>
-                  {dropdownValue.rankingorder.data?.map((item) => (
-                    <option key={item.value} value={item.value}>
-                      {item.text}
-                    </option>
-                  ))}
-                </select>
-                <select
+              <select
                   className="field-width-ranking"
                   type="select"
                   name="rankingStatusId"
@@ -291,12 +284,12 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                 <select
                   className="field-width-ranking"
                   type="select"
-                  name="categoryRankingId"
-                  value={inputValues.categoryRankingId}
+                  name="rankingOrderId"
                   onChange={handleChange}
+                  value={inputValues.rankingOrderId}
                 >
                   <option value="">{t("Please choose")}</option>
-                  {dropdownValue.ranking.data?.map((item) => (
+                  {dropdownValue.rankingorder.data?.map((item) => (
                     <option key={item.value} value={item.value}>
                       {item.text}
                     </option>
@@ -316,6 +309,21 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                     </option>
                   ))}
                 </select>
+                <select
+                  className="field-width-ranking"
+                  type="select"
+                  name="categoryRankingId"
+                  value={inputValues.categoryRankingId}
+                  onChange={handleChange}
+                >
+                  <option value="">{t("Please choose")}</option>
+                  {dropdownValue.ranking.data?.map((item) => (
+                    <option key={item.value} value={item.value}>
+                      {item.text}
+                    </option>
+                  ))}
+                </select>
+              
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button

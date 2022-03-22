@@ -68,11 +68,11 @@ const FolderCreationSection = ({
     iconmain:
     store.activeCase === "currentcases"? true: false,
     iconstudy:
-      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3 || store.tabindex===2)? true: false,
+      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3 || store.tabindex===2 || store.tabindex===3)? true: false,
     iconstudytwo:
-      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2|| store.tabindex===3 ? true: false,
     iconvisit:
-      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2? true: false,
+      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2 || store.tabindex===3? true: false,
   });
   const [buttonEnability, setButtonEnability] = useState({
         townplanningbutton:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,

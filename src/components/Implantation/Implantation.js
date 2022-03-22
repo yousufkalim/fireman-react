@@ -8,12 +8,16 @@ const Implantation = (props) => {
     const [expand, setExpand] = React.useState(false);
     const [expandChild, setExpandchild] = React.useState(false)
     const handleChange = (panel) => (event, isExpanded) => {
+        console.log(panel, "panel");
+        console.log("isExpanded", isExpanded);
         setExpanded(isExpanded ? panel : false);
         setExpandchild(!expandChild)
     };
     const onSubmit = (sectionindex, chapterindex)=>{
         console.log("id",sectionindex,chapterindex);
     }
+
+    console.log("props.accordionData.sections",props.accordionData.sections);
     return (
         <> 
         <div className="etablissement">
@@ -43,7 +47,7 @@ const Implantation = (props) => {
                       completed={true} 
                       handleChange={handleChange} 
                       expanded={expanded} 
-                      panelname={data.sectionName} 
+                      panelname={data.sectionId} 
                       setRightBarData={props.setRightBarData}
                       setExpandchild={setExpandchild}
                       expandChild={expandChild}

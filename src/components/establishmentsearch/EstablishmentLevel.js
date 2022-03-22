@@ -10,7 +10,7 @@ import { Store } from "../../StoreContext";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
-import DoneIcon from "@mui/icons-material/Done";
+import don from '../../assets/donne.svg'
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -83,7 +83,7 @@ const EstablishmentLevel = ({
    
 
      
-    const newarr = values.repeatable.map((object) => ({
+    const newarr = values?.repeatable?.map((object) => ({
       ...object,
       establishmentLevelId:object?.establishmentLevelId?object?.establishmentLevelId:0
     }));
@@ -100,10 +100,10 @@ const EstablishmentLevel = ({
       caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
-      const val =  values.repeatable.map((val)=>(
+      const val =  values?.repeatable?.map((val)=>(
         val.cellNumber<5?false:true
       ))
-      if(val.includes(false)){
+      if(val?.includes(false)){
         setError("incorrect format")
     }
     else{
@@ -136,10 +136,10 @@ const EstablishmentLevel = ({
     }
     if (store.activeCase === "currentcases") {
   
-      const val =  values.repeatable.map((val)=>(
-        val.cellNumber<5?false:true
+      const val =  values?.repeatable?.map((val)=>(
+        val?.cellNumber<5?false:true
       ))
-      if(val.includes(false)){
+      if(val?.includes(false)){
           setError("incorrect format")
       }
      else{
@@ -200,7 +200,7 @@ const EstablishmentLevel = ({
         }}
       >
         <Typography variant="h6">{t("Description")}</Typography>
-        {Icon.establishmentlevel ? <DoneIcon /> : null}
+        {Icon.establishmentlevel ? <img src={don}/> : null}
       </Box>
       <Accordion
         sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
@@ -228,7 +228,7 @@ const EstablishmentLevel = ({
                  
                 }}
                 enableReinitialize
-                render={({ values, setFieldValue, errors, touched, isValidating }) => (
+                render={({ values, setFieldValue }) => (
                   <Form>
                     <FieldArray
                       name="repeatable"
@@ -425,7 +425,7 @@ const EstablishmentLevel = ({
                                               fontSize: "12px",
                                             }}
                                           >
-                                            <Field
+                                            <input
                                               className="field-width-staff field-width-cellnum"
                                              name="cellNumber"
                                               title="Number should contain 12 digits and No Character"
@@ -744,9 +744,12 @@ const EstablishmentLevel = ({
                                             </option>
                                             {dropdownValue?.leveldropdown?.data?.map(
                                               (item) => (
-                                                <option value={item.value}>
-                                                  {item.text}
-                                                </option>
+                                               <>
+                                                <option value={item.value} 
+                                                 dangerouslySetInnerHTML={{__html:`${item.text}` }}
+                                                />
+                                               </>
+                                                
                                               )
                                             )}
                                           </Field>
