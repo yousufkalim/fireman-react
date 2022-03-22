@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
@@ -13,6 +13,11 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
   const [isDisabled, setIsDisabled] = useState(false);
  
   useEffect(() => {
+    console.log(importedData);
+    console.log("WWWWWWWWWWWWWW employee id", importedData?.employeeId);
+    console.log(prefilledData);
+    console.log(importedData);
+ 
     if (importedData) {
       setIsDisabled(true);
     }
@@ -24,7 +29,9 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         password: "",
         roleId: importedData?.roleId,
         groupId: importedData?.groupId,
-        serviceId: importedData?.serviceId,
+        serviceId: importedData?.serviceId
+          ? importedData?.serviceId
+          : prefilledData?.data?.serviceId,
         empFirstName: importedData?.empFirstName,
         empLastName: importedData?.empLastName,
         password: importedData?.password,
@@ -113,7 +120,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
  
   //   console.log("SERVICESSS", services);
   const submitForm = (e) => {
-  
     e.preventDefault();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
@@ -136,28 +142,28 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
       team.empFirstName &&
       team.empLastName
     ) {
-    
       {
         console.log(data);
         api("post", "/api/v1/register", data).then((res) => {
           console.log("res register api", res);
-        
+ 
           if (res.status == 200) {
             if (res.data.success == true) {
-              toast.success("Employee Added Successfully");
+              toast.success("Employé ajouté avec succès");
             }
           }
           console.log("res", res);
         });
       }
     }
- 
+    {
+      console.log("TEAM    ROLEID", team.roleId);
+    }
     if (team.employeeId > 0) {
-     
       const obj = {
         //...team,
         employeeId: importedData.employeeId,
-        roleId: importedData.roleId,
+        roleId: team.roleId,
         groupId: team.groupId,
         serviceId: team.serviceId,
         //code: "string",
@@ -177,14 +183,16 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         currentUserId: 0,
         isAdmin: true,
       };
-      console.log("UPDATED DATA", obj);
+      console.log("TEAM 186   ROLEID", team.roleId);
+      console.log("obj", obj);
       api("put", "/api/v1/Users/update", obj).then((res) => {
-      
         setRess(res);
         console.log("updated res", ress);
         if (res.status == 200) {
           if (res.data.success == true) {
-            toast.success("Employee Data Updated Successfully");
+            toast.success(
+              "Les données des employés ont été mises à jour avec succès"
+            );
           }
         }
         console.log("updated res", res);
@@ -271,7 +279,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               disabled={store?.role == "3" && prefilledData.length !== 0}
               value={
                 team?.serviceId
-                  ? team.serviceId
+                  ? team?.serviceId
                   : prefilledData?.data?.serviceId
               }
               onChange={(e) => {
@@ -280,6 +288,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               name="cars"
               id="cars"
             >
+              {console.log("TEAM>SERVICEID", team.serviceId)}
               <option selected disabled>
                 Select Service
               </option>
@@ -299,6 +308,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               name="cars"
               id="cars"
             >
+              {console.log("TEAM>ROLEID", team.roleId)}
               <option selected disabled>
                 Select Employee Designation
               </option>
@@ -417,5 +427,5 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
     </>
   );
 };
-
-export default TeamManagmentForm
+ 
+export default TeamManagmentForm;

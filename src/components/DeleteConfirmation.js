@@ -1,14 +1,9 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { toast } from "react-toastify";
 import api from "../api";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { fontSize, fontWeight } from "@mui/system";
 const DeleteConfirmation = ({ setOpen, open, userDelete }) => {
   const handleClose = (deleteUser) => {
     if (deleteUser == true) {
@@ -18,7 +13,7 @@ const DeleteConfirmation = ({ setOpen, open, userDelete }) => {
       ).then((res) => {
         ///api/v1/Users/delete_user/{userId}
         console.log("DELETE USER API res", res);
-        toast.success("User Deleted");
+        toast.success("Utilisateur supprimé");
         //setUsersData(res);
       });
       //alert(userDelete);

@@ -513,7 +513,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <input
                         required
                           type="search"
-                          value={inputValues.establishmentName}
                           onChange={handleChange}
                           name="establishmentName"
                           value={inputValues.establishmentName}
@@ -526,7 +525,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <input
                         required
                           type="search"
-                          value={inputValues.estSerial}
                           onChange={handleChange}
                           name="estSerial"
                           value={inputValues?.estSerial}
