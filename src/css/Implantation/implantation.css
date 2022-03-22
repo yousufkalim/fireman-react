@@ -230,7 +230,41 @@ margin-left: 10px;
 .icon-txt>*{
   margin-right: 20px;
 }
+.accordian-notes{
+  font-size: 15px !important;
+  padding: 10px;
+}
 
+.file-inp{
+  display: none;
+  width: 80%;
+}
+
+.file-label{
+  padding: 10px;
+  background: #3675B7; 
+  display: table;
+  color: #fff;
+  width: 80%;
+  margin: 10px auto;
+  border-radius: 5px;
+}
+
+
+.accordian-assistance{
+  height: 38vh !important;
+  width:75%; 
+  margin: 10px auto;
+   border-radius:12px; 
+   border:0.2px solid #9095A3; 
+   color:#B4BCC3; 
+   font-style:italic; 
+   font-size:12px;
+   margin-bottom :15px;
+}
+.pic-detail{
+margin: 0 8%;
+}
 .accordian-details{
   width:80%; 
   margin:auto;
@@ -240,7 +274,14 @@ margin-left: 10px;
    font-style:italic; 
    font-size:12px;
    margin-bottom :15px;
-   height: 59vh;
+   height: 59vh !important;
+}
+.textarea-accordian{
+display: flex;
+flex-direction: column;
+}
+.textarea-accordian textarea::placeholder {
+   color:#B4BCC3  !important;
 }
       .left_side .Compagnon{
          background-color: #FFFFFF ;
@@ -264,17 +305,32 @@ margin-left: 10px;
           margin-top: 20px;
           padding: 5px 10px;
           display: flex;
-          display: flex;
-          align-items: center;
+          width: 95%;
+          overflow: auto;
       }
 
       .left_side .Compagnon .Compagnon_icons p{
         color: #B4BCC3;
-        font-size: 12px;
+        font-size: 18px;
         margin-left: 15px;
         font-weight: 500;
-
+        color: #9095A3;
       }
+      
+    .comments{
+      height: 40vh;
+      align-items: start !important;
+    }
+
+    .v-tut{
+      height: 20vh;
+      align-items: start !important;
+    }
+    .v-tut a{
+      color: #9095A3;
+      font-size: 15px;
+    }
+
 
       .left_side .Compagnon .notes{
         display: flex;
@@ -370,3 +426,6 @@ line-height: 15px;
         padding-bottom: 10px;
       }
 
+.spacing>*{
+  padding-bottom: 10px;
+}

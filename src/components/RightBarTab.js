@@ -14,7 +14,18 @@ import Accordion from "@mui/material/Accordion";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import Chat from './chat/IndexTwo'
+import { Input } from '@mui/material';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import api from '../api/index'
+import jwt from 'jwt-decode'
+import Modal from '@mui/material/Modal';
+import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
+import { toast } from "react-toastify";
+import TextField from '@mui/material/TextField';
+//import Chat from './chat/IndexTwo'
+import Chat from './chat/IndexThree'
+//import Chat from './chat/Index'
+import SendIcon from '@mui/icons-material/Send';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -37,25 +48,157 @@ const AccordionSummary = styled((props) => (
     visibility:"hidden"
   },
 }));
-const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: "90%",
+  margin:"auto",
+  bgcolor: 'background.paper',
+  borderRadius:'4px',
+  boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
+};
 
+const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
+  const [inputValues, setInputValues] = useState({
+    subject:""
+   })
+  useEffect(() => {
+    setInputValues(()=>{
+      return{
+        notes:rightBarData.notes,
+        assistance:rightBarData.assistance
+      }
+    })
+  }, [rightBarData])
+  
    const [activeTab, setActiveTab] = useState({
      chat:false,
      notes:false,
      assistance:false,
      compagnon:false
    })
+   const [imageData, setImageData] = useState("")
+   const [image, setImage] = useState(null)
+   
+   const [open, setOpen] = React.useState(false);
+   const handleOpen = () =>{ setOpen(true); 
+   
+  }
+   const handleClose = () => {
+     setOpen(false); 
+  }
+   const [users, setUsers] = useState([])
+
   useEffect(() => {
-    setSideBar(false)
+    setSideBar(false);
+    var token = localStorage.getItem("userData");
+    const userData = jwt(token);
+    console.log("");
+api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>{
+  setUsers(res?.data)
+ console.log("chat res", res);
+})
   }, [])
-  
   const store = Store();
-  console.log("sideBar",sideBar);
+  const ChatWithUser = (userID) => {
+    console.log("useridforchat",userID);
+    handleOpen();
+    var token = localStorage.getItem("userData");
+    const userData = jwt(token);
+     var userB = userID;
+      api("get",`/api/v1/chat/getorcreatechatroom/${userData.Id}/${userID}`).then(( res)=>{
+   console.log("res><><<<activchat", res);
+         localStorage.setItem("activeChat", res?.data?.data.chatInfoId);
+      //   this.setState({ chat_id: responseChat.id }, () => {
+      //     window.location.replace("/admin/chat");
+      // })
+      
+      })};
+      const onChange =(e)=>{
+          const value= e.target.value;
+          const name =e.target.name;
+           setInputValues((pre)=>{
+             return{
+              ...pre,
+              [name]:value
+             }
+           })
+      }
+      const getFileData =(event)=>{
+        if (event.target.files && event.target.files[0]) {
+          setImage(event.target.files[0].name);
+        }
+          const data =event.target.files[0]
+          let form_data = new FormData();
+          form_data.append("docFile", data);
+          console.log(data);
+          setImageData(data)
+      }
+      const sendNotes = ()=>{
+        const obj={
+              notesSentence:inputValues?.notes,
+              caseFileId:store?.caseFileId,
+              employeeId:store?.userId,
+              sectionId:rightBarData.sectionId
+            }
+            console.log(obj);
+            api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
+                  if(res.data===true){
+                    toast.success(t("Successfull"));
+                  }
+                  else{
+                    toast.error("error")
+                  }
+                })
+      }
+   const sendAssistance =()=>{
+    let form_data = new FormData();
+    form_data.append("EmailFileAttachment", imageData);
+    form_data.append("EmployeeId", parseInt(store?.userId));
+    form_data.append("EmailSubject", inputValues.subject);
+    form_data.append("EmailBody", inputValues.assistance);
+    
+     api("post","/api/v1/checkList/section_assistance", form_data).then((res)=>{
+       console.log(res.data)
+       if(res.data.success===true){
+        setImage("")
+        setInputValues((pre)=>{
+          return{
+            ...pre,
+            assistance:"",
+            subject:""
+          }
+        })
+        toast.success("Email envoyé");
+       }
+       else{
+        toast.error("error")
+       }
+     })
+   }
+      
   return (
     <>
-
+   <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box sx={{textAlign:"end", position:"relative"}}> 
+          <CancelPresentationSharpIcon onClick={()=>handleClose()} sx={{position:"absolute", padding:"8.8px 8px", right:"0%", color:"#fff", background:"#314A6C"}}/> 
+          </Box>
+       
+         <Chat/>
+        </Box>
+      </Modal>
+    </div>
       {
          sideBar? (
            <>
@@ -141,7 +284,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                 />
               </svg>
               <span> Chat</span>
-              <small>(3) </small>
+              <small>({users.length}) </small>
             </Box>
 
            
@@ -163,105 +306,38 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
 
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    padding: "5px 0px",
-                    
-                   
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Christen </span>
+                {
+                  users?.map((val)=>(
+                    <Box
+                    onClick = {()=> ChatWithUser(val?.empId)}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "100%",
+                      padding: "5px 0px",
+                      
+                     
+                    }}
+                  >
+                    <Box sx={{ display: "flex" }} className="img-txt">
+                      <img className="img-chat" src={don} />
+                      <span className="chat-user">{val?.empName} </span>
+                    </Box>
+                    <span className={`${val.isOnline? "dot":"dot-unactive" }`}> </span>
                   </Box>
-                  <span class="dot"></span>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    paddingBottom:"10px"
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Messi </span>
-                  </Box>
-                  <span class="dot"></span>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    paddingBottom:"10px"
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Ronaldo </span>
-                  </Box>
-                  <span class="dot"></span>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    paddingBottom:"10px"
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Ronaldo </span>
-                  </Box>
-                  <span class="dot"></span>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    paddingBottom:"10px"
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Ronaldo </span>
-                  </Box>
-                  <span class="dot"></span>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    padding: "5px 0px",
-                  }}
-                >
-                  <Box sx={{ display: "flex" }} className="img-txt">
-                    <img className="img-chat" src={don} />
-                    <span className="chat-user">Diago Costa </span>
-                  </Box>
-                  <span class="dot dot-unactive"></span>
-                </Box>
+                  ))
+                  } 
+                
+               
+                
+                
               </Box>
              
             </Box>
            
           </Box>
+
   ):null
 }
         </Box>
@@ -281,14 +357,18 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
              })}}> <CloseIcon className="close-icon"/></span>
           <h4>{t("Companion")}</h4>
           </Box>
-          <div className="Compagnon_icons">
-            <img src={Commentaries} />
-            <p>{t("Comments")}</p>
-          </div>
-          <div className="Compagnon_icons">
+          <div className="Compagnon_icons v-tut">
             <SlowMotionVideoIcon sx={{ color: "#9095A2" }} />
-            <p>{t("Video tutorial")}</p>
+            {/* <p>{t("Video tutorial")}</p> */}
+           <p><a href={`${rightBarData.videoLink}`} target="_blank">{rightBarData?.videoLink} </a>  </p> 
           </div>
+         
+          <div className="Compagnon_icons comments">
+            <img src={Commentaries} />
+            {/* <p>{t("Comments")}</p> */}
+             <p > {rightBarData?.comments}</p>
+          </div> 
+         
          
            
          
@@ -351,17 +431,22 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                     fill="#9095A3"
                   />
                 </svg>
-                <Typography sx={{ color: "#B4BCC3" }}> Notes</Typography>
-              
+                <Typography sx={{ color: "#B4BCC3" }}>
+                   Notes
+                   </Typography>
+                   <SendIcon onClick={sendNotes} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
               </Box>
             </AccordionSummary>
-            <AccordionDetails className="accordian-details">
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
+            <Box className="textarea-accordian" > 
+            <TextareaAutosize
+             value={inputValues?.notes}
+             className="accordian-details accordian-notes"
+             name="notes"
+            onChange={onChange}
+             
+             />
+          
+    </Box>
           </Accordion>
           ):null
          }
@@ -407,13 +492,48 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                   />
                 </svg>
                 <Typography sx={{ color: "#B4BCC3" }}> Assistance</Typography>
+                <SendIcon onClick={sendAssistance} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
               </Box>
             </AccordionSummary>
-            <AccordionDetails className="accordian-details">
-              <Typography>
-               
-              </Typography>
-            </AccordionDetails>
+            <Box className="textarea-accordian"> 
+             <label className="file-label">  {t("Attachment")}
+    <input  onChange={getFileData} className="file-inp" type="file" size="60" />
+    
+    </label> 
+    <p className="pic-detail">{image?.slice? image?.slice(0,36)+"...":""}</p>
+      <TextField 
+      id="filled-basic" 
+      label="Sujette" 
+      variant="filled" 
+       placeholder="Sujette"
+       multiline
+       name="subject"
+       value={inputValues?.subject}
+       size="small"
+       onChange={onChange}
+       sx={{width:"85%", margin:"auto", padding:"15px 5px"}}
+      />
+
+            <TextareaAutosize
+             value={inputValues?.assistance}
+             className="accordian-notes accordian-assistance"
+             name="assistance"
+            onChange={onChange}
+             />
+            
+    </Box>
+            {/* <AccordionDetails className="accordian-details">
+            <TextareaAutosize
+             value={inputValues?.notes}
+            
+             name="notes"
+            onChange={onChange}
+            onMouseLeave={onMouseLeave}
+             />
+              { <Typography>
+             {rightBarData?.assistance}
+              </Typography> }
+            </AccordionDetails> */}
           </Accordion>
          ):null
 }
@@ -429,7 +549,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
 
 
 
-      <Box sx={{display:"flex", flexDirection:"column"}}> 
+      <Box className="cursor spacing" sx={{display:"flex", flexDirection:"column"}}> 
      <svg
      onClick={()=>{ setSideBar(true); setActiveTab((pre)=>{
        return{
@@ -483,7 +603,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar}) => {
                   stroke-width="0.6"
                 />
               </svg>
-              <img  onClick={()=>{ setSideBar(true); setActiveTab((pre)=>{
+              <img   onClick={()=>{ setSideBar(true); setActiveTab((pre)=>{
             return{
               ...pre,
               compagnon:true

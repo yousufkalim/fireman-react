@@ -10,12 +10,13 @@ import { Input } from '@mui/material';
 import { display } from '@mui/system';
 import { toast } from "react-toastify";
 import validator from 'validator' 
-
+import { Store } from '../../StoreContext'
 
 
 const Profile = () => {
     let [profile, setProfile] = useState({})
     let [image, setImage] = useState("")
+    const [postImage, setPostImage] = useState("")
     let[FirstName,setFirstName]=useState("")
     let[LastName,setlastName]=useState("")
     let[PhoneNo,setPhoneNo]=useState("")
@@ -29,11 +30,18 @@ const Profile = () => {
         getProfile();
       
     }, [])
+    const store = Store()
  const getProfile=()=>{
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
         .then((res) => {
+            console.log("resprofile", res.data);
+          
+            if(res.status===401){
+                localStorage.removeItem("userData");
+                window.location = "/login";
+            }
             if (res.status == 200) {
                 setProfile(res.data)
                 setFirstName(res.data.firstName);
@@ -56,10 +64,10 @@ const Profile = () => {
      if(e.target.files){
         let objectURL = URL.createObjectURL(e.target.files[0])
         setImage(objectURL)
-        console.log(image)
-
+        setPostImage(e.target.files[0])
      }
  }
+ console.log("image", image);
  const updateProfile=(e)=>{
     e.preventDefault()
     let formData = new FormData();
@@ -74,6 +82,9 @@ const Profile = () => {
             formData.append('LastName',LastName)
             formData.append('Email',Email)
             formData.append('PhoneNo',PhoneNo)
+            formData.append('ProfileImage',postImage)
+            formData.append('ProfilePicture',"")
+            formData.append('UserProfileImage',"")
             api("put", `/api/v1/Users/updateprofile`,formData).then((res)=>{
                 if(res.data.message=="Record updated"){
                     getProfile()
@@ -86,9 +97,6 @@ const Profile = () => {
       
     }
  }
-
-
-    console.log("profile", profile)
     return (
 
         <div style={{ width: "91%" }} >
@@ -97,8 +105,11 @@ const Profile = () => {
                 <div style={{display:"flex"}} >
                     <div>
                     <div className='image_container'>
-                        <img src={profile.profileImage ? profile.profileImage : image ? image:profileImage} />
-                        <div class="overlay">
+                        
+                         <img src={ profile?.profileImage ? 
+                         `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}` : 
+                         image ?image: `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}` } />
+                       <div class="overlay">
                             <a class="icon" title="User Profile">
                                 <label htmlFor="icon-button-file">
                                     <Input onChange={chnageProfileImage} style={{ display: "none" }} accept="image/*" id="icon-button-file" type="file" />
@@ -156,11 +167,16 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className='field_seprator'></div>
+                        {store?.role==2?
+                              null :
+                              (
+                                  <> 
                         <div className='input_row'>
                             <div className='input_container'>
-                                <label>Service</label>
-                                <input disabled value={profile.service} />
-                            </div>
+                            <label>Service</label>
+                            <input disabled value={profile.service} />
+                        </div>
+                              
                             <div style={{ visibility: "hidden" }} className='input_container'>
                                 <label>Groupement</label>
                                 <input value={profile.group} />
@@ -168,7 +184,9 @@ const Profile = () => {
                         </div>
 
                         <div className='field_seprator'></div>
-
+                        </>
+                              )
+}
                         <button onClick={updateProfile} className='profile_form_button'>Modifier le profil</button>
                     </form>
                 </div>

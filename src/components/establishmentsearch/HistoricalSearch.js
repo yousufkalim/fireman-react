@@ -101,44 +101,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
 
-  const [inputValues, setInputValues] = useState({
-    establishmentName: generalDataEstablishment.establishmentName
-      ? generalDataEstablishment.establishmentName
-      : "",
-    statusId: generalDataEstablishment.statusId
-      ? generalDataEstablishment.statusId
-      : "",
-    cityId: generalDataEstablishment.cityId
-      ? generalDataEstablishment.cityId
-      : "",
-    trackTypeId: generalDataEstablishment.trackTypeId
-      ? generalDataEstablishment.trackTypeId
-      : "",
-    zipCode: generalDataEstablishment.zipCode
-      ? generalDataEstablishment.zipCode
-      : "",
-    channelName: generalDataEstablishment.channelName
-      ? generalDataEstablishment.channelName
-      : "",
-    estNumber: generalDataEstablishment.estNumber
-      ? generalDataEstablishment.estNumber
-      : "",
-    securityManagerName: generalDataEstablishment.securityManagerName
-      ? generalDataEstablishment.securityManagerName
-      : "",
-    securityManagerLastName: generalDataEstablishment.securityManagerLastName
-      ? generalDataEstablishment.securityManagerLastName
-      : "",
-    securityManagerMobile: generalDataEstablishment.securityManagerMobile
-      ? generalDataEstablishment.securityManagerMobile
-      : "",
-    securityManagerEmail: generalDataEstablishment.securityManagerEmail
-      ? generalDataEstablishment.securityManagerEmail
-      : "",
-    estNumber: generalDataEstablishment.estNumber
-      ? generalDataEstablishment.estNumber
-      : "",
-  });
+  const [inputValues, setInputValues] = useState({});
   useEffect(() => {
     setInputValues({
       establishmentName: generalDataEstablishment.establishmentName
@@ -176,6 +139,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         : "",
       estNumber: generalDataEstablishment.estNumber
         ? generalDataEstablishment.estNumber
+        : "",
+      estSerial: generalDataEstablishment.estSerial
+        ? generalDataEstablishment.estSerial
         : "",
     });
   }, [generalDataEstablishment]);
@@ -220,7 +186,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to transform a group of establishments into an establishment. The history and reference of the XX group will now be linked to this new establishment."
+          `Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe ${inputValues?.establishmentName}  seront désormais liées à ce nouvel établissement..`
         )}`
       );
     }
@@ -228,7 +194,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to transform an establishment into a consortium of establishments The history and reference of establishment XX will now be linked to this new group"
+          `Vous êtes sur le point de transformer un établissement en groupement d'établissements L'historique et la référence de l'établissement ${inputValues?.establishmentName} seront désormais liés à ce nouveau groupe.`
         )}`
       );
     }
@@ -239,7 +205,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setOpen(true);
       setMessageText(
         `${t(
-          "You are about to change the name of an establishment or a group of establishments. The history of establishment XX and the reference will now be linked to this new name."
+          `Vous êtes sur le point de changer le nom d'un établissement ou d'un groupe deétablissements. L'historique de l'établissement ${generalDataEstablishment?.establishmentName}  et la référence seront désormais lié à ce nouveau nom.`
         )}`
       );
     }
@@ -250,6 +216,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       };
     });
   };
+  console.log(generalDataEstablishment, "generalDataEstablishment");
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedObj = {
@@ -258,29 +225,33 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       caseFileId: store.caseFileId,
     };
     if (store.activeCase === "newcase") {
+      console.log("ddfddfdfdfdfdfdffd", updatedObj);
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
-          setButtonEnability((pre) => {
-            return {
-              ...pre,
-              historicalsearchbutton: false,
-            };
-          });
-          {
-            toast.success(t("Successfull"));
+          console.log(res, "ghj><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+          if (res.data === true) {
+            setButtonEnability((pre) => {
+              return {
+                ...pre,
+                historicalsearchbutton: false,
+              };
+            });
+            {
+              toast.success(t("Successfull"));
+            }
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglerhistoricalsearch: false,
+              };
+            });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconhistoricalsearch: true,
+              };
+            });
           }
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglerhistoricalsearch: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconhistoricalsearch: true,
-            };
-          });
         })
         .catch((err) => {
           console.log(err);
@@ -290,29 +261,31 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     if (store.activeCase === "currentcases") {
       api("put", "/api/v1/update_generaldata_establishment", updatedObj)
         .then((res) => {
-          {
-            toast.success(t("Successfull"));
+          if (res.data === true) {
+            {
+              toast.success(t("Successfull"));
+            }
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglerhistoricalsearch: false,
+              };
+            });
+            // setToggler((pre) => {
+            //   return {
+            //     togglerhistoricalsearch: false,
+            //     createhistoricaldata: true,
+            //     togglervisit: true,
+            //     togglerstudytwo: true,
+            //   };
+            // });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconhistoricalsearch: true,
+              };
+            });
           }
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglerhistoricalsearch: false,
-            };
-          });
-          // setToggler((pre) => {
-          //   return {
-          //     togglerhistoricalsearch: false,
-          //     createhistoricaldata: true,
-          //     togglervisit: true,
-          //     togglerstudytwo: true,
-          //   };
-          // });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconhistoricalsearch: true,
-            };
-          });
         })
         .catch((err) => console.log(err));
     }
@@ -574,22 +547,35 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         }}
                       ></Box>
                     </div>
-                    <div className="flex-form nom-et-form">
-                      <label className="label-color label-estab-nom">
-                        {t("Name Establishment")}
-                      </label>
-                      <input
-                        required
-                        type="search"
-                        value={inputValues.establishmentName}
-                        onChange={handleChange}
-                        name="establishmentName"
-                      />
 
-                      <div className="flex-form form-top">
-                        <label className="label-color label-status">
-                          {t("Status")}{" "}
+                    <Box sx={{ display: "flex", padding: "10px 0px" }}>
+                      <div className="flex-form">
+                        <label className="label-color label-general">
+                          {" "}
+                          {t("Name")}
                         </label>
+                        <input
+                          required
+                          type="search"
+                          //value={inputValues.establishmentName}
+                          onChange={handleChange}
+                          name="establishmentName"
+                          value={inputValues.establishmentName}
+                        />
+                      </div>
+                      <div className="flex-form refnum-est">
+                        <label className="label-color">REF. #</label>
+                        <input
+                          required
+                          type="search"
+                          //value={inputValues.estSerial}
+                          onChange={handleChange}
+                          name="estSerial"
+                          value={inputValues?.estSerial}
+                        />
+                      </div>
+                      <div className="flex-form channel-name">
+                        <label className="label-color">{t("Status")}</label>
                         <select
                           className="dropdown statusid"
                           type="select"
@@ -605,7 +591,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           ))}
                         </select>
                       </div>
-                    </div>
+                    </Box>
                   </Box>
 
                   <Box>
@@ -661,7 +647,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           type="search"
                           onChange={handleChange}
                           name="channelName"
-                          value={inputValues.channelName.toUpperCase()}
+                          value={inputValues?.channelName?.toUpperCase()}
                         />
                       </div>
                     </Box>
@@ -721,7 +707,17 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           type="search"
                           onChange={handleChange}
                           name="securityManagerLastName"
-                          value={inputValues.securityManagerLastName.toUpperCase()}
+                          value={inputValues?.securityManagerLastName?.toUpperCase()}
+                        />
+                      </div>
+                      <div className="flex-form nom-et-form">
+                        <label className="label-color">{t("First name")}</label>
+                        <input
+                          required
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerLastName"
+                          value={inputValues?.securityManagerLastName?.toUpperCase()}
                         />
                       </div>
                       <div className="flex-form nom-et-form">
@@ -731,7 +727,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           type="search"
                           onChange={handleChange}
                           name="securityManagerName"
-                          value={inputValues.securityManagerName}
+                          value={inputValues?.securityManagerName}
                         />
                       </div>
                     </Box>

@@ -4,14 +4,17 @@ import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTranslation, Trans } from "react-i18next";
 import api from '../../../../api/index';
+import { Store } from "../../../../StoreContext";
 import moment from "moment";
 const EndedCases = () => {
     const [endedcases, setendedcases] = useState([]);
     const [pageSize, setPageSize] = React.useState(25);
+    const store = Store()
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
-    api("get", `/api/v1/casefiles/rolewise_cases/${userId?.userid}/0`).then(
+   
+    api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/0`).then(
       (res) => {
         console.log(res);
         setendedcases(res);
@@ -58,6 +61,13 @@ const EndedCases = () => {
           color: "#8D919D",
         },
         {
+          field: "Ref#",
+          headerName: `${t("Ref#")}`,
+          minWidth: 150,
+          color: "#8D919D",
+          borderBottom:"none"
+        },
+        {
           field: "cityName",
           headerName: `${t("City")}`,
           minWidth: 130,
@@ -89,8 +99,16 @@ const EndedCases = () => {
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
             pageSize={pageSize}
+            componentsProps={{
+              pagination: { 
+                component: "div", // here
+                labelRowsPerPage: "Lignes par page",
+              }
+            }}
+            labelRowsPerPage={"Lignes par page"}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[25, 50, 100]}
+            TablePagination
              pagination
               sx={{ border: "none" }}
               sortModel={sortModel}

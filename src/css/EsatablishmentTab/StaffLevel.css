@@ -5,6 +5,12 @@
   border-radius:5px;
   color: #8D919D;
 }
+.field-width-cellnum{
+  width: 130px !important;
+}
+.staff-feild-width{
+  width: 80px !important;
+}
   .total{
     display: flex;
     justify-content: end;

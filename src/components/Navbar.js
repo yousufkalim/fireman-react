@@ -1,4 +1,5 @@
-import * as React from "react";
+import  React,{ useEffect} from "react";
+import useState from 'react-usestateref'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,13 +12,47 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-
+import moment from "moment";
+import jwt from 'jwt-decode'
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 export default function Navbar() {
   
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [state, setState, counterRef] = useState({
+    connection: "",
+  })
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  useEffect(() => {
+  
+    //window.addEventListener("offline", triggeroffline())
+    //window.addEventListener("online", sendConnectionId())
+    //window.addEventListener("unload", triggeroffline())
+    const {connection} =state;
+
+    const newConnection = new HubConnectionBuilder()
+  .withUrl("http://192.168.10.15:9090/chatHub")
+      .withAutomaticReconnect()
+      .build();
+     console.log("started", newConnection);
+     setState((pre)=>{
+      return{
+       ...pre,
+       connection: newConnection 
+      }
+    })
+    //setConnect(newConnection)
+    counterRef.current.connection
+    .start()
+    .then((res) =>{console.log("hit") })
+    .catch((err) =>
+      console.log("Error while establishing connection :(", err.message)
+    )
+
+
+  }, [])
   let user = localStorage.getItem("user");
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,6 +65,18 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    var token = localStorage.getItem("userData");
+    const userData = jwt(token);
+    const bool = false;
+    // this.disconnectChat();
+    const logoutTime = ""
+    if(counterRef.current.connection){
+      alert("nav")
+      counterRef.current.connection.send("Disconnect", parseInt(userData.Id), bool, logoutTime);
+    }
+    else{
+      alert("not connected to server")
+    }
     localStorage.removeItem("userData");
     window.location = "/login";
   };

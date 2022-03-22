@@ -1,5 +1,6 @@
 /* Importing all CSS files */
 @import url("./Header.css");
+@import url("./currentcases.css");
 @import url("./login.css");
 @import url("./signup.css");
 @import url("./Navbar.css");
@@ -18,6 +19,7 @@
 @import url("./OpenSearch/Foldercreation.css");
 @import url("./EsatablishmentTab/GeneralData.css");
 @import url("./Implantation/implantation.css");
+@import url("./Chat/chat.css");
 /* Defaults */
 * {
   padding: 0;

@@ -30,7 +30,7 @@ const Implantation = (props) => {
         {
             accordionData && accordionData.map((data, i)=>{
                 return(
-                    <ImplantationData index={i} accordionData={data} />
+                    <ImplantationData setRightBarData={props.setRightBarData} index={i} accordionData={data} />
                 )
             })
         }

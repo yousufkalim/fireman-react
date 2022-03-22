@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
-import EditModal from '../../../Modals/EditCheckBox'
+import EditModal from '../../../Modals/EditCheckBox';
+import parse from "html-react-parser";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -46,6 +47,7 @@ const EstablishmentSearchVisitForm = ({
               caseFileCheckListId: val.caseFileCheckListId,
               sectionType: val.sectionType,
               casefileId: casefileId ? casefileId : currentcasescaseFileId,
+              completedSentence:val?.name
             };
           })
       )
@@ -55,6 +57,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
+            completedSentence:val?.name
           };
         })
       );
@@ -67,6 +70,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
+            completedSentence:val?.completedSentence
           };
         }),
       };
@@ -99,6 +103,7 @@ const EstablishmentSearchVisitForm = ({
                   caseFileCheckListId: parseInt(val.caseFileCheckListId),
                   casefileId: casefileId ? casefileId : currentcasescaseFileId,
                   sectionType: sectiontype,
+                  completedSentence:val?.completedSentence  
                 };
               }),
               obj,
@@ -111,6 +116,7 @@ const EstablishmentSearchVisitForm = ({
       }
     }
     if (!checked) {
+      setOpen(false);
       if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
         setstate((pre) => {
           return {
@@ -139,12 +145,15 @@ const EstablishmentSearchVisitForm = ({
     const newdata = []
      let new2 = [];
      newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
+     if(store.activeCase==="newcase"){
       newdata.map((i) => {
       new2 = checkboxObj.findIndex(
         (s) => s.caseFileCheckListId === i.caseFileCheckListId
       );
       checkboxObj[new2].completedSentence = sentence;
     }); 
+
+  }
     console.log("item?.chkList", visit?.map((val)=>{
      const a =    val.chkList.findIndex(
         (obj) => obj?.caseFileCheckListId === sentenceId
@@ -153,8 +162,25 @@ const EstablishmentSearchVisitForm = ({
       val.chkList[a].name=sentence
      }
     }))
+    if (store.activeCase  === "currentcases"){
+    
+      newdata.map((i) => {
+        new2 = state.visitcheck.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+        console.log("check");
+        console.log("new2", new2);
+        console.log("state.check",state.visitcheck);
+       
+        if(new2>-1){
+        state.visitcheck[new2].completedSentence = sentence;
+        }
+      }); 
+    }
     setText("")
   };
+
+  console.log("fghj", state.visitcheck);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("}{}{}",checkboxObj);
@@ -228,12 +254,14 @@ const EstablishmentSearchVisitForm = ({
                         <div class="group">
                           <input
                            onClick={()=>{ 
-                            if(val.name.match(/[_]/g) && val.modifiedSentence.match(/[_]/g)){
+                            if(val.name.match(/[_]/g)){
                               setOpen(true);
                               setText(val?.name);
                               setId(val?.caseFileCheckListId)
                             }
-                            }}
+                             console.log(val.name);
+                            }
+                          }
                             type="checkbox"
                             defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
                             id={val.caseFileCheckListId}
@@ -263,7 +291,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                          {val.modifiedSentence?val?.modifiedSentence:val?.name}
+                          {parse(val?.name)}
                           </Box>
                         </Box>
                       </div>

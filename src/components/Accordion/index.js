@@ -16,7 +16,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
-
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { useTranslation, Trans } from "react-i18next";
@@ -75,12 +74,14 @@ const AccordionComponent = (props) => {
   });
   const [seriesValues, setSeriesValues] = useState([]);
   const [alreadyChecked, setAlreadyChecked] = useState([])
+ 
   const [subCheckValues, setSubCheckValues] = useState([]);
   const store = Store();
   console.log("chapterindex<><><",props.chapterindex);
   console.log("props.sedc", props.sectionindex);
   console.log("props.completed", sectionDetail);
   const onClick = (sentenceid, text, seriesname, nature, serialid) => {
+    console.log("serialid",serialid);
     setValues((pre) => {
       return {
         ...pre,
@@ -88,12 +89,13 @@ const AccordionComponent = (props) => {
         sentencetext: text,
         seriesName: seriesname,
         sentenceNature: nature,
-        serialid: serialid,
+        serialId: serialid,
       };
     });
 
     setSeriesValues((pre) => [
-      ...pre.filter((obj) => obj.seriesName != seriesname),
+      // ...pre.filter((obj) => obj.seriesName != seriesname),
+      ...pre.filter((obj) => obj.serialId != serialid),
       {
         completedSentence: nature == 1 ? text : "",
         serialId: serialid,
@@ -104,7 +106,8 @@ const AccordionComponent = (props) => {
       },
     ]);
   };
-  const getModifiedSentence = (text, sentenceid, nature, seriesname) => {
+  const getModifiedSentence = (text, sentenceid, nature, seriesname,serialid) => {
+    console.log("serialid",serialid);
     setValues((pre) => {
       return {
         ...pre,
@@ -116,24 +119,28 @@ const AccordionComponent = (props) => {
     });
 
     setSeriesValues((pre) => [
-      ...pre.filter((obj) => obj.seriesName != seriesname),
+      // ...pre.filter((obj) => obj.seriesName != seriesname),
+      ...pre.filter((obj) => obj.serialId != serialid),
       {
         completedSentence: nature == 1 ? text : "",
         caseFileCheckListId: sentenceid,
         modifiedSentence: text,
         subCheck: [],
         seriesName: seriesname,
+        serialId: serialid,
       },
     ]);
   };
-  const getSubCheckListData = (id, text, sentenceNature, seriesname) => {
+  const getSubCheckListData = (id, text, sentenceNature, seriesname, sectionid) => {
+    console.log("subchech",sectionid);
     setSubCheckValues((pre) => [
-      ...pre.filter((obj) => obj.seriesname != seriesname),
+      ...pre.filter((obj) => obj.serialid != sectionid),
       {
         seriesname: seriesname,
         subCheckListId: id,
         modifiedSentence: text,
         completedSentence: sentenceNature == 1 ? text : "",
+        serialid:sectionid
       },
     ]);
     //  setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=sentenceDetails?.seriesname)),{seriesname:sentenceDetails.seriesname, subCheckListId:sentenceDetails.id,modifiedSentence:sentenceDetails.text, completedSentence:sentenceDetails.sentenceNature==1?sentenceDetails.text:""}])
@@ -142,6 +149,8 @@ const AccordionComponent = (props) => {
   const onSubmit = (section, chapter) => {
     let newdata = [];
     let new2 = [];
+    console.log("seriesValues",seriesValues);
+    console.log("subCheckValues", subCheckValues);
     seriesValues?.map((item, index) => {
       subCheckValues?.map((sub) => {
         if (sub.seriesname === item.seriesName) {
@@ -176,28 +185,70 @@ const AccordionComponent = (props) => {
     };
     console.log("object", obj);
     api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
-      console.log("impres", res);
+     
       if (res.data === true) {
+        props.setExpandchild(true)
         toast.success(t("Successfull"));
       }
     });
     console.log("obj", obj);
   };
+  console.log("props.panelname",props.panelname);
+  console.log("props.expanded",props.expanded);
   return (
     <>
       <Accordion
-        expanded={props.expanded === props.panelname}
-        onChange={props.handleChange(props.panelname) }
+        expanded={props.expanded != props.panelname || (props.sectionindex===sectionDetail.sectionind&&props.chapterindex===sectionDetail.chapterindex && props.expandChild) ? false:true}
+        onChange={props.handleChange(props.panelname)}
+        //onChange={onChange(props.panelname)}
+        //onClick={()=>{setExpand(!expand)}}
       >
         <AccordionSummary
        
         
          onClick={()=>{
+          //  for tutorial video
+           api("get", `/api/v1/checkList/section_video_link/${props.accordionData?.sectionId}`).then((res)=>{
+             console.log("video", res.data);
+            props.setRightBarData((pre)=>{
+             return{
+               ...pre,
+               videoLink:res.data,
+               sectionId:props.accordionData?.sectionId
+             }
+            })
+
+            api("get",`/api/v1/checkList/section_comments/${props.accordionData?.sectionId}`).then((res)=>{
+              props.setRightBarData((pre)=>{
+                return{
+                  ...pre,
+                  comments:res?.data
+                }
+               })
+               
+            })
+            api("get",`/api/v1/checkList/section_notes/${props.accordionData?.sectionId}/${store?.caseFileId}`).then((res)=>{
+              console.log(res);
+              props.setRightBarData((pre)=>{
+                return{
+                  ...pre,
+                  notes:res?.data
+                }
+               })
+               
+            })
+           })
+
+           //
+
+           
             if(store.activeCase!="newcase"){
               api("get",`/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`).then((res)=>{
                 setAlreadyChecked(res?.data)
               })
-            }}}
+            }
+           
+          }}
           expandIcon={
             <svg
               width="19"
@@ -261,6 +312,7 @@ const AccordionComponent = (props) => {
                     index={i}
                     accordionData={series}
                     alreadyChecked={alreadyChecked}
+                    sectionid={props.accordionData.sectionId}
                   />
                 </>
               );

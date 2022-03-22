@@ -15,13 +15,28 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { useTranslation, Trans } from "react-i18next";
-
+import parse from "html-react-parser";
+import * as Yup from 'yup';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
+// });
+
+ const validationSchema = Yup.object().shape({
+  repeatable: Yup.array()
+    .of(
+      Yup.object().shape({
+        cellNumber: Yup.number()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required("Name is required"),        
+      })
+    )
+});
 const EstablishmentLevel = ({
   setToggler,
   Toggler,
@@ -35,6 +50,7 @@ const EstablishmentLevel = ({
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
+  const [error, setError] = useState("")
   const [Values, setLevelData] = useState([]);
   const [description, setDescription] = useState();
   const [columnState, setColumnState] = useState({
@@ -62,6 +78,11 @@ const EstablishmentLevel = ({
 
   const store = Store();
   const onSubmit = (values, data) => {
+    console.log(values,"hddh");
+
+   
+
+     
     const newarr = values.repeatable.map((object) => ({
       ...object,
       establishmentLevelId:object?.establishmentLevelId?object?.establishmentLevelId:0
@@ -79,7 +100,14 @@ const EstablishmentLevel = ({
       caseFileId:store.caseFileId
     };
     if (store.activeCase === "newcase") {
-      console.log("obj", obj);
+      const val =  values.repeatable.map((val)=>(
+        val.cellNumber<5?false:true
+      ))
+      if(val.includes(false)){
+        setError("incorrect format")
+    }
+    else{
+      setError("")
       api("put", "/api/v1/update_description_data", obj).then((res) => {
         setButtonEnability((pre)=>{
         return{
@@ -104,10 +132,21 @@ const EstablishmentLevel = ({
         });
       });
     }
+     
+    }
     if (store.activeCase === "currentcases") {
-      console.log("current", obj);
+  
+      const val =  values.repeatable.map((val)=>(
+        val.cellNumber<5?false:true
+      ))
+      if(val.includes(false)){
+          setError("incorrect format")
+      }
+     else{
+       console.log(obj,"OOOOOOO");
+       setError("")
       api("put", "/api/v1/update_description_data", obj).then((res) => {
-        console.log(res);
+        console.log(res, "<><><><><><>");
         {
           toast.success(t("Successfull"));
         }
@@ -124,9 +163,11 @@ const EstablishmentLevel = ({
           };
         });
       });
+     }
+     
     }
   };
-
+ 
   const handleClose = (column) => {
     setColumnState((pre) => {
       return {
@@ -182,9 +223,12 @@ const EstablishmentLevel = ({
           >
             {store.activeCase === "newcase" ? (
               <Formik
-                initialValues={{ repeatable: Values ? Values : "loading..." }}
+                initialValues={{ repeatable: Values ? Values : "loading...",  cellNumber: '', }}
+                initialValues={{
+                 
+                }}
                 enableReinitialize
-                render={({ values, setFieldValue }) => (
+                render={({ values, setFieldValue, errors, touched, isValidating }) => (
                   <Form>
                     <FieldArray
                       name="repeatable"
@@ -220,7 +264,7 @@ const EstablishmentLevel = ({
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             padding: "0px 5px",
-                                            width: "212px",
+                                            width: "140px",
                                           }}
                                         >
                                           <span>{t("Cell number")}</span>
@@ -342,14 +386,19 @@ const EstablishmentLevel = ({
                                             as="select"
                                             name={`repeatable.${i}.levelId`}
                                           >
+                                            {console.log("df",dropdownValue?.leveldropdown?.data)}
                                             <option value="">
                                               {t("Please choose")}
                                             </option>
                                             {dropdownValue?.leveldropdown?.data?.map(
                                               (item) => (
-                                                <option value={item.value}>
-                                                  {item.text}
-                                                </option>
+                                                <>
+                                                  { console.log(parse(item.text)) }
+                                                  <option value={item.value} 
+                                                   dangerouslySetInnerHTML={{__html:`${item.text}` }}
+                                                  />
+                                                 {/* <option>24&#x1D57;&#x02B0;</option> */}
+                                                </>
                                               )
                                             )}
                                           </Field>
@@ -377,10 +426,16 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
-                                              type="number"
+                                              className="field-width-staff field-width-cellnum"
+                                             name="cellNumber"
+                                              title="Number should contain 12 digits and No Character"
+                                              pattern="^(\d{12})$"
                                               name={`repeatable.${i}.cellNumber`}
                                               value={row.cellNumber}
+                                              type="tel"
+                                              minlength="12" 
+                                              maxlength="12"
+                                             
                                             />
                                           </Box>
                                         </th>
@@ -523,9 +578,10 @@ const EstablishmentLevel = ({
 
             {store.activeCase === "currentcases" ? (
               <Formik
-                initialValues={{ repeatable: Values ? Values : "loading..." }}
+              validationSchema={validationSchema}
+                initialValues={{ repeatable: Values ? Values : "loading...",  }}
                 enableReinitialize
-                render={({ values, setFieldValue }) => (
+                render={({ values, setFieldValue, errors, touched, isValidating }) => (
                   <Form>
                     <FieldArray
                       name="repeatable"
@@ -561,7 +617,7 @@ const EstablishmentLevel = ({
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             padding: "0px 5px",
-                                            width: "212px",
+                                            width: "140px",
                                           }}
                                         >
                                           <span>{t("Cell number")}</span>
@@ -718,16 +774,14 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
-                                              type="tel"
-                                              minlength="12" 
-                                              maxlength="12"
-                                              title="Number should contain 12 digits and No Character"
-                                              pattern="^(\d{12})$"
+                                              className="field-width-staff field-width-cellnum"
+                                              type="number"
                                               name={`repeatable.${i}.cellNumber`}
                                               style={{ padding: "10px" }}
                                               value={row.cellNumber}
+                                              
                                             />
+                                             <p>  {error}</p>
                                           </Box>
                                         </th>
                                       ) : null}
@@ -741,7 +795,7 @@ const EstablishmentLevel = ({
                                             }}
                                           >
                                             <Field
-                                              className="field-width-staff"
+                                              className="field-width-staff "
                                               name={`repeatable.${i}.cellName`}
                                               style={{ padding: "10px" }}
                                             />

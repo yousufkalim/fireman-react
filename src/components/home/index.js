@@ -12,7 +12,7 @@ import moment from "moment";
 import { UpdateStore } from "../../StoreContext";
 import BackspaceSharpIcon from "@mui/icons-material/BackspaceSharp";
 import Termines from "../../assets/termines.png";
-import Cours3 from "../../assets/courset.png";
+import Cours3 from "../../assets/cthree.png";
 import { motion } from "framer-motion/dist/framer-motion";
 
 import bg from "../../assets/bg.jpg";
@@ -32,8 +32,9 @@ const Home = () => {
     itemtwo: false,
     itemthree: false,
   });
+  let [counts, setCount] = useState();
+  const [prog, setProg] = useState()
   const [animate, setAnimate] = useState(false)
-  let [counts, setCount] = useState({});
   let [projects, setProjects] = useState([]);
 
   const update = UpdateStore();
@@ -72,6 +73,7 @@ const Home = () => {
       }
     });
   };
+  console.log("chgkjljhv",prog);
   return (
     <>
       <Box sx={{ width: "91%" }}>
@@ -79,7 +81,7 @@ const Home = () => {
           <>
             <Grid container>
               <Grid sx={{ marginBottom: "40px" }} item xs={12}>
-                <HomeLeft />
+                <HomeLeft  setProg={setProg}/>
               </Grid>
               {
                 <Grid className="cursor" item xs={4}>
@@ -98,9 +100,10 @@ const Home = () => {
                   >
                     <img
                       src={Termines}
-                      style={{ height: "90%", width: "90%" }}
+                      style={{ height: "98%", width: "90%" }}
                     />
-                    <div className="text">DOSSIERS TERMINÉS</div>
+                      {console.log("<><><><<",counts)}
+                  {prog===0 ||prog===1|| !prog ?<div className="text">DOCUMENT TÉRMINÉ</div>:<div className="text">DOCUMENTS TÉRMINÉS</div> }
                   </div>
                 </Grid>
               }
@@ -120,8 +123,6 @@ const Home = () => {
                 xs={4}
               >
                 <div className="DOSSIERS_text">
-                  <div className="text">MESSAGE(S) RECU(S)</div>
-                </div>
                 <img
                   onClick={() => {
                     setActiveBlock(() => {
@@ -133,24 +134,33 @@ const Home = () => {
                       };
                     });
                   }}
-                  style={{ height: "90%", width: "90%" }}
+                  style={{ height: "auto", width: "90%" }}
                   src={Cours3}
                 />
+                  <div className="text">DOSSIERS EN COURS</div>
+                  {counts===0 ||counts===1|| !counts?<div className="text">DOSSIER EN COURS</div>:<div className="text">DOSSIERS EN COURS</div> }
+                </div>
+               
               </Grid>
               <Grid className="cursor" item xs={4}>
-                <img
-                  style={{ height: "90%", width: "83%", borderRadius:"2%" }}
-                  onClick={() => {
+              <Box  onClick={() => {
                     update({ activeNavbarTab: "searchestablishment" });
-                  }}
+                  }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
+
+              <img
+                  style={{ height: "98%", width: "83%", borderRadius:"2%" }}
                   src={bg}
                 />
+               <div className="text-nov">NOUVEAU DOSSIER</div>
+              </Box>
               </Grid>
             </Grid>
           </>
         ) : null}
         {activeBlock.itemone ? (
           <>
+          <Box className="cross-icon"> 
+
             <BackspaceSharpIcon
              className="cursor"
               onClick={() => {
@@ -165,6 +175,7 @@ const Home = () => {
                 setAnimate(true)
               }}
             />
+            </Box>
             <motion.div
               initial={{ opacity: 0, translateX: -100, translateY: -100 }}
               animate={{ opacity: 1, translateX: 0, translateY: 0 }}
@@ -216,6 +227,7 @@ const Home = () => {
         ) : null}
         {activeBlock.itemtwo ? (
           <>
+            <Box className="cross-icon"> 
             <BackspaceSharpIcon
              className="cursor"
               sx={{ marginBottom: "10px" }}
@@ -230,11 +242,13 @@ const Home = () => {
                 });
               }}
             />
+            </Box>
             <HomeRight/>
           </>
         ) : null}
         {activeBlock.itemthree ? (
           <>
+           <Box className="cross-icon"> 
             <BackspaceSharpIcon
              className="cursor"
               onClick={() => {
@@ -248,6 +262,7 @@ const Home = () => {
                 });
               }}
             />
+             </Box> 
           </>
         ) : null}
       </Box>

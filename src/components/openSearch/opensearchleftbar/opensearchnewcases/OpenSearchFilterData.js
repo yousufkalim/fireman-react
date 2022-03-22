@@ -5,13 +5,14 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
 import api from "../../../../api/index";
-
+import { TablePagination } from '@mui/material';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
   const { t } = useTranslation();
   const messagesEndRef = useRef(null)
@@ -85,6 +86,8 @@ console.log(establishmentSearchData,"establishmentSearchData");
         sx={{border:"none"}}
       onCellClick={(params,event)=>onRowClick(params,event)}
       sortModel={sortModel}
+      TablePagination
+      labelRowsPerPage={"Lignes par page"}
       onSortModelChange={(model) => setSortModel(model)}
        columns={ column.map((val,index)=>({
         field: val.field,

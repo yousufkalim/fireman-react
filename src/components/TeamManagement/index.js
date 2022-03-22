@@ -7,20 +7,18 @@ import { DataGrid } from "@mui/x-data-grid";
 import api from "../../api/index";
 import { useTranslation, Trans } from "react-i18next";
 import { UpdateStore, Store } from "../../StoreContext";
-import TeamManagmentForm from "./TeamManagementForm";
+import TeamManagmentForm from "./TeamManagmentForm";
 import jwt from "jwt-decode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FormControlLabel, IconButton } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import DeleteConfirmation from "../DeleteConfirmation";
-
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
 const TeamManagement = () => {
   const [child, setChild] = useState(true);
   let [importedData, setImportedData] = useState([]);
@@ -47,13 +45,11 @@ const TeamManagement = () => {
       setUsersData(res);
     });
   }, []);
-
   const MatEdit = ({ index }) => {
     const handleDeleteClick = () => {
       setOpen(true);
       //showDeleteModal(1012);
     };
-
     return (
       <FormControlLabel
         control={
@@ -68,7 +64,6 @@ const TeamManagement = () => {
       />
     );
   };
-
   const column = [
     {
       field: "empFirstName",
@@ -145,7 +140,6 @@ const TeamManagement = () => {
       }
     );
     console.log("IMPORTED DATA ON DOUBLE CLICK", importedData);
-
     // updatestore({
     //     activeNavbarTab:"teammanage",
     //     teammanagmentid:params.row.val.employeeId

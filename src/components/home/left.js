@@ -8,7 +8,7 @@ import { UpdateStore } from "../../StoreContext";
 import moment from "moment";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-const HomeLeft = ({ setBox, box }) => {
+const HomeLeft = ({ setBox, box,setProg }) => {
   let [counts, setCount] = useState({});
   let [projects, setProjects] = useState([]);
 
@@ -25,9 +25,10 @@ const HomeLeft = ({ setBox, box }) => {
       "get",
       `/api/v1/dashboard/casefiles_userwise_count_frontend/${userId?.userid}`
     ).then((res) => {
-      console.log("faisl", res);
+      console.log("faislone", res.data);
       if (res.status == 200) {
         setCount(res.data);
+        setProg(res.data.completed)
       }
     });
     getLatest(userId);
@@ -47,6 +48,7 @@ const HomeLeft = ({ setBox, box }) => {
       }
     });
   };
+  console.log(counts);
   return (
     <>
       <Box className="parent-left-box">
@@ -57,15 +59,15 @@ const HomeLeft = ({ setBox, box }) => {
         <Box className="countData">
           <Box sx={{ width: "38%" }}>
             <p className="count">
-              {counts.completed ? counts.completed : <CircularProgress />}
+              { counts?.completed ? counts?.completed : 0}
             </p>
-            <p className="count_des">DOCUMENT(S) TÉRMINÉ(S)</p>
+           {counts?.completed===0 || !counts?.completed ||counts?.completed===1 ? <p className="count_des">DOCUMENT TÉRMINÉ</p>:<p className="count_des">DOCUMENTS TÉRMINÉS</p> }
           </Box>
           <Box sx={{ width: "38%" }}>
             <p className="count">
-              {counts.inProgress ? counts.inProgress : <CircularProgress />}
+              {counts?.inProgress ? counts?.inProgress : 0}
             </p>
-            <p className="count_des">MESSAGE(S) RECU(S)</p>
+            {counts?.inProgress===0 || !counts?.inProgress ||counts?.inProgress===1 ? <p className="count_des">MESSAGE RECU</p>:<p className="count_des">MESSAGES RECUS</p> }
           </Box>
         </Box>
       </Box>

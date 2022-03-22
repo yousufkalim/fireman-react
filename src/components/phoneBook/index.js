@@ -42,7 +42,7 @@ const TeamManagement = () => {
 
                 </div>
                 <div className='input_cont'>
-                    <label>Establishment Address</label>
+                    <label>Adresse établissement </label>
                     <input disabled value="23 Rue D'ANJOU 45600 BEAULIEU SUR LOIRE" />
                 </div>
 
@@ -50,15 +50,16 @@ const TeamManagement = () => {
 
 
             <div className='team_management_row'>
+            <div className='input_cont'>
+                    <label>Nom</label>
+                    <input  disabled value={store.phonebookData?.securityManagerLastName} />
+                </div>
                 <div className='input_cont'>
-                    <label>First Name</label>
+                    <label>Prénom</label>
                     <input  disabled value={store.phonebookData?.securityManagerName} />
 
                 </div>
-                <div className='input_cont'>
-                    <label>Last Name</label>
-                    <input  disabled value={store.phonebookData?.securityManagerLastName} />
-                </div>
+               
             </div>
             <div className='field_seprator' ></div>
 
@@ -69,7 +70,7 @@ const TeamManagement = () => {
 
                 </div>
                 <div className='input_cont'>
-                    <label>Cell No</label>
+                    <label>Numéro mobile</label>
                     <input disabled value={store.phonebookData?.securityManagerMobile}  />
                 </div>
             </div>

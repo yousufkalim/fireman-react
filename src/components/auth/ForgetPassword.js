@@ -3,16 +3,21 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import api from '../../api/index'
+import { toast } from "react-toastify";
+import { useTranslation, Trans } from "react-i18next";
 const ForgetPassword = () => {
+  const { t, i18n } = useTranslation();
      const [formValue, setformValue] = useState()
     const onChange = ( e)=>{
         setformValue(e.target.value);
     }
     const ForgetPassword = (e)=>{
         e.preventDefault();
-        api("get", `/api/v1/forgetPassword/${formValue}`).then((res)=>(
-             console.log(res)
-        )).catch((err)=>(
+        api("get", `/api/v1/forgetPassword/${formValue}`).then((res)=>{
+           if(res.data.success===true){
+            toast.success(t("Successfull"));
+           }
+          }).catch((err)=>(
            console.log(err)
         ))
     }

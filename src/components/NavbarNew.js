@@ -1,13 +1,13 @@
-import  React,{useState, useEffect} from "react";
+import  React,{ useEffect, useRef} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import { Store } from '../StoreContext'
 import IconButton from "@mui/material/IconButton";
 import Button from '@mui/material/Button';
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import MoreIcon from "@mui/icons-material/MoreVert";
@@ -15,40 +15,36 @@ import Vector from "../assets/nav.svg"
 import Site from "../assets/site.png"
 import { useTranslation, Trans } from "react-i18next";
 import {UpdateStore} from '../StoreContext'
-import { Store } from "../StoreContext";
 import moment from "moment";
 import api from '../api/index';
 import notificationicon from '../assets/noti.png'
 import ronaldo from '../assets/ronaldo.jpeg'
 import 'moment/locale/fr'
-
-export default function Navbar() {
+import useState from 'react-usestateref'
+import jwt from 'jwt-decode'
+import useClickOutside from 'use-click-outside';
+export default function Navbar({Story}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   let [profile, setProfile] = useState({})
+  const [logout, setLogout] = useState(false)
+  const ref = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const { t, i18n } = useTranslation();
-  const { language } = i18n;
+  const store = Store()
   const isMenuOpen = Boolean(anchorEl);
   const update = UpdateStore()
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  let user = localStorage.getItem("user");
-  const store = Store();
   useEffect(() => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
         .then((res) => {
             console.log(res);
-            // localStorage.setItem('profileuser', res.firstName+ res.lastName);
             if (res.status == 200) {
                 setProfile(res.data)
             }
         })
         .catch((err) => console.log(err));
 }, [])
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -58,10 +54,25 @@ export default function Navbar() {
   };
 
   const handleMenuClose = () => {
+    console.log(store);
     setAnchorEl(null);
     handleMobileMenuClose();
-    localStorage.removeItem("userData");
-    window.location = "/login";
+    var token = localStorage.getItem("userData");
+    const userData = jwt(token);
+    const bool = false;
+    const logoutTime = ""
+       if(store.connection){
+        store.connection.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(()=>{
+          localStorage.removeItem("userData");
+          window.location = "/login";
+        })
+    }
+    else{
+      alert("not connected to server")
+      localStorage.removeItem("userData");
+      window.location = "/login";
+    }
+   
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -70,19 +81,19 @@ export default function Navbar() {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      // anchorEl={anchorEl}
+      // anchorOrigin={{
+      //   vertical: "top",
+      //   horizontal: "right",
+      // }}
+      // id={menuId}
+      // keepMounted
+      // transformOrigin={{
+      //   vertical: "top",
+      //   horizontal: "right",
+      // }}
+      // open={isMenuOpen}
+      //onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
@@ -131,7 +142,10 @@ export default function Navbar() {
       </MenuItem>
     </Menu>
   );
-
+  useClickOutside(ref, () => {
+    setLogout(false)
+   });
+  console.log("store",store);
   return (
     <Box sx={{ flexGrow: 1, fontSize: "18px", width:"99%", margin:"auto" }}>
       <AppBar
@@ -216,7 +230,12 @@ export default function Navbar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-             <img className="img-nav" src={ronaldo}/>
+              <Box ref={ref}  sx={{display:"flex", flexDirection:"column", position:"relative"}}> 
+             <img  onClick={()=>{setLogout(true)}} className="img-nav" src={ronaldo}/>
+             { logout?  <p  className="logout-btn" onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
+
+            </Box>
+            
             </IconButton>
             <Box onClick={()=>{update({activeNavbarTab:"profile",catTab:false})}}  className="navbar_user" sx={{ padding: "25px 10px" ,cursor:"pointer"}}>
               <p className={`${store.activeNavbarTab==="termine"? "":"user-text-dash"}`} style={{cursor:"pointer"}}>{profile?.firstName} {profile?.lastName}</p>
