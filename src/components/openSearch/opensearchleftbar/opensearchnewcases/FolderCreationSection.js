@@ -35,12 +35,12 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
- 
-  Storey
+
+  Storey,
 }) => {
   const { t } = useTranslation();
   console.log(compShow);
-  
+
   const store = Store();
 
   const [loading, setloading] = useState(true);
@@ -51,7 +51,7 @@ const FolderCreationSection = ({
     casetype: "",
     commission: "",
     foldercreationvalues: "",
-    townplanningValues:"",
+    townplanningValues: "",
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
@@ -59,33 +59,51 @@ const FolderCreationSection = ({
     // togglerstudy: store.activeCase==="newcase"  || (store?.sectionindex === 1 && store?.tabindex===1) ? true : false,
     // togglerstudytwo: store.activeCase==="newcase" || compShow || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===1) ? true: false,
     // togglervisit: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===1)? true : false,
-       togglermain:  false,
-     togglerstudy: false,
-     togglerstudytwo:false,
-     togglervisit:  false,
+    togglermain: false,
+    togglerstudy: false,
+    togglerstudytwo: false,
+    togglervisit: false,
   });
   const [Icon, setIcon] = useState({
-    iconmain:
-    store.activeCase === "currentcases"? true: false,
+    iconmain: store.activeCase === "currentcases" ? true : false,
     iconstudy:
-      store.activeCase === "currentcases" && (store?.sectionindex === 2|| store?.sectionindex === 3 || store.tabindex===2 || store.tabindex===3)? true: false,
+      store.activeCase === "currentcases" &&
+      (store?.sectionindex === 2 ||
+        store?.sectionindex === 3 ||
+        store.tabindex === 2 ||
+        store.tabindex === 3)
+        ? true
+        : false,
     iconstudytwo:
-      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2|| store.tabindex===3 ? true: false,
+      (store.activeCase === "currentcases" && store?.sectionindex === 3) ||
+      store.tabindex === 2 ||
+      store.tabindex === 3
+        ? true
+        : false,
     iconvisit:
-      store.activeCase === "currentcases" && store?.sectionindex === 3 || store.tabindex===2 || store.tabindex===3? true: false,
+      (store.activeCase === "currentcases" && store?.sectionindex === 3) ||
+      store.tabindex === 2 ||
+      store.tabindex === 3
+        ? true
+        : false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-        townplanningbutton:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
-        detailsobject:store.activeCase==="newcase"||indexdata?.sectionindex===0? true:false,
-        visitbutton:true  
+    townplanningbutton:
+      store.activeCase === "newcase" || indexdata?.sectionindex === 0
+        ? true
+        : false,
+    detailsobject:
+      store.activeCase === "newcase" || indexdata?.sectionindex === 0
+        ? true
+        : false,
+    visitbutton: true,
   });
-  
- 
+
   const updatestore = UpdateStore();
   useEffect(() => {
-     console.log(CompName);
-     console.log(compShow);
-     console.log(">>>>>>>>>>>>>>",store);
+    console.log(CompName);
+    console.log(compShow);
+    console.log(">>>>>>>>>>>>>>", store);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {
@@ -175,40 +193,36 @@ const FolderCreationSection = ({
     );
     setloading(true);
     api(
-      "get",`/api/v1/casefiles/get_open_foldercreation/${
+      "get",
+      `/api/v1/casefiles/get_open_foldercreation/${
         indexdata?.establishmentId
           ? indexdata?.establishmentId
           : store?.establishmentId
-      }/${store.caseFileId? store.caseFileId : 0}`
-
-       
-    ).then((res) =>{
-      setloading(false)
+      }/${store.caseFileId ? store.caseFileId : 0}`
+    ).then((res) => {
+      setloading(false);
       setdropdownValue((preVal) => {
         return {
           ...preVal,
           foldercreationvalues: res,
         };
-      })
-    }
-    );
+      });
+    });
     api(
-      "get",`/api/v1/casefiles/get_open_townplanning/${
+      "get",
+      `/api/v1/casefiles/get_open_townplanning/${
         indexdata?.establishmentId
           ? indexdata?.establishmentId
           : store?.establishmentId
       }/${store.caseFileId ? store.caseFileId : 0}`
-
-    ).then((res) =>{
-     
+    ).then((res) => {
       setdropdownValue((preVal) => {
         return {
           ...preVal,
           townplanningValues: res.data,
         };
-      })
-    }
-    );
+      });
+    });
     api(
       "get",
       `/api/v1/casefiles/get_open_townplanning/${
@@ -221,7 +235,6 @@ const FolderCreationSection = ({
     });
   }, []);
 
-  
   const [checkboxObj, setCheckboxObj] = useState([]);
   const [activeLink, setActiveLink] = useState(0);
   //////
@@ -246,28 +259,42 @@ const FolderCreationSection = ({
     commisionDate: currentcasescommisionDate ? currentcasescommisionDate : "",
   });
 
-  const [inputDisableState, setInputDisableState] = useState('');
-  
+  const [inputDisableState, setInputDisableState] = useState("");
+
   const [checkBoxRes, setCheckBoxRes] = useState();
-  
+
   useEffect(() => {
     setInputValues({
-
-      caseTypeId: currentcasescaseTypeId?currentcasescaseTypeId:dropdownValue?.foldercreationvalues?.data?.caseTypeId,
-      commisionTypeId: currentcasescommisionTypeId?currentcasescommisionTypeId:dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
+      caseTypeId: currentcasescaseTypeId
+        ? currentcasescaseTypeId
+        : dropdownValue?.foldercreationvalues?.data?.caseTypeId,
+      commisionTypeId: currentcasescommisionTypeId
+        ? currentcasescommisionTypeId
+        : dropdownValue?.foldercreationvalues?.data?.commisionTypeId,
       agent: dropdownValue?.inputsvalue?.data?.firstName,
-      studyTypeId:currentcasesstudyTypeId?currentcasesstudyTypeId: dropdownValue?.foldercreationvalues?.data?.studyTypeId,
-      visitTypeId:currentcasesvisitTypeId?currentcasesvisitTypeId: dropdownValue?.foldercreationvalues?.data?.visitTypeId,
+      studyTypeId: currentcasesstudyTypeId
+        ? currentcasesstudyTypeId
+        : dropdownValue?.foldercreationvalues?.data?.studyTypeId,
+      visitTypeId: currentcasesvisitTypeId
+        ? currentcasesvisitTypeId
+        : dropdownValue?.foldercreationvalues?.data?.visitTypeId,
       group: dropdownValue?.inputsvalue?.data?.group,
       service: dropdownValue?.inputsvalue?.data?.service,
       caseFileId: "",
       caseid: "",
-      commisionDate:  moment(dropdownValue?.foldercreationvalues?.data?.commisionDate, "YYYY-MM-DD").format("YYYY-MM-DD"),
-
+      commisionDate: moment(
+        dropdownValue?.foldercreationvalues?.data?.commisionDate,
+        "YYYY-MM-DD"
+      ).format("YYYY-MM-DD"),
     });
-    setInputDisableState(CompName==="currentcases"?currentcasescaseTypeId?.toString():dropdownValue?.foldercreationvalues.data&&dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString())
+    setInputDisableState(
+      CompName === "currentcases"
+        ? currentcasescaseTypeId?.toString()
+        : dropdownValue?.foldercreationvalues.data &&
+            dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString()
+    );
   }, [dropdownValue]);
-  
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -314,63 +341,67 @@ const FolderCreationSection = ({
         caseFileId: caseFileId,
         establishmentId: caseFileId,
         userid: userdata.userid,
-        visitTypeId: inputValues.caseTypeId==="1" || inputValues.caseTypeId==="3"? 0: inputValues.visitTypeId,
-        studyTypeId: inputValues.caseTypeId==="2" || inputValues.caseTypeId==="3"? 0: inputValues.studyTypeId,
+        visitTypeId:
+          inputValues.caseTypeId === "1" || inputValues.caseTypeId === "3"
+            ? 0
+            : inputValues.visitTypeId,
+        studyTypeId:
+          inputValues.caseTypeId === "2" || inputValues.caseTypeId === "3"
+            ? 0
+            : inputValues.studyTypeId,
       };
-     
-      if(store.activeCase==="newcase"){
+
+      if (store.activeCase === "newcase") {
         console.log("post", inputValues);
-        console.log("formdata",formdata);
+        console.log("formdata", formdata);
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
-        .then((res) => {
-         
-          setInputValues((preVal) => {
-            return {
-              ...preVal,
-              caseid: res.data,
-            };
-          });
-          {
-            toast.success(t("Successfull"));
-          }
-          setButtonEnability((pre)=>{
-            return{
-             ...pre,
-             townplanningbutton:false,
-             visitbutton:false
+          .then((res) => {
+            setInputValues((preVal) => {
+              return {
+                ...preVal,
+                caseid: res.data,
+              };
+            });
+            {
+              toast.success(t("Successfull"));
+            }
+            setButtonEnability((pre) => {
+              return {
+                ...pre,
+                townplanningbutton: false,
+                visitbutton: false,
+              };
+            });
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglermain: false,
+              };
+            });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconmain: true,
+              };
+            });
+            if (inputValues.caseTypeId === "3") {
+              updatestore({
+                caseFileId: res.data,
+                activeNavbarTab: inputValues.caseTypeId === "3" ? 1 : 0,
+                buttonenable: inputValues.caseTypeId === "3" ? true : false,
+              });
+            } else {
+              updatestore({
+                caseFileId: res.data,
+              });
             }
           })
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglermain: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconmain: true,
-            };
-          });
-          if(inputValues.caseTypeId==="3"){
-            updatestore({ 
-              caseFileId: res.data,
-              activeNavbarTab: inputValues.caseTypeId==="3"? 1:0,
-              buttonenable:inputValues.caseTypeId==="3"? true:false
-            }); 
-          }
-          else{
-            updatestore({ 
-              caseFileId: res.data,
-            });
-          }
-        })
-        .catch((err) => toast.error(err?.statusText));
+          .catch((err) => toast.error(err?.statusText));
       }
     }
     ////////////for current cases update//////////
-     console.log(store);
-    if(store.activeCase === "currentcases") {
+    console.log(store);
+    if (store.activeCase === "currentcases") {
       console.log(inputValues.studyTypeId);
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
@@ -386,24 +417,24 @@ const FolderCreationSection = ({
           ? inputValues.commisionDate
           : currentcasescommisionDate,
       };
-      console.log("updatedObj",updatedObj);
-      
+      console.log("updatedObj", updatedObj);
+
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
-          console.log(res,"fcghv");
+          console.log(res, "fcghv");
           setInputValues((preVal) => {
             return {
               ...preVal,
               caseid: res.data,
             };
           });
-          setButtonEnability((pre)=>{
-            return{
-             ...pre,
-             townplanningbutton:false,
-             visitbutton:false
-            }
-          })
+          setButtonEnability((pre) => {
+            return {
+              ...pre,
+              townplanningbutton: false,
+              visitbutton: false,
+            };
+          });
           setToggler((pre) => {
             return {
               ...pre,
@@ -414,13 +445,12 @@ const FolderCreationSection = ({
         .catch((err) => {
           console.log("updateerr", err);
         });
-      
     }
   };
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    console.log("",checkboxObj);
+    console.log("", checkboxObj);
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
@@ -444,10 +474,7 @@ const FolderCreationSection = ({
               iconstudytwo: true,
             };
           });
-          updatestore(
-            { activeNavbarTab: 1,
-              buttonenable:true
-          });
+          updatestore({ activeNavbarTab: 1, buttonenable: true });
         }
         {
           toast.success(t("Successfull"));
@@ -462,7 +489,8 @@ const FolderCreationSection = ({
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
-      compShow === "filestructure" || store.activeNavbarTab===0 ? (
+      compShow === "filestructure" ||
+      store.activeNavbarTab === 0 ? (
         <>
           <div>
             <Box
@@ -487,9 +515,20 @@ const FolderCreationSection = ({
               }}
             >
               <Typography variant="h6">{t("Folder creation")}</Typography>
-              {Icon.iconmain ? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
-</svg> : null}
+              {Icon.iconmain ? (
+                <svg
+                  width="32"
+                  height="21"
+                  viewBox="0 0 32 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z"
+                    fill="white"
+                  />
+                </svg>
+              ) : null}
             </Box>
             <Accordion
               sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
@@ -509,9 +548,8 @@ const FolderCreationSection = ({
                   >
                     <Box sx={{ display: "flex" }}>
                       <div className="inputs-container">
-                       
                         <div class="flex-form">
-                        <label className="label-color">Type</label> 
+                          <label className="label-color">Type</label>
                           <select
                             className="dropdown dropdown-folder-creation"
                             type="select"
@@ -526,10 +564,9 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                      
-                       
+
                         <div class="flex-form">
-                        <label className="label-color">Commission</label>
+                          <label className="label-color">Commission</label>
                           <select
                             className="dropdown dropdown-folder-creation"
                             type="select"
@@ -544,9 +581,9 @@ const FolderCreationSection = ({
                             ))}
                           </select>
                         </div>
-                       
+
                         <div class="flex-form flex-form-foldercreation">
-                        <label className="label-color">Agent</label>
+                          <label className="label-color">Agent</label>
                           <input
                             type="search"
                             onChange={handleChange}
@@ -557,15 +594,11 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                       <div className="inputs-container">
-                       
-                        {inputDisableState === "1"? (
+                        {inputDisableState === "1" ? (
                           <>
-                          
-
                             <div class="flex-form">
-                            <label className="label-color"> Etude</label>
+                              <label className="label-color"> Etude</label>
                               <select
-                                required
                                 className="dropdown dropdown-folder-creation"
                                 type="select"
                                 name="studyTypeId"
@@ -583,11 +616,10 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                        {inputDisableState === "2"? (
+                        {inputDisableState === "2" ? (
                           <>
-                           
                             <div class="flex-form">
-                            <label className="label-color">Visite </label>
+                              <label className="label-color">Visite </label>
                               <select
                                 className="dropdown dropdown-folder-creation"
                                 type="select"
@@ -596,7 +628,7 @@ const FolderCreationSection = ({
                                 value={inputValues?.visitTypeId}
                                 required
                               >
-                                 <option value="">{t("Please choose")}</option>
+                                <option value="">{t("Please choose")}</option>
                                 {dropdownValue.visittype.data?.map((item) => (
                                   <option value={item.value}>
                                     {item.text}
@@ -606,24 +638,31 @@ const FolderCreationSection = ({
                             </div>
                           </>
                         ) : null}
-                        <Box  >
+                        <Box></Box>
+                        <Box
+                          className={`${
+                            inputDisableState === "1" ||
+                            inputDisableState === "2"
+                              ? "more"
+                              : "less"
+                          }`}
+                        >
+                          <div class="flex-form">
+                            <label className="label-color">
+                              Date commission{" "}
+                            </label>
+                            <input
+                              type="date"
+                              onChange={handleChange}
+                              name="commisionDate"
+                              value={inputValues.commisionDate}
+                              required
+                            />
+                          </div>
                         </Box>
-                        <Box className={`${inputDisableState ==="1" || inputDisableState ==="2"? "more":"less"}`}> 
-                       
-                        <div class="flex-form">
-                        <label className="label-color">Date commission </label>
-                          <input
-                            type="date"
-                            onChange={handleChange}
-                            name="commisionDate"
-                            value={inputValues.commisionDate}
-                            required
-                          />
-                        </div>
-                        </Box>
-                      
+
                         <div class="flex-form flex-form-foldercreation">
-                        <label className="label-color">Groupement</label>
+                          <label className="label-color">Groupement</label>
                           <input
                             type="search"
                             onChange={handleChange}
@@ -632,9 +671,9 @@ const FolderCreationSection = ({
                             required
                           />
                         </div>
-                       
+
                         <div class="flex-form flex-form-foldercreation">
-                        <label className="label-color">{t("Service")}</label>
+                          <label className="label-color">{t("Service")}</label>
                           <input
                             type="search"
                             onChange={handleChange}
@@ -693,7 +732,7 @@ const FolderCreationSection = ({
               </>
             ) : null}
 
-            {inputDisableState === "2"? (
+            {inputDisableState === "2" ? (
               <>
                 <Box
                   sx={{
@@ -717,9 +756,20 @@ const FolderCreationSection = ({
                   }}
                 >
                   <Typography variant="h6">{t("Details Of Object")}</Typography>
-                  {Icon.iconvisit ? <svg width="32" height="21" viewBox="0 0 32 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z" fill="white"/>
-</svg> : null}
+                  {Icon.iconvisit ? (
+                    <svg
+                      width="32"
+                      height="21"
+                      viewBox="0 0 32 21"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1269 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z"
+                        fill="white"
+                      />
+                    </svg>
+                  ) : null}
                 </Box>
                 <Accordion
                   sx={{ margin: "3px 10px !important", borderRadius: "10px" }}
@@ -744,15 +794,16 @@ const FolderCreationSection = ({
                       visit={state.visit}
                       casefileId={inputValues.caseid}
                       setCheckboxObj={setCheckboxObj}
-                      checkboxObj={checkboxObj}
                       postCheckboxesData={postCheckboxesData}
                       checkBoxRes={checkBoxRes}
-                      currentcasescaseFileId={dropdownValue?.foldercreationvalues?.data?.caseFileId}
+                      currentcasescaseFileId={
+                        dropdownValue?.foldercreationvalues?.data?.caseFileId
+                      }
                       Toggler={Toggler}
                       setToggler={setToggler}
                       setIcon={setIcon}
                       Icon={Icon}
-                      buttonEnability={buttonEnability} 
+                      buttonEnability={buttonEnability}
                       setButtonEnability={setButtonEnability}
                     />
                   </AccordionDetails>

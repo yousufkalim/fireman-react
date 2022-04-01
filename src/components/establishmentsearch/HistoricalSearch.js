@@ -10,7 +10,7 @@ import CreateHistoricalData from "./CreateHistoricalData";
 import { Store } from "../../StoreContext";
 import { toast } from "react-toastify";
 import DialogBox from "../DialogBox";
-import don from '../../assets/donne.svg'
+import don from "../../assets/donne.svg";
 import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
 import EstablishmentLevel from "./EstablishmentLevel";
@@ -35,25 +35,66 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     // togglerstafflevel: store.activeCase==="newcase" || ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3) && store?.tabindex===2) || store?.tabindex===1? true: false,
     // togglerranking: store.activeCase==="newcase"|| ((store?.sectionindex === 1 || store?.sectionindex === 2|| store?.sectionindex === 3 || store?.sectionindex === 4) && store?.tabindex===2) || store?.tabindex===1? true: false,
     togglerhistoricalsearch: false,
-     createhistoricaldata: false,
-     establishmentlevel:  false,
-     togglerstafflevel:  false,
-     togglerranking:false,
+    createhistoricaldata: false,
+    establishmentlevel: false,
+    togglerstafflevel: false,
+    togglerranking: false,
   });
   const [Icon, setIcon] = useState({
-    iconhistoricalsearch:  store.activeCase === "currentcases" &&  ((store.sectionindex===1|| store.sectionindex===2|| store.sectionindex===3 || store.sectionindex===4|| store.sectionindex===5) &&  store?.tabindex===2)||store.tabindex===3? true: false,
-    createhistoricaldata: store.activeCase === "currentcases" && ((store.sectionindex===2 || store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&& store?.tabindex===2)||store.tabindex===3 ? true: false,
-    establishmentlevel: store.activeCase === "currentcases" && (( store.sectionindex===3|| store.sectionindex===4 || store.sectionindex===5)&& store?.tabindex===2)||store.tabindex===3 ? true:false,
-    iconstafflevel: store.activeCase === "currentcases" && (( store.sectionindex===4 || store.sectionindex===5) &&  store?.tabindex===2)||store.tabindex===3 ? true:false,
-    iconranking: (store.activeCase === "currentcases" &&  store.sectionindex===5 &&  store?.tabindex===2) ||store.tabindex===3? true:false,
+    iconhistoricalsearch:
+      (store.activeCase === "currentcases" &&
+        (store.sectionindex === 1 ||
+          store.sectionindex === 2 ||
+          store.sectionindex === 3 ||
+          store.sectionindex === 4 ||
+          store.sectionindex === 5) &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
+    createhistoricaldata:
+      (store.activeCase === "currentcases" &&
+        (store.sectionindex === 2 ||
+          store.sectionindex === 3 ||
+          store.sectionindex === 4 ||
+          store.sectionindex === 5) &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
+    establishmentlevel:
+      (store.activeCase === "currentcases" &&
+        (store.sectionindex === 3 ||
+          store.sectionindex === 4 ||
+          store.sectionindex === 5) &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
+    iconstafflevel:
+      (store.activeCase === "currentcases" &&
+        (store.sectionindex === 4 || store.sectionindex === 5) &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
+    iconranking:
+      (store.activeCase === "currentcases" &&
+        store.sectionindex === 5 &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-    historicalmainbutton:store.buttonenable ||  store.activeCase === "currentcases"? false:true,
-   historicalsearchbutton: store.activeCase === "currentcases"? false:true,
-   establishmentlevelbutton: store.activeCase === "currentcases"? false :true,
-   stafftablebutton:store.activeCase === "currentcases"? false :true,
-   Rankingbutton:store.activeCase === "currentcases"? false :true,
-});
+    historicalmainbutton:
+      store.buttonenable || store.activeCase === "currentcases" ? false : true,
+    historicalsearchbutton: store.activeCase === "currentcases" ? false : true,
+    establishmentlevelbutton:
+      store.activeCase === "currentcases" ? false : true,
+    stafftablebutton: store.activeCase === "currentcases" ? false : true,
+    Rankingbutton: store.activeCase === "currentcases" ? false : true,
+  });
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [dropdownValue, setdropdownValue] = useState({
@@ -61,13 +102,11 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     status: "",
     cityId: "",
   });
-  
+
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
-  
-  
-  const [inputValues, setInputValues] = useState({
-  });
+
+  const [inputValues, setInputValues] = useState({});
   useEffect(() => {
     setInputValues({
       establishmentName: generalDataEstablishment.establishmentName
@@ -103,10 +142,15 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       securityManagerEmail: generalDataEstablishment.securityManagerEmail
         ? generalDataEstablishment.securityManagerEmail
         : "",
-        estNumber: generalDataEstablishment.estNumber? generalDataEstablishment.estNumber:"",
-        estSerial: generalDataEstablishment.estSerial?  generalDataEstablishment.estSerial:""
+      estNumber: generalDataEstablishment.estNumber
+        ? generalDataEstablishment.estNumber
+        : "",
+      estSerial: generalDataEstablishment.estSerial
+        ? generalDataEstablishment.estSerial
+        : "",
     });
   }, [generalDataEstablishment]);
+  console.log("estSerial", generalDataEstablishment.estSerial);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
       setdropdownValue((preVal) => {
@@ -132,7 +176,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       })
     );
-    
+
     api(
       "get",
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
@@ -140,7 +184,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
-  console.log(generalDataEstablishment,"170");
+  console.log("HistoricalDataEstablishment", historicalDataEstablishment);
+  console.log("generalDataEstablishment", generalDataEstablishment);
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -171,90 +216,90 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         )}`
       );
     }
-      setInputValues((preVal) => {
-        return {
-          ...preVal,
-          [name]: value,
-        };
-      });
-    
-    
+    setInputValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: value,
+      };
+    });
   };
-  console.log(generalDataEstablishment,"generalDataEstablishment");
+  console.log(generalDataEstablishment, "generalDataEstablishment");
+  console.log("<i><n><p><u><t><v><a><l>", inputValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedObj = {
       ...inputValues,
+      //estSerial: inputValues.estSerial,
       establishmentId: store.establishmentId,
-      caseFileId:store.caseFileId
+      caseFileId: store.caseFileId,
     };
+    console.log("RRRRRRRRRRRRRRRRRRRR", updatedObj);
     if (store.activeCase === "newcase") {
-      console.log("ddfddfdfdfdfdfdffd",updatedObj);
+      console.log("ddfddfdfdfdfdfdffd", updatedObj);
       api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
         .then((res) => {
-          console.log(res,"ghj><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-          if(res.data===true){
-          setButtonEnability((pre)=>{
-            return{
-              ...pre,
-              historicalsearchbutton:false
+          console.log("ghj><>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", res);
+          if (res.data === true) {
+            setButtonEnability((pre) => {
+              return {
+                ...pre,
+                historicalsearchbutton: false,
+              };
+            });
+            {
+              toast.success(t("Successfull"));
             }
-          })
-          {
-            toast.success(t("Successfull"));
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglerhistoricalsearch: false,
+              };
+            });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconhistoricalsearch: true,
+              };
+            });
           }
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglerhistoricalsearch: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconhistoricalsearch: true,
-            };
-          });
-        }
         })
         .catch((err) => {
           console.log(err);
         });
     }
-
+    console.log("RRRRRRRRRRRRRRRRRRRR", updatedObj);
     if (store.activeCase === "currentcases") {
       api("put", "/api/v1/update_generaldata_establishment", updatedObj)
         .then((res) => {
-          if(res.data===true){
-          {
-            toast.success(t("Successfull"));
+          if (res.data === true) {
+            {
+              toast.success(t("Successfull"));
+            }
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglerhistoricalsearch: false,
+              };
+            });
+            // setToggler((pre) => {
+            //   return {
+            //     togglerhistoricalsearch: false,
+            //     createhistoricaldata: true,
+            //     togglervisit: true,
+            //     togglerstudytwo: true,
+            //   };
+            // });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconhistoricalsearch: true,
+              };
+            });
           }
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglerhistoricalsearch: false,
-            };
-          });
-          // setToggler((pre) => {
-          //   return {
-          //     togglerhistoricalsearch: false,
-          //     createhistoricaldata: true,
-          //     togglervisit: true,
-          //     togglerstudytwo: true,
-          //   };
-          // });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconhistoricalsearch: true,
-            };
-          });
-        
-        }
-        
         })
         .catch((err) => console.log(err));
     }
+    console.log("RRRRRRRRRRRRRRRRRRRR", updatedObj);
   };
   return (
     <>
@@ -280,10 +325,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         }}
       >
         <Typography variant="h6">{t("General data")}</Typography>
-        {Icon.iconhistoricalsearch ? <img src={don}/> : null}
+        {Icon.iconhistoricalsearch ? <img src={don} /> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
+        sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
         expanded={Toggler.togglerhistoricalsearch ? true : false}
       >
         <AccordionSummary
@@ -304,7 +349,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-               
               }}
             >
               <Grid item md={12}>
@@ -501,40 +545,47 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </Box> */}
 
                   <Box>
-                  <div className="heading-establishment"> 
-                      
-                      <span className="checklist-heading line"> Nom et statut</span> 
-                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"86.2%", marginTop:"12px"}}></Box>
-                       </div>
-                      
-                      <Box sx={{display:"flex", padding:"10px 0px"}}> 
-                       <div className="flex-form">
-                        <label className="label-color label-general"> {t("Name")}</label>
+                    <div className="heading-establishment">
+                      <span className="checklist-heading line">
+                        {" "}
+                        Nom et statut
+                      </span>
+                      <Box
+                        sx={{
+                          borderTop: "3px solid #C5D3DB",
+                          width: "86.2%",
+                          marginTop: "12px",
+                        }}
+                      ></Box>
+                    </div>
+
+                    <Box sx={{ display: "flex", padding: "10px 0px" }}>
+                      <div className="flex-form">
+                        <label className="label-color label-general">
+                          {" "}
+                          {t("Name")}
+                        </label>
                         <input
-                        required
+                          required
                           type="search"
                           onChange={handleChange}
                           name="establishmentName"
                           value={inputValues.establishmentName}
                         />
-                        </div>
-                        <div className="flex-form refnum-est">
-                        <label className="label-color">
-                        REF. #
-                        </label>
+                      </div>
+                      <div className="flex-form refnum-est">
+                        <label className="label-color">REF. #</label>
                         <input
-                        required
+                          required
                           type="search"
                           onChange={handleChange}
                           name="estSerial"
                           value={inputValues?.estSerial}
                         />
-                        </div>
-                        <div className="flex-form channel-name">
-                          <label className="label-color">
-                          {t("Status")}
-                          </label>
-                          <select
+                      </div>
+                      <div className="flex-form channel-name">
+                        <label className="label-color">{t("Status")}</label>
+                        <select
                           className="dropdown statusid"
                           type="select"
                           name="statusId"
@@ -548,70 +599,78 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             </option>
                           ))}
                         </select>
-                        </div>
-                        </Box>
+                      </div>
+                    </Box>
                   </Box>
 
                   <Box>
-                  <div className="heading-establishment"> 
-                      
-                  <span className="checklist-heading"> Adresse</span> 
-                       <Box sx={{borderTop:"3px solid #C5D3DB", width:"90%", marginTop:"12px", marginLeft:"14px"}}></Box>
-                       </div>
-                   <Box sx={{display:"flex", padding:"10px 0px"}}> 
-                       <div className="flex-form">
-                        <label className="label-color label-general">{t("Number")}</label>
-                          <input
+                    <div className="heading-establishment">
+                      <span className="checklist-heading"> Adresse</span>
+                      <Box
+                        sx={{
+                          borderTop: "3px solid #C5D3DB",
+                          width: "90%",
+                          marginTop: "12px",
+                          marginLeft: "14px",
+                        }}
+                      ></Box>
+                    </div>
+                    <Box sx={{ display: "flex", padding: "10px 0px" }}>
+                      <div className="flex-form">
+                        <label className="label-color label-general">
+                          {t("Number")}
+                        </label>
+                        <input
                           required
-                             type="search"
-                            onChange={handleChange}
-                            name="estNumber"
-                            value={inputValues.estNumber}
-                            type="tel"
-                            minlength="12" 
-                            maxlength="12"
-                            title="Number should contain 12 digits and No Character"
-                            pattern="^(\d{12})$"
-                          />
-                        </div>
-                        <div className="flex-form">
+                          type="search"
+                          onChange={handleChange}
+                          name="estNumber"
+                          value={inputValues.estNumber}
+                          //type="tel"
+                          minlength="12"
+                          maxlength="12"
+                          title="Number should contain 12 digits and No Character"
+                          pattern="^(\d{12})$"
+                        />
+                      </div>
+                      <div className="flex-form">
                         <label className="label-color">
                           {t("Channel type")}{" "}
                         </label>
-                          <select
-                            className="dropdown dropdown-tracktype"
-                            type="select"
-                            name="trackTypeId"
-                            onChange={handleChange}
-                            value={inputValues.trackTypeId}
-                          >
-                            <option value="">Choisissez s'il vous plaît</option>
-                            {dropdownValue.tracktype.data?.map((item) => (
-                              <option key={item.value} value={item.value}>
-                                {item.text}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="flex-form channel-name">
-                          <label className="label-color">
-                            {t("Channel name")}
-                          </label>
-                          <input
+                        <select
+                          className="dropdown dropdown-tracktype"
+                          type="select"
+                          name="trackTypeId"
+                          onChange={handleChange}
+                          value={inputValues.trackTypeId}
+                        >
+                          <option value="">Choisissez s'il vous plaît</option>
+                          {dropdownValue.tracktype.data?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.text}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-form channel-name">
+                        <label className="label-color">
+                          {t("Channel name")}
+                        </label>
+                        <input
                           required
-                            type="search"
-                            onChange={handleChange}
-                            name="channelName"
-                            value={inputValues?.channelName?.toUpperCase()}
-                          />
-                        </div>
-                        </Box>
+                          type="search"
+                          onChange={handleChange}
+                          name="channelName"
+                          value={inputValues?.channelName?.toUpperCase()}
+                        />
+                      </div>
+                    </Box>
 
-                        <Box sx={{display:"flex", justifyContent:"flex-start"}}>
-                        <div className="flex-form cp">
+                    <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+                      <div className="flex-form cp">
                         <label className="label-cp label-general">CP</label>
                         <input
-                        required
+                          required
                           type="search"
                           onChange={handleChange}
                           name="zipCode"
@@ -619,7 +678,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                       <div className="flex-form">
-                      <label className="label-color label-commune">{t("City")} </label>
+                        <label className="label-color label-commune">
+                          {t("City")}{" "}
+                        </label>
                         <select
                           className="dropdown commune-dropdown"
                           type="select"
@@ -635,67 +696,77 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           ))}
                         </select>
                       </div>
-                     
-                        </Box>
+                    </Box>
                   </Box>
                   <Box>
-                  <div className="heading-establishment">
-                        <span className="checklist-heading heading-est"> Responsable de sécurité</span>  
-                          <Box sx={{borderTop:"3px solid #C5D3DB", width:"76%", marginTop:"11px", marginLeft:"12px"}}></Box>
-                        </div>
-                        <Box sx={{display:"flex"}}>
-                        <div className="flex-form flex-form-responsable nom-et-form">
-                          <label className="label-color">{t("Name")} </label>
-                          <input
-                          required
-                            type="search"
-                            onChange={handleChange}
-                            name="securityManagerLastName"
-                            value={inputValues?.securityManagerLastName?.toUpperCase()}
-                          />
-                        </div>
-                        <div className="flex-form nom-et-form">
-                      <label className="label-color">{t("First name")}</label>
+                    <div className="heading-establishment">
+                      <span className="checklist-heading heading-est">
+                        {" "}
+                        Responsable de sécurité
+                      </span>
+                      <Box
+                        sx={{
+                          borderTop: "3px solid #C5D3DB",
+                          width: "76%",
+                          marginTop: "11px",
+                          marginLeft: "12px",
+                        }}
+                      ></Box>
+                    </div>
+                    <Box sx={{ display: "flex" }}>
+                      <div className="flex-form flex-form-responsable nom-et-form">
+                        <label className="label-color">{t("Name")} </label>
                         <input
-                        required
+                          required
+                          type="search"
+                          onChange={handleChange}
+                          name="securityManagerLastName"
+                          value={inputValues?.securityManagerLastName?.toUpperCase()}
+                        />
+                      </div>
+                      <div className="flex-form nom-et-form">
+                        <label className="label-color">{t("First name")}</label>
+                        <input
+                          required
                           type="search"
                           onChange={handleChange}
                           name="securityManagerName"
                           value={inputValues.securityManagerName}
                         />
-                      </div>  
-                      </Box> 
-                      <Box sx={{display:"flex"}}>
-                        <div className="flex-form flex-form-responsable">
+                      </div>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <div className="flex-form flex-form-responsable">
                         <label className="label-color">Mobile </label>
-                          <input
-                          required
-                             type="tel"
-                             minlength="12" 
-                             maxlength="12"
-                             title="Number should contain 12 digits and No Character"
-                             pattern="^(\d{12})$"
-                            onChange={handleChange}
-                            name="securityManagerMobile"
-                            value={inputValues.securityManagerMobile}
-                          />
-                        </div>
-                       
-                    
-                      <div className="flex-form form-est-mail">
-                      <label className="label-color">Mail</label>
                         <input
-                        required
+                          required
+                          type="tel"
+                          minlength="12"
+                          maxlength="12"
+                          title="Number should contain 12 digits and No Character"
+                          pattern="^(\d{12})$"
+                          onChange={handleChange}
+                          name="securityManagerMobile"
+                          value={inputValues.securityManagerMobile}
+                        />
+                      </div>
+
+                      <div className="flex-form form-est-mail">
+                        <label className="label-color">Mail</label>
+                        <input
+                          required
                           type="email"
                           onChange={handleChange}
                           name="securityManagerEmail"
                           value={inputValues.securityManagerEmail}
                         />
                       </div>
-                      </Box>
+                    </Box>
                   </Box>
-              
-                  <Box sx={{ textAlign: "right", width:"97%", paddingTop:"5px" }}>
+
+                  <Box
+                    sx={{ textAlign: "right", width: "97%", paddingTop: "5px" }}
+                  >
                     <Button
                       type="submit"
                       disabled={buttonEnability?.historicalmainbutton}
@@ -725,7 +796,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Toggler={Toggler}
         setIcon={setIcon}
         Icon={Icon}
-        buttonEnability={buttonEnability} 
+        buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
 
@@ -737,7 +808,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
-        buttonEnability={buttonEnability} 
+        buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
       <StaffLevel
@@ -747,7 +818,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
-        buttonEnability={buttonEnability} 
+        buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
       <Ranking
@@ -757,7 +828,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
-        buttonEnability={buttonEnability} 
+        buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
     </>

@@ -8,11 +8,26 @@ import { UpdateStore } from "../../StoreContext";
 import moment from "moment";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-const HomeLeft = ({ setBox, box,setProg }) => {
+const HomeLeft = ({ setBox, box, setProg }) => {
   let [counts, setCount] = useState({});
   let [projects, setProjects] = useState([]);
+  let [profile, setProfile] = useState({});
 
   const update = UpdateStore();
+
+  useEffect(() => {
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+      .then((res) => {
+        console.log(res);
+        // localStorage.setItem('profileuser', res.firstName+ res.lastName);
+        if (res.status == 200) {
+          setProfile(res.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     CountsData();
@@ -28,7 +43,7 @@ const HomeLeft = ({ setBox, box,setProg }) => {
       console.log("faislone", res.data);
       if (res.status == 200) {
         setCount(res.data);
-        setProg(res.data.completed)
+        setProg(res.data.completed);
       }
     });
     getLatest(userId);
@@ -54,20 +69,32 @@ const HomeLeft = ({ setBox, box,setProg }) => {
       <Box className="parent-left-box">
         <Box className="heading1">
           {" "}
-          <p>Bonjour Ludovic, vous avez : </p>{" "}
+          <p>
+            Bonjour {profile?.firstName} {profile?.lastName}, vous avez :{" "}
+          </p>{" "}
         </Box>
         <Box className="countData">
           <Box sx={{ width: "38%" }}>
-            <p className="count">
-              { counts?.completed ? counts?.completed : 0}
-            </p>
-           {counts?.completed===0 || !counts?.completed ||counts?.completed===1 ? <p className="count_des">DOCUMENT TÉRMINÉ</p>:<p className="count_des">DOCUMENTS TÉRMINÉS</p> }
+            <p className="count">{counts?.completed ? counts?.completed : 0}</p>
+            {counts?.completed === 0 ||
+            !counts?.completed ||
+            counts?.completed === 1 ? (
+              <p className="count_des">DOCUMENT TÉRMINÉ</p>
+            ) : (
+              <p className="count_des">DOCUMENTS TÉRMINÉS</p>
+            )}
           </Box>
           <Box sx={{ width: "38%" }}>
             <p className="count">
               {counts?.inProgress ? counts?.inProgress : 0}
             </p>
-            {counts?.inProgress===0 || !counts?.inProgress ||counts?.inProgress===1 ? <p className="count_des">MESSAGE RECU</p>:<p className="count_des">MESSAGES RECUS</p> }
+            {counts?.inProgress === 0 ||
+            !counts?.inProgress ||
+            counts?.inProgress === 1 ? (
+              <p className="count_des">MESSAGE RECU</p>
+            ) : (
+              <p className="count_des">MESSAGES RECUS</p>
+            )}
           </Box>
         </Box>
       </Box>
