@@ -1,5 +1,4 @@
 import React from 'react'
-import { Tooltip } from "antd";
 import Box from "@mui/material/Box";
 const ChatSideBarTwo = (props) => {
   return (
@@ -29,7 +28,6 @@ const ChatSideBarTwo = (props) => {
                   <div
                   className="online-users"
                   >
-
                         <span id="dots" className={`${chat.isOnline? "dot":"dot-unactive" }`}></span>
                         <p className="chat_user_name">{chat.chatroom_label}</p>
                     

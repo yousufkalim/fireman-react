@@ -87,11 +87,12 @@ useEffect(() => {
                     message.status=status
                     updatedChat.push(message);
                     connection.send("ActiveChat", message.reciever, chat.chatInfoId)
+                  
                   }
                   setChat(updatedChat);
               });
-              //loadChatListData(token,userData.Id)
-              loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
+               console.log("95");
+               loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
                connection.on("msgSeenStatus", (usrId, chatId, seen) => {
                 console.log(">?<><><><",usrId, chatId, seen);
                })
@@ -119,9 +120,6 @@ const loadChatListData =(token, userId)=>{
     console.log("b?.employeeId",b?.employeeId);
     console.log("userId",userId);
     if (a?.employeeId != userId) {
-     console.log("user1.id");
-     console.log("<>><>><", a);
-     console.log("<>><>><", b);
       chatlist.push({
         chatroom_id: chat.id,
         chatroom_label: `${a?.empFirstName} ${a?.empLastName}`,
@@ -300,6 +298,7 @@ activeReciever: active,
   })
 }
 const loadActiveChatMessage = (token, chatId, userId)=>{
+ 
   console.log("chatId",chatId);
   api("get", `/api/v1/chat/GetMessages/${chatId}`).then((responseMessages)=>{
     console.log("active chat ", responseMessages);
@@ -320,7 +319,7 @@ const loadActiveChatMessage = (token, chatId, userId)=>{
           messageObject = {
             isSender: true,
             message: message.message,
-            status: status,
+             status: status,
           };
         }
         messagelist.push(messageObject);

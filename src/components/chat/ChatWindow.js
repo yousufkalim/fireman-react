@@ -1,6 +1,6 @@
 import React,{useRef, useEffect} from 'react';
 import Box from "@mui/material/Box";
-import Message from './Message';
+// import Message from './Message';
 import blacky from '../../assets/blacky.png'
 import green from '../../assets/greenish.png'
 import blacktick from '../../assets/blacktick.png'

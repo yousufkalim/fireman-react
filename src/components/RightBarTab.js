@@ -100,12 +100,10 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
     console.log("");
 api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>{
   setUsers(res?.data)
- console.log("chat res", res);
 })
   }, [])
   const store = Store();
   const ChatWithUser = (userID) => {
-    console.log("useridforchat",userID);
     handleOpen();
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
@@ -113,10 +111,6 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
       api("get",`/api/v1/chat/getorcreatechatroom/${userData.Id}/${userID}`).then(( res)=>{
    console.log("res><><<<activchat", res);
          localStorage.setItem("activeChat", res?.data?.data.chatInfoId);
-      //   this.setState({ chat_id: responseChat.id }, () => {
-      //     window.location.replace("/admin/chat");
-      // })
-      
       })};
       const onChange =(e)=>{
           const value= e.target.value;
