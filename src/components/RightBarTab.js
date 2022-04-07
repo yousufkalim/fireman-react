@@ -59,7 +59,11 @@ const style = {
   borderRadius:'4px',
   boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
 };
-
+const styles = theme => ({
+  multilineColor:{
+      color:'red'
+  }
+});
 const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
@@ -150,29 +154,35 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 })
       }
    const sendAssistance =()=>{
-    let form_data = new FormData();
-    form_data.append("EmailFileAttachment", imageData);
-    form_data.append("EmployeeId", parseInt(store?.userId));
-    form_data.append("EmailSubject", inputValues.subject);
-    form_data.append("EmailBody", inputValues.assistance);
+     if(!imageData||!inputValues.subject||!inputValues.assistance){
+      toast.error("Please fill all requied fields");
+     }
+     else{
+      let form_data = new FormData();
+      form_data.append("EmailFileAttachment", imageData);
+      form_data.append("EmployeeId", parseInt(store?.userId));
+      form_data.append("EmailSubject", inputValues.subject);
+      form_data.append("EmailBody", inputValues.assistance);
+      
+       api("post","/api/v1/checkList/section_assistance", form_data).then((res)=>{
+         console.log(res.data)
+         if(res.data.success===true){
+          setImage("")
+          setInputValues((pre)=>{
+            return{
+              ...pre,
+              assistance:"",
+              subject:""
+            }
+          })
+          toast.success("Email envoyé");
+         }
+         else{
+          toast.error("error")
+         }
+       })
+     }
     
-     api("post","/api/v1/checkList/section_assistance", form_data).then((res)=>{
-       console.log(res.data)
-       if(res.data.success===true){
-        setImage("")
-        setInputValues((pre)=>{
-          return{
-            ...pre,
-            assistance:"",
-            subject:""
-          }
-        })
-        toast.success("Email envoyé");
-       }
-       else{
-        toast.error("error")
-       }
-     })
    }
       
   return (
@@ -370,7 +380,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
      ):null
      }
 
-        <Box sx={{ width: "90%", marginTop: "10px" }}>
+        <Box sx={{ width: "90%"}}>
         {
           activeTab.notes? (
           <Accordion
@@ -428,7 +438,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                 <Typography sx={{ color: "#B4BCC3" }}>
                    Notes
                    </Typography>
-                   <SendIcon onClick={sendNotes} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
+                   <SendIcon  onClick={sendNotes} className="sendicon" sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian" > 
@@ -437,14 +447,13 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
              className="accordian-details accordian-notes"
              name="notes"
             onChange={onChange}
-             
+             sx={{color:"red"}}
              />
           
     </Box>
           </Accordion>
           ):null
          }
-          
           { 
          activeTab.assistance?
          (
@@ -460,7 +469,6 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
             }}
           >
             <AccordionSummary
-             
               aria-controls="panel3a-content"
               id="panel3a-header"
             >
@@ -486,7 +494,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                   />
                 </svg>
                 <Typography sx={{ color: "#B4BCC3" }}> Assistance</Typography>
-                <SendIcon onClick={sendAssistance} sx={{color:"#B4BCC3", marginLeft:"15px"}}/>
+                <SendIcon onClick={sendAssistance} className="sendicon"/>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian"> 
@@ -495,20 +503,20 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
     
     </label> 
     <p className="pic-detail">{image?.slice? image?.slice(0,36)+"...":""}</p>
-      <TextField 
-      id="filled-basic" 
-      label="Sujette" 
-      variant="filled" 
+    <Box sx={{width:"100%"}} className="flex-form">
+    <input 
+    type="search"
        placeholder="Sujette"
-       multiline
        name="subject"
        value={inputValues?.subject}
        size="small"
        onChange={onChange}
-       sx={{width:"85%", margin:"auto", padding:"15px 5px"}}
+       style={{width:"85%", margin:"auto"}}
+       className="input-assistance"
       />
-
+    </Box>
             <TextareaAutosize
+            sx={{ input: { color: 'red' } }}
              value={inputValues?.assistance}
              className="accordian-notes accordian-assistance"
              name="assistance"

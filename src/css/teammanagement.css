@@ -10,6 +10,15 @@
 {
     width: 50%;
 }
+.dropdown-team-managment-form{
+    border-radius: 10px;
+  background-color: #F1F5F9;
+  padding: 15px 15px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #8D919D;
+  width: 98%;
+}
 .team_management .input_cont label{
     display: block;
     color: #777588;
@@ -21,12 +30,14 @@
     color: #485372;
     font-size: 16px;
     font-weight: 500;
-    border: none;
     background: #FFFFFF;
-    padding: 8px 0px;
-    width: 90%;
+    padding: 15px 10px;
     border: none;
     outline: none;
+    background: #F1F5F9;
+    border-radius: 10px;
+    width: 98%;
+    -webkit-appearance: none;
 }
 .team_management .team_management_row .input_cont input::placeholder{
     color: #485372;
@@ -50,6 +61,7 @@
 .team_management .field_seprator{
     border-bottom: 1px solid #C5D3DB;
     margin: 20px 0px;
+    width: 98.5%;
 }
 
 .team_management .submit button{
@@ -62,3 +74,14 @@ border-radius: 10px;
 .team_management .team_management_row .input_cont .avatar {
     width: 100px;
 }
+
+
+
+
+/* .input_cont input[type="search"] {
+    border-radius: 10px;
+    background-color: #F1F5F9;
+    padding: 15px 15px;
+    font-weight: 600;
+    width: 70%;
+} */

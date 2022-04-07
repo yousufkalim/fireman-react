@@ -19,7 +19,7 @@
   z-index: 10;
   position: relative;
   width: 95%;
-  margin: 5px 0px;
+  margin: 10px 0px;
 }
 .label-color{
   color: #314A6C;
@@ -40,7 +40,7 @@
   width: 15% !important;
 }
 .flex-form .commune-dropdown{
-  width: 83% !important;
+  width: 85% !important;
   padding: 15px 15px !important;
 }
 .flex-form > * {
@@ -63,17 +63,21 @@
   width: 92% !important;
 }
 .dropdown-tracktype{
-  width: 65% !important;
+  width: 70% !important;
   padding: 15px 15px !important;
+}
+.channel-name{
+  justify-content: end !important;
 }
 .channel-name input[type="search"]{
   width: 66% !important;
 }
+
 .nom-et-form{
   width: 99% !important;
 }
 .statusid{
-  width: 62% !important;
+  width: 66% !important;
 }
 .label-status{
   width: 25% !important;
@@ -81,7 +85,9 @@
 .label-estab-nom{
   width: 24% !important;
 }
-
+.label-responsables{
+width:21% !important;
+}
 .flex-form-foldercreation input[type="search"]{
   width: 70% !important;
   padding: 15px 15px !important;
@@ -136,7 +142,7 @@ font-weight: 600;
   padding: 5px 15px;
   font-weight: 600;
   font-size: 15px;
-  width:63%
+  width:65%
 }
 .flex-form input[type="text"] {
   background: lightblue;
@@ -323,7 +329,7 @@ padding-left: 1%;
   display: none;
 }
 .input-container-search{
-margin-top: 20px;
+margin-top: 30px;
 }
 
 

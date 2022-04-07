@@ -553,11 +553,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <Box
                         sx={{
                           borderTop: "3px solid #C5D3DB",
-                          width: "86.2%",
+                          width: "100%",
                           marginTop: "12px",
                         }}
                       ></Box>
                     </div>
+
+
 
                     <Box sx={{ display: "flex", padding: "10px 0px" }}>
                       <div className="flex-form">
@@ -573,7 +575,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           value={inputValues.establishmentName}
                         />
                       </div>
-                      <div className="flex-form refnum-est">
+                      <div className="flex-form">
                         <label className="label-color">REF. #</label>
                         <input
                           required
@@ -584,7 +586,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                       <div className="flex-form channel-name">
-                        <label className="label-color">{t("Status")}</label>
+                        <label style={{marginLeft:""}} className="label-color">{t("Status")}</label>
                         <select
                           className="dropdown statusid"
                           type="select"
@@ -604,17 +606,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </Box>
 
                   <Box>
-                    <div className="heading-establishment">
-                      <span className="checklist-heading"> Adresse</span>
-                      <Box
-                        sx={{
-                          borderTop: "3px solid #C5D3DB",
-                          width: "90%",
-                          marginTop: "12px",
-                          marginLeft: "14px",
-                        }}
-                      ></Box>
-                    </div>
                     <Box sx={{ display: "flex", padding: "10px 0px" }}>
                       <div className="flex-form">
                         <label className="label-color label-general">
@@ -707,7 +698,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       <Box
                         sx={{
                           borderTop: "3px solid #C5D3DB",
-                          width: "76%",
+                          width: "100%",
                           marginTop: "11px",
                           marginLeft: "12px",
                         }}
@@ -715,7 +706,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                     </div>
                     <Box sx={{ display: "flex" }}>
                       <div className="flex-form flex-form-responsable nom-et-form">
-                        <label className="label-color">{t("Name")} </label>
+                        <label className="label-color label-responsables">{t("Name")} </label>
                         <input
                           required
                           type="search"
@@ -725,7 +716,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         />
                       </div>
                       <div className="flex-form nom-et-form">
-                        <label className="label-color">{t("First name")}</label>
+                        <label className="label-color label-responsables">{t("First name")}</label>
                         <input
                           required
                           type="search"
@@ -737,7 +728,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                     </Box>
                     <Box sx={{ display: "flex" }}>
                       <div className="flex-form flex-form-responsable">
-                        <label className="label-color">Mobile </label>
+                        <label className="label-color label-responsables">Mobile </label>
                         <input
                           required
                           type="tel"
@@ -752,7 +743,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       </div>
 
                       <div className="flex-form form-est-mail">
-                        <label className="label-color">Mail</label>
+                        <label className="label-color label-responsables">Mail</label>
                         <input
                           required
                           type="email"
@@ -765,7 +756,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </Box>
 
                   <Box
-                    sx={{ textAlign: "right", width: "97%", paddingTop: "5px" }}
+                    sx={{ textAlign: "right", width: "100%", paddingTop: "5px" }}
                   >
                     <Button
                       type="submit"

@@ -223,6 +223,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               }
               value={team?.sdisId}
               name="cars"
+              className="dropdown-team-managment-form"
               id="cars"
               onChange={(e) => {
                 setTeam({ ...team, ["sdisId"]: e.target.value });
@@ -246,6 +247,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
             {/*  disabled={store?.role == "2" || store?.role == "3"} */}
             {console.log("GROUPS", groups)}
             <select
+            className="dropdown-team-managment-form"
               disabled={
                 store?.role == "2" ||
                 (store?.role == "3" && prefilledData.length !== 0)
@@ -288,6 +290,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               }}
               name="cars"
               id="cars"
+              className="dropdown-team-managment-form"
             >
               {console.log("TEAM>SERVICEID", team.serviceId)}
               <option selected disabled>
@@ -302,6 +305,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           <div className="input_cont">
             <label>Employee Designation</label>
             <select
+            className="dropdown-team-managment-form"
               onChange={(e) => {
                 setTeam({ ...team, ["roleId"]: e.target.value });
               }}
@@ -324,7 +328,8 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         <div className="team_management_row">
           <div className="input_cont">
             <label>First Name</label>
-            <input
+            <input 
+            type="search"
               onChange={(e) => {
                 setTeam({ ...team, ["empFirstName"]: e.target.value });
               }}
@@ -336,6 +341,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           <div className="input_cont">
             <label>Last Name</label>
             <input
+             type="search"
               onChange={(e) => {
                 setTeam({ ...team, ["empLastName"]: e.target.value });
               }}
@@ -349,6 +355,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           <div className="input_cont">
             <label>Email</label>
             <input
+             type="search"
               disabled={isDisabled}
               onChange={(e) => {
                 setTeam({ ...team, ["email"]: e.target.value });
@@ -360,6 +367,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           <div className="input_cont">
             <label>Cell No</label>
             <input
+             type="search"
               onChange={(e) => {
                 setTeam({ ...team, ["cellNo"]: e.target.value });
               }}
@@ -382,6 +390,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
                 <div className="input_cont">
                   <label>Password</label>
                   <input
+                  style={{width:"95%"}}
                     type="password"
                     value={team.password}
                     onChange={(e) => {
@@ -393,6 +402,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
                 <div className="input_cont">
                   <label>Address</label>
                   <input
+                   type="search"
                     value={team?.postalAddress}
                     onChange={(e) => {
                       setTeam({ ...team, ["postalAddress"]: e.target.value });

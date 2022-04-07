@@ -1,248 +1,247 @@
-.etablissement h5{
-    margin-top: 22px;
-    margin-right: 10px;
-    font-style: normal;
-font-weight: bold;
-font-size: 26px;
-line-height: 31px;
-letter-spacing: -0.02em;
-color: #9095A3;
+.etablissement h5 {
+  margin-top: 22px;
+  margin-right: 10px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 31px;
+  letter-spacing: -0.02em;
+  color: #9095a3;
 }
 
-.etablissement .chapter{
-    display: flex;
-    align-items: end;
-    color: #9095A3;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #C5D3DB;
-    padding-bottom: 12px;
-
+.etablissement .chapter {
+  display: flex;
+  align-items: end;
+  color: #9095a3;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #c5d3db;
+  padding-bottom: 12px;
 }
-.icon-container{
-    display: flex;
-    position: relative;
+.icon-container {
+  display: flex;
+  position: relative;
 }
-.etablissement .chapter .icon{
-margin-top: 5px;
-cursor: pointer;
-font-weight: 600;
-font-size: 40px;
-position: absolute;
-top: -36px;
+.etablissement .chapter .icon {
+  margin-top: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 40px;
+  position: absolute;
+  top: -36px;
 }
-.etablissement .sections .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root .MuiAccordionSummary-content{
-    position: relative;
+.etablissement
+  .sections
+  .css-1mtkcvi-MuiButtonBase-root-MuiAccordionSummary-root
+  .MuiAccordionSummary-content {
+  position: relative;
 }
-.cehck_section{
-    position: absolute;
-    right: 30px;
-    height: 20px;
-    top: 30%;
+.cehck_section {
+  position: absolute;
+  right: 30px;
+  height: 20px;
+  top: 30%;
 }
-.section_id{
-    margin-right: 15px;
-    margin-top: 3px;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.5;
-    letter-spacing: 0.00938em;
-    border-right: 1px solid #5E93CB;
-    width:  37px;
-}
-
-
-
-.etablissement .sections .divider{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 100%;
-    margin-left: 0px;
-    color:#C5D3DB ;
-}
-.etablissement .sections .MuiPaper-root{
-    border:none;
-    background: #F5F9FD !important;
+.section_id {
+  margin-right: 15px;
+  margin-top: 3px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  border-right: 1px solid #5e93cb;
+  width: 37px;
 }
 
-.etablissement .sections .checklist{
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 31, 79, 0.1);
-box-sizing: border-box;
-box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
-    color: #9095A3;
-    display: flex;
-    /* min-height: 50px; */
-    padding: 0px 16px;
-    vertical-align:middle;
-    align-items: center;
-    border-radius: 10px;
-    
-    margin-top: 10px;
-    justify-content: space-between;
+.etablissement .sections .divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  margin-left: 0px;
+  color: #c5d3db;
+}
+.etablissement .sections .MuiPaper-root {
+  border: none;
+  background: #f5f9fd !important;
+}
 
+.etablissement .sections .checklist {
+  background: #ffffff;
+  border: 1px solid rgba(0, 31, 79, 0.1);
+  box-sizing: border-box;
+  box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.03);
+  color: #9095a3;
+  display: flex;
+  /* min-height: 50px; */
+  padding: 0px 16px;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 10px;
+
+  margin-top: 10px;
+  justify-content: space-between;
 }
-.checklist .checklist_content{
-    display: flex;
-    align-items: center;
-    min-height: 80px;
-    
+.checklist .checklist_content {
+  display: flex;
+  align-items: center;
+  min-height: 80px;
 }
- .checklist-border{
- border: 0.5px solid #3675B7 !important;
- font-size: 18px !important;
- line-height: 22px !important;
- color: #3675B7 !important;
- background: #F5F9FD !important;
- }
-.checkbox-border{
+.checklist-border {
+  border: 0.5px solid #3675b7 !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  color: #3675b7 !important;
+  background: #f5f9fd !important;
+}
+.checkbox-border {
   min-height: 85px;
-  border-right: 1px solid #F0F3F6;
+  border-right: 1px solid #f0f3f6;
   padding-left: 15px;
   box-sizing: border-box;
-  
 }
-.checkbox-bord{
-  border-right: 0.5px solid #3675B7 !important;
+.checkbox-bord {
+  border-right: 0.5px solid #3675b7 !important;
 
-    font-size: 18px !important;
-    line-height: 22px !important;
-    color: #3675B7 !important;
+  font-size: 18px !important;
+  line-height: 22px !important;
+  color: #3675b7 !important;
 }
-.sentence{
+.sentence {
   padding: 16px 10px;
   text-align: justify;
   font-size: 18px;
   font-weight: 500;
-   line-height: 22px;
+  line-height: 22px;
 }
 
-.sentence-bold{
+.sentence-bold {
   font-weight: bold;
-  color: #3675B7;
+  color: #3675b7;
   line-height: 22px;
   font-size: 18px;
 }
-.etablissement .sections .css-ta84vm-MuiAccordionDetails-root{
-    padding: 16px 0px !important;
-    border: none !important;
+.etablissement .sections .css-ta84vm-MuiAccordionDetails-root {
+  padding: 16px 0px !important;
+  border: none !important;
 }
 
-  .custom-checkbox-root .MuiSvgIcon-root{
-    width: 29px;
-    height: 29px;
-  }
-
-  .edit_icon{
-      position: absolute;
-      right: 33px;
-      /* width: 18px; */
-      }
-      .checklist_detail_bottom{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0px 25px;
-          margin-top: 10px;
-
-      }
-      .checklist_detail_bottom img{
-          width: 26px;
-      }
-
-      .bottom_buttons {
-        padding: 20px 0px;
-    }
-      .bottom_buttons .bottom_buttons_right{
-          float: right;
-      }
-      .bottom_buttons .bottom_buttons_left{
-        float: left;
-    }
-
-      .bottom_buttons img{
-       width: 26px;
-      }
-      .left_side{
-          /* margin-top: 55px; */
-         
-      }
-      .left_side .first{
-        background-color: #FFFFFF !important;
-        margin-right: 66px;
-        padding: 17px 27px;
-        border-radius: 10px;
-        border: transparent;
-        height: 165px;
-        position: relative;
-    }    
-      
-      .left_side .logo{
-        border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    border: 1px solid #E0E7EE;
-    padding: 3px;
-    margin-right: 50px;
-    text-align: center;
-      }
-      .left_side .logo_flex p{
-        color: #B4BCC3;
-        display: flex;
-        font-size: 10px;
-        justify-content: center;
-        margin-top: 8px;
-        text-align: center;
-        width: 100px;
-      }
-
-      .left_side .logo img{
-    width: 27px;
-      }
-
-      .left_side .first .logo_flex{
-          display: flex;
-      }
-
-      .first .align{
-          padding-left: 21px;
-      }
-
-       .firecart{
-        position: absolute;
-        top: 14px;
-        right: -58px;
-      }
-
-      .firecart-two{
-        position: absolute;
-    top: -25px;
-    right: -28px;
-    width: 65px;
+.custom-checkbox-root .MuiSvgIcon-root {
+  width: 29px;
+  height: 29px;
 }
-.close-icon{
-  color: #9095A3;
+
+.edit_icon {
+  position: absolute;
+  right: 33px;
+  /* width: 18px; */
 }
-.icon-txt{
-display:flex;
-margin-left: 10px;
+.checklist_detail_bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 25px;
+  margin-top: 10px;
 }
-.icon-txt>*{
+.checklist_detail_bottom img {
+  width: 26px;
+}
+
+.bottom_buttons {
+  padding: 20px 0px;
+}
+.bottom_buttons .bottom_buttons_right {
+  float: right;
+}
+.bottom_buttons .bottom_buttons_left {
+  float: left;
+}
+
+.bottom_buttons img {
+  width: 26px;
+}
+.left_side {
+  /* margin-top: 55px; */
+}
+.left_side .first {
+  background-color: #ffffff !important;
+  margin-right: 66px;
+  padding: 17px 27px;
+  border-radius: 10px;
+  border: transparent;
+  height: 165px;
+  position: relative;
+}
+
+.left_side .logo {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #e0e7ee;
+  padding: 3px;
+  margin-right: 50px;
+  text-align: center;
+}
+.left_side .logo_flex p {
+  color: #b4bcc3;
+  display: flex;
+  font-size: 10px;
+  justify-content: center;
+  margin-top: 8px;
+  text-align: center;
+  width: 100px;
+}
+
+.left_side .logo img {
+  width: 27px;
+}
+
+.left_side .first .logo_flex {
+  display: flex;
+}
+
+.first .align {
+  padding-left: 21px;
+}
+
+.firecart {
+  position: absolute;
+  top: 14px;
+  right: -58px;
+}
+
+.firecart-two {
+  position: absolute;
+  top: -25px;
+  right: -28px;
+  width: 65px;
+}
+.close-icon {
+  color: #9095a3;
+}
+.icon-txt {
+  display: flex;
+  margin-left: 10px;
+}
+.icon-txt > * {
   margin-right: 20px;
 }
-.accordian-notes{
+.accordian-notes {
   font-size: 15px !important;
   padding: 10px;
 }
 
-.file-inp{
+.input-assistance::placeholder {
+  color: #8d919d;
+}
+
+.file-inp {
   display: none;
   width: 80%;
 }
 
-.file-label{
+.file-label {
   padding: 10px;
-  background: #3675B7; 
+  background: #3675b7;
   display: table;
   color: #fff;
   width: 80%;
@@ -250,182 +249,187 @@ margin-left: 10px;
   border-radius: 5px;
 }
 
-
-.accordian-assistance{
+.accordian-assistance {
   height: 38vh !important;
-  width:75%; 
+  width: 75%;
   margin: 10px auto;
-   border-radius:12px; 
-   border:0.2px solid #9095A3; 
-   color:#B4BCC3; 
-   font-style:italic; 
-   font-size:12px;
-   margin-bottom :15px;
+  border-radius: 12px;
+  border: 0.2px solid #9095a3;
+  color: #b4bcc3;
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 15px;
+  background: #f1f5f9;
 }
-.pic-detail{
-margin: 0 8%;
+.pic-detail {
+  margin: 0 8%;
 }
-.accordian-details{
-  width:80%; 
-  margin:auto;
-   border-radius:12px; 
-   border:0.2px solid #9095A3; 
-   color:#B4BCC3; 
-   font-style:italic; 
-   font-size:12px;
-   margin-bottom :15px;
-   height: 59vh !important;
+.accordian-details {
+  width: 80%;
+  margin: auto;
+  border-radius: 12px;
+  border: 0.2px solid #9095a3;
+  color: #b4bcc3;
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 15px;
+  height: 59vh !important;
 }
-.textarea-accordian{
-display: flex;
-flex-direction: column;
+.textarea-accordian {
+  display: flex;
+  flex-direction: column;
 }
 .textarea-accordian textarea::placeholder {
-   color:#B4BCC3  !important;
+  color: #b4bcc3 !important;
 }
-      .left_side .Compagnon{
-         background-color: #FFFFFF ;
-         margin-top: 20px;
-         margin-right: 30px;
-         border-radius: 10px;
-         border: transparent;
-         padding: 17px 17px;
-         position: relative;
-      }
-      .left_side .Compagnon h4{
-          color: #9095A3;
-          font-weight: 500;
-          padding-bottom: 10px;
-          margin-left: 10px;
-      }
-      
-      .left_side .Compagnon .Compagnon_icons{
-          border: 1px solid #D2DCE4;
-          border-radius: 10px;
-          margin-top: 20px;
-          padding: 5px 10px;
-          display: flex;
-          width: 95%;
-          overflow: auto;
-      }
-
-      .left_side .Compagnon .Compagnon_icons p{
-        color: #B4BCC3;
-        font-size: 18px;
-        margin-left: 15px;
-        font-weight: 500;
-        color: #9095A3;
-      }
-      
-    .comments{
-      height: 40vh;
-      align-items: start !important;
-    }
-
-    .v-tut{
-      height: 20vh;
-      align-items: start !important;
-    }
-    .v-tut a{
-      color: #9095A3;
-      font-size: 15px;
-    }
-
-
-      .left_side .Compagnon .notes{
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-
-      }
-      .left_side .Compagnon .notes p{
-        color: #B4BCC3;
-        font-size: 12px;
-        margin-left: 15px;
-
-      }
-      .left_side .Compagnon .notes_border{
-        border-top: 1px solid #EAEFF3;
-        border-bottom: 1px solid #EAEFF3;
-        padding: 7px 0px;
-      }
-
-      .checklist .ckeditor{
-        margin: 20px 20px;
-      }
-
-      .dot {
-        height: 10px;
-        width: 10px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        background: #2BAD6F;
-      }
-      .dot-unactive{
-        height: 10px;
-        width: 10px;
-        border: 0.2px solid #000000;
-        border-radius: 50%;
-        display: inline-block;
-        background: #FFFFFF;
-      }
-      .chat-box>*{
-        padding-right: 15px;
-      }
-      .chat-box-scroll::-webkit-scrollbar {
-        width: 6px;
-        max-height:4px;
-      }
-      .chat-box-scroll::-webkit-scrollbar-track {
-        border-radius: 10px;
-       
-      }
-       
-      /* Handle */
-      .chat-box-scroll::-webkit-scrollbar-thumb {
-        background: #3675B7; 
-       
-        border-radius: 10px;
-        background-clip: padding-box;
-      }
-      
-      /* Handle on hover */
-      
-
-      .img-chat{
-        width: 26px;
-        height: 26px;
-        border-radius: 100%;
-      }
-
-      .img-txt> *{
-       margin-right: 12px;
-       display: flex;
-       align-items: center;
-      }
-
-      .chat-user{
-        font-weight: 500;
-font-size: 16px;
-line-height: 15px;
-      }
-
-
-      .icon-cart{
-        width:50%;
-      }
-
-      .side-bar-toggle{
-        display: flex;
-        justify-content: end;
-        align-items: flex-end;
-      }
-
-      .side-bar-toggle>*{
-        padding-bottom: 10px;
-      }
-
-.spacing>*{
+.left_side .Compagnon {
+  background-color: #ffffff;
+  margin-right: 30px;
+  border-radius: 10px;
+  border: transparent;
+  padding: 17px 17px;
+  position: relative;
+}
+.left_side .Compagnon h4 {
+  color: #9095a3;
+  font-weight: 500;
   padding-bottom: 10px;
+  margin-left: 10px;
+}
+
+.left_side .Compagnon .Compagnon_icons {
+  border: 1px solid #d2dce4;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 5px 10px;
+  display: flex;
+  width: 95%;
+  overflow: auto;
+}
+
+.left_side .Compagnon .Compagnon_icons p {
+  color: #b4bcc3;
+  font-size: 18px;
+  margin-left: 15px;
+  font-weight: 500;
+  color: #9095a3;
+}
+
+.comments {
+  height: 40vh;
+  align-items: start !important;
+}
+
+.v-tut {
+  height: 20vh;
+  align-items: start !important;
+}
+.v-tut a {
+  color: #9095a3;
+  font-size: 15px;
+}
+
+.left_side .Compagnon .notes {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.left_side .Compagnon .notes p {
+  color: #b4bcc3;
+  font-size: 12px;
+  margin-left: 15px;
+}
+.left_side .Compagnon .notes_border {
+  border-top: 1px solid #eaeff3;
+  border-bottom: 1px solid #eaeff3;
+  padding: 7px 0px;
+}
+
+.checklist .ckeditor {
+  margin: 20px 20px;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  background: #2bad6f;
+}
+.dot-unactive {
+  height: 10px;
+  width: 10px;
+  border: 0.2px solid #000000;
+  border-radius: 50%;
+  display: inline-block;
+  background: #ffffff;
+}
+.chat-box > * {
+  padding-right: 15px;
+}
+.chat-box-scroll::-webkit-scrollbar {
+  width: 6px;
+  max-height: 4px;
+}
+.chat-box-scroll::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+.chat-box-scroll::-webkit-scrollbar-thumb {
+  background: #3675b7;
+
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+/* Handle on hover */
+
+.img-chat {
+  width: 26px;
+  height: 26px;
+  border-radius: 100%;
+}
+
+.img-txt > * {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-user {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 15px;
+}
+
+.icon-cart {
+  width: 50%;
+}
+
+.side-bar-toggle {
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+}
+
+.side-bar-toggle > * {
+  padding-bottom: 10px;
+}
+
+.spacing > * {
+  padding-bottom: 10px;
+}
+
+
+
+.sendicon{
+ color:#B4BCC3;
+  margin-left:15px;
+}
+
+.sendicon:hover{
+  color: #3675b7;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
