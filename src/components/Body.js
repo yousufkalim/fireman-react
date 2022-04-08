@@ -193,7 +193,7 @@ const Body = () => {
               <Profile />
             ) : (
               <>
-                <Grid item xs={sideBar ? 8 : 10}>
+                <Grid className="center-grid-body" item xs={sideBar ? 8 : 10}>
                   {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                   {store.activeNavbarTab === 1 ? (
                     <EstablishmentSearchContainer />

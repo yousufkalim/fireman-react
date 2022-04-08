@@ -6,6 +6,7 @@ import { useTranslation, Trans } from "react-i18next";
 import api from '../../../../api/index';
 import { Store } from "../../../../StoreContext";
 import moment from "moment";
+import scrollStyles from '../../../../components/ScrollBarStyle'
 const EndedCases = () => {
     const [endedcases, setendedcases] = useState([]);
     const [pageSize, setPageSize] = React.useState(25);
@@ -21,7 +22,6 @@ const EndedCases = () => {
       }
     );
   }, []);
-     console.log(endedcases);
     const { t, i18n } = useTranslation();
     const [sortModel, setSortModel] = React.useState([
         {
@@ -87,6 +87,7 @@ const EndedCases = () => {
         textAlign: "center",
         color: theme.palette.text.secondary,
       }));
+      const classes = scrollStyles();
   return (
       <>
        <Item
@@ -98,6 +99,7 @@ const EndedCases = () => {
         >
           <div style={{ height: "71vh", width: "100%" }}>
             <DataGrid
+            className={classes.root}
             pageSize={pageSize}
             componentsProps={{
               pagination: { 

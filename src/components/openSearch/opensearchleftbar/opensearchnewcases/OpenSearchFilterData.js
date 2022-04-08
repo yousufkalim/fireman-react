@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
 import api from "../../../../api/index";
-import { TablePagination } from '@mui/material';
+import scrollStyles from '../../../../components/ScrollBarStyle'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -15,6 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const EstablishmentSearchData = ({ establishmentSearchData, setCompShow,setPhoneBookDisplay }) => {
   const { t } = useTranslation();
+  const classes = scrollStyles();
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -83,7 +84,10 @@ console.log(establishmentSearchData,"establishmentSearchData");
     > 
     <div style={{ height: "50vh", width: "100%" }}>
       <DataGrid
-        sx={{border:"none"}}
+      className={classes.root}
+        sx={{
+          border:"none",
+        }}
       onCellClick={(params,event)=>onRowClick(params,event)}
       sortModel={sortModel}
       TablePagination

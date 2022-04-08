@@ -5,6 +5,7 @@
 @import url("./login.css");
 @import url("./signup.css");
 @import url("./Navbar.css");
+@import url("./body.css");
 @import url("./EsatablishmentTab/EstablishmentSearch.css");
 @import url("./leftbar.css");
 @import url("./opensearchfilterdata.css");
@@ -37,4 +38,20 @@ height: 100%;
 /* Primary Variables */
 :root {
   --primary: "green";
+}
+
+
+body::-webkit-scrollbar {
+  width: 6px;
+  max-height: 4px;
+}
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background: #3675b7;
+  border-radius: 10px;
+  background-clip: padding-box;
 }

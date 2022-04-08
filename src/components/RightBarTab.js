@@ -393,7 +393,8 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
           expanded={true}
             sx={{
               paddingTop: "10px",
-              height:"74vh",
+              height:"auto",
+              paddingBottom: "5%",
               borderTopLeftRadius: "10.757px !important",
               borderTopRightRadius: "10.757px !important",
               boxShadow: "none",
@@ -471,14 +472,16 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
               borderBottomRightRadius: "10px !important",
               boxShadow: "none",
               margin: "0px !important",
-              height:"74vh"
+              height:"auto",
+              paddingBottom: "5%",
             }}
           >
             <AccordionSummary
               aria-controls="panel3a-content"
               id="panel3a-header"
+              sx={{height:"0%"}}
             >
-              <Box className="icon-txt">
+              <Box  className="icon-txt">
               <span  onClick={()=>{ setSideBar(false); setActiveTab(()=>{
                return{
                 chat:false,
@@ -504,11 +507,6 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
               </Box>
             </AccordionSummary>
             <Box className="textarea-accordian"> 
-             <label className="file-label">  {t("Attachment")}
-    <input  onChange={getFileData} className="file-inp" type="file" size="60" />
-    
-    </label> 
-    <p className="pic-detail">{image?.slice? image?.slice(0,36)+"...":""}</p>
     <Box sx={{width:"100%"}} className="flex-form">
     <input 
     type="search"
@@ -530,6 +528,10 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
              />
             
     </Box>
+    <label className="file-label">  {t("Attachment")}
+    <input  onChange={getFileData} className="file-inp" type="file" size="60" />
+    </label> 
+    <p className="pic-detail">{image?.slice? image?.slice(0,36)+"...":""}</p>
             {/* <AccordionDetails className="accordian-details">
             <TextareaAutosize
              value={inputValues?.notes}

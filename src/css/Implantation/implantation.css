@@ -244,8 +244,8 @@
   background: #3675b7;
   display: table;
   color: #fff;
-  width: 80%;
-  margin: 10px auto;
+  width: 74%;
+  margin: auto;
   border-radius: 5px;
 }
 
@@ -262,7 +262,7 @@
   background: #f1f5f9;
 }
 .pic-detail {
-  margin: 0 8%;
+  margin: 2% 10%;
 }
 .accordian-details {
   width: 80%;
@@ -379,10 +379,10 @@
 /* Handle */
 .chat-box-scroll::-webkit-scrollbar-thumb {
   background: #3675b7;
-
   border-radius: 10px;
   background-clip: padding-box;
 }
+
 
 /* Handle on hover */
 

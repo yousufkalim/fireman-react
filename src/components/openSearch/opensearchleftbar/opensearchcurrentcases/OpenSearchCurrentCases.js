@@ -14,14 +14,8 @@ import CloudDoneSharpIcon from "@mui/icons-material/CloudDoneSharp";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
+import scrollStyles from '../../../../components/ScrollBarStyle'
 
-const useStyles = makeStyles({
-  root: {
-    "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
-      outline: "none",
-    },
-  },
-});
 const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
@@ -33,8 +27,8 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const { data } = useDemoData({
     labelRowsPerPage: "Lignes par page",
   });
-  const classes = useStyles();
-
+  const classes = scrollStyles();
+  
   const [pageSize, setPageSize] = React.useState(25);
   const store = Store();
   let userId = localStorage.getItem("userData");
