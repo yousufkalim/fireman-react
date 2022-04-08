@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import api from "../../../../api/index";
 import { toast } from "react-toastify";
-import DoneIcon from "@mui/icons-material/Done";
 import OpenSearchStudyForm from "./OpenSearchStudyForm";
 import OpenSearchVisitForm from "./OpenSearchVisitForm";
 import Rightarrow from "../../../../assets/rightarrow.png";
@@ -101,9 +100,6 @@ const FolderCreationSection = ({
 
   const updatestore = UpdateStore();
   useEffect(() => {
-    console.log(CompName);
-    console.log(compShow);
-    console.log(">>>>>>>>>>>>>>", store);
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`).then((res) => {

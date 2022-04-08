@@ -22,6 +22,7 @@ import Modal from '@mui/material/Modal';
 import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
 import { toast } from "react-toastify";
 import TextField from '@mui/material/TextField';
+import { makeStyles } from "@material-ui/core/styles";
 //import Chat from './chat/IndexTwo'
 import Chat from './chat/IndexThree'
 //import Chat from './chat/Index'
@@ -59,11 +60,7 @@ const style = {
   borderRadius:'4px',
   boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
 };
-const styles = theme => ({
-  multilineColor:{
-      color:'red'
-  }
-});
+
 const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
@@ -92,6 +89,15 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
    const handleOpen = () =>{ setOpen(true); 
    
   }
+  const useStyles = makeStyles((theme) => (
+    {
+    multilineColor:{
+      color:'red',
+      fontWeight: "600"
+    }
+  }
+  ));
+  const classes = useStyles();
    const handleClose = () => {
      setOpen(false); 
   }
@@ -443,11 +449,11 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
             </AccordionSummary>
             <Box className="textarea-accordian" > 
             <TextareaAutosize
+             style={{color:"#8D919D"}}
              value={inputValues?.notes}
              className="accordian-details accordian-notes"
              name="notes"
             onChange={onChange}
-             sx={{color:"red"}}
              />
           
     </Box>
@@ -516,7 +522,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
       />
     </Box>
             <TextareaAutosize
-            sx={{ input: { color: 'red' } }}
+           style={{color:"#8D919D"}}
              value={inputValues?.assistance}
              className="accordian-notes accordian-assistance"
              name="assistance"

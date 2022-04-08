@@ -5,12 +5,11 @@ import annauire from '../assets/book.png'
 import { useTranslation, Trans } from "react-i18next";
 import { Store, UpdateStore } from "../StoreContext";
 import jwt from 'jwt-decode'
-const EstablishmentSearchLeftBar = ({ getResponse }) => {
+const EstablishmentSearchLeftBar = ({ getResponse,CompName,setCompName,setTeamFormDisplay}) => {
   const { t, i18n } = useTranslation();
-  const { language } = i18n;
-
   const [active, setActive] = useState("newcases");
   const update = UpdateStore();
+  const store = Store()
   const items = [
     {
       id: "termine",
@@ -112,15 +111,21 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
   ];
 
   const onClick = (activelefttab) => {
+    console.log(activelefttab,store );
+    
     if(activelefttab=="annuaire"){
       update({ phoneBook:true });
     }
     if(activelefttab!="annuaire"){
       update({ phoneBook:false });
     }
+    if(activelefttab=="team"){
+      setTeamFormDisplay(true)
+    }
     update({ activeNavbarTab: activelefttab,catTab:false });
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab
     if (activelefttab === "currentcases") {
+      setCompName("")
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
       api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/1`).then(
@@ -139,16 +144,11 @@ const EstablishmentSearchLeftBar = ({ getResponse }) => {
       // );
     }
   };
-  const store = Store()
   const index = items.findIndex(val => val.id === "team");
-console.log("INDEX VAL",index)
 const UserRole = localStorage.getItem("roleSerial");
-console.log("USER ROLE", UserRole)
 var loggedInUserDataID = localStorage.getItem("loggedInUser");
-console.log("loggedInUserDataID being stored in local storage", loggedInUserDataID)
 var token = localStorage.getItem("userData");
 var decodedtoken = jwt(token);
-console.log("TOKEN DATAA",decodedtoken);
   return (
     <>
 {(() => {
@@ -194,7 +194,6 @@ console.log("TOKEN DATAA",decodedtoken);
         </clipPath>
         </defs>
         </svg></div>
-               
     </>
   );
 };

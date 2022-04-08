@@ -13,7 +13,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
+const EstablishmentSearchData = ({ establishmentSearchData, setCompShow,setPhoneBookDisplay }) => {
   const { t } = useTranslation();
   const messagesEndRef = useRef(null)
   const scrollToBottom = () => {
@@ -50,7 +50,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow }) => {
 const onRowClick =(data, event)=>{
  console.log("data",data)
   event.defaultMuiPrevented = true;
-  if(store.phoneBook){
+  if(store?.phoneBook){
     api("get", `/api/v1/get_establishment_phonebook/${data.id}`).then((res) => {
       updatestore({
         phonebookData:{...res.data,name:data.row.nom}

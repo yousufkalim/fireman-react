@@ -25,6 +25,9 @@ import CreateAnEstablishment from "./openSearch/opensearchleftbar/opensearchnewc
 
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
+  const [CompName, setCompName] = useState("");
+  const [phoneBookDisplay, setPhoneBookDisplay] = useState(false)
+  const [TeamformDisplay, setTeamFormDisplay] = useState(true);
   const [rightBarData, setRightBarData] = useState({
     videoLink: "",
     comments: "",
@@ -152,7 +155,13 @@ const Body = () => {
           <Grid sx={{ backgroundColor: "aliceblue" }} container spacing={2}>
             <Grid item xs={1}>
               {/* <SideBar /> */}
-              <LeftBarTab getResponse={getResponse} />
+              <LeftBarTab 
+              CompName={CompName} 
+              setCompName={setCompName}
+              setPhoneBookDisplay={setPhoneBookDisplay}
+              TeamformDisplay={TeamformDisplay} 
+              setTeamFormDisplay={setTeamFormDisplay}
+               getResponse={getResponse} />
             </Grid>
 
             {/* <<<<<<< HEAD
@@ -190,7 +199,7 @@ const Body = () => {
                     <EstablishmentSearchContainer />
                   ) : null}
                   {store.activeNavbarTab === "currentcases" ? (
-                    <OpenSearchCurrentCases currentcasesData={responseData} />
+                    <OpenSearchCurrentCases currentcasesData={responseData} CompName={CompName} setCompName={setCompName}/>
                   ) : null}
                   {store.activeNavbarTab === 2 ? (
                     <Implantation setRightBarData={setRightBarData} />
@@ -200,7 +209,10 @@ const Body = () => {
                     <FolderCreationContainer />
                   ) : null}
                   {store.activeNavbarTab === "searchestablishment" ? (
-                    <OpenSearchNewCases />
+                    <OpenSearchNewCases 
+                    setPhoneBookDisplay={setPhoneBookDisplay}
+                    phoneBookDisplay={phoneBookDisplay}
+                    />
                   ) : null}
 
                   {store.activeNavbarTab === "createanestablishment" ? (
@@ -214,9 +226,17 @@ const Body = () => {
                     <EndedCases endedcases={responseData} />
                   ) : null}
                   {store.activeNavbarTab === "annuaire" ? (
-                    <OpenSearchNewCases />
+                    <OpenSearchNewCases 
+                    setPhoneBookDisplay={setPhoneBookDisplay}
+                    phoneBookDisplay={phoneBookDisplay}
+                    />
                   ) : null}
-                  {store.activeNavbarTab === "team" ? <TeamManagement /> : null}
+                  {store.activeNavbarTab === "team" ? <TeamManagement 
+                  TeamformDisplay={TeamformDisplay} 
+                  setTeamFormDisplay={setTeamFormDisplay}
+                  /> 
+                  : 
+                  null}
                 </Grid>
                 <Grid item xs={sideBar ? 3 : 1}>
                   <RightBarTab

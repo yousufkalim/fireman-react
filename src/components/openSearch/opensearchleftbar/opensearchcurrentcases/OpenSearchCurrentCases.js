@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     },
   },
 });
-const EstablishmentSearchCurrentCases = () => {
+const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
   const [indexdata, setIndexdata] = useState({
@@ -54,7 +54,7 @@ const EstablishmentSearchCurrentCases = () => {
   }, []);
 
   const { t, i18n } = useTranslation();
-  const [CompName, setCompName] = useState("");
+  // const [CompName, setCompName] = useState("");
   const [sortModel, setSortModel] = React.useState([
     {
       field: "commune",
@@ -185,7 +185,6 @@ const EstablishmentSearchCurrentCases = () => {
       serialNum: params?.row?.val?.serialNum,
     });
     setCompName("currentcases");
-
     if (
       (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
       params.row.val.tabIndex === 2
@@ -231,9 +230,11 @@ const EstablishmentSearchCurrentCases = () => {
     color: theme.palette.text.secondary,
   }));
   console.log(">>>>>>", currentcasesData);
+  console.log("<><", folderCreationData);
+  console.log(CompName,"comp");
   return (
     <>
-      {folderCreationData.length !== 0 ? (
+      {folderCreationData.length !== 0 && CompName=="currentcases"? (
         <FolderCreationContainer
           CompName={CompName}
           indexdata={indexdata}

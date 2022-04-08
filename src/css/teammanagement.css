@@ -27,9 +27,9 @@
     margin-bottom: 10px;
 }
 .team_management .team_management_row .input_cont input, select{
-    color: #485372;
+    color: #8D919D;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     background: #FFFFFF;
     padding: 15px 10px;
     border: none;
@@ -40,9 +40,9 @@
     -webkit-appearance: none;
 }
 .team_management .team_management_row .input_cont input::placeholder{
-    color: #485372;
+    color: #8D919D;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 
 }
 .input_container  select:focus{
