@@ -56,38 +56,71 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     },
   ]);
   const updatestore = UpdateStore();
-  const MatEdit = ({ params }) => {
+  const MatEdit = ({ text,params }) => {
+    console.log(params,"params");
     return (
-      <FormControlLabel
+      <>
+      {
+        (params?.row?.val?.state== "EN COURS" && (store.role=="1" || store.role=="2" || store.role=="3"))
+        || 
+        (params?.row?.val?.state=="TERMINÉ Non Valide" && (store.role=="4"||store.role=="5"))
+        ?
+        ""
+        :
+        <FormControlLabel
         control={
           <Button
             onClick={() => {
-              api(
-                "put",
-                `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
-              )
-                .then((res) => {
-                  console.log(res, "validate");
+              if(text=="Valider"){
+                api(
+                  "put",
+                  `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
+                )
+                  .then((res) => {
+                    console.log(res, "validate");
+  
+                    if (res.data === true) {
+                      toast.success(t("Successfull"));
+                    } else {
+                      toast.error("Le dossier n'est pas complet");
+                    }
+                  })
+                  .catch((err) => {
+                    toast.error("error");
+                  });
+              }
+              if(text=="Terminé"){
+                api(
+                  "put",
+                  `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
+                )
+                  .then((res) => {
+                    console.log(res, "validate");
+  
+                    if (res.data === true) {
+                      toast.success(t("Successfull"));
+                    } else {
+                      toast.error("Le dossier n'est pas complet");
+                    }
+                  })
+                  .catch((err) => {
+                    toast.error("error");
+                  });
+              }
 
-                  if (res.data === true) {
-                    toast.success(t("Successfull"));
-                  } else {
-                    toast.error("Le dossier n'est pas complet");
-                  }
-                })
-                .catch((err) => {
-                  toast.error("error");
-                });
             }}
             variant="contained"
             endIcon={<CloudDoneSharpIcon />}
           >
-            Valider
+            {text}
           </Button>
         }
       />
+      }
+      </>
     );
   };
+
   const column = [
     {
       field: "typeref",
@@ -142,7 +175,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     {
       field: "state",
       headerName: `${t("State")}`,
-      minWidth: 150,
+      minWidth: 250,
       color: "#8D919D",
       borderBottom: "none",
     },
@@ -150,17 +183,31 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       field: "Validate",
       headerName: "",
       sortable: false,
-      minWidth: 140,
-      renderCell: (params) => {
+      minWidth: store.role==1 || store.role==2 || store.role==3? 140 : 0,
+      renderCell: store.role==1 || store.role==2 || store.role==3? ( (params) => {
         return (
           <div style={{ cursor: "pointer" }}>
-            <MatEdit params={params} />
+            <MatEdit text={"Valider"} params={params} />
           </div>
         );
-      },
+      }):"",
     },
-  ];
+    {
+      field: "Completed",
+      headerName: "",
+      sortable: false,
+      minWidth: store.role==4 || store.role==5? 140 : 0,
+      renderCell: store.role==4 || store.role==5? ( (params) => {
+        return (
+          <div style={{ cursor: "pointer" }}>
+            <MatEdit text={"Terminé"} params={params} />
+          </div>
+        );
+      }):"",
+    },
 
+  ];
+console.log(currentcasesData,"currentcasesData");
   const onRowClick = (params) => {
     console.log(params.row.val);
     updatestore({
@@ -266,11 +313,11 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
               sortModel={sortModel}
               onSortModelChange={(model) => setSortModel(model)}
               columns={column.map((val, index) => ({
-                field: val.field,
-                headerName: val.headerName,
-                minWidth: val.minWidth,
-                borderBottom: val.borderBottom,
-                renderCell: val.renderCell,
+                field: val?.field,
+                headerName: val?.headerName,
+                minWidth: val?.minWidth,
+                borderBottom: val?.borderBottom,
+                renderCell: val?.renderCell,
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
                 id: val.caseFileId,

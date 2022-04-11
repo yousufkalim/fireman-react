@@ -82,6 +82,7 @@ const Body = () => {
       .catch((err) =>
         console.log("Error while establishing connection :(", err.message)
       );
+     
   }, []);
 
   const sendid = async () => {
@@ -243,6 +244,7 @@ const Body = () => {
                     sideBar={sideBar}
                     setSideBar={setSideBar}
                     rightBarData={rightBarData}
+                    setRightBarData={setRightBarData}
                   />
                 </Grid>
               </>

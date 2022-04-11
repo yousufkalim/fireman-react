@@ -581,7 +581,7 @@ const EstablishmentSearchStudyForm = ({
         ) : null}
       </Box>
       <Accordion
-        sx={{ margin: "3px 10px !important", borderRadius: "10px" }}
+        sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5%" }}
         expanded={Toggler.togglerstudy ? true : false}
       >
         <AccordionSummary
@@ -947,7 +947,7 @@ const EstablishmentSearchStudyForm = ({
         ) : null}
       </Box>
       <Accordion
-        sx={{ margin: "3px 10px !important", borderRadius: "10px" }}
+        sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5%" }}
         expanded={Toggler.togglerstudytwo ? true : false}
       >
         <AccordionSummary
@@ -1047,7 +1047,7 @@ const EstablishmentSearchStudyForm = ({
                     checklistid={checklistid}
                     sectionType={sectionType}
                   />
-                  <Box sx={{ textAlign: "right", padding: "10px" }}>
+                  <Box sx={{ textAlign: "right", padding: "2% 0.3%"}}>
                     <Button
                       disabled={buttonEnability.detailsobject}
                       type="submit"

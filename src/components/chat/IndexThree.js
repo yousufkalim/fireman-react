@@ -42,8 +42,6 @@ const IndexThree = () => {
   //console.log("started", newConnection);
 }, []);
 
-console.log("store",store);
-console.log(connection);
 useEffect(() => {
   var token = localStorage.getItem("userData");
   var chat_active = localStorage.getItem("activeChat");

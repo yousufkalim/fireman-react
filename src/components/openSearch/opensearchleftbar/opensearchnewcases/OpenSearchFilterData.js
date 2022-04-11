@@ -77,9 +77,10 @@ console.log(establishmentSearchData,"establishmentSearchData");
     <>
     <Item
      sx={{
-      margin: "10px 0px",
+      margin: "1% auto",
       borderRadius: "10px",
       boxShadow:"none",
+      width:"98%"
     }}
     > 
     <div style={{ height: "50vh", width: "100%" }}>

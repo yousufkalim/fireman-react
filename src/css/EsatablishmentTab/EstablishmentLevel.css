@@ -5,3 +5,79 @@
   border-radius:5px;
   zoom: 2;
 }
+
+.parent-container-level>*{
+padding: 0% 0.2%;
+}
+
+
+.textarea-width{
+  padding:100px 30px;
+  background: #F1F5F9;
+  outline:none;
+  border:none;
+  border-radius:10px;
+  width:60%;
+  color: #8D919D;
+  font-weight: 600;
+}
+.textarea-width::placeholder{
+  color: #C5C8D2;
+  width:90%;
+}
+.field-cellno{
+  border: none;
+  outline: none;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  outline: none !important;
+  border: none !important;
+  background: #F1F5F9 !important;
+  height: 14px !important;
+  color: #8D919D!important;
+  font-weight: 600 !important;
+  width: 220px !important;
+  border-radius: 10px !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+  border: none !important;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+  border-style: none !important;
+  
+}
+.css-1wc848c-MuiFormHelperText-root.Mui-error{
+  color: red!important;
+  font-weight: 900;
+}
+.btn-validate{
+  padding: 1% 2%;
+  background: #3675B7;
+  border:none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.btn-validate-disable{
+  background-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.26);
+  padding: 1% 2%;
+  border:none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn-validate:hover{
+  background: #3675B7;
+}
+
+.comments-input{
+  margin-left: 5%;
+  width: 270px;
+}
+
+.local-inp{
+  width: 180px;
+}
+

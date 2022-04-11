@@ -138,10 +138,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       </Box>
       <Item
         sx={{
-          marginTop: "10px",
+         margin:"1% auto",
           borderRadius: "10px",
           fontSize: "20px",
           boxShadow: "none",
+          width:"98%"
         }}
       >
         {store.phoneBook ? (

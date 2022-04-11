@@ -145,9 +145,8 @@ export default function Navbar({ Story }) {
   useClickOutside(ref, () => {
     setLogout(false);
   });
-  console.log("store", store);
   return (
-    <Box sx={{ flexGrow: 1, fontSize: "18px", width: "99%", margin: "auto" }}>
+    <Box sx={{ flexGrow: 1, fontSize: "18px", width: "99%",height:"90px", margin: "auto" }}>
       <AppBar
         sx={{
           backgroundColor: "aliceblue",
@@ -239,7 +238,7 @@ export default function Navbar({ Story }) {
                     setLogout(true);
                   }}
                   className="img-nav"
-                  src={ronaldo}
+                  src={`http://192.168.10.15:5519${profile?.profilePicture?.substr(37)}`}
                 />
                 {logout ? (
                   <p

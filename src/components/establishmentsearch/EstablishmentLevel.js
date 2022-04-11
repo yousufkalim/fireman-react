@@ -79,10 +79,6 @@ const EstablishmentLevel = ({
   const store = Store();
   const onSubmit = (values, data) => {
     console.log(values,"hddh");
-
-   
-
-     
     const newarr = values?.repeatable?.map((object) => ({
       ...object,
       establishmentLevelId:object?.establishmentLevelId?object?.establishmentLevelId:0
@@ -167,7 +163,7 @@ const EstablishmentLevel = ({
      
     }
   };
- 
+  
   const handleClose = (column) => {
     setColumnState((pre) => {
       return {
@@ -203,7 +199,7 @@ const EstablishmentLevel = ({
         {Icon.establishmentlevel ? <img src={don}/> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
+        sx={{ margin: "10px auto !important",borderRadius:"10px", width:"97.5%" }}
         expanded={Toggler.establishmentlevel ? true : false}
       >
         <AccordionSummary
@@ -213,6 +209,7 @@ const EstablishmentLevel = ({
         ></AccordionSummary>
         <AccordionDetails>
           <Item
+          className="scroll-styling"
             sx={{
               boxShadow: "none",
               width: "97%",
@@ -223,13 +220,10 @@ const EstablishmentLevel = ({
           >
             {store.activeCase === "newcase" ? (
               <Formik
-                initialValues={{ repeatable: Values ? Values : "loading...",  cellNumber: '', }}
-                initialValues={{
-                 
-                }}
+                initialValues={{ repeatable: Values ? Values : "loading..." }}
                 enableReinitialize
                 render={({ values, setFieldValue }) => (
-                  <Form>
+                  <Form type="submit">
                     <FieldArray
                       name="repeatable"
                       enableReinitialize
@@ -427,15 +421,13 @@ const EstablishmentLevel = ({
                                           >
                                             <input
                                               className="field-width-staff field-width-cellnum"
-                                             name="cellNumber"
-                                              title="Number should contain 12 digits and No Character"
-                                              pattern="^(\d{12})$"
                                               name={`repeatable.${i}.cellNumber`}
                                               value={row.cellNumber}
-                                              type="tel"
-                                              minlength="12" 
+                                              type="search"
+                                              minlength="12"
                                               maxlength="12"
-                                             
+                                              title="Number should contain 12 digits and No Character"
+                                              pattern="^(\d{12})$"
                                             />
                                           </Box>
                                         </th>
@@ -549,7 +541,6 @@ const EstablishmentLevel = ({
                                         >
                                           <Field
                                             className="field-width"
-                                            style={{ padding: "10px" }}
                                             name={`repeatable.${i}.comments`}
                                           />
                                         </Box>

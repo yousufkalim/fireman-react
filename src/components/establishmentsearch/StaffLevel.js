@@ -188,7 +188,7 @@ const StaffLevel = ({
         {Icon.iconstafflevel ?  <img src={don}/> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px 10px !important",borderRadius:"10px" }}
+        sx={{ margin: "10px auto !important",borderRadius:"10px",width:"97.5%" }}
         expanded={Toggler.togglerstafflevel ? true : false}
       >
         <AccordionSummary
@@ -198,6 +198,7 @@ const StaffLevel = ({
         ></AccordionSummary>
         <AccordionDetails>
           <Item
+           className="scroll-styling"
             ref={focusPoint}
             sx={{
               boxShadow: "none",
@@ -207,7 +208,7 @@ const StaffLevel = ({
               margin: "auto",
             }}
           >
-            <Box sx={{ overflow: "auto" }}>
+            <Box  className="scroll-styling" sx={{ overflow: "scroll" }}>
               <table class="table">
                 <thead>
                   <Box>
@@ -248,7 +249,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "215px",
+                            width: "224px",
                           }}
                         >
                           {t("Local / Space / Type of audience")}
@@ -306,7 +307,7 @@ const StaffLevel = ({
                             display: "flex",
                             alignItems: "center",
                             padding: "0px 5px",
-                            width: "100px",
+                            width: "110px",
                           }}
                         >
                           {t("Staff")}
@@ -474,6 +475,7 @@ const StaffLevel = ({
                           </th>
                           <th>
                             <Box
+                            className="input-container"
                               sx={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -504,6 +506,7 @@ const StaffLevel = ({
                           {
                             <th>
                               <Box
+                              className="input-container"
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -535,6 +538,7 @@ const StaffLevel = ({
                           {
                             <th>
                               <Box
+                               className="input-container"
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -567,6 +571,7 @@ const StaffLevel = ({
                           {
                             <th>
                               <Box
+                               className="input-container"
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
@@ -603,6 +608,7 @@ const StaffLevel = ({
                           }
                           <th>
                             <Box
+                             className="input-container"
                               sx={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -631,6 +637,7 @@ const StaffLevel = ({
                           </th>
                           <th>
                             <Box
+                             className="input-container"
                               sx={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -662,6 +669,7 @@ const StaffLevel = ({
                           </th>
                           <th>
                             <Box
+                             className="input-container"
                               sx={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -689,6 +697,7 @@ const StaffLevel = ({
             </Box>
             <Box sx={{ textAlign: "start", padding: "5px" }}>
               <AddIcon
+              sx={{color:"#3675B7"}}
                 onClick={() => {
                   setpeople((curr) => [
                     ...curr,

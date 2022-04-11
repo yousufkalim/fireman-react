@@ -139,7 +139,7 @@ const NavbarDashBoard = () => {
   
   return (
     <>
-    <Box sx={{width:'89%', margin:"auto", display:"flex", justifyContent:"space-between"}}>
+    <Box sx={{width:'89%', margin:"auto", display:"flex",height:"80px", justifyContent:"space-between"}}>
         
       <Box sx={{display:"flex", alignItems:'center'}}>
       
@@ -172,7 +172,11 @@ const NavbarDashBoard = () => {
               color="inherit"
             >
               <Box ref={ref}  sx={{display:"flex", flexDirection:"column", position:"relative"}}> 
-             <img  onClick={()=>{setLogout(true)}} className="img-nav" src={ronaldo}/>
+             <img  
+             onClick={()=>{setLogout(true)}} 
+             className="img-nav" 
+             src={`http://192.168.10.15:5519${profile?.profilePicture?.substr(37)}`}
+             />
              { logout?  <p className='logout-btn'  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
 
             </Box>

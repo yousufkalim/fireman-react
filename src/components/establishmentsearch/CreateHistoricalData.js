@@ -78,11 +78,9 @@ const CreateHistoricalData = ({
   
 
    const onChange =()=>{
-     alert("dfg")
     scrollToBottom();
    }
   const onSubmit = (values) => {
-    console.log("><>val", values);
     const newarr = values.repeatable.map((object) => ({
       ...object,
       historicalEventid: object.historicalEventId
@@ -214,7 +212,7 @@ const CreateHistoricalData = ({
         {Icon.createhistoricaldata ? <img src={don}/> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
+        sx={{ margin: "10px auto !important", borderRadius: "10px", width:"97.5%" }}
         expanded={Toggler.createhistoricaldata ? true : false}
         onChange={onChange}
       >
@@ -225,11 +223,11 @@ const CreateHistoricalData = ({
         ></AccordionSummary>
         <AccordionDetails>
           <Item
+          className="scroll-styling"
             sx={{
               marginTop: "10px",
               width: "97%",
-              maxHeight: "500px",
-              overflow: "scroll",
+             
               margin: "auto",
               borderRadius: "5px",
               boxShadow: "none",
@@ -262,7 +260,7 @@ const CreateHistoricalData = ({
                       name="repeatable"
                       render={(arrayHelpers) => (
                         <>
-                          <Box sx={{ overflow: "auto" }}>
+                          <Box className="scroll-styling" sx={{ overflow: "auto", maxHeight:"500px" }}>
                             <table class="table">
                               <thead>
                                 <Box>
@@ -275,7 +273,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "150px",
+                                          width: "158px",
                                         }}
                                       >
                                         Date
@@ -289,7 +287,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "290px",
+                                          width: "295px",
                                         }}
                                       >
                                         {t("Object")}
@@ -303,7 +301,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "150px",
+                                          width: "157px",
                                         }}
                                       >
                                         {t("Opinion")}
@@ -317,7 +315,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "315px",
+                                          width: "320px",
                                         }}
                                       >
                                         {t(
@@ -333,7 +331,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "310px",
+                                          width: "325px",
                                         }}
                                       >
                                         <Tooltip  sx={{
@@ -1278,8 +1276,9 @@ const CreateHistoricalData = ({
                               </thead>
                             </table>
                           </Box>
+                          
                           <Box sx={{ textAlign: "start" }}>
-                            <AddIcon onClick={() => arrayHelpers.push({})} />
+                            <AddIcon sx={{color:"#3675B7"}} onClick={() => arrayHelpers.push({})} />
                           </Box>
                         </>
                       )}
@@ -1355,7 +1354,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "150px",
+                                          width: "158px",
                                         }}
                                       >
                                         Date
@@ -1413,7 +1412,7 @@ const CreateHistoricalData = ({
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "310px",
+                                          width: "330px",
                                         }}
                                       >
                                        <Tooltip  sx={{

@@ -20,6 +20,7 @@ import Ranking from "./Ranking";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import EstablishmentLevelTwo from './EstablishmentLevelTwo'
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   textAlign: "center",
@@ -189,13 +190,16 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(value);
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
-      setOpen(true);
+     
+        setOpen(true);
       setMessageText(
         `${t(
           `Vous êtes sur le point de transformer un groupe d'établissements en établissement. L'historique et la référence du groupe ${inputValues?.establishmentName}  seront désormais liées à ce nouvel établissement..`
         )}`
       );
+      
     }
     if (inputValues.statusId !== "2" && value === "2" && name === "statusId") {
       setOpen(true);
@@ -209,12 +213,14 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       inputValues.establishmentName !== store.establishmentname &&
       name === "establishmentName"
     ) {
-      setOpen(true);
+      setTimeout(() => {
+        setOpen(true);
       setMessageText(
         `${t(
           `Vous êtes sur le point de changer le nom d'un établissement ou d'un groupe deétablissements. L'historique de l'établissement ${generalDataEstablishment?.establishmentName}  et la référence seront désormais lié à ce nouveau nom.`
         )}`
       );
+      }, 2000);
     }
     setInputValues((preVal) => {
       return {
@@ -328,7 +334,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         {Icon.iconhistoricalsearch ? <img src={don} /> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
+        sx={{ margin: "10px auto !important", borderRadius: "10px", width:"97.5%" }}
         expanded={Toggler.togglerhistoricalsearch ? true : false}
       >
         <AccordionSummary
@@ -790,8 +796,16 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
-
-      <EstablishmentLevel
+<EstablishmentLevelTwo
+ setToggler={setToggler}
+ Toggler={Toggler}
+ setIcon={setIcon}
+ Icon={Icon}
+ casefileId={store.caseFileId}
+ buttonEnability={buttonEnability}
+ setButtonEnability={setButtonEnability}
+/>
+      {/* <EstablishmentLevel
         // description={description}
         // Values={Values}
         setToggler={setToggler}
@@ -801,7 +815,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         casefileId={store.caseFileId}
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
-      />
+      /> */}
+
       <StaffLevel
         establishmentid={store.establishmentId}
         setToggler={setToggler}

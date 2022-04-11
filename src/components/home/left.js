@@ -67,7 +67,7 @@ const HomeLeft = ({ setProg }) => {
         <Box className="heading1">
           {" "}
           <p>
-            Bonjour {profile?.firstName} {profile?.lastName}, vous avez :{" "}
+            Bonjour  {profile?.firstName || profile?.lastName?  profile?.firstName + " " + profile?.lastName:"Chargement..."}, vous avez :{" "}
           </p>{" "}
         </Box>
         <Box className="countData">

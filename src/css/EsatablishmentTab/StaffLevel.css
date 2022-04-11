@@ -1,12 +1,16 @@
 .field-width-staff{
-    width:200px;
-  padding: 10px;
-  border: 1px solid #C5D3DB;
-  border-radius:5px;
+  width: 200px;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
   color: #8D919D;
+  background: #F1F5F9;
+  outline: none;
+  font-weight: 600;
+  font-size: 16px;
 }
 .field-width-cellnum{
-  width: 130px !important;
+  width: 123px !important;
 }
 .staff-feild-width{
   width: 80px !important;
@@ -29,4 +33,14 @@
     text-align: center;
     width: 220px;
   }
+  
+  .input-container input{
+    border-radius: 10px;
+    background-color: #F1F5F9;
+    padding: 15px 15px;
+    font-weight: 600;
+  outline: none;
+    border:none;
+  }
+
   

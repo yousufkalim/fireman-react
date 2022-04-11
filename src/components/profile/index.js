@@ -50,8 +50,6 @@ const Profile = () => {
     const isValidPhoneNumber = validator.isMobilePhone(e.target.value);
     if (isValidPhoneNumber) {
       setPhoneNo(e.target.value);
-    } else {
-      console.log("gg");
     }
   };
   const chnageProfileImage = (e) => {
@@ -61,7 +59,7 @@ const Profile = () => {
       setPostImage(e.target.files[0]);
     }
   };
-  console.log("image", image);
+
   const updateProfile = (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -98,14 +96,25 @@ const Profile = () => {
           <div>
             <div className="image_container">
               <img
+                // src={
+                //   profile?.profileImage
+                //     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                //         37
+                //       )}`
+                //     : image
+                //     ? image
+                //     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                //         37
+                //       )}`
+                // }
                 src={
                   profile?.profileImage
-                    ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                    ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
                         37
                       )}`
                     : image
                     ? image
-                    : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                    : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
                         37
                       )}`
                 }
@@ -116,9 +125,9 @@ const Profile = () => {
                     <Input
                       onChange={chnageProfileImage}
                       style={{ display: "none" }}
-                      accept="image/*"
                       id="icon-button-file"
                       type="file"
+                      inputProps={{ accept: "image/*" }}
                     />
                     <IconButton
                       color="primary"

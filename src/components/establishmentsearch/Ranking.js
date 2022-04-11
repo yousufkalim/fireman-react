@@ -187,7 +187,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       </Box>
 
       <Accordion
-       sx={{ margin: "10px 10px !important",borderRadius:"10px"}}
+       sx={{ margin: "10px auto !important",borderRadius:"10px", width:"97.5%"}}
         expanded={Toggler.togglerranking ? true : false}
       >
         <AccordionSummary
@@ -211,8 +211,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
-                  color:"#485372",
-                  fontWeight:"bold",
+                  fontWeight:"600",
                   width: "255px",
                 }}
               >
@@ -225,8 +224,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
-                  color:"#485372",
-                  fontWeight:"bold",
+                  fontWeight:"600",
                   width: "240px",
                 }}
               >
@@ -239,8 +237,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
-                  color:"#485372",
-                  fontWeight:"bold",
+                  fontWeight:"600",
                   width: "240px",
                 }}
               >
@@ -253,8 +250,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   display: "flex",
                   alignItems: "center",
                   padding: "0px 5px",
-                  color:"#485372",
-                  fontWeight:"bold",
+                  fontWeight:"600",
                   width: "240px",
                 }}
               >

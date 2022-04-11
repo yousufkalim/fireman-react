@@ -65,24 +65,33 @@
 
 .field-width{
   width:300px;
-  padding: 10px;
-  border: 1px solid #C5D3DB;
-  border-radius:5px;
+  padding: 15px;
+  border: none;
+  border-radius:10px;
   color: #8D919D;
+  background: #F1F5F9;
+  outline: none;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .img-field{
-  height: 18px;
-  padding-top: 7px;
+  height: 21px;
+  padding-top: 13px;
 }
 .avis-field-width{
-  width: 150px;
+  width: 164px;
 }
 .date-field{
   width:130px;
-  padding: 8px;
- border: 1px solid #C5D3DB;
- border-radius:5px;
+  padding: 13px;
+ border: none;
+ border-radius:10px;
+ background: #F1F5F9;
+ outline: none;
+ color: #8D919D;
+ font-size: 16px;
+font-weight: 600;
 }
 
 .tr-inputs>*{
@@ -96,4 +105,40 @@ input{
 
 select{
   color: #8D919D;
+}
+
+
+
+.create-historical-container::-webkit-scrollbar {
+  width: 6px;
+  max-height: 4px;
+}
+.create-historical-container::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+.create-historical-container::-webkit-scrollbar-thumb {
+  background: #3675b7;
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+
+.scroll-styling::-webkit-scrollbar {
+  width: 6px;
+  max-height: 4px;
+  height: 1%;
+}
+.scroll-styling::-webkit-scrollbar-track {
+  border-radius: 10px;
+  
+}
+
+/* Handle */
+.scroll-styling::-webkit-scrollbar-thumb {
+  background: #3675b7;
+  border-radius: 10px;
+  background-clip: padding-box;
+  height: 120px;
 }

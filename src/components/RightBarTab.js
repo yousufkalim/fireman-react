@@ -61,19 +61,22 @@ const style = {
   boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
 };
 
-const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData}) => {
+const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData,setRightBarData}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
   const [inputValues, setInputValues] = useState({
     subject:""
    })
-  useEffect(() => {
+   const store = Store();
+  useEffect(() => { 
     setInputValues(()=>{
       return{
         notes:rightBarData.notes,
         assistance:rightBarData.assistance
       }
     })
+
+
   }, [rightBarData])
   
    const [activeTab, setActiveTab] = useState({
@@ -112,7 +115,21 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
   setUsers(res?.data)
 })
   }, [])
-  const store = Store();
+  const getNotes =()=>{
+    console.log(store);
+   console.log("store?.casefileId",store?.caseFileId);
+    if(store?.caseFileId){
+      api("get", `/api/v1/checkList/section_notes/${store?.caseFileId}`).then((res)=>{
+         console.log(res, "notes");
+         setRightBarData((pre)=>{
+            return{
+              ...pre,
+              notes:res?.data
+            }
+         })
+      })
+    }
+  }
   const ChatWithUser = (userID) => {
     handleOpen();
     var token = localStorage.getItem("userData");
@@ -150,18 +167,27 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
               sectionId:rightBarData.sectionId
             }
             console.log(obj);
-            api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
-                  if(res.data===true){
-                    toast.success(t("Successfull"));
-                  }
-                  else{
-                    toast.error("error")
-                  }
-                })
+            if(!inputValues?.notes && store?.caseFileId){
+              toast.error("Veuillez remplir tous les champs obligatoires");
+             }
+             if(!store?.caseFileId){
+              toast.error("Vous n'avez pas ouvert ou créé de dossier");
+             }
+             else{
+              api("post","/api/v1/checkList/save_section_notes", obj).then((res)=>{
+                if(res.data===true){
+                  toast.success(t("Successfull"));
+                }
+                else{
+                  toast.error("error")
+                }
+              })
+             }
+            
       }
    const sendAssistance =()=>{
      if(!imageData||!inputValues.subject||!inputValues.assistance){
-      toast.error("Please fill all requied fields");
+      toast.error("Veuillez remplir tous les champs obligatoires");
      }
      else{
       let form_data = new FormData();
@@ -558,7 +584,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
 
 
 
-
+{/* icons right tab */}
       <Box className="cursor spacing" sx={{display:"flex", flexDirection:"column"}}> 
      <svg
      onClick={()=>{ setSideBar(true); setActiveTab((pre)=>{
@@ -620,7 +646,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
             }
               })}} className="icon-cart" src={Firecart} />
               <svg
-              onClick={()=>{ setSideBar(true); setActiveTab((pre)=>{
+              onClick={()=>{ setSideBar(true); getNotes(); setActiveTab((pre)=>{
                 return{
                   ...pre,
                   notes:true

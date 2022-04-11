@@ -34,8 +34,6 @@ const FolderCreationSection = ({
   currentcasesstudyTypeId,
   currentcasesvisitTypeId,
   currentcasescommisionDate,
-
-  Storey,
 }) => {
   const { t } = useTranslation();
   console.log(compShow);
@@ -75,8 +73,8 @@ const FolderCreationSection = ({
         : false,
     iconstudytwo:
       (store.activeCase === "currentcases" && store?.sectionindex === 3) ||
-      store.tabindex === 2 ||
-      store.tabindex === 3
+      (store.activeCase === "currentcases" && store.tabindex === 2) ||
+     (store.activeCase === "currentcases" && store.tabindex === 3)
         ? true
         : false,
     iconvisit:
@@ -290,7 +288,15 @@ const FolderCreationSection = ({
             dropdownValue?.foldercreationvalues?.data?.caseTypeId.toString()
     );
   }, [dropdownValue]);
-
+const getIndexData =()=>{
+  console.log("hit", store);
+  api(
+    "get",
+    `/api/v1/casefiles/rolewise_cases/${store?.role}/${store?.userId}/1`
+  ).then((res) => {
+    console.log(res)
+  });
+}
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -352,10 +358,11 @@ const FolderCreationSection = ({
         console.log("formdata", formdata);
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
           .then((res) => {
+            getIndexData();
             setInputValues((preVal) => {
               return {
                 ...preVal,
-                caseid: res.data,
+                caseid: res?.data,
               };
             });
             {
@@ -527,7 +534,7 @@ const FolderCreationSection = ({
               ) : null}
             </Box>
             <Accordion
-              sx={{ margin: "10px 10px !important", borderRadius: "10px" }}
+              sx={{ margin: "10px auto !important", borderRadius: "10px", width:"97.5%"}}
               expanded={Toggler.togglermain ? true : false}
             >
               <AccordionSummary
@@ -679,8 +686,8 @@ const FolderCreationSection = ({
                         </div>
                       </div>
                     </Box>
-                    <Divider sx={{ margin: "20px 0px" }} />
-                    <Box sx={{ textAlign: "right", padding: "10px" }}>
+                    <Divider sx={{margin: "2% 1.1%",  width: "96%"}} />
+                    <Box sx={{ textAlign: "right", padding: "1% 2.5%" }}>
                       <Button
                         type="submit"
                         endIcon={
@@ -688,8 +695,9 @@ const FolderCreationSection = ({
                         }
                         sx={{
                           background: "#3675B7",
-                          fontSize: "16.97px",
+                          fontSize: "0.875rem",
                           ":hover": { background: "#3675B7" },
+                          padding:"6px 16px"
                         }}
                         variant="contained"
                       >
@@ -768,7 +776,7 @@ const FolderCreationSection = ({
                   ) : null}
                 </Box>
                 <Accordion
-                  sx={{ margin: "3px 10px !important", borderRadius: "10px" }}
+                  sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5" }}
                   expanded={Toggler.togglervisit ? true : false}
                 >
                   <AccordionSummary
