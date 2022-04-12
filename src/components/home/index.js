@@ -144,7 +144,7 @@ const Home = () => {
               </Grid>
               <Grid className="cursor" item xs={4}>
               <Box  onClick={() => {
-                    update({ activeNavbarTab: "searchestablishment" });
+                    update({ activeNavbarTab: "searchestablishment", tabindex:0 });
                   }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
 
               <img

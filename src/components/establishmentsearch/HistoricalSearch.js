@@ -53,14 +53,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         ? true
         : false,
     createhistoricaldata:
-      (store.activeCase === "currentcases" &&
-        (store.sectionindex === 2 ||
-          store.sectionindex === 3 ||
-          store.sectionindex === 4 ||
-          store.sectionindex === 5) &&
-        store?.tabindex === 2) ||
-      store.tabindex === 3
-        ? true
+      (store.activeCase === "currentcases" && (store.sectionindex === 2 || store.sectionindex === 3 || store.sectionindex === 4 ||store.sectionindex === 5) && store?.tabindex === 2) || (store.tabindex === 3)? true
         : false,
     establishmentlevel:
       (store.activeCase === "currentcases" &&

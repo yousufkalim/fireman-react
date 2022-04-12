@@ -152,7 +152,7 @@ const CreateAnEstablishment = () => {
                 <Box
                   sx={{
                     borderTop: "3px solid #C5D3DB",
-                    width: "86.2%",
+                    width: "88%",
                     marginTop: "12px",
                   }}
                 ></Box>
@@ -210,7 +210,7 @@ const CreateAnEstablishment = () => {
                   <Box
                     sx={{
                       borderTop: "3px solid #C5D3DB",
-                      width: "90%",
+                      width: "91.5%",
                       marginTop: "12px",
                       marginLeft: "14px",
                     }}
@@ -305,18 +305,10 @@ const CreateAnEstablishment = () => {
                 </Box>
               </Box>
             </Box>
-            {console.log("establishmentName", establishmentName)}
-            {console.log("refnum", refnum)}
-            {console.log("status", status)}
-            {console.log("number", number)}
-            {console.log("channelType", channelType)}
-            {console.log("channelName", channelName)}
-            {console.log("cp", cp)}
-            {console.log("commune", commune)}
             <Box
               sx={{
                 textAlign: "right",
-                width: "99%",
+                width: "100%",
                 paddingTop: "10px",
               }}
             >
