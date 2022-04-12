@@ -60,8 +60,8 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     return (
       <>
       {
-        (params?.row?.val?.state== "EN COURS" && (store.role=="1" || store.role=="2" || store.role=="3"))
-        || 
+        // (params?.row?.val?.state== "EN COURS" && (store.role=="1" || store.role=="2" || store.role=="3"))
+        // || 
         (params?.row?.val?.state=="TERMINÉ Non Valide" && (store.role=="4"||store.role=="5"))
         ?
         ""
@@ -202,13 +202,13 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       headerName: "",
       sortable: false,
       minWidth: store.role==1 || store.role==2 || store.role==3|| store.role==4 || store.role==5? 140 : 0,
-      renderCell: store.role==1 || store.role==2 || store.role==3|| store.role==4 || store.role==5? ( (params) => {
+      renderCell: (params) => {
         return (
           <div style={{ cursor: "pointer" }}>
             <MatEdit text={"Terminé"} params={params} />
           </div>
         );
-      }):"",
+      },
     },
 
   ];
