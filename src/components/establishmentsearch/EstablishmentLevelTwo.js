@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
@@ -43,10 +43,12 @@ const EstablishmentLevel = ({
   setButtonEnability,
 }) => {
   const { t, i18n } = useTranslation();
+  const scrollDiv = createRef();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
   });
   const [error, setError] = useState("");
+  const [count, setCount] = useState(0)
   const [Values, setLevelData] = useState([]);
   const [description, setDescription] = useState();
   const [columnState, setColumnState] = useState({
@@ -84,6 +86,8 @@ const EstablishmentLevel = ({
       }
     );
   }, []);
+  
+ 
   const handleClose = (column) => {
     setColumnState((pre) => {
       return {
@@ -213,12 +217,12 @@ onSubmit={(values) => {
 }}
 >
 {({ values, errors, isSubmitting, isValid, setFieldValue }) => (
-  <Form autoComplete="off">
+  <Form  autoComplete="off">
       <FieldArray  name="donations">
         {({ push, remove }) => (
           
             <>
-            <Box  className="scroll-styling" sx={{maxHeight:"500px", overflow:"scroll"}}> 
+            <Box  className="scroll-styling"  sx={{maxHeight:"500px", overflow:"scroll"}} > 
             <Box sx={{display:"flex", padding:"2% 1%", width:"1480px", borderBottom:"1px solid #C5D3DB"}}> 
             <Box
                                         sx={{
@@ -345,7 +349,6 @@ onSubmit={(values) => {
                       boxSizing: "border-box",
                       borderRadius: "5px",
                       overflow:"scroll",
-                      width:"1500px"
                     }}
                   >
                     <Box
@@ -471,8 +474,11 @@ onSubmit={(values) => {
                           className="field-width-staff comments-input"
                           name={`donations.${index}.comments`}
                         />
+                        
                       </Box>
+                     
                     </Box>
+                   
                     {/* <Grid item xs={12} sm="auto">
               <Button
                 disabled={isSubmitting}
@@ -481,13 +487,16 @@ onSubmit={(values) => {
                 Delete
               </Button>
             </Grid> */}
+            
                   </Box>
+                 
                 </>
               ))}
 
              </Box>
             <Box sx={{ textAlign: "start", padding: "5px" }}>
-              <AddIcon sx={{color:"#3675B7"}} onClick={() => push(emptyDonation)} />
+              <AddIcon sx={{color:"#3675B7"}} onClick={() =>{ push(emptyDonation);
+            }} />
             </Box>
           </>
         )}

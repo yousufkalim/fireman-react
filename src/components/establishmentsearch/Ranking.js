@@ -269,6 +269,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   name="rankingStatusId"
                   onChange={handleChange}
                   value={inputValues.rankingStatusId}
+                  style={{with:"24%"}}
                 >
                   <option value="">{t("Please choose")}</option>
                   {dropdownValue.status.data?.map((item) => (
