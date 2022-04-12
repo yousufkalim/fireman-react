@@ -163,7 +163,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       borderBottom: "none",
     },
     {
-      field: "Ref#",
+      field: "ref",
       headerName: `${t("Ref#")}`,
       minWidth: 150,
       color: "#8D919D",
@@ -330,18 +330,19 @@ console.log(currentcasesData,"currentcasesData");
                 renderCell: val?.renderCell,
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
-                id: val.caseFileId,
-                typeref: `${val.caseTypeName}`,
-                commisionName: val.commisionName,
-                commisionDate: moment(val.commisionDate, "YYYY-MM-DD").format(
+                id: val?.caseFileId,
+                typeref: `${val?.caseTypeName}`,
+                commisionName: val?.commisionName,
+                commisionDate: moment(val?.commisionDate, "YYYY-MM-DD").format(
                   "DD-MM-YYYY"
                 ),
-                establishmentName: val.establishmentName,
-                refNum: val.refNum,
-                cityName: val.cityName,
-                state: val.state,
-                sectionindex: val.sectionIndex,
-                tabindex: val.tabIndex,
+                establishmentName: val?.establishmentName,
+                refNum: val?.refNum,
+                ref: val?.establishmentNumber,
+                cityName: val?.cityName,
+                state: val?.state,
+                sectionindex: val?.sectionIndex,
+                tabindex: val?.tabIndex,
                 val: val,
               }))}
             />

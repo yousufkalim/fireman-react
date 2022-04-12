@@ -13,7 +13,6 @@ import DialogBox from "../DialogBox";
 import don from "../../assets/donne.svg";
 import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
-import EstablishmentLevel from "./EstablishmentLevel";
 import StaffLevel from "./StaffLevel";
 import { useTranslation, Trans } from "react-i18next";
 import Ranking from "./Ranking";
@@ -128,9 +127,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       channelName: generalDataEstablishment.channelName
         ? generalDataEstablishment.channelName
         : "",
-      estNumber: generalDataEstablishment.estNumber
-        ? generalDataEstablishment.estNumber
-        : "",
       securityManagerName: generalDataEstablishment.securityManagerName
         ? generalDataEstablishment.securityManagerName
         : "",
@@ -151,7 +147,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         : "",
     });
   }, [generalDataEstablishment]);
-  console.log("estSerial", generalDataEstablishment.estSerial);
+  console.log("estSerial", generalDataEstablishment);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
       setdropdownValue((preVal) => {

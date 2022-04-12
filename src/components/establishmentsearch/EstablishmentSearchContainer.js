@@ -16,7 +16,6 @@ const EstablishmentSearchContainer = () => {
       setgeneralDataEstablishment(res.data);
     });
   }, []);
-  console.log("^^^^^^^^^^^^", generalDataEstablishment);
   return (
     <>
       <HistoricalSearch generalDataEstablishment={generalDataEstablishment} />

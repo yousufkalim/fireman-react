@@ -43,7 +43,7 @@ const CreateAnEstablishment = () => {
 
     let data = {
       establishmentName: establishmentName,
-      estSerial: refnum,
+      refNo: refnum,
       statusId: status,
       estNumber: number,
       trackTypeId: channelType,
