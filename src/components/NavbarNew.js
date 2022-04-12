@@ -241,28 +241,6 @@ export default function Navbar({ Story }) {
                   className="img-nav"
                   
                   src={profile?.profilePicture? `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}`:dummy}
-                  // src={
-                  //   profile?.profileImage
-                  //     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
-                  //         37
-                  //       )}`
-                  //     : dummy
-                  //     ? dummy
-                  //     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
-                  //         37
-                  //       )}`
-                  // }
-                  // src={
-                  //   profile?.profileImage
-                  //     ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
-                  //         37
-                  //       )}`
-                  //     : dummy
-                  //     ? dummy
-                  //     : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
-                  //         37
-                  //       )}`
-                  // }
                 />
                 {logout ? (
                   <p

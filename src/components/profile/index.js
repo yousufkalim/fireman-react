@@ -96,17 +96,6 @@ const Profile = () => {
           <div>
             <div className="image_container">
               <img
-                // src={
-                //   profile?.profileImage
-                //     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
-                //         37
-                //       )}`
-                //     : image
-                //     ? image
-                //     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
-                //         37
-                //       )}`
-                // }
                 src={
                   profile?.profileImage
                     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
@@ -118,17 +107,6 @@ const Profile = () => {
                         37
                       )}`
                 }
-                // src={
-                //   profile?.profileImage
-                //     ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
-                //         37
-                //       )}`
-                //     : image
-                //     ? image
-                //     : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
-                //         37
-                //       )}`
-                // }
               />
               <div class="overlay">
                 <a class="icon" title="User Profile">
