@@ -112,8 +112,8 @@ const Profile = () => {
                     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
                         37
                       )}`
-                    : dummy
-                    ? dummy
+                    : image
+                    ? image
                     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
                         37
                       )}`
