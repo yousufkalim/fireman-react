@@ -98,12 +98,12 @@ const Profile = () => {
               <img
                 src={
                   profile?.profileImage
-                    ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                    ? `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(
                         37
                       )}`
                     : image
                     ? image
-                    : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                    : `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(
                         37
                       )}`
                 }

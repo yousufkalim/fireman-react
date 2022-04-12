@@ -240,7 +240,7 @@ export default function Navbar({ Story }) {
                   }}
                   className="img-nav"
                   
-                  src={profile?.profilePicture? `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}`:dummy}
+                  src={profile?.profilePicture? `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(37)}`:dummy}
                 />
                 {logout ? (
                   <p
