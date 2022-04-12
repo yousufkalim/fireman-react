@@ -13,6 +13,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/nav.svg";
 import Site from "../assets/site.png";
+import dummy from "../assets/dummy.jpeg";
 import { useTranslation, Trans } from "react-i18next";
 import { UpdateStore } from "../StoreContext";
 import moment from "moment";
@@ -238,7 +239,30 @@ export default function Navbar({ Story }) {
                     setLogout(true);
                   }}
                   className="img-nav"
-                  src={`http://192.168.10.15:5519${profile?.profilePicture?.substr(37)}`}
+                  
+                  src={profile?.profilePicture? `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}`:dummy}
+                  // src={
+                  //   profile?.profileImage
+                  //     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                  //         37
+                  //       )}`
+                  //     : dummy
+                  //     ? dummy
+                  //     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+                  //         37
+                  //       )}`
+                  // }
+                  // src={
+                  //   profile?.profileImage
+                  //     ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                  //         37
+                  //       )}`
+                  //     : dummy
+                  //     ? dummy
+                  //     : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                  //         37
+                  //       )}`
+                  // }
                 />
                 {logout ? (
                   <p

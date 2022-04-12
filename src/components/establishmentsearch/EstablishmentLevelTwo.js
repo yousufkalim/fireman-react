@@ -153,10 +153,10 @@ enableReinitialize
 validationSchema={object({
   donations: array(
     object({
-      levelId: string()
-      .required("Level required")
-      .min(1, "atleast one level required")
-      ,
+      // levelId: string()
+      // .required("Level required")
+      // .min(1, "atleast one level required")
+      // ,
       cellNumber: string()
         .required("Cell number needed")
         .min(12, "number length needs to be at least 12")
@@ -360,40 +360,46 @@ onSubmit={(values) => {
                           textAlign: "start",
                         }}
                       >
-                        <Field
-                          className="field-width-staff"
-                          as="select"
-                          name={`donations.${index}.levelId`}
-                          
-                        >
-                          <option value="">
-                            {t("Please choose")}
-                          </option>
-                          {dropdownValue?.leveldropdown?.data?.map(
-                            (item) => (
-                              <>
-                                <option
-                                  value={item.value}
-                                  dangerouslySetInnerHTML={{
-                                    __html: `${item.text}`,
-                                  }}
-                                />
-                              </>
-                            )
-                          )}
-                        </Field>
-                        <span
-                         style={{color:"#3675B7"}}
-                          onClick={() => {
-                            push(emptyDonation);
-                            setFieldValue(
-                              `donations.${index + 1}.levelId`,
-                              values.donations[index].levelId
-                            );
-                          }}
-                        >
-                          +
-                        </span>
+                        
+                            <Field
+                            className="field-width-staff"
+                            as="select"
+                            name={`donations.${index}.levelId`}
+                          >
+                            <option value="">
+                              {t("Please choose")}
+                            </option>
+                            {dropdownValue?.leveldropdown?.data?.map(
+                              (item) => (
+                                <>
+                                  <option
+                                    value={item.value}
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${item.text}`,
+                                    }}
+                                  />
+                                </>
+                              )
+                            )}
+                          </Field>
+                          <span
+                           style={{color:"#3675B7"}}
+                            onClick={() => {
+                              push(emptyDonation);
+                              setFieldValue(
+                                `donations.${index + 1}.levelId`,
+                                values.donations[index].levelId
+                              );
+                            }}
+                          >
+                            +
+                          </span>
+                          {/* {
+                          errors?.donations?.map((val)=>(
+                           <span>{val?.levelId? val?.levelId :""}</span>  
+                          )
+                          )
+                          } */}
                       </Box>
                       {
                          columnState.cellnumber ? (

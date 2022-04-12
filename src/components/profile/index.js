@@ -1,5 +1,5 @@
 import profileImage from "../../assets/profileicon.png";
-
+import dummy from "../../assets/dummy.jpeg";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useEffect, useState } from "react";
 import api from "../../api/index";
@@ -109,15 +109,26 @@ const Profile = () => {
                 // }
                 src={
                   profile?.profileImage
-                    ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                    ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
                         37
                       )}`
-                    : image
-                    ? image
-                    : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                    : dummy
+                    ? dummy
+                    : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
                         37
                       )}`
                 }
+                // src={
+                //   profile?.profileImage
+                //     ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                //         37
+                //       )}`
+                //     : image
+                //     ? image
+                //     : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+                //         37
+                //       )}`
+                // }
               />
               <div class="overlay">
                 <a class="icon" title="User Profile">

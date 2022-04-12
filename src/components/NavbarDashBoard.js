@@ -17,6 +17,7 @@ import api from '../api/index';
 import { Store } from "../StoreContext";
 import useClickOutside from 'use-click-outside';
 import jwt from 'jwt-decode'
+import dummy from "../assets/dummy.jpeg";
 const NavbarDashBoard = () => {
   
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -175,7 +176,29 @@ const NavbarDashBoard = () => {
              <img  
              onClick={()=>{setLogout(true)}} 
              className="img-nav" 
-             src={`http://192.168.10.15:5519${profile?.profilePicture?.substr(37)}`}
+             src={profile?.profilePicture? `http://160.153.249.64:6163${profile?.profilePicture?.substr(37)}`:dummy}
+            //  src={
+            //   profile?.profileImage
+            //     ? `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+            //         37
+            //       )}`
+            //     : dummy
+            //     ? dummy
+            //     : `http://160.153.249.64:6163${profile?.profilePicture?.substr(
+            //         37
+            //       )}`
+            // }
+            // src={
+            //   profile?.profileImage
+            //     ? `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+            //         37
+            //       )}`
+            //     : dummy
+            //     ? dummy
+            //     : `http://192.168.10.15:5519${profile?.profilePicture?.substr(
+            //         37
+            //       )}`
+            // }
              />
              { logout?  <p className='logout-btn'  onClick={handleMenuClose} style={{position:"absolute", top:"45px", fontSize:"15px"}}>Logout</p> : null }
 
