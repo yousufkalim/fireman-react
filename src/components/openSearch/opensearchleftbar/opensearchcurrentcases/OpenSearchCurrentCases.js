@@ -201,8 +201,8 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       field: "Completed",
       headerName: "",
       sortable: false,
-      minWidth: store.role==4 || store.role==5? 140 : 0,
-      renderCell: store.role==4 || store.role==5? ( (params) => {
+      minWidth: store.role==1 || store.role==2 || store.role==3|| store.role==4 || store.role==5? 140 : 0,
+      renderCell: store.role==1 || store.role==2 || store.role==3|| store.role==4 || store.role==5? ( (params) => {
         return (
           <div style={{ cursor: "pointer" }}>
             <MatEdit text={"Terminé"} params={params} />

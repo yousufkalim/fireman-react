@@ -223,7 +223,7 @@ onSubmit={(values) => {
           
             <>
             <Box  className="scroll-styling"  sx={{maxHeight:"500px", overflow:"scroll"}} > 
-            <Box sx={{display:"flex", padding:"2% 1%", width:"1480px", borderBottom:"1px solid #C5D3DB"}}> 
+            <Box sx={{display:"flex", padding:"2% 1%", width:"1650px", borderBottom:"1px solid #C5D3DB"}}> 
             <Box
                                         sx={{
                                           borderRight: "2px solid #C5D3DB",
@@ -231,7 +231,7 @@ onSubmit={(values) => {
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "200px",
+                                          width: "190px",
                                           fontWeight:"600"
                                         }}
                                       >
@@ -246,7 +246,7 @@ onSubmit={(values) => {
                                             justifyContent: "space-between",
                                             alignItems: "center",
                                             padding: "0px 5px",
-                                            width: "245px",
+                                            width: "228px",
                                             fontWeight:"600"
                                           }}
                                         >
@@ -288,7 +288,7 @@ onSubmit={(values) => {
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "225px",
+                                          width: "195px",
                                           fontWeight:"600"
                                         }}
                                       >
@@ -301,7 +301,7 @@ onSubmit={(values) => {
                                           display: "flex",
                                           alignItems: "center",
                                           padding: "0px 5px",
-                                          width: "187px",
+                                          width: "172px",
                                          
                                           fontWeight:"600"
                                         }}
@@ -348,7 +348,7 @@ onSubmit={(values) => {
                       border: "1px solid #EBEFF2",
                       boxSizing: "border-box",
                       borderRadius: "5px",
-                      overflow:"scroll",
+                     width:"1550px",
                     }}
                   >
                     <Box
