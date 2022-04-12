@@ -175,7 +175,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     {
       field: "state",
       headerName: `${t("State")}`,
-      minWidth: 250,
+      minWidth: 220,
       color: "#8D919D",
       borderBottom: "none",
     },
