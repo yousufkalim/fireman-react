@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import scrollStyles from '../../../../components/ScrollBarStyle'
-
 const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
@@ -71,42 +70,48 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
         control={
           <Button
             onClick={() => {
-              if(text=="Valider"){
-                api(
-                  "put",
-                  `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
-                )
-                  .then((res) => {
-                    console.log(res, "validate");
-  
-                    if (res.data === true) {
-                      toast.success(t("Successfull"));
-                    } else {
-                      toast.error("Le dossier n'est pas complet");
-                    }
-                  })
-                  .catch((err) => {
-                    toast.error("error");
-                  });
+              if(!params?.row?.val?.chapterIndex){
+                toast.error("L'onglet Overture and Establishment est incomplet")
               }
-              if(text=="Terminé"){
-                api(
-                  "put",
-                  `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
-                )
-                  .then((res) => {
-                    console.log(res, "validate");
-  
-                    if (res.data === true) {
-                      toast.success(t("Successfull"));
-                    } else {
-                      toast.error("Le dossier n'est pas complet");
-                    }
-                  })
-                  .catch((err) => {
-                    toast.error("error");
-                  });
+              if(params?.row?.val?.chapterIndex){
+                if(text=="Valider"){
+                  api(
+                    "put",
+                    `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
+                  )
+                    .then((res) => {
+                      console.log(res, "validate");
+    
+                      if (res?.data === true) {
+                        toast.success(t("Successfull"));
+                      } else {
+                        toast.error("Le dossier n'est pas complet");
+                      }
+                    })
+                    .catch((err) => {
+                      toast.error("error");
+                    });
+                }
+                if(text=="Terminé"){
+                  api(
+                    "put",
+                    `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
+                  )
+                    .then((res) => {
+                      console.log(res, "validate");
+    
+                      if (res?.data === true) {
+                        toast.success(t("Successfull"));
+                      } else {
+                        toast.error("Le dossier n'est pas complet");
+                      }
+                    })
+                    .catch((err) => {
+                      toast.error("error");
+                    });
+                }
               }
+              
 
             }}
             variant="contained"
@@ -226,24 +231,29 @@ console.log(currentcasesData,"currentcasesData");
       serialNum: params?.row?.val?.serialNum,
     });
     setCompName("currentcases");
-    if (
-      (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
-      params.row.val.tabIndex === 2
-    ) {
-      updatestore({
-        activeNavbarTab: 1,
-        establishmentId: params.row.val.establishmentId,
-      });
-    }
-    if (
-      (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 5) ||
-      params.row.val.tabIndex === 3
-    ) {
-      updatestore({
-        activeNavbarTab: 2,
-        establishmentId: params.row.val.establishmentId,
-      });
-    }
+    
+      if (
+        (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
+        params.row.val.tabIndex === 2
+      ) {
+        updatestore({
+          activeNavbarTab: 1,
+          establishmentId: params.row.val.establishmentId,
+        });
+      }
+      if (
+        (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 5) ||
+        params.row.val.tabIndex === 3
+      ) {
+        updatestore({
+          activeNavbarTab: 2,
+          establishmentId: params.row.val.establishmentId,
+        });
+      }
+     
+    //  if(!params.row.val.chapterIndex){
+    //   toast.error("L'onglet Overture and Establishment est incomplet")
+    //  }
     setIndexdata(() => {
       return {
         sectionindex: params.row.val.sectionIndex,

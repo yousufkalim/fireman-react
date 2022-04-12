@@ -364,6 +364,7 @@ onSubmit={(values) => {
                           className="field-width-staff"
                           as="select"
                           name={`donations.${index}.levelId`}
+                          
                         >
                           <option value="">
                             {t("Please choose")}
