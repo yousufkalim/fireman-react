@@ -15,6 +15,9 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import scrollStyles from '../../../../components/ScrollBarStyle'
+
+
+
 const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
@@ -106,6 +109,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     
                       if (res?.data === true) {
                         toast.success(t("Successfull"));
+                        getCurrentCasesData();
                       } else {
                         toast.error("Le dossier n'est pas complet");
                       }
@@ -306,8 +310,16 @@ console.log(currentcasesData,"currentcasesData");
             boxShadow: "none",
           }}
         >
-          <Box sx={{ height: "71vh", width: "100%" }}>
+          <Box sx={{ 
+            '& .super-app-theme--open': {
+              bgcolor: "#3675B7",
+              '&:hover': "blue"
+            },
+            height: "71vh", width: "100%" 
+            
+            }}>
             <DataGrid
+               getRowClassName={(params) => params.row.state=="TERMINÉ Non Valide"? "super-app-theme--open":"" }
               className={classes.root}
               sx={{ border: "none" }}
               {...data}
@@ -332,6 +344,7 @@ console.log(currentcasesData,"currentcasesData");
                 renderCell: val?.renderCell,
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
+               
                 id: val?.caseFileId,
                 typeref: `${val?.caseTypeName}`,
                 commisionName: val?.commisionName,

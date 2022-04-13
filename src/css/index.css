@@ -1,5 +1,5 @@
 /* Importing all CSS files */
-@import url('http://fonts.cdnfonts.com/css/avenir');
+@import url('http://fonts.cdnfonts.com/css/avenir?styles=116526');
 /*font import */
 @import url("./Header.css");
 @import url("./currentcases.css");
@@ -54,4 +54,12 @@ body::-webkit-scrollbar-thumb {
   background: #3675b7;
   border-radius: 10px;
   background-clip: padding-box;
+}
+
+
+.offline{
+  background: #3675b7;
+}
+.online{
+  background: #e9e9e9;
 }
