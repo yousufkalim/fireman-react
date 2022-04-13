@@ -22,7 +22,10 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     backgroundColor: "#3675B7",
   },
 }));
-const HomeRight = ({ box, setBox }) => {
+const HomeRight = ({ 
+  box, 
+  setBox 
+}) => {
   const update = UpdateStore();
   let [projects, setProjects] = useState([]);
   useEffect(() => {

@@ -18,13 +18,12 @@ import { Input } from '@mui/material';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import api from '../api/index'
 import jwt from 'jwt-decode'
-import Modal from '@mui/material/Modal';
-import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
+
 import { toast } from "react-toastify";
 import TextField from '@mui/material/TextField';
 import { makeStyles } from "@material-ui/core/styles";
 //import Chat from './chat/IndexTwo'
-import Chat from './chat/IndexThree'
+
 //import Chat from './chat/Index'
 import SendIcon from '@mui/icons-material/Send';
 const Item = styled(Paper)(({ theme }) => ({
@@ -49,19 +48,17 @@ const AccordionSummary = styled((props) => (
     visibility:"hidden"
   },
 }));
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: "90%",
-  margin:"auto",
-  bgcolor: 'background.paper',
-  borderRadius:'4px',
-  boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
-};
 
-const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData,setRightBarData}) => {
+
+const EstablishmentSearchRightBar = ({
+  setSideBar,
+  sideBar,
+  rightBarData,
+  setRightBarData, 
+  handleClose, 
+  handleOpen, 
+  open
+}) => {
   const { t, i18n } = useTranslation();
   const { language } = i18n;
   const [inputValues, setInputValues] = useState({
@@ -87,11 +84,6 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData,setRightBa
    })
    const [imageData, setImageData] = useState("")
    const [image, setImage] = useState(null)
-   
-   const [open, setOpen] = React.useState(false);
-   const handleOpen = () =>{ setOpen(true); 
-   
-  }
   const useStyles = makeStyles((theme) => (
     {
     multilineColor:{
@@ -101,9 +93,7 @@ const EstablishmentSearchRightBar = ({setSideBar,sideBar,rightBarData,setRightBa
   }
   ));
   const classes = useStyles();
-   const handleClose = () => {
-     setOpen(false); 
-  }
+  
    const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -115,6 +105,8 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
   setUsers(res?.data)
 })
   }, [])
+  const OpenChat = () =>{handleOpen()}
+  const CloseChat = () => { handleClose()}
   const getNotes =()=>{
     console.log(store);
    console.log("store?.casefileId",store?.caseFileId);
@@ -131,7 +123,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
     }
   }
   const ChatWithUser = (userID) => {
-    handleOpen();
+    OpenChat();
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
      var userB = userID;
@@ -219,22 +211,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
       
   return (
     <>
-   <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box sx={{textAlign:"end", position:"relative"}}> 
-          <CancelPresentationSharpIcon onClick={()=>handleClose()} sx={{position:"absolute", padding:"8.8px 8px", right:"0%", color:"#fff", background:"#314A6C"}}/> 
-          </Box>
-       
-         <Chat/>
-        </Box>
-      </Modal>
-    </div>
+  
       {
          sideBar? (
            <>

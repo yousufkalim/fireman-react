@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import useState from "react-usestateref";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import LeftBarTab from "../components/LeftBarTab";
 import RightBarTab from "../components/RightBarTab";
 import ActiveTabHeader from "./ActiveTabHeader";
@@ -21,8 +22,21 @@ import TeamManagement from "../components/TeamManagement";
 import NavbarDashBoard from "../components/NavbarDashBoard";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import jwt from "jwt-decode";
+import Modal from '@mui/material/Modal';
+import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
 import CreateAnEstablishment from "./openSearch/opensearchleftbar/opensearchnewcases/CreateAnEstablishment";
-
+import Chat from './chat/IndexThree'
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: "90%",
+  margin:"auto",
+  bgcolor: 'background.paper',
+  borderRadius:'4px',
+  boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
+};
 const Body = () => {
   const [responseData, setResponseData] = useState([]);
   const [CompName, setCompName] = useState("");
@@ -37,6 +51,7 @@ const Body = () => {
   });
 
   const [sideBar, setSideBar] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const [connect, setConnect] = useState(null);
   const [state, setState, counterRef] = useState({
     connection: "",
@@ -44,6 +59,11 @@ const Body = () => {
   const getResponse = (data) => {
     setResponseData(data);
   };
+  // for chat open and close at dashbaord
+  const handleOpen = () =>{ setOpen(true);}
+  const handleClose = () => { setOpen(false);}
+   ///////////////////////
+
   const updatestore = UpdateStore();
   const store = Store();
 
@@ -143,18 +163,33 @@ const Body = () => {
               : ""
           }
         >
-          <Grid item xs={12} sx={{ background: "aliceblue" }}>
+          <Grid item xs={12} >
+          <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box sx={{textAlign:"end", position:"relative"}}> 
+          <CancelPresentationSharpIcon onClick={()=>handleClose()} sx={{position:"absolute", padding:"8.8px 8px", right:"0%", color:"#fff", background:"#314A6C"}}/> 
+          </Box>
+       
+         <Chat/>
+        </Box>
+      </Modal>
+    </div>
             {store.catTab ? (
               <ActiveTabHeader sideBar={sideBar} />
             ) : (
               <>
                 <br />
-                <br />
               </>
             )}
           </Grid>
-          <Grid sx={{ backgroundColor: "aliceblue" }} container spacing={2}>
-            <Grid item xs={1}>
+          <Grid  container >
+            <Grid item xs={1} sx={{padding:"2%"}}>
               {/* <SideBar /> */}
               <LeftBarTab 
               CompName={CompName} 
@@ -189,12 +224,12 @@ const Body = () => {
         </Grid> */}
             {store.activeNavbarTab === "termine" ||
             store.activeNavbarTab === 10 ? (
-              <Home />
+              <Home  handleClose={handleClose} handleOpen={handleOpen} open={open} />
             ) : store.activeNavbarTab == "profile" ? (
               <Profile />
             ) : (
               <>
-                <Grid className="center-grid-body" item xs={sideBar ? 8 : 10}>
+                <Grid sx={{padding:"1.7% 0%"}} className="center-grid-body" item xs={sideBar ? 8 : 10}>
                   {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                   {store.activeNavbarTab === 1 ? (
                     <EstablishmentSearchContainer />
@@ -239,12 +274,13 @@ const Body = () => {
                   : 
                   null}
                 </Grid>
-                <Grid item xs={sideBar ? 3 : 1}>
+                <Grid sx={{padding:"1.7%"}} item xs={sideBar ? 3 : 1}>
                   <RightBarTab
                     sideBar={sideBar}
                     setSideBar={setSideBar}
                     rightBarData={rightBarData}
                     setRightBarData={setRightBarData}
+                    handleClose={handleClose} handleOpen={handleOpen} open={open}
                   />
                 </Grid>
               </>

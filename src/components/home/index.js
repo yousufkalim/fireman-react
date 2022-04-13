@@ -25,7 +25,7 @@ const variants = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: "-100%" },
 }
-const Home = () => {
+const Home = ({ handleClose, handleOpen, open}) => {
   const [activeBlock, setActiveBlock] = useState({
     main: true,
     itemone: false,
@@ -76,12 +76,16 @@ const Home = () => {
   console.log("chgkjljhv",prog);
   return (
     <>
-      <Box sx={{ width: "91%" }}>
+      <Box sx={{ width: "88%", paddingLeft:"2%" }}>
         {activeBlock.main ? (
           <>
             <Grid container>
               <Grid sx={{ marginBottom: "40px" }} item xs={12}>
-                <HomeLeft  setProg={setProg}/>
+                <HomeLeft    
+                handleOpen={handleOpen}
+                open={open}
+                setActiveBlock={setActiveBlock} 
+                setProg={setProg}/>
               </Grid>
               {
                 <Grid className="cursor" item xs={4}>
@@ -100,10 +104,10 @@ const Home = () => {
                   >
                     <img
                       src={Termines}
-                      style={{ height: "98%", width: "90%" }}
+                      style={{ height: "99%", width: "89%" }}
                     />
                       {console.log("<><><><<",counts)}
-                  {prog===0 ||prog===1|| !prog ?<div className="text">DOCUMENT TÉRMINÉ</div>:<div className="text">DOCUMENTS TÉRMINÉS</div> }
+                  {prog===0 ||prog===1|| !prog ?<div className="text">DOCUMENT TERMINÉ</div>:<div className="text">DOCUMENTS TERMINÉS</div> }
                   </div>
                 </Grid>
               }
@@ -134,7 +138,7 @@ const Home = () => {
                       };
                     });
                   }}
-                  style={{ height: "auto", width: "90%" }}
+                  style={{ height: "41vh", width: "90%" }}
                   src={Cours3}
                 />
                   <div className="text">DOSSIERS EN COURS</div>
@@ -148,7 +152,7 @@ const Home = () => {
                   }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
 
               <img
-                  style={{ height: "98%", width: "83%", borderRadius:"2%" }}
+                  style={{ height: "99%", width: "86%", borderRadius:"2%" }}
                   src={bg}
                 />
                <div className="text-nov">NOUVEAU DOSSIER</div>
@@ -243,7 +247,9 @@ const Home = () => {
               }}
             />
             </Box>
-            <HomeRight/>
+            <HomeRight 
+          
+            />
           </>
         ) : null}
         {activeBlock.itemthree ? (

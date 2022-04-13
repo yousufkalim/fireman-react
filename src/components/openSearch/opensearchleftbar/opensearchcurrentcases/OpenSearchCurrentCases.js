@@ -36,14 +36,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   console.log("((((((((store?.role", store?.role);
 
   useEffect(() => {
-    let userId = localStorage.getItem("userData");
-    userId = JSON.parse(userId);
-    api(
-      "get",
-      `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/1`
-    ).then((res) => {
-      setcurrentcasesData(res);
-    });
+    getCurrentCasesData()
   }, []);
 
   const { t, i18n } = useTranslation();
@@ -55,6 +48,16 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     },
   ]);
   const updatestore = UpdateStore();
+  const getCurrentCasesData = ()=>{
+    let userId = localStorage.getItem("userData");
+    userId = JSON.parse(userId);
+    api(
+      "get",
+      `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/1`
+    ).then((res) => {
+      setcurrentcasesData(res);
+    });
+  }
   const MatEdit = ({ text,params }) => {
     console.log(params,"params");
     return (
@@ -84,6 +87,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     
                       if (res?.data === true) {
                         toast.success(t("Successfull"));
+                        getCurrentCasesData();
                       } else {
                         toast.error("Le dossier n'est pas complet");
                       }
@@ -280,9 +284,7 @@ console.log(currentcasesData,"currentcasesData");
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  console.log(">>>>>>", currentcasesData);
-  console.log("<><", folderCreationData);
-  console.log(CompName,"comp");
+  console.log(pageSize,"pageSize");
   return (
     <>
       {folderCreationData.length !== 0 && CompName=="currentcases"? (

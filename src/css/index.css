@@ -28,10 +28,11 @@
   padding: 0;
   margin: 0;
   font-family: Arial !important;
+ 
 }
 
 html,body {
-background: aliceblue; 
+  background: #e9e9e9; 
 height: 100%; 
 }
 

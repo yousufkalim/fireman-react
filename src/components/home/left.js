@@ -2,7 +2,12 @@
 import api from "../../api/index";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-const HomeLeft = ({ setProg }) => {
+const HomeLeft = ({ 
+  setProg,
+  setActiveBlock, 
+  handleOpen,
+  open 
+}) => {
   let [counts, setCount] = useState({});
   let [projects, setProjects] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState("")
@@ -60,6 +65,9 @@ const HomeLeft = ({ setProg }) => {
       }
     });
   };
+  const chatOpen =()=>{
+    handleOpen()
+  }
   console.log(counts);
   return (
     <>
@@ -71,17 +79,26 @@ const HomeLeft = ({ setProg }) => {
           </p>{" "}
         </Box>
         <Box className="countData">
-          <Box sx={{ width: "38%" }}>
+          <Box  className="cursor" onClick={() => {
+                      setActiveBlock(() => {
+                        return {
+                          main: false,
+                          itemone: true,
+                          itemtwo: false,
+                          itemthree: false,
+                        };
+                      });
+                    }} sx={{ width: "38%" }}>
             <p className="count">{counts?.completed ? counts?.completed : 0}</p>
             {counts?.completed === 0 ||
             !counts?.completed ||
             counts?.completed === 1 ? (
-              <p className="count_des">DOCUMENT TÉRMINÉ</p>
+              <p className="count_des">DOCUMENT TERMINÉ</p>
             ) : (
-              <p className="count_des">DOCUMENTS TÉRMINÉS</p>
+              <p className="count_des">DOCUMENTS TERMINÉS</p>
             )}
           </Box>
-          <Box sx={{ width: "38%" }}>
+          <Box className="cursor" onClick={chatOpen}  sx={{ width: "38%" }}>
             <p className="count">
               {unreadMessages ? unreadMessages : 0}
             </p>

@@ -150,7 +150,7 @@ export default function Navbar({ Story }) {
     <Box sx={{ flexGrow: 1, fontSize: "18px", width: "99%",height:"90px", margin: "auto" }}>
       <AppBar
         sx={{
-          backgroundColor: "aliceblue",
+          backgroundColor: "#e9e9e9",
           boxShadow: "none",
           color: "#000000",
         }}
