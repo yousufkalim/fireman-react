@@ -98,7 +98,7 @@ const HomeLeft = ({
               <p className="count_des">DOCUMENTS TERMINÉS</p>
             )}
           </Box>
-          <Box className="cursor" onClick={chatOpen}  sx={{ width: "38%" }}>
+          <Box className="cursor" onClick={unreadMessages!=0?chatOpen:""}  sx={{ width: "38%" }}>
             <p className="count">
               {unreadMessages ? unreadMessages : 0}
             </p>

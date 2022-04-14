@@ -140,9 +140,12 @@ const EstablishmentLevel = ({
         ></AccordionSummary>
         <AccordionDetails>
           <Item
+          className="scroll-styling" 
             sx={{
               boxShadow: "none",
               margin: "auto",
+              overflow:'scroll',
+              maxHeight:"500px"
             }}
           >
            <Formik
@@ -222,8 +225,8 @@ onSubmit={(values) => {
         {({ push, remove }) => (
           
             <>
-            <Box  className="scroll-styling"  sx={{maxHeight:"500px", overflow:"scroll"}} > 
-            <Box sx={{display:"flex", padding:"2% 1%", width:"1650px", borderBottom:"1px solid #C5D3DB"}}> 
+            <Box  className="scroll-styling"  sx={{overflow:"scroll"}} > 
+            <Box className="scroll-styling"  sx={{display:"flex", padding:"2% 1%", borderBottom:"1px solid #C5D3DB", width:"1550px", overflow:"scroll"}}> 
             <Box
                                         sx={{
                                           borderRight: "2px solid #C5D3DB",

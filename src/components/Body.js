@@ -229,7 +229,7 @@ const Body = () => {
               <Profile />
             ) : (
               <>
-                <Grid sx={{padding:"1.7% 0%", maxHeight:"85vh", overflow:"scroll"}} className="center-grid-body" item xs={sideBar ? 8 : 10}>
+                <Grid sx={{margin:"1.7% 0%", maxHeight:"85vh", overflow:"scroll"}} className="center-grid-body" item xs={sideBar ? 8 : 10}>
                   {/* {store.activeNavbarTab===0? <FolderCreationSection/>:null} */}
                   {store.activeNavbarTab === 1 ? (
                     <EstablishmentSearchContainer />

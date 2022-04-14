@@ -69,6 +69,7 @@ const StaffLevel = ({
           establishmentid ? establishmentid : store.establishmentId
         }`
       ).then((res) => {
+        console.log(res,"response");
         setpeople(
           res.data.map((val) => {
             return {
@@ -451,7 +452,6 @@ const StaffLevel = ({
                                     );
                                     setstate(true);
                                     containerRef.current.innerHTML = `
-                    
                  <div class="total"> 
                <div class="sum-block">   ${people.length!=0? b[0]:people[i - 1]?.textselect}  </div>
                <div class="sum-block">  ${isNaN(pblic) ? 0 : pblic}   </div>
@@ -618,7 +618,7 @@ const StaffLevel = ({
                             >
                               <input
                                 className="field-width-staff staff-feild-width"
-                                defaultValue={Math.abs(p?.publicInfo)}
+                                defaultValue={p?.publicInfo}
                                 onChange={(e) => {
                                   setpeople((curr) =>
                                     curr.map((x) =>
@@ -647,7 +647,7 @@ const StaffLevel = ({
                             >
                               <input
                                 className="field-width-staff staff-feild-width"
-                                defaultValue={Math.abs(p?.staffInfo)}
+                                defaultValue={p?.staffInfo}
                                 onChange={(e) => {
                                   setpeople((curr) =>
                                     curr.map((x) =>
