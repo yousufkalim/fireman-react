@@ -260,7 +260,7 @@ const CreateHistoricalData = ({
                       name="repeatable"
                       render={(arrayHelpers) => (
                         <>
-                          <Box className="scroll-styling" sx={{ overflow: "auto", maxHeight:"500px" }}>
+                          <Box className="scroll-styling" sx={{ overflowY: "auto", maxHeight:"500px"}}>
                             <table class="table">
                               <thead>
                                 <Box>
