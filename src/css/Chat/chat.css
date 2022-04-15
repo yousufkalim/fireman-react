@@ -79,13 +79,21 @@
     
   
   .chatSidebar__body {
-    
+    background: #314A6C;
     padding-bottom: 20px 0px;
     overflow-y: scroll;
     background-color: aliceblue;
     width: 25%;
     border-right: 3px solid #314A6C;
   
+  }
+  .send-icon{
+    background-color: #314A6C;
+    padding: 0.8% 0.8%;
+    border-radius: 49%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .chat_user_role {
     /* color: $primary; */
@@ -98,8 +106,15 @@
     
   }
   .chat_user_name {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 700;
     margin: 0;
+  }
+  .profile-pic{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding-right: 5%;
   }
   .chat_user_role {
     color: #fff;
@@ -126,10 +141,12 @@
     margin-right: 5px;
   }
     .chatInfo {
-      /* border-bottom: 1px solid $primary; */
       padding: 10px;
       margin: 5px 0px;
       cursor: pointer;
+    }
+    .chatInfo:hover{
+      background: #596d88;
     }
     .unread_chat {
         width: 20px;
@@ -210,15 +227,24 @@
       }
   
       .submit-text:hover{
-      background-color: #fff !important;
+     outline: none;
+     border: none;
       }
-
+      .submit-text::placeholder{
+        letter-spacing: 2px;
+        font-weight: 700;
+      }
 
       .online-users{
         display: flex;
         align-items: center;
+        padding: 0% 10%;
       }
 
       #dots{
         margin-right: 5px;
+      }
+
+      .blink{
+        background: red;
       }

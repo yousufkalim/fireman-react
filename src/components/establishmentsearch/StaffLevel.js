@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+// import useState from 'react-usestateref'
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
@@ -39,6 +40,8 @@ const StaffLevel = ({
     staffdata: "",
   });
   const [state, setstate] = useState(false);
+  const [loading, setLoading] = useState(true)
+  var [txt,setText]=useState(0)
   const [people, setpeople] = useState([
     {
       id: generate(),
@@ -78,6 +81,7 @@ const StaffLevel = ({
             };
           })
         );
+        setLoading(false)
       });
     
     api("get", "/api/v1/stafflevel_rule/dropdown").then((res) => {
@@ -332,7 +336,8 @@ const StaffLevel = ({
                     </tr>
                   </Box>
                   <Box></Box>
-                  {people?.map((p, i) => {
+                  {console.log("peop", people)}
+                  {people && people?.map((p, i) => {
                     return (
                       <Box
                         id="row"
@@ -356,10 +361,12 @@ const StaffLevel = ({
                               }}
                             >
                               <select
-                                defaultValue={p?.staffLevelId}
+                                defaultValue={people && p?.staffLevelId}
                                 className="field-width-staff"
                                 key={p.id}
                                 onChange={(e) => {
+                                  console.log(e.target.value)
+                                  console.log(parseInt(e.target.value));
                                  const a  = people.map((val)=>{
                                    return{
                                      id: val.staffLevelId,
@@ -377,12 +384,18 @@ const StaffLevel = ({
                                  ))
                                   const slcttext = e.target.selectedOptions[0];
                                   const selecttext = slcttext.text;
+                                  console.log("slcttext",slcttext);
+                                  console.log("selecttext",selecttext);
+                                  console.log("people",people);
+                                  if(selecttext!="Choisissez s'il vous plaît"){
+                                      setText(selecttext)
+                                  }console.log(txt, "checkref");
                                   if (
-                                    people[i - 1]?.staffLevelId ===
-                                      parseInt(e.target.value) ||
+                                    people[i - 1]?.staffLevelId === parseInt(e.target.value) ||
                                     people[i - 1]?.staffLevelId === undefined ||
                                     people[i - 1]?.staffLevelId === "" ||
-                                    parseInt(e.target.value) === ""
+                                    parseInt(e.target.value) === "" ||
+                                    e.target.value ===""
                                   ) {
                                     setpeople((curr) =>
                                       curr.map((x) =>
@@ -399,6 +412,7 @@ const StaffLevel = ({
                                     people[i - 1]?.staffLevelId !==
                                     parseInt(e.target.value)
                                   ) {
+                                    console.log("selecttext",selecttext)
                                     setpeople((curr) =>
                                       curr.map((x) =>
                                         x.id === p.id
@@ -410,7 +424,6 @@ const StaffLevel = ({
                                           : x
                                       )
                                     );
-
                                     let pblic = parseInt(
                                       people.reduce(
                                         (acc, obj) =>
@@ -437,23 +450,24 @@ const StaffLevel = ({
                                         0
                                       )
                                     );
-                                    let total = parseInt(
-                                      people.reduce(
-                                        (acc, obj) =>
-                                          acc +
-                                          parseInt(
-                                            obj.total === undefined ||
-                                              obj.total === ""
-                                              ? parseInt(0)
-                                              : parseInt(obj.total)
-                                          ),
-                                        0
-                                      )
-                                    );
+                                    // let total = parseInt(
+                                    //   people.reduce(
+                                    //     (acc, obj) =>
+                                    //       acc +
+                                    //       parseInt(
+                                    //         obj.total === undefined ||
+                                    //           obj.total === ""
+                                    //           ? parseInt(0)
+                                    //           : parseInt(obj.total)
+                                    //       ),
+                                    //     0
+                                    //   )
+                                    // );
+                                    let total = pblic + personnel
                                     setstate(true);
                                     containerRef.current.innerHTML = `
                  <div class="total"> 
-               <div class="sum-block">   ${people.length!=0? b[0]:people[i - 1]?.textselect}  </div>
+               <div class="sum-block">   ${people.length!=0? b[0]===undefined? txt:b[0]:people[i - 1]?.textselect}  </div>
                <div class="sum-block">  ${isNaN(pblic) ? 0 : pblic}   </div>
                <div class="sum-block">    ${
                  isNaN(personnel) ? 0 : personnel
@@ -581,7 +595,7 @@ const StaffLevel = ({
                                 }}
                               >
                                 <select
-                                  defaultValue={p?.staffLevelRuleId}
+                                  defaultValue={people && p?.staffLevelRuleId}
                                   className="field-width-staff"
                                   onChange={(e) => {
                                     setpeople((curr) =>

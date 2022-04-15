@@ -19,7 +19,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Grid from "@mui/material/Grid";
-
+import { saveAs } from 'file-saver';
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -73,6 +73,7 @@ const CreateHistoricalData = ({
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
     ).then((res) => {
       setHistoricalDataEstablishment(res.data);
+      console.log(res,"histres");
     });
   }, []);
   
@@ -97,6 +98,7 @@ const CreateHistoricalData = ({
       console.log("newarr", newarr);
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
+          console.log("val", val);
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               console.log("dfxgchvjb", res);
@@ -1249,16 +1251,23 @@ const CreateHistoricalData = ({
                                                   xs={8}
                                                 >
                                                   <a
-                                                    onClick={() => {
+                                                    onClick={() => {   
+                                                      saveAs(
+                                                        `http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`,
+                                                        "example.pdf"
+                                                      );
+                                                      console.log(val.fileURL.slice(55));
+                                                      console.log(val.fileURL);
                                                       api(
                                                         "get",
-                                                        `/api/v1/download_historicaldata_file/http://160.153.249.64:6163/api/v1/download_historicaldata_file/D%3A%5CProjects%5CFireMan%5CFireManAPI%5Cwwwroot%5CFiles%5CEventFiles%5Cfc00e909-2941-4caa-a545-b39330732120_2021%2011%20Page%20Etablissement.pdf`
-                                                      ).then((res) => {
+                                                        `/api/v1/download_historicaldata_file/http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`
+                                                         ).then((res) => {
                                                         console.log(res);
                                                       });
                                                     }}
-                                                    href={val.fileURL}
-                                                    target="_blank"
+                                                    // href={`http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`}
+                                                    // target="_blank"
+                                                  
                                                   >
                                                     {val.fileName}
                                                   </a>
@@ -2164,19 +2173,27 @@ const CreateHistoricalData = ({
                                             {r?.filesData?.map((val) => (
                                               <>
                                                 <Grid
-                                                    sx={{ padding: "5px", alignItems:"end", display:"flex" }}
+                                                  sx={{ padding: "5px", alignItems:"end", display:"flex" }}
                                                   xs={8}
                                                 >
                                                   <a
-                                                    onClick={() => {
+                                                    onClick={() => {   
+                                                      saveAs(
+                                                        `http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`,
+                                                        "example.pdf"
+                                                      );
+                                                      console.log(val.fileURL.slice(55));
+                                                      console.log(val.fileURL);
                                                       api(
                                                         "get",
-                                                        `/api/v1/download_historicaldata_file/${val.fileURL}`
-                                                      ).then((res) => {
+                                                        `/api/v1/download_historicaldata_file/http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`
+                                                         ).then((res) => {
                                                         console.log(res);
                                                       });
                                                     }}
-                                                    href={val.fileURL}
+                                                    // href={`http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`}
+                                                    // target="_blank"
+                                                  
                                                   >
                                                     {val.fileName}
                                                   </a>

@@ -52,7 +52,7 @@ const TeamManagement = () => {
             <div className='team_management_row'>
             <div className='input_cont'>
                     <label>Nom</label>
-                    <input  className="input-phonebook" disabled value={store.phonebookData?.securityManagerLastName} />
+                    <input  className="input-phonebook" disabled value={store.phonebookData?.securityManagerLastName.toUpperCase()} />
                 </div>
                 <div className='input_cont'>
                     <label>Prénom</label>

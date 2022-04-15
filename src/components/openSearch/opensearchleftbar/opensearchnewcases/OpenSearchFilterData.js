@@ -106,7 +106,7 @@ console.log(establishmentSearchData,"establishmentSearchData");
          ref:val.referenceNo,
          commune:val.commune,
          nom:val.establishmentName,
-         Ref:val.etabNo,
+         Ref:val.serialNo,
          address:val.address,
          statut:val.status,
          type:val.classification,

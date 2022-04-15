@@ -36,7 +36,7 @@ const Home = ({ handleClose, handleOpen, open}) => {
   const [prog, setProg] = useState()
   const [animate, setAnimate] = useState(false)
   let [projects, setProjects] = useState([]);
-
+  const [loading, setloading] = useState(true)
   const update = UpdateStore();
 
   useEffect(() => {
@@ -70,6 +70,7 @@ const Home = ({ handleClose, handleOpen, open}) => {
       console.log("faisl", res);
       if (res.status == 200) {
         setProjects(res.data);
+        setloading(false)
       }
     });
   };
@@ -148,7 +149,14 @@ const Home = ({ handleClose, handleOpen, open}) => {
               </Grid>
               <Grid className="cursor" item xs={4}>
               <Box  onClick={() => {
-                    update({ activeNavbarTab: "searchestablishment", tabindex:0 });
+                    update({ 
+                      activeNavbarTab: "searchestablishment", 
+                      tabindex:0, 
+                      unreadnotes:"",
+                      implantationvideodata:"",
+                      implantationcommentsdata:"",
+                      caseFileId:"" 
+                    });
                   }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
 
               <img
@@ -161,8 +169,10 @@ const Home = ({ handleClose, handleOpen, open}) => {
             </Grid>
           </>
         ) : null}
-        {activeBlock.itemone ? (
+        {activeBlock.itemone? (
+        
           <>
+          
           <Box className="cross-icon"> 
 
             <BackspaceSharpIcon

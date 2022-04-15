@@ -23,7 +23,7 @@ import NavbarDashBoard from "../components/NavbarDashBoard";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import jwt from "jwt-decode";
 import Modal from '@mui/material/Modal';
-import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
+import CloseIcon from '@mui/icons-material/Close';
 import CreateAnEstablishment from "./openSearch/opensearchleftbar/opensearchnewcases/CreateAnEstablishment";
 import Chat from './chat/IndexThree'
 const style = {
@@ -33,6 +33,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: "90%",
   margin:"auto",
+  height:"90%",
   bgcolor: 'background.paper',
   borderRadius:'4px',
   boxShadow: "-1px 4px 20px -6px rgba(0, 0, 0, 0.75)"
@@ -173,7 +174,7 @@ const Body = () => {
       >
         <Box sx={style}>
           <Box sx={{textAlign:"end", position:"relative"}}> 
-          <CancelPresentationSharpIcon onClick={()=>handleClose()} sx={{position:"absolute", padding:"8.8px 8px", right:"0%", color:"#fff", background:"#314A6C"}}/> 
+          <CloseIcon onClick={()=>handleClose()} sx={{position:"absolute", padding:"8.8px 8px",height:"1.97em", right:"0%", color:"#fff", background:"#314A6C"}}/> 
           </Box>
        
          <Chat/>

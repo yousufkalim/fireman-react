@@ -16,6 +16,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
+import {UpdateStore} from '../../StoreContext'
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { useTranslation, Trans } from "react-i18next";
@@ -77,6 +78,7 @@ const AccordionComponent = (props) => {
  
   const [subCheckValues, setSubCheckValues] = useState([]);
   const store = Store();
+  const updateStore  = UpdateStore()
   console.log("chapterindex<><><",props.chapterindex);
   console.log("props.sedc", props.sectionindex);
   console.log("props.completed", sectionDetail);
@@ -201,18 +203,20 @@ const AccordionComponent = (props) => {
   return (
     <>
       <Accordion
+      
         expanded={props.expanded != props.panelname || (props.sectionindex===sectionDetail.sectionind&&props.chapterindex===sectionDetail.chapterindex && props.expandChild) ? false:true}
         onChange={props.handleChange(props.panelname)}
         //onChange={onChange(props.panelname)}
         //onClick={()=>{setExpand(!expand)}}
       >
         <AccordionSummary
-       
+     
         
          onClick={()=>{
           //  for tutorial video
            api("get", `/api/v1/checkList/section_video_link/${props.accordionData?.sectionId}`).then((res)=>{
-             console.log("video", res.data);
+             console.log("video", res.data.length);
+             updateStore({implantationvideodata:res.data.length})
             props.setRightBarData((pre)=>{
              return{
                ...pre,
@@ -222,6 +226,8 @@ const AccordionComponent = (props) => {
             })
 
             api("get",`/api/v1/checkList/section_comments/${props.accordionData?.sectionId}`).then((res)=>{
+              console.log(res.data.length,"link");
+              updateStore({implantationcommentsdata:res.data.length})
               props.setRightBarData((pre)=>{
                 return{
                   ...pre,
@@ -292,6 +298,7 @@ const AccordionComponent = (props) => {
           }
         </AccordionSummary>
         <AccordionDetails>
+       
           {props.accordionData.series &&
             props.accordionData.series.map((series, i) => {
               return (

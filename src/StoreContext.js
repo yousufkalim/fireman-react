@@ -39,7 +39,11 @@ export function StoreProvider({ children }) {
     phonebookData:null,
     connection:"",
     userId:"",
-    role:""
+    role:"",
+    unreadmsg:"",
+    unreadnotes:"",
+    implantationvideodata:"",
+    implantationcommentsdata:""
   });
 
   const updateStore = (data) => {

@@ -305,7 +305,7 @@ const loadActiveChatMessage = (token, chatId, userId)=>{
       responseMessages.data.data.messages.map((message) => {
         message = message;
         var messageObject;
-        if (message.sender != userId) {
+        if (message?.sender != userId) {
           messageObject = {
             isSender: false,
             message: message.message,
@@ -359,8 +359,8 @@ const changeChat = (chat) => {
   var token = localStorage.getItem("userdata");
   localStorage.removeItem("activeChat");
   var chatListis = state.chatList;
-  var index = chatListis.indexOf(
-    chatListis.find((item) => item.chatroom_id == chat.chatroom_id)
+  var index = chatListis?.indexOf(
+    chatListis?.find((item) => item.chatroom_id == chat.chatroom_id)
   );
   if (index != -1) {
     chatListis[index].unread = false;
@@ -382,16 +382,16 @@ const changeChat = (chat) => {
    setState((pre)=>{
      return{
        ...pre,
-       activeChat: chatListis[index].chatroom_id,
-       activeReciever: chatListis[index].reciever,
+       activeChat: chatListis[index]?.chatroom_id,
+       activeReciever: chatListis[index]?.reciever,
        messageList: [],
        message: "",
      }
    })
       loadActiveChatMessage(
         token,
-        chatListis[index].chatroom_id,
-        state.userData.Id
+        chatListis[index]?.chatroom_id,
+        state.userData?.Id
       );
 };
 console.log(state);
@@ -401,6 +401,10 @@ console.log(state);
        <ChatSideBarTwo
         chatList={state.chatList}
         chatChange={changeChat}
+        chat={chat}
+        activeChat={state.chatList?.find(
+          (chat) => chat?.chatroom_id ==state.activeChat
+        )}
        />
           <Box sx={{width:'100%'}}>
            <ChatWindow chat={chat}

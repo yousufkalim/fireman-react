@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import SendIcon from '@mui/icons-material/Send';
 import { Input } from '@mui/material';
+import send from '../../assets/send.svg'
 const ChatSideBarTwo = (props) => {
   const [user, setUser] = useState('');
   const [message, setMessage] = useState('');
@@ -29,24 +30,27 @@ const onMessageUpdate = (e) => {
 }
   return (
     <>
-    <form style={{display:"flex", padding:"10px", borderTop:"3px solid #314A6C" }}
+    <form style={{display:"flex", padding:"1.5% 5%", background:"aliceblue"}}
             onSubmit={onSubmit}>
            
-            <Input 
+            <input 
             className='submit-text'
-              style={{width:"95%",border:"none"}}
+              style={{width:"95%",border:"none", background:"aliceblue", outline:"none"}}
                 type="text"
                 id="message"
                 name="message" 
                 value={message}
                 onChange={onMessageUpdate}
                 autoComplete="off"
-                disableUnderline={true}
+                placeholder='Type a message here'
                 />
               
             {/* <button>Submit</button> */}
-            <SendIcon  onClick={onSubmit}/>
+            <div className='send-icon'> 
+            <img  src={send}  onClick={onSubmit}/>
+            </div>
         </form>
+
     </>
   )
 }

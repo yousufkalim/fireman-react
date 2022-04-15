@@ -2,6 +2,7 @@
 import api from "../../api/index";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
+import {UpdateStore} from '../../StoreContext'
 const HomeLeft = ({ 
   setProg,
   setActiveBlock, 
@@ -28,6 +29,7 @@ const HomeLeft = ({
     CountsData();
     getLatest();
   }, []);
+  const update  = UpdateStore()
   const CountsData = () => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
@@ -45,7 +47,9 @@ const HomeLeft = ({
       `/api/v1/chatting/get_user_unread_messages/${userId?.userid}`
     ).then((res) => {
       if (res.status == 200) {
+        console.log(res.data);
         setUnreadMessages(res?.data)
+        update({unreadmsg:res?.data})
       }
     });
 

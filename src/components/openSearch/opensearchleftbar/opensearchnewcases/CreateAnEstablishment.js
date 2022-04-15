@@ -72,6 +72,7 @@ const CreateAnEstablishment = () => {
             }
           } else {
             toast.success("Establishment Created");
+            update({ activeNavbarTab: "searchestablishment"});
           }
 
           console.log("res create establishment api", res);
