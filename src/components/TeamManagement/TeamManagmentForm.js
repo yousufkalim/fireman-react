@@ -334,7 +334,7 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
             <input
              type="search"
               onChange={(e) => {
-                setTeam({ ...team, ["phoneNo"]: e.target.value });
+                setTeam({ ...team, ["cellNo"]: e.target.value });
               }}
               value={team.cellNo}
               placeholder="Enter Cell No"
@@ -382,8 +382,9 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
                   <label>Cell No</label>
                   <input
                     placeholder="Enter Cell No"
+                     value={team.cellNo}
                     onChange={(e) => {
-                      setTeam({ ...team, ["password"]: e.target.value });
+                      setTeam({ ...team, ["cellNo"]: e.target.value });
                     }}
                   />
                 </div>
