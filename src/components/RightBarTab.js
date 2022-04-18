@@ -341,8 +341,7 @@ api("get",`/api/v1/chatting/all_related_colleagues/${userData.Id}`).then((res)=>
                       alignItems: "center",
                       width: "100%",
                       padding: "5px 0px",
-                      
-                     
+                      cursor:"pointer"
                     }}
                   >
                     <Box sx={{ display: "flex" }} className="img-txt">

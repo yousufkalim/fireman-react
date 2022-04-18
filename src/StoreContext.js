@@ -43,7 +43,8 @@ export function StoreProvider({ children }) {
     unreadmsg:"",
     unreadnotes:"",
     implantationvideodata:"",
-    implantationcommentsdata:""
+    implantationcommentsdata:"",
+    chatactive:""
   });
 
   const updateStore = (data) => {

@@ -46,7 +46,7 @@ const onMessageUpdate = (e) => {
                 />
               
             {/* <button>Submit</button> */}
-            <div className='send-icon'> 
+            <div className='send-icon cursor'> 
             <img  src={send}  onClick={onSubmit}/>
             </div>
         </form>

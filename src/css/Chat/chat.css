@@ -81,11 +81,9 @@
   .chatSidebar__body {
     background: #314A6C;
     padding-bottom: 20px 0px;
-    overflow-y: scroll;
     background-color: aliceblue;
     width: 25%;
     border-right: 3px solid #314A6C;
-  
   }
   .send-icon{
     background-color: #314A6C;
@@ -109,13 +107,15 @@
     font-size: 16px;
     font-weight: 700;
     margin: 0;
+    cursor: pointer;
+    padding-left: 5%;
   }
   .profile-pic{
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    padding-right: 5%;
   }
+  
   .chat_user_role {
     color: #fff;
     font-size: 9px;
@@ -238,13 +238,24 @@
       .online-users{
         display: flex;
         align-items: center;
-        padding: 0% 10%;
+        padding: 3% 10%;
       }
-
+      .online-users:hover{
+       background: #596d88;
+      }
       #dots{
         margin-right: 5px;
       }
 
       .blink{
-        background: red;
+        background: #596d88;
+        animation:blinkingText 0.8s infinite; 
+      }
+
+      @keyframes blinkingText{
+        0%{		color: #000;	}
+        49%{	color: transparent;	}
+        50%{	color: transparent;	}
+        99%{	color:transparent;	}
+        100%{	color: #000;	}
       }

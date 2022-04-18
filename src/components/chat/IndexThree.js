@@ -10,7 +10,7 @@ import ChatSideBarTwo from './ChatSideBarTwo'
 import Box from "@mui/material/Box";
 import { Store } from "../../StoreContext";
 import { UpdateStore } from '../../StoreContext'
-const IndexThree = () => {
+const IndexThree = ({handleClose}) => {
   const [state, setState, counterRef] = useState({
     messageList: [],
     chatList: [],
@@ -22,7 +22,8 @@ const IndexThree = () => {
     searchList: [],
     isLoading: true,
     connection: "",
-    msglist:[]
+    msglist:[],
+    CurrentReceivedmsgData:{}
   })
   const [ connection, setConnection ] = useState(null);
   const [ chat, setChat ] = useState([]);
@@ -55,12 +56,13 @@ useEffect(() => {
     }
   })
   // list all chat list
-  loadChatListData(token, userData.Id, chat_active);
+  //loadChatListData(token, userData.Id, chat_active);
+  
 }, [])
 useEffect(() => {
   console.log("store",store);
   console.log("connection",connection);
- 
+  
   if (connection) {
       connection.start()
           .then(result => {
@@ -68,24 +70,222 @@ useEffect(() => {
               var token = localStorage.getItem("userData");
               var chat_active = localStorage.getItem("activeChat");
               const userData = jwt(token);
+              const userId= userData.Id;
+             ////////start
+            
+             api("get",`/api/v1/chat/GetChatList/${userData.Id}`).then((res)=>{
+              console.log("chat res", res.data.data);
+              var chatlist = [];
+              res?.data?.data?.map((chat) => {
+               var a = chat.userA
+               var b = chat.userB
+               console.log(a,"usera");
+               console.log(b,"userb");
+               //console.log("userId",userId);
+               console.log("a?.employeeId",a?.employeeId);
+               console.log("b?.employeeId",b?.employeeId);
+               //console.log("userId",userId);
+               if (a?.employeeId != userId) {
+                 chatlist.push({
+                   chatroom_id: chat.id,
+                   chatroom_label: `${a?.empFirstName} ${a?.empLastName}`,
+                   user_role: a?.role,
+                   reciever: a?.employeeId,
+                   unread: false,
+                   isOnline: a?.isOnline,
+                   lastSeen: a?.lastSeen,
+                   block: chat?.block,
+                   blockBy: chat?.blockBy,
+                 });
+                 //this.setState({ isLoading: false });
+                 setState((pre)=>{
+                   return{
+                    ...pre,
+                    isLoading:false
+                   }
+                 })
+               } else {
+                 if (b?.employeeId != userId) {
+                   console.log("user2.id");
+                   chatlist.push({
+                     chatroom_id: chat?.id,
+                     chatroom_label: `${b?.empFirstName} ${b?.empLastName}`,
+                     user_role: b?.role,
+                     reciever: b?.employeeId,
+                     unread: false,
+                     isOnline: b?.isOnline,
+                     lastSeen: b?.lastSeen,
+                     block: chat?.block,
+                     blockBy: chat?.blockBy,
+                   });
+                 }
+                 setState((pre)=>{
+                   return{
+                    ...pre,
+                    isLoading:false
+                   }
+                 })
+               }
+               return null;
+             });
+             if(res.data.data[0].userA.employeeId!=userId){
+           setState((pre)=>{
+           return{
+             ...pre,
+             activeReciever:res.data.data[0].userA.employeeId
+           }
+           })
+             }
+             else{
+               setState((pre)=>{
+                 return{
+                   ...pre,
+                   activeReciever:res.data.data[0].userB.employeeId
+                 }
+                 })
+             }
+           
+             ////start
+             var chat_active = localStorage.getItem("activeChat");
+             // debugger;
+             if (chat_active) {
+               let active;
+               const findChat = res.data.data.find(
+                 (item) => item.id == chat_active
+               );
+               if (findChat?.userA?.employeeId != userId) {
+                 active = findChat?.userA?.employeeId;
+               } else {
+                 active = findChat?.userB?.employeeId;
+               }
+               console.log("find chat ", findChat);
+               console.log("find chat active", active);
+               var chatinfois = state.chatList.find(
+                 (item) => item.chatroom_id == chat_active
+               );
+           setState((pre)=>{
+             return{
+           ...pre,
+           activeChat: chat_active,
+           activeReciever: active,
+             }
+           })
+               // loadActiveChatMessage(
+               //       token,
+               //       counterRef.current.activeChat,
+               //       userId
+               //     );
+                 
+               
+             } else {
+               chat_active = counterRef.current.activeChat;
+               var chatinfois = state.chatList.find(
+                 (item) => item.chatroom_id == chat_active
+               );
+             console.log(userId);     
+               // loadActiveChatMessage(token, parseInt(chat_active), userId);
+               setState({ isLoading: false });
+             }
+           
+             store?.connection?.on(
+               "checkIsOnline",
+               (userId, isOnline, lastSeen, status) => {
+                 console.log(userId, isOnline, lastSeen, status);
+                 if (userData.Id !== userId) {
+                   console.log("user is online now", userId);
+                   let newChatList = chatlist.map((chat, index) =>
+                     chat.reciever == userId
+                       ? { ...chat, isOnline, lastSeen, status }
+                       : chat
+                   );
+           
+                   if (status !== "") {
+                     console.log("extra messages", chat_active);
+                     chat_active = counterRef.current.activeChat;
+                     console.log("264",chat_active,userData.Id);
+               //alert("third if load")
+                     // loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
+                   } else {
+                     console.log("extra messages not ", chat_active);
+                   }
+                     setState((pre)=>{
+                      return{
+                        ...pre,
+                        chatList:newChatList
+                      }
+                     })  
+                 }
+               }
+             );
+           
+             store.connection.on("msgSeenStatus", (usrId, chatId, seen) => {
+               chat_active = counterRef.current.activeChat;
+               if (chatId == chat_active && userData.Id != usrId) {
+                 if (seen !== "") {
+                   console.log("extra messages seen", chat_active);
+                   chat_active = counterRef.current.activeChat;
+                   console.log("290",chat_active,userData.Id);
+                   // loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
+                 } else {
+                   console.log("extra messages seen not ", chat_active);
+                 }
+               }
+             });
+            
+             store.connection.on(
+               "CheckIsOnline",
+               (userId, isOnline, status) => {
+                 console.log("check online ", isOnline);
+                 console.log("check online id ", userId);
+               }
+             );
+             // loadActiveChatMessage(
+             //   token,
+             //   chat_active,
+             //   userId
+             // );
+           
+           
+             ////////
+             setState((pre)=>{
+               return{
+                 ...pre,
+                 chatList:chatlist
+               }
+             })
+              var chat_active = localStorage.getItem("activeChat");
+             //  loadActiveChatMessage(
+             //   token,
+             //   parseInt(chat_active),
+             //   userId
+             // );
+             })
+            
+              //////end
+              loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
               connection.on('ReceiveMessage', (message, chat) => {
                   console.log("message", message);
                   console.log("chat", chat);
+                  console.log("state.chatList", counterRef.current.activeChat);
                   const updatedChat = [...latestChat.current];
                   if(message.sender!=userData.Id){
                     message.isSender=false;
                     message.status=""
-                    updatedChat.push(message);
+                    if(counterRef.current.activeChat==message.chatInfoId){
+                      updatedChat.push(message);
+                    }
+                      //setChat(updatedChat);
                     connection.send("ActiveChat", message.reciever, chat.chatInfoId)
                   }
+                
                   else{
                     const status =
                     message.readMsg == "Send"? "sent" : message.readMsg == "Delivered"? "received": message.readMsg == "Seen" && "read";
                     message.isSender=true;
                     message.status=status
                     updatedChat.push(message);
+                    //setChat(updatedChat);
                     connection.send("ActiveChat", message.reciever, chat.chatInfoId)
-                  
                   }
                   setChat(updatedChat);
               });
@@ -93,208 +293,31 @@ useEffect(() => {
                loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
                connection.on("msgSeenStatus", (usrId, chatId, seen) => {
                 console.log(">?<><><><",usrId, chatId, seen);
+                setState((pre)=>{
+                  return{
+                   ...pre,
+                   CurrentReceivedmsgData:{
+                     UserId:usrId,
+                     chatid:chatId,
+                     Seen:seen
+                   }
+                  }
+                })
                })
           })
           .catch(e => console.log('Connection failed: ', e));
   }
+
 }, [connection]);
 
 
 
-const loadChatListData =(token, userId)=>{
-  console.log(userId);
-  var token = localStorage.getItem("userData");
-  const userData = jwt(token);
-  api("get",`/api/v1/chat/GetChatList/${userData.Id}`).then((res)=>{
-   console.log("chat res", res.data.data);
-   var chatlist = [];
-   res?.data?.data?.map((chat) => {
-    var a = chat.userA
-    var b = chat.userB
-    console.log(a,"usera");
-    console.log(b,"userb");
-    console.log("userId",userId);
-    console.log("a?.employeeId",a?.employeeId);
-    console.log("b?.employeeId",b?.employeeId);
-    console.log("userId",userId);
-    if (a?.employeeId != userId) {
-      chatlist.push({
-        chatroom_id: chat.id,
-        chatroom_label: `${a?.empFirstName} ${a?.empLastName}`,
-        user_role: a?.role,
-        reciever: a?.employeeId,
-        unread: false,
-        isOnline: a?.isOnline,
-        lastSeen: a?.lastSeen,
-        block: chat?.block,
-        blockBy: chat?.blockBy,
-      });
-      //this.setState({ isLoading: false });
-      setState((pre)=>{
-        return{
-         ...pre,
-         isLoading:false
-        }
-      })
-    } else {
-      if (b?.employeeId != userId) {
-        console.log("user2.id");
-        chatlist.push({
-          chatroom_id: chat?.id,
-          chatroom_label: `${b?.empFirstName} ${b?.empLastName}`,
-          user_role: b?.role,
-          reciever: b?.employeeId,
-          unread: false,
-          isOnline: b?.isOnline,
-          lastSeen: b?.lastSeen,
-          block: chat?.block,
-          blockBy: chat?.blockBy,
-        });
-      }
-      setState((pre)=>{
-        return{
-         ...pre,
-         isLoading:false
-        }
-      })
-    }
-    return null;
-  });
-  if(res.data.data[0].userA.employeeId!=userId){
-setState((pre)=>{
-return{
-  ...pre,
-  activeReciever:res.data.data[0].userA.employeeId
-}
-})
-  }
-  else{
-    setState((pre)=>{
-      return{
-        ...pre,
-        activeReciever:res.data.data[0].userB.employeeId
-      }
-      })
-  }
-
-  ////start
-  var chat_active = localStorage.getItem("activeChat");
-  // debugger;
-  if (chat_active) {
-    let active;
-    const findChat = res.data.data.find(
-      (item) => item.id == chat_active
-    );
-    if (findChat?.userA?.employeeId != userId) {
-      active = findChat?.userA?.employeeId;
-    } else {
-      active = findChat?.userB?.employeeId;
-    }
-    console.log("find chat ", findChat);
-    console.log("find chat active", active);
-    var chatinfois = state.chatList.find(
-      (item) => item.chatroom_id == chat_active
-    );
-setState((pre)=>{
-  return{
-...pre,
-activeChat: chat_active,
-activeReciever: active,
-  }
-})
-    loadActiveChatMessage(
-          token,
-          counterRef.current.activeChat,
-          userId
-        );
-      
-    
-  } else {
-    chat_active = counterRef.current.activeChat;
-    var chatinfois = state.chatList.find(
-      (item) => item.chatroom_id == chat_active
-    );
-  console.log(userId);     
-    loadActiveChatMessage(token, parseInt(chat_active), userId);
-    setState({ isLoading: false });
-  }
-
-  store?.connection?.on(
-    "checkIsOnline",
-    (userId, isOnline, lastSeen, status) => {
-      console.log(userId, isOnline, lastSeen, status);
-      if (userData.Id !== userId) {
-        console.log("user is online now", userId);
-        let newChatList = chatlist.map((chat, index) =>
-          chat.reciever == userId
-            ? { ...chat, isOnline, lastSeen, status }
-            : chat
-        );
-
-        if (status !== "") {
-          console.log("extra messages", chat_active);
-          chat_active = counterRef.current.activeChat;
-          console.log("264",chat_active,userData.Id);
-    //alert("third if load")
-          loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
-        } else {
-          console.log("extra messages not ", chat_active);
-        }
-          setState((pre)=>{
-           return{
-             ...pre,
-             chatList:newChatList
-           }
-          })  
-      }
-    }
-  );
-
-  store.connection.on("msgSeenStatus", (usrId, chatId, seen) => {
-    chat_active = counterRef.current.activeChat;
-    if (chatId == chat_active && userData.Id != usrId) {
-      if (seen !== "") {
-        console.log("extra messages seen", chat_active);
-        chat_active = counterRef.current.activeChat;
-        console.log("290",chat_active,userData.Id);
-        loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
-      } else {
-        console.log("extra messages seen not ", chat_active);
-      }
-    }
-  });
- 
-  store.connection.on(
-    "CheckIsOnline",
-    (userId, isOnline, status) => {
-      console.log("check online ", isOnline);
-      console.log("check online id ", userId);
-    }
-  );
-  loadActiveChatMessage(
-    token,
-    chat_active,
-    userId
-  );
-
-
-  ////////
-  console.log("chatList",chatlist);
-  console.log(state);
-  setState((pre)=>{
-    return{
-      ...pre,
-      chatList:chatlist
-    }
-  })
-   var chat_active = localStorage.getItem("activeChat");
-   loadActiveChatMessage(
-    token,
-    parseInt(chat_active),
-    userId
-  );
-  })
-}
+// const loadChatListData =(token, userId)=>{
+//   console.log(userId);
+//   var token = localStorage.getItem("userData");
+//   const userData = jwt(token);
+  
+// }
 const loadActiveChatMessage = (token, chatId, userId)=>{
  
   console.log("chatId",chatId);
@@ -326,7 +349,6 @@ const loadActiveChatMessage = (token, chatId, userId)=>{
           setChat(messagelist)
           connection &&
            connection.send("activeChat", userId, chatId);
-         console.log(connection);
     }
   })
 }
@@ -386,8 +408,10 @@ const changeChat = (chat) => {
        activeReciever: chatListis[index]?.reciever,
        messageList: [],
        message: "",
+       CurrentReceivedmsgData:{}
      }
    })
+   updatestore({chatactive:chatListis[index]?.chatroom_id})
       loadActiveChatMessage(
         token,
         chatListis[index]?.chatroom_id,
@@ -395,10 +419,13 @@ const changeChat = (chat) => {
       );
 };
 console.log(state);
+console.log(store);
   return (
     <>
-     <Box sx={{display:"flex"}}>
+     <Box sx={{display:"flex", height:"100%"}}>
        <ChatSideBarTwo
+       handleClose={handleClose}
+       state={state}
         chatList={state.chatList}
         chatChange={changeChat}
         chat={chat}
@@ -407,13 +434,16 @@ console.log(state);
         )}
        />
           <Box sx={{width:'100%'}}>
-           <ChatWindow chat={chat}
+           <ChatWindow
+           handleClose={handleClose}
+            chat={chat}
+            sendMessage={sendMessage}
            activeChat={state.chatList?.find(
             (chat) => chat?.chatroom_id ==state.activeChat
           )}
            />
-           <ChatSideTwo sendMessage={sendMessage} 
-           />
+           {/* <ChatSideTwo  
+           /> */}
           </Box>
         </Box>
     </>
