@@ -61,14 +61,14 @@ const ChatWindow = (props) => {
         sx={{
           padding: "2% 2%",
           display: "flex",
-          justifyContent: "space-between",
           borderBottom: "3px solid #314A6C",
           background: "#314A6C",
           color: "#fff",
+          justifyContent:"space-between"
         }}
       >
-        {props?.activeChat?.chatroom_label}
-        <CancelPresentationSharpIcon className="cursor" onClick={props.handleClose}/>
+        {props?.activeChat?.chatroom_label?props?.activeChat?.chatroom_label:".......loading"}
+       <CancelPresentationSharpIcon className="cursor" onClick={props.handleClose}/>
       </Box>
       <Box sx={{ padding: "5%", height:"61vh",overflowY:"scroll" }}>
           {chat}
