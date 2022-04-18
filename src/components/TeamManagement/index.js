@@ -19,6 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
   let [importedData, setImportedData] = useState([]);
   let [prefilledData, setPrefilledData] = useState([]);
+  const [creation, setCreation] = useState(false)
   const [pageSize, setPageSize] = useState(25);
   const [usersData, setUsersData] = useState([]);
   const [userDelete, setUserDelete] = useState([]);
@@ -115,6 +116,7 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
       },
     },
   ];
+  const store = Store();
   const cellClick = (params, event) => {
     api("get", `/api/v1/Users/userDetails/${params.row.val.employeeId}`).then(
       (response) => {
@@ -124,6 +126,7 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
   };
   const cellDoubleClick = (params, event) => {
     setTeamFormDisplay(false);
+    setCreation(false)
     api("get", `/api/v1/Users/userDetails/${params.row.val.employeeId}`).then(
       (response) => {
         setImportedData(response);
@@ -132,10 +135,13 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
   };
   const callForm = () => {
     setTeamFormDisplay(false);
+    setImportedData([])
     var loggedInUserDataID = localStorage.getItem("loggedInUser");
     api("get", `/api/v1/Users/userDetails/${loggedInUserDataID}`).then(
       (response) => {
+        console.log(response);
         setPrefilledData(response);
+        setCreation(true)
       }
     );
   };
@@ -206,8 +212,9 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
                   disableClickEventBubbling: val.disableClickEventBubbling,
                   renderCell: val.renderCell,
                 }))}
-                rows={usersData.data?.map((val, index) => ({
-                  id: val.employeeId,
+                rows={
+                  usersData?.data?.filter((val)=>(val?.roleSerial!=store?.role)).map((val,index)=>({
+                      id: val.employeeId,
                   empFirstName: val.empFirstName,
                   empLastName: val.empLastName,
                   email: val.email,
@@ -215,7 +222,8 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
                   serviceName: val.serviceName,
                   groupName: val.groupName,
                   val: val,
-                }))}
+                  }))
+                }
               />
             </div>
           </Item>
@@ -224,6 +232,8 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
         <TeamManagmentForm
           importedData={importedData.data}
           prefilledData={prefilledData}
+          creation={creation}
+          setTeamFormDisplay={setTeamFormDisplay}
         />
       )}
     </>

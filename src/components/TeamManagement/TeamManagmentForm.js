@@ -3,7 +3,7 @@ import api from "../../api/index";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { Store } from "../../StoreContext";
-const TeamManagmentForm = ({ importedData, prefilledData }) => {
+const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamFormDisplay }) => {
   let [sdis, setSdis] = useState([]);
   let [groups, setGroups] = useState([]);
   let [services, setServices] = useState([]);
@@ -11,38 +11,36 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
   let [team, setTeam] = useState({});
   let [ress, setRess] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
+  
 
+  console.log("prefilledData",prefilledData);
+  console.log(importedData,"importedData");
+  console.log(creation,"creation");
   useEffect(() => {
-    console.log(importedData);
-    console.log("WWWWWWWWWWWWWW employee id", importedData?.employeeId);
-    console.log(prefilledData);
-    console.log(importedData);
-
     if (importedData) {
       setIsDisabled(true);
     }
 
     setTeam(() => {
       return {
-        email: importedData?.email,
-        cellNo: importedData?.cellNo,
-        password: "",
-        postalAddress: "",
-        roleId: importedData?.roleId,
-        groupId: importedData?.groupId,
+        email: creation? "": importedData?.email,
+        cellNo: creation? "": importedData?.cellNo,
+        postalAddress:creation? "": importedData?.postalAddress,
+        roleId:creation? "": importedData?.roleId,
+        groupId:creation? "": importedData?.groupId,
         serviceId: importedData?.serviceId
           ? importedData?.serviceId
           : prefilledData?.data?.serviceId,
-        empFirstName: importedData?.empFirstName,
-        empLastName: importedData?.empLastName,
-        password: importedData?.password,
+        empFirstName:creation? "": importedData?.empFirstName,
+        empLastName:creation? "": importedData?.empLastName,
+        password:creation? "": importedData?.password,
         sdisId: importedData?.sdisId
           ? importedData?.sdisId
           : prefilledData?.data?.sdisId,
         groupId: importedData?.groupId
           ? importedData?.groupId
           : prefilledData?.data?.groupId,
-        employeeId: importedData?.employeeId,
+        employeeId:creation? "":importedData?.employeeId,
       };
     });
   }, [importedData || prefilledData]);
@@ -99,27 +97,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
       }
     });
   };
-  console.log("ROLESSSS", roles);
 
-  //   const getGroups = (e) => {
-  //     alert("fdgh");
-  //     api("get", `/api/v1/group/dropdown/${e.target.value}`).then((res) => {
-  //       if (res.status == 200) {
-  //         setGroups(res.data);
-  //       }
-  //     });
-  //   };
-
-  //   const getServices = (e) => {
-  //     setTeam({ ...team, ["groupId"]: e.target.value });
-  //     api("get", `/api/v1/services/dropdown/${e.target.value}`).then((res) => {
-  //       if (res.status == 200) {
-  //         setServices(res.data);
-  //       }
-  //     });
-  //   };
-
-  //   console.log("SERVICESSS", services);
   const submitForm = (e) => {
     e.preventDefault();
     let userId = localStorage.getItem("userData");
@@ -132,30 +110,34 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
       currentUserId: userId?.userid,
       isAdmin: true,
     };
+    console.log(data);
     if (
       !team.employeeId &&
       team.email &&
       team.password &&
-      team.serviceId &&
       team.groupId &&
       team.roleId &&
-      team.cellNo &&
+      team.phoneNo &&
       team.empFirstName &&
       team.empLastName
     ) {
-      {
+      
         console.log(data);
         api("post", "/api/v1/register", data).then((res) => {
           console.log("res register api", res);
-
-          if (res.status == 200) {
-            if (res.data.success == true) {
+          setTeamFormDisplay(true)
+          if (res?.status == 200) {
+            if (res?.data.success == true) {
               toast.success("Employé ajouté avec succès");
+             
+            }
+            if (res?.data?.success == false) {
+              toast.error(res?.data?.errorMessage[0])
             }
           }
           console.log("res", res);
         });
-      }
+      
     }
     {
       console.log("TEAM    ROLEID", team.roleId);
@@ -167,7 +149,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         roleId: team.roleId,
         groupId: team.groupId,
         serviceId: team.serviceId,
-        //code: "string",
         empFirstName: team.empFirstName,
         empLastName: team.empLastName,
         phoneNo: team.cellNo,
@@ -177,9 +158,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         emailConfirmed: true,
         isActive: true,
         isValidated: true,
-        // createdAt: "2022-03-14T09:22:22.429Z",
-        // updatedAt: "2022-03-14T09:22:22.429Z",
-        // deletedAt: "2022-03-14T09:22:22.429Z",
         isDeletable: true,
         currentUserId: 0,
         isAdmin: true,
@@ -191,6 +169,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         console.log("updated res", ress);
         if (res.status == 200) {
           if (res.data.success == true) {
+            setTeamFormDisplay(true)
             toast.success(
               "Les données des employés ont été mises à jour avec succès"
             );
@@ -199,16 +178,8 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         console.log("updated res", res);
       });
     }
-    console.log("Team", team);
-    console.log("8888888888888888888888888888888", ress);
   };
-
   const UserRole = localStorage.getItem("roleSerial");
-  console.log("USER ROLE being saved in local storage", UserRole);
-
-  console.log("IMPORTED DATA on double click - TMform", importedData);
-  console.log("prefilled DATA on double click - TMform", prefilledData);
-  console.log(team);
   const store = Store();
   return (
     <>
@@ -240,12 +211,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           </div>
 
           <div className="input_cont">
-            {console.log("GROUP ID", prefilledData?.data?.groupId)}
-
             <label>Group</label>
-            {console.log("GROUP ID 2", team.groupId)}
-            {/*  disabled={store?.role == "2" || store?.role == "3"} */}
-            {console.log("GROUPS", groups)}
             <select
             className="dropdown-team-managment-form"
               disabled={
@@ -262,7 +228,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
               name="cars"
               id="cars"
             >
-              {console.log("GROUPS", groups)}
               <option selected disabled>
                 Select Group
               </option>
@@ -277,7 +242,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
         <div className="team_management_row">
           <div className="input_cont">
             <label>Service</label>
-            {console.log("HHHHHHHHHHHHH", services)}
             <select
               disabled={store?.role == "3" && prefilledData.length !== 0}
               value={
@@ -355,6 +319,7 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
           <div className="input_cont">
             <label>Email</label>
             <input
+            autoComplete="off"
              type="search"
               disabled={isDisabled}
               onChange={(e) => {
@@ -369,37 +334,13 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
             <input
              type="search"
               onChange={(e) => {
-                setTeam({ ...team, ["cellNo"]: e.target.value });
+                setTeam({ ...team, ["phoneNo"]: e.target.value });
               }}
               value={team.cellNo}
               placeholder="Enter Cell No"
             />
           </div>
-        </div>
-
-        {(() => {
-          if (!importedData) {
-            return <div className="field_seprator"></div>;
-          }
-        })()}
-
-        {(() => {
-          if (!importedData) {
-            return (
-              <div className="team_management_row">
-                <div className="input_cont">
-                  <label>Password</label>
-                  <input
-                  style={{width:"95%"}}
-                    type="password"
-                    value={team.password}
-                    onChange={(e) => {
-                      setTeam({ ...team, ["password"]: e.target.value });
-                    }}
-                    placeholder="Enter Password"
-                  />
-                </div>
-                <div className="input_cont">
+          <div style={{padding:"2% 0%"}} className="input_cont">
                   <label>Address</label>
                   <input
                    type="search"
@@ -410,6 +351,33 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
                     placeholder="Enter Address"
                   />
                 </div>
+                <div style={{padding:"2% 0%"}} className="input_cont">
+                  <label>Password</label>
+                  <input
+                  autoComplete="off"
+                  style={{width:"95%"}}
+                    type="password"
+                    value={team.password}
+                    onChange={(e) => {
+                      setTeam({ ...team, ["password"]: e.target.value });
+                    }}
+                    placeholder="Enter Password"
+                  />
+                </div>
+        </div>
+       
+        {(() => {
+          if (!importedData) {
+            return <div className="field_seprator"></div>;
+          }
+        })()}
+
+        {(() => {
+          if (!importedData) {
+            return (
+              <div className="team_management_row">
+               
+               
                 <div style={{ visibility: "hidden" }} className="input_cont">
                   <label>Cell No</label>
                   <input
@@ -423,10 +391,6 @@ const TeamManagmentForm = ({ importedData, prefilledData }) => {
             );
           }
         })()}
-
-        {/* <div>
-                <input required></input>
-            </div> */}
         <div className="field_seprator"></div>
         <div style={{ textAlign: "right", padding: "10px" }}>
           <Button
