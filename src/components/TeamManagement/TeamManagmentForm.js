@@ -122,7 +122,7 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
       team.empLastName
     ) {
       
-        console.log(data);
+        console.log("<><><><>>",data);
         api("post", "/api/v1/register", data).then((res) => {
           console.log("res register api", res);
           setTeamFormDisplay(true)
@@ -138,9 +138,6 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
           console.log("res", res);
         });
       
-    }
-    {
-      console.log("TEAM    ROLEID", team.roleId);
     }
     if (team.employeeId > 0) {
       const obj = {
@@ -161,9 +158,9 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
         isDeletable: true,
         currentUserId: 0,
         isAdmin: true,
+        postalAddress:team?.postalAddress
       };
-      console.log("TEAM 186   ROLEID", team.roleId);
-      console.log("obj", obj);
+      console.log("<>|||||||", obj);
       api("put", "/api/v1/Users/update", obj).then((res) => {
         setRess(res);
         console.log("updated res", ress);
