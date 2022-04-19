@@ -99,11 +99,13 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
   };
 
   const submitForm = (e) => {
+    console.log(team.employeeId);
     e.preventDefault();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     let data = {
       ...team,
+       employeeId:team.employeeId?team.employeeId:0,
       emailConfirmed: true,
       isActive: true,
       isValidated: true,
@@ -117,7 +119,7 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
       team.password &&
       team.groupId &&
       team.roleId &&
-      team.phoneNo &&
+      team.cellNo &&
       team.empFirstName &&
       team.empLastName
     ) {
