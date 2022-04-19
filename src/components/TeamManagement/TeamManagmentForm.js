@@ -3,7 +3,7 @@ import api from "../../api/index";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { Store } from "../../StoreContext";
-const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamFormDisplay }) => {
+const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamFormDisplay,getGridData }) => {
   let [sdis, setSdis] = useState([]);
   let [groups, setGroups] = useState([]);
   let [services, setServices] = useState([]);
@@ -128,8 +128,9 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
           setTeamFormDisplay(true)
           if (res?.status == 200) {
             if (res?.data.success == true) {
+              setTeamFormDisplay(true)
               toast.success("Employé ajouté avec succès");
-             
+              getGridData();
             }
             if (res?.data?.success == false) {
               toast.error(res?.data?.errorMessage[0])
@@ -166,6 +167,7 @@ const TeamManagmentForm = ({ importedData, prefilledData, creation,  setTeamForm
         console.log("updated res", ress);
         if (res.status == 200) {
           if (res.data.success == true) {
+            getGridData();
             setTeamFormDisplay(true)
             toast.success(
               "Les données des employés ont été mises à jour avec succès"

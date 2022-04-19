@@ -196,7 +196,6 @@ onSubmit={(values) => {
   };
    console.log(obj);
   api("put", "/api/v1/update_description_data", obj).then((res)=>{
-    console.log(res)
               toast.success(t("Successfull"));
               setButtonEnability((pre)=>{
                 return{

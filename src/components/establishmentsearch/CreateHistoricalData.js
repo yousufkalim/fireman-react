@@ -95,10 +95,9 @@ const CreateHistoricalData = ({
     //////for new cases
 
     if (store.activeCase === "newcase") {
-      console.log("newarr", newarr);
+      let toastShown = false;
       newarr.map((val) => {
         return new Promise((resolve, reject) => {
-          console.log("val", val);
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
               console.log("dfxgchvjb", res);
@@ -120,10 +119,10 @@ const CreateHistoricalData = ({
                   createhistoricaldata: true,
                 };
               });
-              {
+              if(!toastShown){
                 toast.success(t("Successfull"));
+                toastShown = true;
               }
-              console.log(res.data, "<>><><>/");
               let form_data = new FormData();
               form_data.append("docFile", val.image);
               form_data.append("historicalEventid", res.data);

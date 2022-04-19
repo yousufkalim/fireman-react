@@ -111,6 +111,7 @@ const StaffLevel = ({
         caseFileId:casefileId?casefileId:0
       }));
     if (store.activeCase === "newcase") {
+      let toastShown = false;
       console.log("stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)));
       api("put", "/api/v1/update_establishment_stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)))
         .then((res) => {
@@ -121,8 +122,9 @@ const StaffLevel = ({
              Rankingbutton:false
             }
           })
-          {
+          if(!toastShown){
             toast.success(t("Successfull"));
+            toastShown = true;
           }
           setToggler((pre) => {
             return {

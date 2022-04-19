@@ -31,15 +31,19 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
   ]);
   const [open, setOpen] = React.useState(false);
   useEffect(() => {
+    setTeamFormDisplay(true);
+    getGridData()
+  }, []);
+
+  const getGridData=()=>{
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
     console.log("userData", userData);
-    setTeamFormDisplay(true);
     api("get", `/api/v1/Users/getAll/${userData.Id}`).then((res) => {
       console.log("res", res);
       setUsersData(res);
     });
-  }, []);
+  }
   const MatEdit = ({ index }) => {
     const handleDeleteClick = () => {
       setOpen(true);
@@ -139,7 +143,6 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
     var loggedInUserDataID = localStorage.getItem("loggedInUser");
     api("get", `/api/v1/Users/userDetails/${loggedInUserDataID}`).then(
       (response) => {
-        console.log(response);
         setPrefilledData(response);
         setCreation(true)
       }
@@ -234,6 +237,7 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
           prefilledData={prefilledData}
           creation={creation}
           setTeamFormDisplay={setTeamFormDisplay}
+          getGridData={getGridData}
         />
       )}
     </>
