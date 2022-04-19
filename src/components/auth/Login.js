@@ -29,7 +29,7 @@ const updatestore = UpdateStore()
                 password: formInputs.password,
               })
                 .then((res) => {
-
+                  console.log(res);
                     setloading(false);
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
@@ -45,7 +45,12 @@ const updatestore = UpdateStore()
                   localStorage.setItem("userData", JSON.stringify(dataObj));
                    window.location = "/body";
                 })
-                .catch((err) => console.log(err));
+                .catch((err) =>{ 
+
+                    if(err){
+                        setloading(false);  
+                    }
+                });
         }else{
 
         }
