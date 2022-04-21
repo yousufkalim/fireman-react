@@ -28,14 +28,14 @@ const ChatSideBarTwo = (props) => {
           >
             <h2> Recent Chats</h2>
           </Box>
-          {console.log("props.chatList", props.chatList)}
           {props.chatList?.map((chat) => (
             <div
+            style={{maxHeight:"550px", overflow:"auto"}}
               className={AlertShow(chat.chatroom_id)}
               key={chat.chatroom_id}
               onClick={() => props.chatChange(chat)}
             >
-              <div className="online-users">
+              <div  className="online-users">
                 {/* <span id="dots" className={`${chat.isOnline? "dot":"dot-unactive" }`}></span> */}
                 <img className="profile-pic" src={ron} />
                 <p className="chat_user_name">{chat.chatroom_label}</p>

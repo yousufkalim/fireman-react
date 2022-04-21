@@ -131,9 +131,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
       establishmentId: establishmentid,
       caseFileId:casefileId
     };
-    console.log(newObj, "newObj");
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
-      console.log(res, "resranking");
       if(res.data===true){
       updatestore({
         activeNavbarTab: 2,

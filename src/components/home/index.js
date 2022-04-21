@@ -24,8 +24,8 @@ const Item = styled(Paper)(({ theme }) => ({
 const variants = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: "-100%" },
-}
-const Home = ({ handleClose, handleOpen, open}) => {
+};
+const Home = ({ handleClose, handleOpen, open }) => {
   const [activeBlock, setActiveBlock] = useState({
     main: true,
     itemone: false,
@@ -33,10 +33,10 @@ const Home = ({ handleClose, handleOpen, open}) => {
     itemthree: false,
   });
   let [counts, setCount] = useState();
-  const [prog, setProg] = useState()
-  const [animate, setAnimate] = useState(false)
+  const [prog, setProg] = useState();
+  const [animate, setAnimate] = useState(false);
   let [projects, setProjects] = useState([]);
-  const [loading, setloading] = useState(true)
+  const [loading, setloading] = useState(true);
   const update = UpdateStore();
 
   useEffect(() => {
@@ -50,7 +50,6 @@ const Home = ({ handleClose, handleOpen, open}) => {
       "get",
       `/api/v1/dashboard/casefiles_userwise_count_frontend/${userId?.userid}`
     ).then((res) => {
-      console.log("faisl", res);
       if (res.status == 200) {
         setCount(res.data);
       }
@@ -67,26 +66,25 @@ const Home = ({ handleClose, handleOpen, open}) => {
         userId && userId?.userid
       }`
     ).then((res) => {
-      console.log("faisl", res);
       if (res.status == 200) {
         setProjects(res.data);
-        setloading(false)
+        setloading(false);
       }
     });
   };
-  console.log("chgkjljhv",prog);
   return (
     <>
-      <Box sx={{ width: "88%", paddingLeft:"2%" }}>
+      <Box sx={{ width: "88%", paddingLeft: "2%" }}>
         {activeBlock.main ? (
           <>
             <Grid container>
               <Grid sx={{ marginBottom: "40px" }} item xs={12}>
-                <HomeLeft    
-                handleOpen={handleOpen}
-                open={open}
-                setActiveBlock={setActiveBlock} 
-                setProg={setProg}/>
+                <HomeLeft
+                  handleOpen={handleOpen}
+                  open={open}
+                  setActiveBlock={setActiveBlock}
+                  setProg={setProg}
+                />
               </Grid>
               {
                 <Grid className="cursor" item xs={4}>
@@ -107,13 +105,16 @@ const Home = ({ handleClose, handleOpen, open}) => {
                       src={Termines}
                       style={{ height: "99%", width: "89%" }}
                     />
-                      {console.log("<><><><<",counts)}
-                  {prog===0 ||prog===1|| !prog ?<div className="text">DOCUMENT TERMINÉ</div>:<div className="text">DOCUMENTS TERMINÉS</div> }
+                    {prog === 0 || prog === 1 || !prog ? (
+                      <div className="text">DOCUMENT TERMINÉ</div>
+                    ) : (
+                      <div className="text">DOCUMENTS TERMINÉS</div>
+                    )}
                   </div>
                 </Grid>
               }
               <Grid
-              className="cursor"
+                className="cursor"
                 onClick={() => {
                   setActiveBlock((pre) => {
                     return {
@@ -128,67 +129,70 @@ const Home = ({ handleClose, handleOpen, open}) => {
                 xs={4}
               >
                 <div className="DOSSIERS_text">
-                <img
-                  onClick={() => {
-                    setActiveBlock(() => {
-                      return {
-                        main: true,
-                        itemone: false,
-                        itemtwo: false,
-                        itemthree: false,
-                      };
-                    });
-                  }}
-                  style={{ height: "41vh", width: "90%" }}
-                  src={Cours3}
-                />
+                  <img
+                    onClick={() => {
+                      setActiveBlock(() => {
+                        return {
+                          main: true,
+                          itemone: false,
+                          itemtwo: false,
+                          itemthree: false,
+                        };
+                      });
+                    }}
+                    style={{ height: "41vh", width: "90%" }}
+                    src={Cours3}
+                  />
                   <div className="text">DOSSIERS EN COURS</div>
-                  {counts===0 ||counts===1|| !counts?<div className="text">DOSSIER EN COURS</div>:<div className="text">DOSSIERS EN COURS</div> }
+                  {counts === 0 || counts === 1 || !counts ? (
+                    <div className="text">DOSSIER EN COURS</div>
+                  ) : (
+                    <div className="text">DOSSIERS EN COURS</div>
+                  )}
                 </div>
-               
               </Grid>
               <Grid className="cursor" item xs={4}>
-              <Box  onClick={() => {
-                    update({ 
-                      activeNavbarTab: "searchestablishment", 
-                      tabindex:0, 
-                      unreadnotes:"",
-                      implantationvideodata:"",
-                      implantationcommentsdata:"",
-                      caseFileId:"" 
+                <Box
+                  onClick={() => {
+                    update({
+                      activeNavbarTab: "searchestablishment",
+                      tabindex: 0,
+                      unreadnotes: "",
+                      implantationvideodata: "",
+                      implantationcommentsdata: "",
+                      caseFileId: "",
                     });
-                  }} sx={{width:"100%", height:"100%"}} className="DOSSIERS_text">
-
-              <img
-                  style={{ height: "99%", width: "86%", borderRadius:"2%" }}
-                  src={bg}
-                />
-               <div className="text-nov">NOUVEAU DOSSIER</div>
-              </Box>
+                  }}
+                  sx={{ width: "100%", height: "100%" }}
+                  className="DOSSIERS_text"
+                >
+                  <img
+                    style={{ height: "99%", width: "86%", borderRadius: "2%" }}
+                    src={bg}
+                  />
+                  <div className="text-nov">NOUVEAU DOSSIER</div>
+                </Box>
               </Grid>
             </Grid>
           </>
         ) : null}
-        {activeBlock.itemone? (
-        
+        {activeBlock.itemone ? (
           <>
-          
-          <Box className="cross-icon"> 
-
-            <BackspaceSharpIcon
-             className="cursor"
-              onClick={() => {
-                setActiveBlock(() => {
-                  return {
-                    main: true,
-                    itemone: false,
-                    itemtwo: false,
-                    itemthree: false,
-                  };
-                });
-                setAnimate(true)
-              }}
-            />
+            <Box className="cross-icon">
+              <BackspaceSharpIcon
+                className="cursor"
+                onClick={() => {
+                  setActiveBlock(() => {
+                    return {
+                      main: true,
+                      itemone: false,
+                      itemtwo: false,
+                      itemthree: false,
+                    };
+                  });
+                  setAnimate(true);
+                }}
+              />
             </Box>
             <motion.div
               initial={{ opacity: 0, translateX: -100, translateY: -100 }}
@@ -241,44 +245,42 @@ const Home = ({ handleClose, handleOpen, open}) => {
         ) : null}
         {activeBlock.itemtwo ? (
           <>
-            <Box className="cross-icon"> 
-            <BackspaceSharpIcon
-             className="cursor"
-              sx={{ marginBottom: "10px" }}
-              onClick={() => {
-                setActiveBlock(() => {
-                  return {
-                    main: true,
-                    itemone: false,
-                    itemtwo: false,
-                    itemthree: false,
-                  };
-                });
-              }}
-            />
+            <Box className="cross-icon">
+              <BackspaceSharpIcon
+                className="cursor"
+                sx={{ marginBottom: "10px" }}
+                onClick={() => {
+                  setActiveBlock(() => {
+                    return {
+                      main: true,
+                      itemone: false,
+                      itemtwo: false,
+                      itemthree: false,
+                    };
+                  });
+                }}
+              />
             </Box>
-            <HomeRight 
-          
-            />
+            <HomeRight />
           </>
         ) : null}
         {activeBlock.itemthree ? (
           <>
-           <Box className="cross-icon"> 
-            <BackspaceSharpIcon
-             className="cursor"
-              onClick={() => {
-                setActiveBlock(() => {
-                  return {
-                    main: true,
-                    itemone: false,
-                    itemtwo: false,
-                    itemthree: false,
-                  };
-                });
-              }}
-            />
-             </Box> 
+            <Box className="cross-icon">
+              <BackspaceSharpIcon
+                className="cursor"
+                onClick={() => {
+                  setActiveBlock(() => {
+                    return {
+                      main: true,
+                      itemone: false,
+                      itemtwo: false,
+                      itemthree: false,
+                    };
+                  });
+                }}
+              />
+            </Box>
           </>
         ) : null}
       </Box>

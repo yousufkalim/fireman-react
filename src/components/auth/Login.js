@@ -13,6 +13,7 @@ import ForgetPassword from './ForgetPassword'
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 const Login = () => {
     
 const [formInputs,setFormInputs]=useState({email:"",password:""});
@@ -29,7 +30,6 @@ const updatestore = UpdateStore()
                 password: formInputs.password,
               })
                 .then((res) => {
-                  console.log(res);
                     setloading(false);
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
@@ -46,7 +46,6 @@ const updatestore = UpdateStore()
                    window.location = "/body";
                 })
                 .catch((err) =>{ 
-
                     if(err){
                         setloading(false);  
                     }

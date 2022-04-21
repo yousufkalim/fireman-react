@@ -29,8 +29,6 @@ const Profile = () => {
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
       .then((res) => {
-        console.log("resprofile", res.data);
-
         if (res.status === 401) {
           localStorage.removeItem("userData");
           window.location = "/login";

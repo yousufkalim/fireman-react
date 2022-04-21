@@ -6,12 +6,6 @@ import Leftarrow from "../../assets/leftarrow.png";
 import Floppy from "../../assets/floppy.png";
 import { IconButton } from '@mui/material';
 import api from '../../api/index'
-
-
-
-
-
-
 const Implantation = (props) => {
     let [accordionData, setAccordionData] = useState([])
     useEffect(() => {
@@ -19,7 +13,6 @@ const Implantation = (props) => {
     }, [])
     const TabClick = () => {
         api("get", `/api/v1/checkList/tabs_checklist/${1}`).then((res) => {
-            console.log("res impl",res);
             if (res.status == 200) {
                 setAccordionData(res.data)
             }

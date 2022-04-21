@@ -37,7 +37,6 @@ const EstablishmentSearchVisitForm = ({
   setButtonEnability
 }) => {
   useEffect(() => {
-    console.log(":",visit);
     const ab = visit
       ?.map((val) =>
         val.chkList
@@ -87,7 +86,6 @@ const EstablishmentSearchVisitForm = ({
   const handleChange = (e, sectiontype, sentence) => {
     const checked = e.target.checked;
     const id = e.target.id;
-       console.log(visit,"rdxfghjk");
     if (checked) {
       const obj = {
         caseFileCheckListId: parseInt(id),
@@ -141,9 +139,6 @@ const EstablishmentSearchVisitForm = ({
   const updatestore = UpdateStore();
   const handleClose = () => setOpen(false);
   const saveChanges = (sentence, sentenceId, nature, seriesname) => {
-    console.log("sentence", sentence);
-    console.log("sentence", sentenceId);
-    console.log("study",visit);
     const newdata = []
      let new2 = [];
      newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
@@ -170,10 +165,6 @@ const EstablishmentSearchVisitForm = ({
         new2 = state.visitcheck.findIndex(
           (s) => s.caseFileCheckListId === i.caseFileCheckListId
         );
-        console.log("check");
-        console.log("new2", new2);
-        console.log("state.check",state.visitcheck);
-       
         if(new2>-1){
         state.visitcheck[new2].completedSentence = sentence;
         }
@@ -181,14 +172,9 @@ const EstablishmentSearchVisitForm = ({
     }
     setText("")
   };
-
-  console.log("fghj", state.visitcheck);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("}{}{}",checkboxObj);
     if (store.activeCase==="newcase") {
-      console.log("newcses");
-      console.log("checkbox", checkboxObj);
       api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
         .then((res) => {
           {
@@ -214,7 +200,6 @@ const EstablishmentSearchVisitForm = ({
         .catch((err) => toast.error(err?.statusText));
     }
     if (store.activeCase  === "currentcases") {
-      console.log(state.visitcheck,"current");
       api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
         caseFileId:currentcasescaseFileId,
         sectionType:1
@@ -261,7 +246,6 @@ const EstablishmentSearchVisitForm = ({
                               setText(val?.name);
                               setId(val?.caseFileCheckListId)
                             }
-                             console.log(val.name);
                             }
                           }
                             type="checkbox"

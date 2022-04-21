@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../../api/index";
 import { Store, UpdateStore } from "../../../../StoreContext";
@@ -15,8 +14,6 @@ import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import scrollStyles from '../../../../components/ScrollBarStyle'
-
-
 
 const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
@@ -35,9 +32,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
   const store = Store();
   let userId = localStorage.getItem("userData");
   userId = JSON.parse(userId);
-  console.log("))))))))userId?.userid", userId?.userid);
-  console.log("((((((((store?.role", store?.role);
-
   useEffect(() => {
     getCurrentCasesData()
   }, []);
@@ -62,7 +56,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     });
   }
   const MatEdit = ({ text,params }) => {
-    console.log(params,"params");
     return (
       <>
       {
@@ -86,8 +79,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
                     `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
                   )
                     .then((res) => {
-                      console.log(res, "validate");
-    
                       if (res?.data === true) {
                         toast.success(t("Successfull"));
                         getCurrentCasesData();
@@ -105,8 +96,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
                     `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
                   )
                     .then((res) => {
-                      console.log(res, "validate");
-    
                       if (res?.data === true) {
                         toast.success(t("Successfull"));
                         getCurrentCasesData();
@@ -220,9 +209,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     },
 
   ];
-console.log(currentcasesData,"currentcasesData");
   const onRowClick = (params) => {
-    console.log(params.row.val);
     updatestore({
       establishmentId: params.row.val.establishmentId,
       caseFileId: params.row.val.caseFileId,
@@ -258,10 +245,6 @@ console.log(currentcasesData,"currentcasesData");
           establishmentId: params.row.val.establishmentId,
         });
       }
-     
-    //  if(!params.row.val.chapterIndex){
-    //   toast.error("L'onglet Overture and Establishment est incomplet")
-    //  }
     setIndexdata(() => {
       return {
         sectionindex: params.row.val.sectionIndex,
@@ -269,11 +252,6 @@ console.log(currentcasesData,"currentcasesData");
         establishmentId: params.row.val.establishmentId,
       };
     });
-    console.log(
-      "params.row.val.establishmentId",
-      params.row.val.establishmentId
-    );
-    console.log("params.row.val.caseFileId", params.row.val.caseFileId);
     api(
       "get",
       `/api/v1/casefiles/get_open_foldercreation/${params.row.val.establishmentId}/${params.row.val.caseFileId}`
@@ -288,7 +266,6 @@ console.log(currentcasesData,"currentcasesData");
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  console.log(pageSize,"pageSize");
   return (
     <>
       {folderCreationData.length !== 0 && CompName=="currentcases"? (

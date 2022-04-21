@@ -38,16 +38,13 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
   const getGridData=()=>{
     var token = localStorage.getItem("userData");
     const userData = jwt(token);
-    console.log("userData", userData);
     api("get", `/api/v1/Users/getAll/${userData.Id}`).then((res) => {
-      console.log("res", res);
       setUsersData(res);
     });
   }
   const MatEdit = ({ index }) => {
     const handleDeleteClick = () => {
       setOpen(true);
-      //showDeleteModal(1012);
     };
     return (
       <FormControlLabel

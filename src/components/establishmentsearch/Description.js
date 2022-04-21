@@ -80,11 +80,6 @@ const Description = ({ values, onSubmit, description, buttonEnability }) => {
   const onSubmitFields = () => {
     onSubmit(values, inputValues);
   };
-  
- 
-  
-  console.log("description",description);
-  console.log("values",values);
   return (
     <>
       <Box

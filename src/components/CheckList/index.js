@@ -29,7 +29,6 @@ const CheckList = (props) => {
   const [checklists, setchecklists] = React.useState(
     props.accordionData.checkList && props.accordionData.checkList
   );
-  console.log("series",props.accordionData);
   const handleOpen = (data, i) => {
     setOpen(true);
     setChecklistdata({ ...data, id: i });
@@ -37,22 +36,12 @@ const CheckList = (props) => {
 
   const handleClose = () => setOpen(false);
   const saveChanges = (sentence, sentenceId, nature, seriesname, sectiontype, serialid) => {
-    console.log("sentence", serialid);
-    console.log("seriesnme", seriesname);
     const objIndex = checklists.findIndex(
       (obj) => obj?.sectionSentencesId === sentenceId
     );
     checklists[objIndex].sentenceText = sentence;
     props.getModifiedSentence(sentence, sentenceId, nature, seriesname,serialid);
-    //    let a= checklists.map((data,i)=>{
-    //        let dat={}
-    //       if((props.accordionData.serialName+i)==checklistdata.id){
-    //           dat={...data,sentenceText:sentence}
-    //       }
-    //       return data
-    //     })
   };
-
   let newdata = [];
   let new2=[]
   const newarray = props?.alreadyChecked.map((val)=>{
@@ -66,14 +55,12 @@ const CheckList = (props) => {
             }
     })    
   })
-  console.log("newdata",newdata);
    newdata.map((i) => {
     new2 = checklists.findIndex(
       (s) => s.sectionSentencesId === i.sectionSentencesId
     );
     checklists[new2] = i;
   });
-  console.log("checklistparent", checklists);
   return (
     <>
     {
@@ -128,53 +115,28 @@ const CheckList = (props) => {
                         props.accordionData.serialName,
                         data.sentenceNature,
                         props.accordionData.serialId
-                        //props.sectionid
                       );
                     }
-                    console.log("data.subchecks", data);
-                    console.log("index", i);
-                    //setChacked(props.accordionData.serialName + i)
                     if (data.sentenceNature === 0) {
                       setSubcheck("");
-                      // setSentenceDetails(()=>{
-                      //     return{
-                      //         seriesname:props.accordionData.serialName,
-                      //         sentenceNature:data.sentenceNature,
-                      //         text:data.sentenceText,
-                      //         id:data.sectionSentencesId
-                      //     }
-
-                      // })
                       props.getSubCheckListData(
                         "0",
                         "",
                         "",
                         props.accordionData.serialName,
-                        //props.sectionid
                         props.accordionData.serialId
                       );
                     }
                     if (data.sentenceNature === 1) {
-                      console.log(data.sectionSentencesId);
                       handleOpen(data, props.accordionData.serialName + i);
                       setIndex(i);
                       setChacked(props.accordionData.serialName + i);
                       setSubcheck("");
-                      //    setSentenceDetails(()=>{
-                      //         return{
-                      //             seriesname:props.accordionData.serialName,
-                      //             sentenceNature:data.sentenceNature,
-                      //             text:data.sentenceText,
-                      //             id:data.sectionSentencesId
-                      //         }
-
-                      //     })
                       props.getSubCheckListData(
                         "0",
                         "",
                         "",
                         props.accordionData.serialName,
-                        //props.sectionid
                         props.accordionData.serialId
                       );
                     }
@@ -193,10 +155,6 @@ const CheckList = (props) => {
                       };
                     });
                     setSubCheckData(data.subchecks);
-                    console.log(
-                      "sentenceStatus.incomplete<>><",
-                      sentenceStatus.incomplete
-                    );
                   }}
                   classes={{ root: "custom-checkbox-root" }}
                 />

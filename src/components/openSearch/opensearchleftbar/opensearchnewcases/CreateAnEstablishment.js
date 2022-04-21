@@ -51,7 +51,6 @@ const CreateAnEstablishment = () => {
       zipCode: cp,
       cityId: commune,
     };
-    console.log("CCCCC", data);
     if (
       establishmentName &&
       refnum &&
@@ -64,8 +63,6 @@ const CreateAnEstablishment = () => {
     ) {
       api("post", "/api/v1/create_generaldata_establishment", data).then(
         (res) => {
-          console.log("res createggg establishment api", res);
-          console.log(data, "[]");
           if (res.data == "-1") {
             {
               toast.error("Establishment already created");
@@ -74,11 +71,8 @@ const CreateAnEstablishment = () => {
             toast.success("Establishment Created");
             update({ activeNavbarTab: "searchestablishment"});
           }
-
-          console.log("res create establishment api", res);
         }
       );
-      console.log("API");
     }
   };
 
@@ -107,13 +101,6 @@ const CreateAnEstablishment = () => {
         };
       })
     );
-
-    // api(
-    //   "get",
-    //   `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
-    // ).then((res) => {
-    //   setHistoricalDataEstablishment(res.data);
-    // });
   }, []);
   return (
     <>

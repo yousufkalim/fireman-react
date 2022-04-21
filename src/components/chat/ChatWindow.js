@@ -11,9 +11,6 @@ const ChatWindow = (props) => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(scrollToBottom, [props.chat]);
-
-  // console.log("chat", props.chat);
-  // console.log("activeChat",props.activeChat?.chatroom_label);
   const chat = props.chat.map((m) => (
     // <Message
     //     key={Date.now() * Math.random()}

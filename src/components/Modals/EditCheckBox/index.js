@@ -8,11 +8,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import parse from 'html-react-parser';
-
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -57,10 +54,8 @@ let [sentence,setSentence]=React.useState((props.accordionData?.sentenceText?pro
    useEffect(() => {
     var re = /[_]+/g;
         if(props.accordionData?.sentenceText){
-          console.log((props?.accordionData&&props.accordionData?.sentenceText.match(re) || []).join(''));
         }
    }, [props]);
-   console.log("props.accordionData",props.seriesName);
     return (
         <div>
 
@@ -94,35 +89,11 @@ let [sentence,setSentence]=React.useState((props.accordionData?.sentenceText?pro
                         onKeyDown={(editor)=>{console.log(editor.getData())}}
                         onChange={(event, editor) => {
                                console.log( editor.selectionStart);
-                            // if(editor.commands._commands.delete){
-                            //     alert("yes")
-                            // }
-                            //console.log(CKEDITOR);
-                            // console.log(editor.getData());
                             const data = editor.getData();
                             setSentence(data)
                         }}
                     />
-                    {/* <textarea style={{height:"200px"}} 
-                    onKeyDown={(e)=>{
-                        const value= e.target.selectionStart;
-                        console.log(e.target.value[value-1])
-                          if(e.keyCode===8){
-                              if(e.target.value[value-1]!="_"){
-                                e.preventDefault();
-                              }
-                             
-                          }
-                    }}
-                    onChange={(e)=>{
-                        console.log("e.keyCode");
-                        setSentence(e.target.value)
-                        //const value= e.target.selectionStart; 
-                        //console.log(e.target.value[value-1])
-                        }} defaultValue={props.accordionData.sentenceText}/> */}
                     </div>
-                  {console.log("se",sentence)}
-                  {console.log("sectionType",props.sectionType)}
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={()=>{

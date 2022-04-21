@@ -20,9 +20,6 @@ const api = async (method = "get", uri, body) => {
             localStorage.removeItem("userData");
             window.location = "/login";
           }
-          if(err.response===undefined){
-            toast.error("No Internet")
-          }
           reject(err);
         }
       });

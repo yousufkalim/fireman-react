@@ -36,10 +36,7 @@ const FolderCreationSection = ({
   currentcasescommisionDate,
 }) => {
   const { t } = useTranslation();
-  console.log(compShow);
-
   const store = Store();
-
   const [loading, setloading] = useState(true);
   const [Studydata, setStudydata] = useState([]);
   const [dropdownValue, setdropdownValue] = useState({
@@ -52,10 +49,6 @@ const FolderCreationSection = ({
     inputsvalue: {},
   });
   const [Toggler, setToggler] = useState({
-    // togglermain: store.activeCase==="newcase"? true : false,
-    // togglerstudy: store.activeCase==="newcase"  || (store?.sectionindex === 1 && store?.tabindex===1) ? true : false,
-    // togglerstudytwo: store.activeCase==="newcase" || compShow || ((store?.sectionindex === 1 || store?.sectionindex === 2) && store?.tabindex===1) ? true: false,
-    // togglervisit: store.activeCase==="newcase" || (store?.sectionindex === 1 && store?.tabindex===1)? true : false,
     togglermain: false,
     togglerstudy: false,
     togglerstudytwo: false,
@@ -289,7 +282,6 @@ const FolderCreationSection = ({
     );
   }, [dropdownValue]);
 const getIndexData =()=>{
-  console.log("hit", store);
   api(
     "get",
     `/api/v1/casefiles/rolewise_cases/${store?.role}/${store?.userId}/1`
@@ -314,7 +306,6 @@ const getIndexData =()=>{
       };
     });
   };
-  console.log(inputValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     ////////////for new cases//////////
@@ -322,22 +313,6 @@ const getIndexData =()=>{
       let caseFileId = localStorage.getItem("establishmentid");
       let userdata = localStorage.getItem("userData");
       userdata = JSON.parse(userdata);
-      // if(inputValues.studyTypeId){
-      //   setInputValues((preVal) => {
-      //     return {
-      //       ...preVal,
-      //       visitTypeId: 0,
-      //     };
-      //   });
-      // }
-      // if(inputValues.visitTypeId){
-      //   setInputValues((preVal) => {
-      //     return {
-      //       ...preVal,
-      //       studyTypeId: 0,
-      //     };
-      //   });
-      // }
       const formdata = {
         ...inputValues,
         caseFileId: caseFileId,
@@ -354,8 +329,6 @@ const getIndexData =()=>{
       };
 
       if (store.activeCase === "newcase") {
-        console.log("post", inputValues);
-        console.log("formdata", formdata);
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
           .then((res) => {
             getIndexData();
@@ -403,9 +376,7 @@ const getIndexData =()=>{
       }
     }
     ////////////for current cases update//////////
-    console.log(store);
     if (store.activeCase === "currentcases") {
-      console.log(inputValues.studyTypeId);
       let userId = localStorage.getItem("userData");
       userId = JSON.parse(userId);
       const updatedObj = {
@@ -420,11 +391,8 @@ const getIndexData =()=>{
           ? inputValues.commisionDate
           : currentcasescommisionDate,
       };
-      console.log("updatedObj", updatedObj);
-
       api("put", "/api/v1/casefiles/update_open_foldercreation", updatedObj)
         .then((res) => {
-          console.log(res, "fcghv");
           setInputValues((preVal) => {
             return {
               ...preVal,
@@ -453,7 +421,6 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    console.log("", checkboxObj);
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
@@ -462,7 +429,6 @@ const getIndexData =()=>{
         : checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
-        console.log("responcecheckbox", res);
         setCheckBoxRes(res.status);
         if (data === "studytwo") {
           setToggler((pre) => {

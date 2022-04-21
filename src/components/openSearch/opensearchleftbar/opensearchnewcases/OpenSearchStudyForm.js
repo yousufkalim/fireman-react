@@ -49,7 +49,6 @@ const EstablishmentSearchStudyForm = ({
 }) => {
   const { t } = useTranslation();
   const store = Store();
-  console.log(Studydata);
   const updatestore = UpdateStore();
   const [open, setOpen] = React.useState(false);
   const [subCheck, setSubcheck] = React.useState("");
@@ -100,7 +99,6 @@ const EstablishmentSearchStudyForm = ({
   });
   useEffect(() => {
     ///////for townplanning checkboxes
-    console.log(townplanning, "townplanning");
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -127,7 +125,6 @@ const EstablishmentSearchStudyForm = ({
         })
       );
     let merged = [].concat.apply([], ab);
-    console.log(merged, "merged<>?");
     setstate((pre) => {
       return {
         ...pre,
@@ -143,10 +140,7 @@ const EstablishmentSearchStudyForm = ({
     });
     ///////for townplanning checkboxes
   }, [townplanning]);
-
-  console.log(state.check);
   useEffect(() => {
-    console.log(study);
     const studycheckboxes = study
       ?.map((val) =>
         val.chkList
@@ -173,7 +167,6 @@ const EstablishmentSearchStudyForm = ({
         })
       );
     let mergedstudy = [].concat.apply([], studycheckboxes);
-    console.log(mergedstudy, "fgchvjbkjn");
     setstate((pre) => {
       return {
         ...pre,
@@ -188,8 +181,6 @@ const EstablishmentSearchStudyForm = ({
       };
     });
   }, [study]);
-
-  console.log(state.studycheck, "171");
   useEffect(() => {
     setFormValues({
       originId: Studydata?.data?.originId
@@ -316,14 +307,12 @@ const EstablishmentSearchStudyForm = ({
 
       //////for new cases add checkboxes
       if (store.activeCase === "newcase") {
-        console.log("called compshow");
         setCheckboxObj((pre) => [...pre, obj]);
       }
     }
     if (!checked) {
       setOpen(false);
       if (store.activeCase === "newcase") {
-        console.log("called compshow");
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
@@ -365,7 +354,6 @@ const EstablishmentSearchStudyForm = ({
     seriesname,
     sectiontype
   ) => {
-    console.log("sectiontype", sectiontype);
     const newdata = [];
     let new2 = [];
     newdata.push({
@@ -377,28 +365,17 @@ const EstablishmentSearchStudyForm = ({
         new2 = checkboxObj.findIndex(
           (s) => s.caseFileCheckListId === i.caseFileCheckListId
         );
-        console.log("sectiontype", sectiontype);
-        console.log("new2", new2);
-        console.log("checkboxObj", checkboxObj);
-        console.log("townplanning", townplanning);
-        console.log("state.check", state.check);
         if (new2 > -1) {
           checkboxObj[new2].completedSentence = sentence;
         }
       });
     }
-
-    console.log(state.check, "{}");
     if (store.activeCase === "currentcases") {
       if (sectiontype !== 2) {
         newdata.map((i) => {
           new2 = state.check.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
           );
-          console.log("check");
-          console.log("new2", new2);
-          console.log("state.check", state.check);
-          console.log("state.studycheck", state.studycheck);
           if (new2 > -1) {
             state.check[new2].completedSentence = sentence;
           }
@@ -410,10 +387,6 @@ const EstablishmentSearchStudyForm = ({
           new2 = state.studycheck.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
           );
-          console.log("studycheck");
-          console.log("new2", new2);
-          console.log("state.check", state.check);
-          console.log("state.studycheck", state.studycheck);
           if (new2 > -1) {
             state.studycheck[new2].completedSentence = sentence;
           }
@@ -426,7 +399,6 @@ const EstablishmentSearchStudyForm = ({
         const a = val.chkList.findIndex(
           (obj) => obj?.caseFileCheckListId === sentenceId
         );
-        console.log(a, "index");
         if (a > -1) {
           val.chkList[a].name = sentence;
         }
@@ -438,7 +410,6 @@ const EstablishmentSearchStudyForm = ({
         const a = val.chkList.findIndex(
           (obj) => obj?.caseFileCheckListId === sentenceId
         );
-        console.log(a, "index");
         if (a > -1) {
           val.chkList[a].name = sentence;
         }
@@ -446,8 +417,6 @@ const EstablishmentSearchStudyForm = ({
     );
     setText("");
   };
-  console.log(state.check, "385");
-  console.log("sectionType", sectionType);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
@@ -456,7 +425,6 @@ const EstablishmentSearchStudyForm = ({
         ? casefileId
         : currentcasescaseFileId?.data?.caseFileId,
     };
-    console.log(currentcasescaseFileId);
     api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
       .then((res) => {
         setButtonEnability((pre) => {
@@ -466,12 +434,9 @@ const EstablishmentSearchStudyForm = ({
           };
         });
         if (store.activeCase === "newcase") {
-          console.log("called compshow");
           postCheckboxesData("townplanning");
         }
         if (store.activeCase === "currentcases") {
-          console.log(state.check, "state.check");
-          console.log("called courrent");
           api(
             "post",
             `/api/v1/casefiles/save_casefile_checklist`,
@@ -509,7 +474,6 @@ const EstablishmentSearchStudyForm = ({
   };
 
   const handleSubmitdetailsobj = (e) => {
-    console.log(">?", state.studycheck);
     e.preventDefault();
     if (store.activeCase === "currentcases") {
       api(
@@ -538,9 +502,6 @@ const EstablishmentSearchStudyForm = ({
       postCheckboxesData("studytwo");
     }
   };
-
-  console.log("|||||||", townplanning);
-  console.log("|||||||study", study);
   return (
     <>
       <Box
@@ -811,7 +772,6 @@ const EstablishmentSearchStudyForm = ({
                           padding: "10px",
                         }}
                       ></Box>
-                      {console.log(townplanning, "townplanning")}
                       {townplanning?.map((item, i) => (
                         <>
                           <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
@@ -981,7 +941,6 @@ const EstablishmentSearchStudyForm = ({
                             </label>
                           </Box>
                           <Divider />
-                          {console.log("716", item?.chkList)}
                           {item?.chkList?.map((val) => (
                             <div class="container">
                               <div class="group">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 // import useState from 'react-usestateref'
 import Button from "@mui/material/Button";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
-import don from '../../assets/donne.svg'
+import don from "../../assets/donne.svg";
 import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
@@ -31,7 +31,7 @@ const StaffLevel = ({
   Icon,
   casefileId,
   buttonEnability,
-  setButtonEnability
+  setButtonEnability,
 }) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
@@ -40,8 +40,7 @@ const StaffLevel = ({
     staffdata: "",
   });
   const [state, setstate] = useState(false);
-  const [loading, setLoading] = useState(true)
-  var [txt,setText]=useState(0)
+  var [txt, setText] = useState(0);
   const [people, setpeople] = useState([
     {
       id: generate(),
@@ -66,24 +65,22 @@ const StaffLevel = ({
         };
       });
     });
-      api(
-        "get",
-        `/api/v1/get_establishment_stafftable/${
-          establishmentid ? establishmentid : store.establishmentId
-        }`
-      ).then((res) => {
-        console.log(res,"response");
-        setpeople(
-          res.data.map((val) => {
-            return {
-              ...val,
-              id: generate(),
-            };
-          })
-        );
-        setLoading(false)
-      });
-    
+    api(
+      "get",
+      `/api/v1/get_establishment_stafftable/${
+        establishmentid ? establishmentid : store.establishmentId
+      }`
+    ).then((res) => {
+      setpeople(
+        res.data.map((val) => {
+          return {
+            ...val,
+            id: generate(),
+          };
+        })
+      );
+    });
+
     api("get", "/api/v1/stafflevel_rule/dropdown").then((res) => {
       setdropdownValue((pre) => {
         return {
@@ -107,22 +104,26 @@ const StaffLevel = ({
         staffInfo: parseInt(val.staffInfo),
         staffLevelId: parseInt(val.staffLevelId),
         staffLevelRuleId: parseInt(val.staffLevelRuleId),
-        tableOfStaffDetailsId: val.tableOfStaffDetailsId?val.tableOfStaffDetailsId:0,
-        caseFileId:casefileId?casefileId:0
+        tableOfStaffDetailsId: val.tableOfStaffDetailsId
+          ? val.tableOfStaffDetailsId
+          : 0,
+        caseFileId: casefileId ? casefileId : 0,
       }));
     if (store.activeCase === "newcase") {
       let toastShown = false;
-      console.log("stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)));
-      api("put", "/api/v1/update_establishment_stafftable", newArr.filter((val)=>(val.areaAccesibleToPublic!=undefined)))
+      api(
+        "put",
+        "/api/v1/update_establishment_stafftable",
+        newArr.filter((val) => val.areaAccesibleToPublic != undefined)
+      )
         .then((res) => {
-          console.log(res);
-          setButtonEnability((pre)=>{
-            return{
-             ...pre,
-             Rankingbutton:false
-            }
-          })
-          if(!toastShown){
+          setButtonEnability((pre) => {
+            return {
+              ...pre,
+              Rankingbutton: false,
+            };
+          });
+          if (!toastShown) {
             toast.success(t("Successfull"));
             toastShown = true;
           }
@@ -192,10 +193,14 @@ const StaffLevel = ({
         }}
       >
         <Typography variant="h6">{t("Staff table")}</Typography>
-        {Icon.iconstafflevel ?  <img src={don}/> : null}
+        {Icon.iconstafflevel ? <img src={don} /> : null}
       </Box>
       <Accordion
-        sx={{ margin: "10px auto !important",borderRadius:"10px",width:"97.5%" }}
+        sx={{
+          margin: "10px auto !important",
+          borderRadius: "10px",
+          width: "97.5%",
+        }}
         expanded={Toggler.togglerstafflevel ? true : false}
       >
         <AccordionSummary
@@ -205,7 +210,7 @@ const StaffLevel = ({
         ></AccordionSummary>
         <AccordionDetails>
           <Item
-           className="scroll-styling"
+            className="scroll-styling"
             ref={focusPoint}
             sx={{
               boxShadow: "none",
@@ -215,7 +220,7 @@ const StaffLevel = ({
               margin: "auto",
             }}
           >
-            <Box  className="scroll-styling" sx={{ overflow: "scroll" }}>
+            <Box className="scroll-styling" sx={{ overflow: "scroll" }}>
               <table class="table">
                 <thead>
                   <Box>
@@ -338,282 +343,143 @@ const StaffLevel = ({
                     </tr>
                   </Box>
                   <Box></Box>
-                  {console.log("peop", people)}
-                  {people && people?.map((p, i) => {
-                    return (
-                      <Box
-                        id="row"
-                        ref={containerRef}
-                        sx={{
-                          margin: "10px 0px",
-                          padding: "0px 10px 10px 10px",
-                          background: "#FFFFFF",
-                          border: "1px solid #EBEFF2",
-                          boxSizing: "border-box",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        <tr class="tr-inputs">
-                          <th>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <select
-                                defaultValue={people && p?.staffLevelId}
-                                className="field-width-staff"
-                                key={p.id}
-                                onChange={(e) => {
-                                  console.log(e.target.value)
-                                  console.log(parseInt(e.target.value));
-                                 const a  = people.map((val)=>{
-                                   return{
-                                     id: val.staffLevelId,
-                                   }
-                                 }   
-                                 ).filter((val)=>(
-                                       val.id!=""
-                                 )).map((value)=>{
-                                   return value.id
-                                 }).at(-1)
-                                 const b = dropdownValue.leveldropdown.filter((val)=>(
-                                           val.value==a
-                                 )).map((val)=>(
-                                      val.text
-                                 ))
-                                  const slcttext = e.target.selectedOptions[0];
-                                  const selecttext = slcttext.text;
-                                  console.log("slcttext",slcttext);
-                                  console.log("selecttext",selecttext);
-                                  console.log("people",people);
-                                  if(selecttext!="Choisissez s'il vous plaît"){
-                                      setText(selecttext)
-                                  }console.log(txt, "checkref");
-                                  if (
-                                    people[i - 1]?.staffLevelId === parseInt(e.target.value) ||
-                                    people[i - 1]?.staffLevelId === undefined ||
-                                    people[i - 1]?.staffLevelId === "" ||
-                                    parseInt(e.target.value) === "" ||
-                                    e.target.value ===""
-                                  ) {
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              staffLevelId: parseInt(e.target.value),
-                                              textselect: selecttext,
-                                            }
-                                          : x
-                                      )
-                                    );
-                                  } else if (
-                                    people[i - 1]?.staffLevelId !==
-                                    parseInt(e.target.value)
-                                  ) {
-                                    console.log("selecttext",selecttext)
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              staffLevelId: undefined || "",
-                                              textselect: selecttext,
-                                            }
-                                          : x
-                                      )
-                                    );
-                                    let pblic = parseInt(
-                                      people.reduce(
-                                        (acc, obj) =>
-                                          acc +
-                                          parseInt(
-                                            obj.publicInfo === undefined ||
-                                              obj.publicInfo === ""
-                                              ? parseInt(0)
-                                              : parseInt(obj.publicInfo)
-                                          ),
-                                        0
-                                      )
-                                    );
-                                    let personnel = parseInt(
-                                      people.reduce(
-                                        (acc, obj) =>
-                                          acc +
-                                          parseInt(
-                                            obj.staffInfo === undefined ||
-                                              obj.staffInfo === ""
-                                              ? parseInt(0)
-                                              : parseInt(obj.staffInfo)
-                                          ),
-                                        0
-                                      )
-                                    );
-                                    // let total = parseInt(
-                                    //   people.reduce(
-                                    //     (acc, obj) =>
-                                    //       acc +
-                                    //       parseInt(
-                                    //         obj.total === undefined ||
-                                    //           obj.total === ""
-                                    //           ? parseInt(0)
-                                    //           : parseInt(obj.total)
-                                    //       ),
-                                    //     0
-                                    //   )
-                                    // );
-                                    let total = pblic + personnel
-                                    setstate(true);
-                                    containerRef.current.innerHTML = `
+                  {people &&
+                    people?.map((p, i) => {
+                      return (
+                        <Box
+                          id="row"
+                          ref={containerRef}
+                          sx={{
+                            margin: "10px 0px",
+                            padding: "0px 10px 10px 10px",
+                            background: "#FFFFFF",
+                            border: "1px solid #EBEFF2",
+                            boxSizing: "border-box",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <tr class="tr-inputs">
+                            <th>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <select
+                                  defaultValue={people && p?.staffLevelId}
+                                  className="field-width-staff"
+                                  key={p.id}
+                                  onChange={(e) => {
+                                    const a = people
+                                      .map((val) => {
+                                        return {
+                                          id: val.staffLevelId,
+                                        };
+                                      })
+                                      .filter((val) => val.id != "")
+                                      .map((value) => {
+                                        return value.id;
+                                      })
+                                      .at(-1);
+                                    const b = dropdownValue.leveldropdown
+                                      .filter((val) => val.value == a)
+                                      .map((val) => val.text);
+                                    const slcttext =
+                                      e.target.selectedOptions[0];
+                                    const selecttext = slcttext.text;
+                                    if (
+                                      selecttext != "Choisissez s'il vous plaît"
+                                    ) {
+                                      setText(selecttext);
+                                    }
+                                    if (
+                                      people[i - 1]?.staffLevelId ===
+                                        parseInt(e.target.value) ||
+                                      people[i - 1]?.staffLevelId ===
+                                        undefined ||
+                                      people[i - 1]?.staffLevelId === "" ||
+                                      parseInt(e.target.value) === "" ||
+                                      e.target.value === ""
+                                    ) {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                staffLevelId: parseInt(
+                                                  e.target.value
+                                                ),
+                                                textselect: selecttext,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                    } else if (
+                                      people[i - 1]?.staffLevelId !==
+                                      parseInt(e.target.value)
+                                    ) {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                staffLevelId: undefined || "",
+                                                textselect: selecttext,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                      let pblic = parseInt(
+                                        people.reduce(
+                                          (acc, obj) =>
+                                            acc +
+                                            parseInt(
+                                              obj.publicInfo === undefined ||
+                                                obj.publicInfo === ""
+                                                ? parseInt(0)
+                                                : parseInt(obj.publicInfo)
+                                            ),
+                                          0
+                                        )
+                                      );
+                                      let personnel = parseInt(
+                                        people.reduce(
+                                          (acc, obj) =>
+                                            acc +
+                                            parseInt(
+                                              obj.staffInfo === undefined ||
+                                                obj.staffInfo === ""
+                                                ? parseInt(0)
+                                                : parseInt(obj.staffInfo)
+                                            ),
+                                          0
+                                        )
+                                      );
+                                      let total = pblic + personnel;
+                                      setstate(true);
+                                      containerRef.current.innerHTML = `
                  <div class="total"> 
-               <div class="sum-block">   ${people.length!=0? b[0]===undefined? txt:b[0]:people[i - 1]?.textselect}  </div>
+               <div class="sum-block">   ${
+                 people.length != 0
+                   ? b[0] === undefined
+                     ? txt
+                     : b[0]
+                   : people[i - 1]?.textselect
+               }  </div>
                <div class="sum-block">  ${isNaN(pblic) ? 0 : pblic}   </div>
                <div class="sum-block">    ${
                  isNaN(personnel) ? 0 : personnel
                }  </div>
                <div class="sum-block">   ${isNaN(total) ? 0 : total}   </div>
                    </div>`;
-                                  }
-                                }}
-                              >
-                                <option value="">{t("Please choose")}</option>
-                                {dropdownValue.leveldropdown &&
-                                  dropdownValue.leveldropdown?.map((item) => (
-                                    <option value={item.value}>
-                                      {item.text}
-                                    </option>
-                                  ))}
-                              </select>
-                            </Box>
-                          </th>
-                          <th>
-                            <Box
-                            className="input-container"
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                fontSize: "10px",
-                              }}
-                            >
-                              {
-                                <input
-                                  className="field-width-staff field-width-cellnum"
-                                  type="number"
-                                  defaultValue={Math.abs(p.cellNumber)}
-                                  onChange={(e) => {
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              cellNumber: e.target.value,
-                                            }
-                                          : x
-                                      )
-                                    );
-                                  }}
-                                />
-                              }
-                            </Box>
-                          </th>
-                          {
-                            <th>
-                              <Box
-                              className="input-container"
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  width: "20%",
-
-                                  fontSize: "10px",
-                                }}
-                              >
-                                <input
-                                  className="field-width-staff"
-                                  defaultValue={p?.localData}
-                                  onChange={(e) => {
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              localData: e.target.value,
-                                            }
-                                          : x
-                                      )
-                                    );
-                                  }}
-                                  type="text"
-                                />
-                              </Box>
-                            </th>
-                          }
-                          {
-                            <th>
-                              <Box
-                               className="input-container"
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  width: "15%",
-
-                                  fontSize: "8px",
-                                }}
-                              >
-                                <input
-                                  className="field-width-staff"
-                                  defaultValue={p?.areaAccesibleToPublic}
-                                  type="text"
-                                  onChange={(e) => {
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              areaAccesibleToPublic:
-                                                e.target.value,
-                                            }
-                                          : x
-                                      )
-                                    );
-                                  }}
-                                />
-                              </Box>
-                            </th>
-                          }
-                          {
-                            <th>
-                              <Box
-                               className="input-container"
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  width: "10%",
-
-                                  fontSize: "8px",
-                                }}
-                              >
-                                <select
-                                  defaultValue={people && p?.staffLevelRuleId}
-                                  className="field-width-staff"
-                                  onChange={(e) => {
-                                    setpeople((curr) =>
-                                      curr.map((x) =>
-                                        x.id === p.id
-                                          ? {
-                                              ...x,
-                                              staffLevelRuleId: e.target.value,
-                                            }
-                                          : x
-                                      )
-                                    );
+                                    }
                                   }}
                                 >
-                                  {dropdownValue.rules &&
-                                    dropdownValue.rules?.map((item) => (
+                                  <option value="">{t("Please choose")}</option>
+                                  {dropdownValue.leveldropdown &&
+                                    dropdownValue.leveldropdown?.map((item) => (
                                       <option value={item.value}>
                                         {item.text}
                                       </option>
@@ -621,99 +487,232 @@ const StaffLevel = ({
                                 </select>
                               </Box>
                             </th>
-                          }
-                          <th>
-                            <Box
-                             className="input-container"
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "10%",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <input
-                                className="field-width-staff staff-feild-width"
-                                defaultValue={p?.publicInfo}
-                                onChange={(e) => {
-                                  setpeople((curr) =>
-                                    curr.map((x) =>
-                                      x.id === p.id
-                                        ? {
-                                            ...x,
-                                            publicInfo: e.target.value,
-                                          }
-                                        : x
-                                    )
-                                  );
+                            <th>
+                              <Box
+                                className="input-container"
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  fontSize: "10px",
                                 }}
-                                type="number"
-                              />
-                            </Box>
-                          </th>
-                          <th>
-                            <Box
-                             className="input-container"
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "10%",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <input
-                                className="field-width-staff staff-feild-width"
-                                defaultValue={p?.staffInfo}
-                                onChange={(e) => {
-                                  setpeople((curr) =>
-                                    curr.map((x) =>
-                                      x.id === p.id
-                                        ? {
-                                            ...x,
-                                            staffInfo: e.target.value,
-                                            total:
-                                              parseInt(x.publicInfo) +
-                                              parseInt(e.target.value),
-                                          }
-                                        : x
-                                    )
-                                  );
-                                }}
-                                type="number"
-                              />
-                            </Box>{" "}
-                          </th>
-                          <th>
-                            <Box
-                             className="input-container"
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "10%",
-                                fontSize: "12px",
-                              }}
-                            >
-                              <input
-                                className="field-width-staff staff-feild-width"
-                                value={Math.abs(
-                                  parseInt(p?.publicInfo) +
-                                  parseInt(p.staffInfo))
+                              >
+                                {
+                                  <input
+                                    className="field-width-staff field-width-cellnum"
+                                    type="number"
+                                    defaultValue={Math.abs(p.cellNumber)}
+                                    onChange={(e) => {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                cellNumber: e.target.value,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                    }}
+                                  />
                                 }
-                                type="number"
-                              />
-                            </Box>
-                          </th>
-                        </tr>
-                      </Box>
-                    );
-                  })}
+                              </Box>
+                            </th>
+                            {
+                              <th>
+                                <Box
+                                  className="input-container"
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    width: "20%",
+
+                                    fontSize: "10px",
+                                  }}
+                                >
+                                  <input
+                                    className="field-width-staff"
+                                    defaultValue={p?.localData}
+                                    onChange={(e) => {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                localData: e.target.value,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                    }}
+                                    type="text"
+                                  />
+                                </Box>
+                              </th>
+                            }
+                            {
+                              <th>
+                                <Box
+                                  className="input-container"
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    width: "15%",
+
+                                    fontSize: "8px",
+                                  }}
+                                >
+                                  <input
+                                    className="field-width-staff"
+                                    defaultValue={p?.areaAccesibleToPublic}
+                                    type="text"
+                                    onChange={(e) => {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                areaAccesibleToPublic:
+                                                  e.target.value,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                    }}
+                                  />
+                                </Box>
+                              </th>
+                            }
+                            {
+                              <th>
+                                <Box
+                                  className="input-container"
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    width: "10%",
+
+                                    fontSize: "8px",
+                                  }}
+                                >
+                                  <select
+                                    defaultValue={people && p?.staffLevelRuleId}
+                                    className="field-width-staff"
+                                    onChange={(e) => {
+                                      setpeople((curr) =>
+                                        curr.map((x) =>
+                                          x.id === p.id
+                                            ? {
+                                                ...x,
+                                                staffLevelRuleId:
+                                                  e.target.value,
+                                              }
+                                            : x
+                                        )
+                                      );
+                                    }}
+                                  >
+                                    {dropdownValue.rules &&
+                                      dropdownValue.rules?.map((item) => (
+                                        <option value={item.value}>
+                                          {item.text}
+                                        </option>
+                                      ))}
+                                  </select>
+                                </Box>
+                              </th>
+                            }
+                            <th>
+                              <Box
+                                className="input-container"
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  width: "10%",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <input
+                                  className="field-width-staff staff-feild-width"
+                                  defaultValue={p?.publicInfo}
+                                  onChange={(e) => {
+                                    setpeople((curr) =>
+                                      curr.map((x) =>
+                                        x.id === p.id
+                                          ? {
+                                              ...x,
+                                              publicInfo: e.target.value,
+                                            }
+                                          : x
+                                      )
+                                    );
+                                  }}
+                                  type="number"
+                                />
+                              </Box>
+                            </th>
+                            <th>
+                              <Box
+                                className="input-container"
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  width: "10%",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <input
+                                  className="field-width-staff staff-feild-width"
+                                  defaultValue={p?.staffInfo}
+                                  onChange={(e) => {
+                                    setpeople((curr) =>
+                                      curr.map((x) =>
+                                        x.id === p.id
+                                          ? {
+                                              ...x,
+                                              staffInfo: e.target.value,
+                                              total:
+                                                parseInt(x.publicInfo) +
+                                                parseInt(e.target.value),
+                                            }
+                                          : x
+                                      )
+                                    );
+                                  }}
+                                  type="number"
+                                />
+                              </Box>{" "}
+                            </th>
+                            <th>
+                              <Box
+                                className="input-container"
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  width: "10%",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                <input
+                                  className="field-width-staff staff-feild-width"
+                                  value={Math.abs(
+                                    parseInt(p?.publicInfo) +
+                                      parseInt(p.staffInfo)
+                                  )}
+                                  type="number"
+                                />
+                              </Box>
+                            </th>
+                          </tr>
+                        </Box>
+                      );
+                    })}
                   <Box sx={{ margin: "10px 0px" }}></Box>
                 </thead>
               </table>
             </Box>
             <Box sx={{ textAlign: "start", padding: "5px" }}>
               <AddIcon
-              sx={{color:"#3675B7"}}
+                sx={{ color: "#3675B7" }}
                 onClick={() => {
                   setpeople((curr) => [
                     ...curr,
@@ -727,7 +726,7 @@ const StaffLevel = ({
             </Box>
             <Box sx={{ textAlign: "right", padding: "10px" }}>
               <Button
-              disabled={buttonEnability?.stafftablebutton}
+                disabled={buttonEnability?.stafftablebutton}
                 type="submit"
                 onClick={handleSubmit}
                 endIcon={<img className="icon-validate" src={Rightarrow} />}

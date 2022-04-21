@@ -35,7 +35,6 @@ const HomeRight = ({
       "get",
       `/api/v1/dashboard/latest_casefiles_frontend/1/${userId?.userid}`
     ).then((res) => {
-      console.log("faisl", res);
       if (res.status == 200) {
         setProjects(res.data);
       }

@@ -15,10 +15,7 @@ const FolderCreationContainer = ({
     currentcasescommisionDate,
     Studydata
 }) => {
-    const store= Store();
-    console.log("rerendered",store);
-    const updatestore = UpdateStore();
-    
+    const store= Store();   
   return (
   
   <>

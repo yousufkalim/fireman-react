@@ -17,7 +17,6 @@ const EndedCases = () => {
    
     api("get", `/api/v1/casefiles/rolewise_cases/${store?.role}/${userId?.userid}/0`).then(
       (res) => {
-        console.log(res);
         setendedcases(res);
       }
     );

@@ -11,12 +11,8 @@ const DeleteConfirmation = ({ setOpen, open, userDelete }) => {
         "delete",
         `/api/v1/Users/delete_user/${userDelete?.data?.employeeId}`
       ).then((res) => {
-        ///api/v1/Users/delete_user/{userId}
-        console.log("DELETE USER API res", res);
         toast.success("Utilisateur supprimé");
-        //setUsersData(res);
       });
-      //alert(userDelete);
       setOpen(false);
     } else {
       setOpen(false);
@@ -29,9 +25,7 @@ const DeleteConfirmation = ({ setOpen, open, userDelete }) => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        //sx={{ width: "100%" }}
       >
-        {/* <PriorityHighIcon /> */}
         <DialogTitle
           sx={{ fontSize: "20px !important", fontWeight: "bold !important" }}
         >

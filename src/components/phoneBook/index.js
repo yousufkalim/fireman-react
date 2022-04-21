@@ -29,7 +29,6 @@ const TeamManagement = () => {
             update({phoneBook:false});
         };
     }, [])
-  console.log(store)
     return (
          <>
          <p className='profile_heading'>{t("PHONE BOOK")}</p>
