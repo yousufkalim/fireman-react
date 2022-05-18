@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "fireman-dev2",
+    "site": "fireman-dev3",
     "public": "build",
     "ignore": [
       "firebase.json",
