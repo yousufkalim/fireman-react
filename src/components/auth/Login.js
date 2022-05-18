@@ -1,19 +1,15 @@
 
-import React, { useEffect } from "react";
-import { Grid, Paper } from "@mui/material"
-import { styled } from "@mui/material/styles";
+import React from "react";
+import { Grid } from "@mui/material"
 import logo from '../../assets/LoginfromLogo.png'
 import jwt from 'jwt-decode'
 import api from "../../api/index";
 import {UpdateStore} from '../../StoreContext'
 import { useState } from "react";
 import Loader from './Loader';
-import Home from '../home/index';
-import ForgetPassword from './ForgetPassword'
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Box from "@mui/material/Box";
-import { toast } from "react-toastify";
 const Login = () => {
     
 const [formInputs,setFormInputs]=useState({email:"",password:""});

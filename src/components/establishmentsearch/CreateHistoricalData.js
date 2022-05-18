@@ -6,6 +6,7 @@ import api from "../../api/index";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Paper from "@mui/material/Paper";
@@ -74,7 +75,8 @@ const CreateHistoricalData = ({
     });
   }, []);
   
-
+  const store = Store();
+  const updatestore = UpdateStore();
    const onChange =()=>{
     scrollToBottom();
    }
@@ -94,6 +96,11 @@ const CreateHistoricalData = ({
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
+              updatestore({
+                validatedSections: {...store?.validatedSections,
+                createhistoricalvalidated:true
+                }
+              })
               setButtonEnability((pre) => {
                 return {
                   ...pre,
@@ -133,7 +140,7 @@ const CreateHistoricalData = ({
       });
     const photo = values.repeatable.map((object) => object.image);
   };
-  const store = Store();
+
   return (
     <>
       <Box
@@ -158,7 +165,7 @@ const CreateHistoricalData = ({
         }}
       >
         <Typography  variant="h6">{t("Historical")}</Typography>
-        {Icon.createhistoricaldata ? <img src={don}/> : null}
+        {Icon.createhistoricaldata || store?.validatedSections?.createhistoricalvalidated? <img src={don}/> : null}
       </Box>
       <Accordion
         sx={{ margin: "10px auto !important", borderRadius: "10px", width:"97.5%" }}

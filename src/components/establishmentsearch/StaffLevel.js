@@ -8,6 +8,7 @@ import { styled } from "@mui/material/styles";
 import { generate } from "shortid";
 import { toast } from "react-toastify";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import don from "../../assets/donne.svg";
@@ -56,6 +57,7 @@ const StaffLevel = ({
     },
   ]);
   const store = Store();
+  const updatestore = UpdateStore();
   useEffect(() => {
     api("get", "/api/v1/stafflevel/dropdown").then((res) => {
       setdropdownValue((pre) => {
@@ -117,6 +119,11 @@ const StaffLevel = ({
         newArr.filter((val) => val.areaAccesibleToPublic != undefined)
       )
         .then((res) => {
+          updatestore({
+            validatedSections: {...store?.validatedSections,
+            stafflevel:true
+            }
+          })
           setButtonEnability((pre) => {
             return {
               ...pre,
@@ -193,8 +200,8 @@ const StaffLevel = ({
         }}
       >
         <Typography variant="h6">{t("Staff table")}</Typography>
-        {Icon.iconstafflevel ? <img src={don} /> : null}
-      </Box>
+        {Icon.iconstafflevel || store?.validatedSections?.stafflevel? <img src={don} /> : null}
+      </Box> 
       <Accordion
         sx={{
           margin: "10px auto !important",

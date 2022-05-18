@@ -178,7 +178,7 @@ const EstablishmentSearchLeftBar = ({
     if (activelefttab == "team") {
       setTeamFormDisplay(true);
     }
-    update({ activeNavbarTab: activelefttab, catTab: false });
+    update({ activeNavbarTab: activelefttab, catTab: false, validatedSections:{}});
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab
     if (activelefttab === "currentcases") {
       setCompName("");

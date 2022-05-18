@@ -25,7 +25,7 @@ import notesicon from "../assets/notesicon.svg";
 import unreadnotes from "../assets/unreadnotes.svg";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/styles'
 import { UpdateStore } from "../StoreContext";
 //import Chat from './chat/IndexTwo'
 

@@ -38,7 +38,7 @@ const EndedCases = () => {
         },
         { 
           field: "refNum", 
-          headerName: `${t("REF #")}`, 
+          headerName: `${t("Ref")}`, 
           minWidth: 100, 
           color: "#8D919D" },
         {
@@ -61,7 +61,7 @@ const EndedCases = () => {
         },
         {
           field: "Ref#",
-          headerName: `${t("Ref#")}`,
+          headerName: `${t("Etab. Ref")}`,
           minWidth: 150,
           color: "#8D919D",
           borderBottom:"none"

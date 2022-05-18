@@ -65,8 +65,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
         ?
         ""
         :
-        <FormControlLabel
-        control={
           <Button
             onClick={() => {
               if(!params?.row?.val?.chapterIndex){
@@ -116,8 +114,8 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
           >
             {text}
           </Button>
-        }
-      />
+        
+    
       }
       </>
     );
@@ -133,7 +131,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     },
     {
       field: "refNum",
-      headerName: `${t("REF #")}`,
+      headerName: `${t("Ref")}`,
       minWidth: 100,
       color: "#8D919D",
       borderBottom: "none",
@@ -161,7 +159,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
     },
     {
       field: "ref",
-      headerName: `${t("Ref#")}`,
+      headerName: `${t("Etab. Ref")}`,
       minWidth: 150,
       color: "#8D919D",
       borderBottom: "none",
@@ -237,7 +235,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
         });
       }
       if (
-        (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 5) ||
+        (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 6) ||
         params.row.val.tabIndex === 3
       ) {
         updatestore({

@@ -18,9 +18,11 @@ const Implantation = (props) => {
     <>
       <div className="etablissement">
         <div className="chapter">
-          <h5>{props.accordionData.chapterName}</h5>
+          <h5 onClick={() => {
+                  setExpand(!expand);
+                }}>{props.accordionData.chapterName}</h5>
 
-          {expand ? (
+          {/* {expand ? (
             <Box className="icon-container">
               {" "}
               <ExpandLessRoundedIcon
@@ -40,7 +42,7 @@ const Implantation = (props) => {
                 }}
               />{" "}
             </Box>
-          )}
+          )} */}
         </div>
         {expand
           ? props.accordionData.sections &&

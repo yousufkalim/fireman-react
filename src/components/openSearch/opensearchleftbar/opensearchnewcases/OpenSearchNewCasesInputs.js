@@ -104,12 +104,14 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
     });
     const obj = {
       ...inputValues,
-      commune: inputValues.commune === "" ? 0 : inputValues.commune,
+      // commune: inputValues.commune === "" ? 0 : inputValues.commune,
+        commune: inputValues.commune,
       classification:
         inputValues.classification === "" ? 0 : inputValues.classification,
       status: inputValues.status === "" ? 0 : inputValues.status,
       ranking: inputValues.ranking === "" ? 0 : inputValues.ranking,
     };
+    console.log(obj,"jkjk");
     api("post", `/api/v1/establishment/search`, obj).then((res) => {
       setEstablishmentSearchData(res);
     });
@@ -157,7 +159,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
                 }}
                 sx={{ padding: "2px 15px" }}
               >
-                {"Create"}
+                {"Créer"}
               </Button>
             </BootstrapTooltip>
           </Box>

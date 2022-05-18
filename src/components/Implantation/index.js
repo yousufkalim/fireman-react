@@ -1,22 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import ImplantationData from "./Implantation";
-import Button from '@mui/material/Button';
-import Rightarrow from "../../assets/rightarrow.png";
-import Leftarrow from "../../assets/leftarrow.png";
-import Floppy from "../../assets/floppy.png";
-import { IconButton } from '@mui/material';
+import {Store} from '../../StoreContext'
+import { toast } from "react-toastify";
 import api from '../../api/index'
 const Implantation = (props) => {
     let [accordionData, setAccordionData] = useState([])
     useEffect(() => {
         TabClick()
     }, [])
+    const store = Store()
     const TabClick = () => {
-        api("get", `/api/v1/checkList/tabs_checklist/${1}`).then((res) => {
-            if (res.status == 200) {
-                setAccordionData(res.data)
-            }
-        })
+        console.log(store,"implant");
+        if(store?.caseFileId){
+            api("get", `/api/v1/checkList/tabs_checklist/${3}/${store?.caseFileId}`).then((res) => {
+                if (res.status == 200) {
+                    setAccordionData(res.data)
+                }
+            })
+        }
+        else{
+            toast.error("ID de dossier manquant")
+        }
+       
     }
     return (
         <>

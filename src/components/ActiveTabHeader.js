@@ -1,10 +1,9 @@
 import React, { useState,useEffect } from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import {UpdateStore} from '../StoreContext'
 import {Store} from '../StoreContext'
 import { Grid } from "@mui/material"
+import api from '../api/index'
 import { useTranslation } from "react-i18next";
 
 const EstablishmentSearchActivePanel = ({sideBar}) => {
@@ -35,18 +34,19 @@ const EstablishmentSearchActivePanel = ({sideBar}) => {
     },
   ];
   const onClick = (activetabindex) => {
-    updatestore({activeNavbarTab:activetabindex})
+  updatestore({activeNavbarTab:activetabindex})
     setActiveTab(activetabindex)
-    
   };
   
   return (
     <>
       {
+       
         <Grid sx={{ margin:"auto"}}  xs={10}>
+          
                         <div className="header_selection" >
                            {items.map((item, index) => {
-                const className = activeTab === index || store.activeNavbarTab===index? "active" : "";
+                const className = activeTab === index || store?.activeNavbarTab===index? "active" : "";
                 return (
                   <div className="header_selection" 
                   >

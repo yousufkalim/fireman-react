@@ -365,10 +365,15 @@ const getIndexData =()=>{
                 caseFileId: res.data,
                 activeNavbarTab: inputValues.caseTypeId === "3" ? 1 : 0,
                 buttonenable: inputValues.caseTypeId === "3" ? true : false,
+                validatedSections:{foldercreation:true}
               });
             } else {
               updatestore({
                 caseFileId: res.data,
+                validatedSections:{
+                  ...store?.validatedSections,
+                  foldercreation:true
+                }
               });
             }
           })
@@ -429,6 +434,12 @@ const getIndexData =()=>{
         : checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
+        updatestore({
+          validatedSections:{
+          ...store?.validatedSections,
+            townplanningvalidated:true
+         }
+        })
         setCheckBoxRes(res.status);
         if (data === "studytwo") {
           setToggler((pre) => {
@@ -443,7 +454,14 @@ const getIndexData =()=>{
               iconstudytwo: true,
             };
           });
-          updatestore({ activeNavbarTab: 1, buttonenable: true });
+          updatestore({ 
+            activeNavbarTab: 1, 
+            buttonenable: true,  
+            validatedSections:{
+              ...store?.validatedSections,
+              detailsobjectvalidated:true
+            }
+           });
         }
         {
           toast.success(t("Successfull"));
@@ -484,7 +502,7 @@ const getIndexData =()=>{
               }}
             >
               <Typography variant="h6">{t("Folder creation")}</Typography>
-              {Icon.iconmain ? (
+              {Icon.iconmain || store?.validatedSections.foldercreation? (
                 <svg
                   width="32"
                   height="21"

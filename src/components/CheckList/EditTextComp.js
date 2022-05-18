@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -60,6 +62,8 @@ const EditTextComp = ({
   SentenceNature,
   sectionid,
 }) => {
+  const store = Store();
+  const updateStore = UpdateStore();
   const handleClose = () => {
     setOpenSubcheck(false);
   };
@@ -116,6 +120,11 @@ const EditTextComp = ({
                 sectionid
               );
               setSubcheck(subSentenceId);
+              updateStore({
+                implantationtabdata:{
+                  ...store?.implantationtabdata,
+                 implantationsubchecked:subSentenceId
+              }})
               setOpenSubcheck(false);
             }}
           >

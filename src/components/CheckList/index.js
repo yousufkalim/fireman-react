@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
@@ -6,7 +6,11 @@ import parse from "html-react-parser";
 import EditModal from "../Modals/EditCheckBox";
 import Subchecklist from "./Subchecklist";
 import pencil from "../../assets/pencilediticon.png";
+import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 const CheckList = (props) => {
+
+
   const [open, setOpen] = React.useState(false);
   const [checklistdata, setChecklistdata] = React.useState({});
   const [subcheckData, setSubCheckData] = React.useState();
@@ -29,6 +33,8 @@ const CheckList = (props) => {
   const [checklists, setchecklists] = React.useState(
     props.accordionData.checkList && props.accordionData.checkList
   );
+  const store = Store();
+  const updateStore = UpdateStore();
   const handleOpen = (data, i) => {
     setOpen(true);
     setChecklistdata({ ...data, id: i });
@@ -44,7 +50,7 @@ const CheckList = (props) => {
   };
   let newdata = [];
   let new2=[]
-  const newarray = props?.alreadyChecked.map((val)=>{
+  const newarray = props?.alreadyChecked && props?.alreadyChecked?.map((val)=>{
     checklists.map((valtwo)=>{
       if(valtwo.sectionSentencesId===val.sectionSentencesId){
               newdata.push({
@@ -61,6 +67,10 @@ const CheckList = (props) => {
     );
     checklists[new2] = i;
   });
+  console.log(store);
+console.log(checked);
+  console.log(store?.implantationtabdata?.implantationchecked);
+ 
   return (
     <>
     {
@@ -81,40 +91,48 @@ const CheckList = (props) => {
                   : ""
               }`}
             >
+               {console.log(store?.implantationtabdata?.implantationchecked,"lk")}
+               {console.log(props.accordionData?.serialName + i,"bk")}
               <div className="checklist_content">
+               
                 <Checkbox
-                  icon={<CircleUnchecked />}
+                  icon={<CircleUnchecked/>}
                   checkedIcon={
                     <svg
-                      style={{
-                        background: `${data.sentenceColor}`,
-                        padding: "9px 8px",
-                        borderRadius: "100%",
-                      }}
-                      width="13"
-                      height="10"
-                      viewBox="0 0 13 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.93143 9.80735C4.8085 9.93101 4.64077 10 4.46655 10C4.29232 10 4.1246 9.93101 4.00166 9.80735L0.288972 6.09406C-0.096324 5.70876 -0.096324 5.08398 0.288972 4.69941L0.753856 4.2344C1.13927 3.84911 1.76333 3.84911 2.14863 4.2344L4.46655 6.55244L10.7299 0.288972C11.1153 -0.096324 11.74 -0.096324 12.1247 0.288972L12.5896 0.753976C12.9748 1.13927 12.9748 1.76393 12.5896 2.14863L4.93143 9.80735Z"
-                        fill="white"
-                      />
-                    </svg>
+                    style={{
+                      background: `${data.sentenceColor}`,
+                      padding: "9px 8px",
+                      borderRadius: "100%",
+                    }}
+                    width="13"
+                    height="10"
+                    viewBox="0 0 13 10"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.93143 9.80735C4.8085 9.93101 4.64077 10 4.46655 10C4.29232 10 4.1246 9.93101 4.00166 9.80735L0.288972 6.09406C-0.096324 5.70876 -0.096324 5.08398 0.288972 4.69941L0.753856 4.2344C1.13927 3.84911 1.76333 3.84911 2.14863 4.2344L4.46655 6.55244L10.7299 0.288972C11.1153 -0.096324 11.74 -0.096324 12.1247 0.288972L12.5896 0.753976C12.9748 1.13927 12.9748 1.76393 12.5896 2.14863L4.93143 9.80735Z"
+                      fill="white"
+                    />
+                  </svg>
                   }
                   style={{
                     color: `${data.sentenceColor}`,
                   }}
-                  checked={checked? checked == props.accordionData.serialName + i : data?.alreadychecked===data?.sectionSentencesId}
-                  onClick={() => {
-                    if (data.sentenceNature !== 1) {
+                  checked={
+                    checked?
+                     props.redo? setChacked(""):
+                    // (checked == props.accordionData?.serialName + i): (data?.alreadychecked===data?.sectionSentencesId && !props.redo) || (props.accordionData?.serialName + i == store?.implantationtabdata?.implantationchecked && !props.redo)}
+                    (checked == props.accordionData?.serialName + i): (data?.alreadychecked===data?.sectionSentencesId && !props.redo)}
+                    onClick={() => {
+                    props.setRedo(false)
+                    if (data?.sentenceNature !== 1) {
                       props.onClick(
                         data.sectionSentencesId,
                         data.sentenceText,
                         props.accordionData.serialName,
                         data.sentenceNature,
-                        props.accordionData.serialId
+                        props.accordionData.serialId,
                       );
                     }
                     if (data.sentenceNature === 0) {
@@ -126,11 +144,21 @@ const CheckList = (props) => {
                         props.accordionData.serialName,
                         props.accordionData.serialId
                       );
+                      updateStore({
+                        implantationtabdata:{
+                          ...store?.implantationtabdata,
+                         implantationchecked: props.accordionData.serialName + i
+                      }})
                     }
                     if (data.sentenceNature === 1) {
                       handleOpen(data, props.accordionData.serialName + i);
                       setIndex(i);
                       setChacked(props.accordionData.serialName + i);
+                      updateStore({
+                        implantationtabdata:{
+                          ...store?.implantationtabdata,
+                         implantationchecked:props.accordionData.serialName + i
+                      }})
                       setSubcheck("");
                       props.getSubCheckListData(
                         "0",
@@ -142,6 +170,11 @@ const CheckList = (props) => {
                     }
                     if (data.sentenceNature === 2) {
                       setChacked(props.accordionData.serialName + i);
+                      updateStore({
+                        implantationtabdata:{
+                          ...store?.implantationtabdata,
+                         implantationchecked:props.accordionData.serialName + i
+                      }})
                       setSubCheckIndex(i);
                     }
                     setSentenceStatus(() => {
@@ -155,6 +188,7 @@ const CheckList = (props) => {
                       };
                     });
                     setSubCheckData(data.subchecks);
+                    
                   }}
                   classes={{ root: "custom-checkbox-root" }}
                 />
@@ -166,6 +200,11 @@ const CheckList = (props) => {
                   }`}
                 ></Box>
                 <p
+                 onClick={() => {
+                  handleOpen(data, props.accordionData.serialName + i);
+                  props.setSentenceText(data.sentenceText);
+                  setIndex(i);
+                }}
                   className={`sentence ${
                     checked == props.accordionData.serialName + i
                       ? "sentence-bold"
@@ -205,6 +244,8 @@ const CheckList = (props) => {
           sentenceDetails={sentenceDetails}
           alreadyChecked={props?.alreadyChecked}
           sectionid={props.accordionData.serialId}
+          redo={props.redo}
+          setRedo={props.setRedo}
         />
       ) : null}
       <EditModal

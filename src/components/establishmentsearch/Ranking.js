@@ -8,7 +8,6 @@ import { UpdateStore } from "../../StoreContext";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import don from '../../assets/donne.svg'
 import { useTranslation, Trans } from "react-i18next";
@@ -21,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId,buttonEnability}) => {
+const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefileId,buttonEnability,setButtonEnability}) => {
   const { t, i18n } = useTranslation();
   const [dropdownValue, setdropdownValue] = useState({
     rankingorder: "",
@@ -133,10 +132,15 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
     };
     api("put", "/api/v1/establishment_ranking_details", newObj).then((res) => {
       if(res.data===true){
+      // updatestore({
+      //   activeNavbarTab: 2,
+      //   btnenableImpantation:false
+      // });
       updatestore({
-        activeNavbarTab: 2,
-        btnenableImpantation:false
-      });
+        validatedSections: {...store?.validatedSections,
+        rankingvalidated:true
+        }
+      })
       {
         toast.success(t("Successfull"));
       }
@@ -150,6 +154,12 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
         return {
           ...pre,
           iconranking: true,
+        };
+      });
+      setButtonEnability((pre) => {
+        return {
+          ...pre,
+          Sectionfilterbutton: false,
         };
       });
     }
@@ -182,7 +192,7 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
         }}
       >
         <Typography variant="h6"> {t("Ranking")}</Typography>
-        {Icon.iconranking ? <img src={don}/> : null}
+        {Icon.iconranking || store?.validatedSections?.rankingvalidated? <img src={don}/> : null}
       </Box>
 
       <Accordion

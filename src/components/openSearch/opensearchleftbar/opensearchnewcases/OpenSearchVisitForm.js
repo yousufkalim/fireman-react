@@ -293,6 +293,7 @@ const EstablishmentSearchVisitForm = ({
         saveChanges={saveChanges}
         setSubcheck={setSubcheck}
         checklistid={checklistid}
+        datetab={true}
       />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button

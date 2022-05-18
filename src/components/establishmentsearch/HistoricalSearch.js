@@ -5,8 +5,8 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import api from "../../api/index";
-import CreateHistoricalData from "./CreateHistoricalData";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import { toast } from "react-toastify";
 import DialogBox from "../DialogBox";
 import don from "../../assets/donne.svg";
@@ -14,11 +14,15 @@ import Button from "@mui/material/Button";
 import Rightarrow from "../../assets/rightarrow.png";
 import StaffLevel from "./StaffLevel";
 import { useTranslation } from "react-i18next";
+import EstablishmentLevel from './EstablishmentLevel'
+import CreateHistoricalData from "./CreateHistoricalData";
+import SectionFilter from './SectionFilter'
 import Ranking from "./Ranking";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import EstablishmentLevel from './EstablishmentLevel'
+
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   textAlign: "center",
@@ -27,12 +31,14 @@ const Item = styled(Paper)(({ theme }) => ({
 const HistoricalSearch = ({ generalDataEstablishment }) => {
   const { t, i18n } = useTranslation();
   const store = Store();
+  const updatestore = UpdateStore();
   const [Toggler, setToggler] = useState({
     togglerhistoricalsearch: false,
     createhistoricaldata: false,
     establishmentlevel: false,
     togglerstafflevel: false,
     togglerranking: false,
+    togglerSectionFilter:false
   });
   const [Icon, setIcon] = useState({
     iconhistoricalsearch:
@@ -41,7 +47,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           store.sectionindex === 2 ||
           store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5) &&
+          store.sectionindex === 5
+          ||
+          store.sectionindex === 6
+          ) &&
         store?.tabindex === 2) ||
       store.tabindex === 3
         ? true
@@ -51,7 +60,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         (store.sectionindex === 2 ||
           store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5) &&
+          store.sectionindex === 5
+          ||
+          store.sectionindex === 6
+          ) &&
         store?.tabindex === 2) ||
       store.tabindex === 3
         ? true
@@ -60,21 +72,33 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       (store.activeCase === "currentcases" &&
         (store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5) &&
+          store.sectionindex === 5
+          ||
+          store.sectionindex === 6
+          ) &&
         store?.tabindex === 2) ||
       store.tabindex === 3
         ? true
         : false,
     iconstafflevel:
       (store.activeCase === "currentcases" &&
-        (store.sectionindex === 4 || store.sectionindex === 5) &&
+        (store.sectionindex === 4 || store.sectionindex === 5 || store.sectionindex === 6) &&
         store?.tabindex === 2) ||
       store.tabindex === 3
         ? true
         : false,
     iconranking:
       (store.activeCase === "currentcases" &&
-        store.sectionindex === 5 &&
+      (store.sectionindex === 5 
+      ||
+        store.sectionindex === 6) &&
+        store?.tabindex === 2) ||
+      store.tabindex === 3
+        ? true
+        : false,
+        iconsectionfilter:
+        (store.activeCase === "currentcases" &&
+        store.sectionindex === 6 &&
         store?.tabindex === 2) ||
       store.tabindex === 3
         ? true
@@ -88,6 +112,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       store.activeCase === "currentcases" ? false : true,
     stafftablebutton: store.activeCase === "currentcases" ? false : true,
     Rankingbutton: store.activeCase === "currentcases" ? false : true,
+    Sectionfilterbutton:store.activeCase === "currentcases" ? false : true,
   });
   const [open, setOpen] = useState(false);
   const [messageText, setMessageText] = useState("");
@@ -99,7 +124,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
 
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
-
   const [inputValues, setInputValues] = useState({});
   useEffect(() => {
     setInputValues({
@@ -223,6 +247,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     };
     api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
       .then((res) => {
+        console.log(res,"kl");
         if (res.data === true) {
           setButtonEnability((pre) => {
             return {
@@ -243,12 +268,18 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               iconhistoricalsearch: true,
             };
           });
+          updatestore({
+            validatedSections: {...store?.validatedSections,
+            historicalsearchvalidated:true
+            }
+          })
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+ 
   return (
     <>
       <Box
@@ -273,7 +304,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         }}
       >
         <Typography variant="h6">{t("General data")}</Typography>
-        {Icon.iconhistoricalsearch ? <img src={don} /> : null}
+        {Icon.iconhistoricalsearch || store?.validatedSections?.historicalsearchvalidated? <img src={don} /> : null}
       </Box>
       <Accordion
         sx={{
@@ -601,6 +632,14 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setIcon={setIcon}
         Icon={Icon}
         casefileId={store.caseFileId}
+        buttonEnability={buttonEnability}
+        setButtonEnability={setButtonEnability}
+      />
+      <SectionFilter
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />

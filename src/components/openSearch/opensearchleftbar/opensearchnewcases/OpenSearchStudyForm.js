@@ -348,11 +348,7 @@ const EstablishmentSearchStudyForm = ({
     });
   };
   const saveChanges = (
-    sentence,
-    sentenceId,
-    nature,
-    seriesname,
-    sectiontype
+    sentence, sentenceId, sectiontype
   ) => {
     const newdata = [];
     let new2 = [];
@@ -360,6 +356,7 @@ const EstablishmentSearchStudyForm = ({
       completedSentence: sentence,
       caseFileCheckListId: sentenceId,
     });
+    console.log("359", sentence, sentenceId, sectiontype);
     if (store.activeCase === "newcase") {
       newdata.map((i) => {
         new2 = checkboxObj.findIndex(
@@ -437,6 +434,7 @@ const EstablishmentSearchStudyForm = ({
           postCheckboxesData("townplanning");
         }
         if (store.activeCase === "currentcases") {
+          console.log(state.check);
           api(
             "post",
             `/api/v1/casefiles/save_casefile_checklist`,
@@ -474,6 +472,7 @@ const EstablishmentSearchStudyForm = ({
   };
 
   const handleSubmitdetailsobj = (e) => {
+ console.log(state.studycheck,"474");
     e.preventDefault();
     if (store.activeCase === "currentcases") {
       api(
@@ -526,7 +525,7 @@ const EstablishmentSearchStudyForm = ({
         }}
       >
         <Typography variant="h6">{t("Town Planning Documents")}</Typography>
-        {Icon.iconstudy ? (
+        {Icon.iconstudy || store?.validatedSections?.townplanningvalidated ? (
           <svg
             width="32"
             height="21"
@@ -891,7 +890,7 @@ const EstablishmentSearchStudyForm = ({
         }}
       >
         <Typography variant="h6">{t("Details Of Object")}</Typography>
-        {Icon.iconstudytwo ? (
+        {Icon.iconstudytwo || store?.validatedSections.detailsobjectvalidated? (
           <svg
             width="32"
             height="21"
@@ -988,7 +987,7 @@ const EstablishmentSearchStudyForm = ({
                                     color: "#3675B7",
                                   }}
                                 >
-                                  {parse(val?.name)}
+                                <span onClick={(e)=>{console.log(e.target)}}>{parse(val?.name)}</span>  
                                 </Box>
                               </Box>
                             </div>

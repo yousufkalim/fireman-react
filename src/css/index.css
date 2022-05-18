@@ -25,6 +25,7 @@
 @import url("./phonebook/phonebook.css");
 @import url("./Chat/chat.css");
 @import url("./forgetpassword.css");
+@import url("./CustomRadioButton.css");
 /* Defaults */
 * {
   padding: 0;

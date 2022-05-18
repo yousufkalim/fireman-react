@@ -18,6 +18,8 @@ import CreateIcon from "@mui/icons-material/Create";
 import EditTextComp from "./EditTextComp";
 import pencil from "../../assets/pencilediticon.png";
 import don from "../../assets/don.png";
+import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -67,7 +69,9 @@ const Subchecklist = ({
   setSentenceDetails,
   sentenceDetails,
   alreadyChecked,
-  sectionid,
+  sectionid, 
+  redo,
+  setRedo
 }) => {
   useEffect(() => {
     setOpen(true);
@@ -84,7 +88,8 @@ const Subchecklist = ({
   const handleClose = () => {
     setSnack(false);
   };
-
+  const store = Store();
+  const updateStore = UpdateStore();
   const saveChanges = (
     sentence,
     sentenceid,
@@ -195,12 +200,10 @@ const Subchecklist = ({
                       style={{
                         color: `${val?.sentenceColor}`,
                       }}
-                      checked={
-                        subCheck
-                          ? subCheck == val?.sectionSubSentencesId
-                          : val?.sectionSubSentencesId === val?.alreadychecked
-                      }
+                      //checked={subCheck? redo? setSubcheck(""): subCheck == val?.sectionSubSentencesId : (store?.implantationtabdata?.implantationsubchecked == val?.sectionSubSentencesId) || val?.sectionSubSentencesId === val?.alreadychecked}
+                      checked={subCheck? redo? setSubcheck(""): subCheck == val?.sectionSubSentencesId : val?.sectionSubSentencesId === val?.alreadychecked}
                       onClick={() => {
+                        setRedo(false)
                         setSentenceDetails((pre) => {
                           return {
                             sectionid: sectionid,
@@ -215,16 +218,36 @@ const Subchecklist = ({
                           setSubSentenceText(val?.subSentenceText);
                           setsubSentenceId(val?.sectionSubSentencesId);
                           setSubcheck(val?.sectionSubSentencesId);
+                          updateStore({
+                            implantationtabdata:{
+                              ...store?.implantationtabdata,
+                             implantationsubchecked: val?.sectionSubSentencesId
+                          }})
                           setOpenSubcheck(true);
                         } else {
                           setCloseSatate(val?.sectionSubSentencesId);
                           setSubcheck(val?.sectionSubSentencesId);
+                          updateStore({
+                            implantationtabdata:{
+                              ...store?.implantationtabdata,
+                             implantationsubchecked: val?.sectionSubSentencesId
+                          }})
                           setSubCheckIndex(subcheckIndex);
                         }
                       }}
                       classes={{ root: "custom-checkbox-root" }}
                     />
-                    <p>{parse(val?.subSentenceText)}</p>
+                    <p  onClick={() => {
+                      setSentenceDetails((pre) => {
+                        return {
+                          ...pre,
+                          sentenceNature: val?.sentenceNature,
+                        };
+                      });
+                      setOpenSubcheck(true);
+                      setsubSentenceId(val?.sectionSubSentencesId);
+                      setSubSentenceText(val?.subSentenceText);
+                    }} className="sentence">{parse(val?.subSentenceText)}</p>
                   </Box>
                   <img
                     src={pencil}

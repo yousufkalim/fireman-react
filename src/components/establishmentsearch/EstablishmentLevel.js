@@ -3,10 +3,10 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
-import Description from "./Description";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Store } from "../../StoreContext";
+import { UpdateStore } from "../../StoreContext";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { Formik, Field, Form, FieldArray } from "formik";
@@ -15,14 +15,10 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { useTranslation, Trans } from "react-i18next";
-import parse from "html-react-parser";
-import * as Yup from "yup";
 import Rightarrow from "../../assets/rightarrow.png";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Tooltip from "@mui/material/Tooltip";
-import { Button } from "@material-ui/core";
-import { CheckboxWithLabel, TextField } from "formik-material-ui";
+import {TextField } from "formik-material-ui";
 import { array, boolean, number, object, string, ValidationError } from "yup";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -38,11 +34,10 @@ const EstablishmentLevel = ({
   Toggler,
   setIcon,
   Icon,
-  casefileId,
   buttonEnability,
   setButtonEnability,
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const scrollDiv = createRef();
   const [dropdownValue, setdropdownValue] = useState({
     leveldropdown: "",
@@ -95,6 +90,7 @@ const EstablishmentLevel = ({
 
   const emptyDonation = { institution: "", percentage: 0, cellNumber: "" };
   const store = Store();
+  const updatestore = UpdateStore();
   return (
     <>
       <Box
@@ -119,7 +115,7 @@ const EstablishmentLevel = ({
         }}
       >
         <Typography variant="h6">Description</Typography>
-        {Icon.establishmentlevel ? <img src={don} /> : null}
+        {Icon?.establishmentlevel || store?.validatedSections?.establishmentlevelvalidated? <img src={don} /> : null}
       </Box>
       <Accordion
         sx={{
@@ -158,17 +154,16 @@ const EstablishmentLevel = ({
                   object({
                     // levelId: string()
                     // .required("Level required")
-                    // .min(1, "atleast one level required")
                     // ,
-                    cellNumber: string()
-                      .required("Cell number needed")
-                      .min(12, "number length needs to be at least 12")
-                      .max(12, "number length should not be more than 12")
-                      .matches(/^[0-9]+$/, "Must be only digits"),
-                    cellName: string()
-                      .required("name required")
-                      .min(2, "name length should be 2")
-                      .max(30, "name length should not exceed 30"),
+                    // cellNumber: string()
+                    //   .required("Cell number needed")
+                    //   .min(12, "number length needs to be at least 12")
+                    //   .max(12, "number length should not be more than 12")
+                    //   .matches(/^[0-9]+$/, "Must be only digits"),
+                    // cellName: string()
+                    //   .required("name required")
+                    //   .min(2, "name length should be 2")
+                    //   .max(30, "name length should not exceed 30"),
                   })
                 ),
               })}
@@ -191,6 +186,12 @@ const EstablishmentLevel = ({
                 };
                 api("put", "/api/v1/update_description_data", obj).then(
                   (res) => {
+                    updatestore({
+                      validatedSections:{
+                      ...store?.validatedSections,
+                        establishmentlevelvalidated:true
+                     }
+                    })
                     toast.success(t("Successfull"));
                     setButtonEnability((pre) => {
                       return {

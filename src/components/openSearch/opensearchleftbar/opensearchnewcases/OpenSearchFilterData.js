@@ -37,7 +37,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow,setPhone
      { field: "ref", headerName: `${t("Ref.")}`, minWidth: 100, color: "#8D919D"},
    { field: "commune", headerName: `${t("City")}`, minWidth: 200, color: "#8D919D"},
    { field: "nom", headerName: `${t("Name")}`, minWidth: 200, color: "#8D919D"},
-   { field: "Ref", headerName: `${t("Ref#")}`, minWidth: 200, color: "#8D919D"},
+   { field: "Ref", headerName: `${t("Etab. Ref")}`, minWidth: 200, color: "#8D919D"},
    { field: "address", headerName: `${t("Address")}`, minWidth: 250, color: "#8D919D"},
    { field: "statut", headerName: `${t("Status")}`, minWidth: 160, color: "#8D919D"},
    { field: "type", headerName: "Type", minWidth: 140, color: "#8D919D"},

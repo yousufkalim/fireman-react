@@ -10,10 +10,10 @@ import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Redo from "../../assets/redo.svg";
 import Rightarrow from "../../assets/rightarrow.png";
-import Leftarrow from "../../assets/leftarrow.png";
 import Floppy from "../../assets/floppy.png";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
+import TooltipComp from '../TooltipComp'
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
 import { UpdateStore } from "../../StoreContext";
@@ -73,8 +73,8 @@ const AccordionComponent = (props) => {
   });
   const [seriesValues, setSeriesValues] = useState([]);
   const [alreadyChecked, setAlreadyChecked] = useState([]);
-
   const [subCheckValues, setSubCheckValues] = useState([]);
+  const [redo, setRedo] = useState("")
   const store = Store();
   const updateStore = UpdateStore();
   const onClick = (sentenceid, text, seriesname, nature, serialid) => {
@@ -151,9 +151,15 @@ const AccordionComponent = (props) => {
     ]);
     //  setSubCheckValues((pre)=>[...pre.filter((obj)=>(obj.seriesname!=sentenceDetails?.seriesname)),{seriesname:sentenceDetails.seriesname, subCheckListId:sentenceDetails.id,modifiedSentence:sentenceDetails.text, completedSentence:sentenceDetails.sentenceNature==1?sentenceDetails.text:""}])
   };
-  const onSubmit = (section, chapter) => {
+  const onSubmit = (section, chapter, submittype) => {
     let newdata = [];
     let new2 = [];
+    const forcechecklistObj = {
+    caseFileId: store.caseFileId,
+  tabIndex: 3,
+  sectionIndex: section,
+  chapterIndex: chapter
+    }
     seriesValues?.map((item, index) => {
       subCheckValues?.map((sub) => {
         if (sub.seriesname === item.seriesName) {
@@ -187,12 +193,21 @@ const AccordionComponent = (props) => {
         ? alreadyChecked[0]?.caseFileSelectedAnswerId
         : 0,
     };
+    if(submittype){
+      api("post","/api/v1/checkList/save_tabs_empty_checklist",forcechecklistObj).then((res)=>{
+      if (res.data === true) {
+      toast.success(t("Successfull"));
+      }
+      })
+    }
+    if(!submittype){
     api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
       if (res.data === true) {
         props.setExpandchild(true);
         toast.success(t("Successfull"));
       }
     });
+  }
   };
   return (
     <>
@@ -240,14 +255,14 @@ const AccordionComponent = (props) => {
 
             //
 
-            if (store.activeCase != "newcase") {
+            
               api(
                 "get",
                 `/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`
               ).then((res) => {
                 setAlreadyChecked(res?.data);
               });
-            }
+            
           }}
           expandIcon={
             <svg
@@ -282,7 +297,11 @@ const AccordionComponent = (props) => {
             props.sectionindex + 1 <= store.sectionindex &&
             store.activeCase != "newcase") ||
           (props.sectionindex === sectionDetail.sectionind &&
-            props.chapterindex === sectionDetail.chapterindex) ? (
+            props.chapterindex === sectionDetail.chapterindex) ||
+            (props.sectionindex == store?.implantationtabdata.sectionind &&
+              props.chapterindex == store?.implantationtabdata.chapterindex
+              )
+            ? (
             <svg
               className="cehck_section"
               width="32"
@@ -314,7 +333,10 @@ const AccordionComponent = (props) => {
                     index={i}
                     accordionData={series}
                     alreadyChecked={alreadyChecked}
+                    setAlreadyChecked={setAlreadyChecked}
                     sectionid={props.accordionData.sectionId}
+                    redo={redo}
+                    setRedo={setRedo}
                   />
                 </>
               );
@@ -327,25 +349,55 @@ const AccordionComponent = (props) => {
                 justifyContent: "space-between",
               }}
             >
-              <CheckCircleOutlineIcon
+              <TooltipComp
+              title="Permet de valider la section alors qu’aucune réponse n’as été sélectionnée"
+               icon={<CheckCircleOutlineIcon
+               onClick={()=>{  setSectiondDetail(() => {
+                return {
+                  sectionind: props.sectionindex,
+                  chapterindex: props.chapterindex,
+                };
+              });
+              props.setExpandchild(true);
+              onSubmit(props.sectionindex + 1, props.chapterindex + 1, true);
+              updateStore({implantationtabdata:{
+                ...store?.implantationtabdata,
+                sectionind: props.sectionindex,
+                chapterindex: props.chapterindex,
+              }})
+            }}
                 style={{ color: "#BDC6D8", fontSize: "32px" }}
+              />}
               />
-              <img src={imgflop} />
+              {/* <CheckCircleOutlineIcon
+                style={{ color: "#BDC6D8", fontSize: "32px" }}
+              /> */}
+              {/* <img src={imgflop} /> */}
             </Box>
-
-            <img src={Redo} />
+            <div onClick={()=>{setRedo(true);}}> 
+            <TooltipComp
+              title="Permet de réinitialiser la section complète"
+               icon={<img src={Redo}/>}
+              />
+            </div>
+           
+            {/* <img onClick={()=>{console.log("fdfg");}} src={Redo} /> */}
           </div>
 
           {
             <div className="bottom_buttons">
               <div className="bottom_buttons_left">
-                <IconButton
+              <TooltipComp
+              title="Permet d’enregistrer le travail en cours Permet d’enregistrer le travail en cours"
+               icon={<img src={Floppy}/>}
+              />
+                {/* <IconButton
                   color="primary"
                   aria-label="upload picture"
                   component="span"
                 >
                   <img src={Floppy} />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                   color="primary"
                   aria-label="upload picture"
@@ -353,7 +405,7 @@ const AccordionComponent = (props) => {
                 ></IconButton>
               </div>
               <div className="bottom_buttons_right">
-                <Button
+                {/* <Button
                   sx={{
                     background: "#BDC6D8",
                     ":hover": { background: "#BDC6D8" },
@@ -363,7 +415,7 @@ const AccordionComponent = (props) => {
                   startIcon={<img src={Leftarrow} />}
                 >
                   PRECEDENT
-                </Button>
+                </Button> */}
                 <Button
                   disabled={store?.btnenableImpantation}
                   onClick={() => {
@@ -373,7 +425,12 @@ const AccordionComponent = (props) => {
                         chapterindex: props.chapterindex,
                       };
                     });
-                    onSubmit(props.sectionindex + 1, props.chapterindex + 1);
+                    onSubmit(props.sectionindex + 1, props.chapterindex + 1, false);
+                    updateStore({implantationtabdata:{
+                      ...store?.implantationtabdata,
+                      sectionind: props.sectionindex,
+                      chapterindex: props.chapterindex,
+                    }})
                   }}
                   endIcon={<img className="" src={Rightarrow} />}
                   sx={{
@@ -394,4 +451,4 @@ const AccordionComponent = (props) => {
   );
 };
 
-export default AccordionComponent;
+export default AccordionComponent

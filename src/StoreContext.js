@@ -44,7 +44,10 @@ export function StoreProvider({ children }) {
     unreadnotes:"",
     implantationvideodata:"",
     implantationcommentsdata:"",
-    chatactive:""
+    chatactive:"",
+    Sectionfilterdatasaved:false,
+    validatedSections:{},
+    implantationtabdata:{}
   });
 
   const updateStore = (data) => {
