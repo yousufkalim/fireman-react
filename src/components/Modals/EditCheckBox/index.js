@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -10,17 +10,17 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from '@material-ui/core/TextField';
+import DatePickers, { DateObject } from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
 import moment from "moment";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
+    height: "40vh",
   },
   "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
+    padding: theme.spacing(4),
   },
 }));
 
@@ -52,15 +52,36 @@ BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
-
+const format = "DD/MM/YYYY";
+const min = -2;
+const max = 12;
 export default function CustomizedDialogs(props) {
   let [sentence, setSentence] = React.useState(
     props.accordionData?.sentenceText
       ? props.accordionData?.sentenceText
       : props.text
   );
-  const [value, setValue] = React.useState(null);
-console.log(props);
+  const [dates, setDates] = useState([
+    new DateObject().set({ day: 4, format }),
+    new DateObject().set({ day: 25, format }),
+    new DateObject().set({ day: 20, format }),
+  ]);
+  const [value, setValue] = useState("")
+  useEffect(() => {
+    setDates([]);
+  }, []);
+  const onChange = (e)=>{
+    let value= parseInt(e.target.value);
+    if (value > max)
+    { value = max;}
+    if (value < min){
+       value = min;
+    }
+    setValue(value);
+  }
+  // console.log(dates.length, props.editDateLength);
+  // console.log(props.dateLength);
+  console.log(props);
   return (
     <div>
       <BootstrapDialog
@@ -68,7 +89,7 @@ console.log(props);
         onClose={props.handleClose}
         aria-labelledby="customized-dialog-title"
         open={props.open}
-        maxWidth="lg"
+        maxWidth="md"
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -77,103 +98,96 @@ console.log(props);
           Edit title
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {/* {props?.sectionType==0||props?.sectionType==2||props?.datetab? (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                label="Select Date"
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                    setSentence(props.text.replace(/[^a-zA-Z0-9 ]/g, '') + moment(newValue,"YYYY-MM-DD").
-                    format("YYYY-MM-DD")
-                    )
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      sx={{ width: "50%", background: "#e9e9e9" }}
-                      {...params}
-                    />
-                  )}
+          <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
+            {props?.sectionType == 0 ||
+            props?.sectionType == 2 ||
+            props?.datetab ? (
+              <>
+              <input
+              style={{width:"17%", marginBottom:"2%"}} 
+              //disabled={props?.leveladdlength==0 && props?.levelSublength==0 && props?.levelsubeditlength && props?.leveladdeditlength? true:false} 
+              placeholder="Enter Level" 
+              className="custom-input" 
+              type="number"
+              value={value}
+              onChange={(e)=>onChange(e)}
+              />
+                <DatePickers
+                  inputClass="custom-input"
+                  placeholder="DD-MM-YYYY"
+                  value={dates}
+                  onChange={setDates}
+                  disableDayPicker={
+                    (dates?.length == props?.dateLength && props?.dateLength!=0) || (dates?.length == props?.editDateLength  && props?.editDateLength!=0)? true : false}
+                  disableMonthPicker={
+                    (dates?.length == props?.dateLength && props?.dateLength!=0) || (dates?.length == props?.editDateLength && props?.editDateLength!=0)? true : false}
+                  disableYearPicker={
+                    (dates?.length == props?.dateLength && props?.dateLength!=0) || (dates?.length == props?.editDateLength && props?.editDateLength!=0)? true : false}
+                  multiple
+                  sort
+                  format={format}
+                  calendarPosition="bottom-center"
+                  plugins={[<DatePanel />]}
                 />
-              </LocalizationProvider>
-            ) :  
-            <div className="ckeditor">
-            <CKEditor
-              editor={ClassicEditor}
-              data={
-                props.accordionData?.sentenceText
-                  ? props.accordionData?.sentenceText
-                  : props?.text
-              }
-              config={{
-                toolbar: [
-                  "bold",
-                  "italic",
-                  "undo",
-                  "redo",
-                  "underline",
-                  "NumberedList",
-                  "BulletedList",
-                ],
-              }}
-              onReady={(editor) => {
-                // You can store the "editor" and use when it is needed.
-                console.log("Editor is ready to use!", editor);
-              }}
-              onInit={(editor) => {
-                console.log("Editor <><>!", editor);
-              }}
-              onKeyDown={(editor) => {
-                console.log(editor.getData());
-              }}
-              onChange={(event, editor) => {
-                console.log(editor.selectionStart);
-                const data = editor.getData();
-                setSentence(data);
-              }}
-            />
+                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="Select Date"
+                    value={value}
+                    onChange={(newValue) => {
+                      setValue(newValue);
+                      setSentence(
+                        props.text.replace(/[^a-zA-Z0-9 ]/g, "") +
+                          moment(newValue, "YYYY-MM-DD").format("YYYY-MM-DD")
+                      );
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        sx={{ width: "50%", background: "#e9e9e9" }}
+                        {...params}
+                      />
+                    )}
+                  />
+                </LocalizationProvider> */}
+              </>
+            ) : (
+              <div className="ckeditor">
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={
+                    props.accordionData?.sentenceText
+                      ? props.accordionData?.sentenceText
+                      : props?.text
+                  }
+                  config={{
+                    toolbar: [
+                      "bold",
+                      "italic",
+                      "undo",
+                      "redo",
+                      "underline",
+                      "NumberedList",
+                      "BulletedList",
+                    ],
+                  }}
+                  onReady={(editor) => {
+                    // You can store the "editor" and use when it is needed.
+                    console.log("Editor is ready to use!", editor);
+                  }}
+                  onInit={(editor) => {
+                    console.log("Editor <><>!", editor);
+                  }}
+                  onKeyDown={(editor) => {
+                    console.log(editor.getData());
+                  }}
+                  onChange={(event, editor) => {
+                    console.log(editor.selectionStart);
+                    const data = editor.getData();
+                    setSentence(data);
+                  }}
+                />
+              </div>
+            )}
           </div>
-          } */}
-
-<div className="ckeditor">
-            <CKEditor
-              editor={ClassicEditor}
-              data={
-                props.accordionData?.sentenceText
-                  ? props.accordionData?.sentenceText
-                  : props?.text
-              }
-              config={{
-                toolbar: [
-                  "bold",
-                  "italic",
-                  "undo",
-                  "redo",
-                  "underline",
-                  "NumberedList",
-                  "BulletedList",
-                ],
-              }}
-              onReady={(editor) => {
-                // You can store the "editor" and use when it is needed.
-                console.log("Editor is ready to use!", editor);
-              }}
-              onInit={(editor) => {
-                console.log("Editor <><>!", editor);
-              }}
-              onKeyDown={(editor) => {
-                console.log(editor.getData());
-              }}
-              onChange={(event, editor) => {
-                console.log(editor.selectionStart);
-                const data = editor.getData();
-                setSentence(data);
-              }}
-            />
-          </div>
-          </div>
-         
         </DialogContent>
         <DialogActions>
           <Button
@@ -192,11 +206,17 @@ console.log(props);
                   ? props.accordionData?.sentenceNature
                   : "",
                 props?.seriesName ? props?.seriesName : "",
-                props.sectionType ? props.sectionType : "",
+               
                 props.sectionid ? props.sectionid : "",
-              );
+                dates,
+                value,
+                props?.dateLength,
+                props?.sectionType ? props?.sectionType : "",
+              )
               props?.setSubcheck("");
               props.setOpen(false);
+              setDates([])
+              setValue("")
             }}
           >
             Save changes

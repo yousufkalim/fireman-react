@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
 import { useTranslation, Trans } from "react-i18next";
-import EditModal from '../../../Modals/EditCheckBox';
+import EditModal from "../../../Modals/EditCheckBox";
 import parse from "html-react-parser";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -34,7 +34,7 @@ const EstablishmentSearchVisitForm = ({
   setIcon,
   Icon,
   buttonEnability,
-  setButtonEnability
+  setButtonEnability,
 }) => {
   useEffect(() => {
     const ab = visit
@@ -46,7 +46,7 @@ const EstablishmentSearchVisitForm = ({
               caseFileCheckListId: val.caseFileCheckListId,
               sectionType: val.sectionType,
               casefileId: casefileId ? casefileId : currentcasescaseFileId,
-              completedSentence:val?.name
+              completedSentence: val?.name,
             };
           })
       )
@@ -56,7 +56,7 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
-            completedSentence:val?.name
+            completedSentence: val?.name,
           };
         })
       );
@@ -69,18 +69,25 @@ const EstablishmentSearchVisitForm = ({
             caseFileCheckListId: val.caseFileCheckListId,
             sectionType: val.sectionType,
             casefileId: val.casefileId,
-            completedSentence:val?.completedSentence
+            completedSentence: val?.completedSentence,
           };
         }),
       };
     });
   }, [visit]);
- 
- 
+
   const [open, setOpen] = React.useState(false);
   const [subCheck, setSubcheck] = React.useState("");
   const [text, setText] = React.useState("");
   const [checklistid, setId] = React.useState("");
+
+  const [dateLength, setDateLength] = useState(0)
+  const [editDateLength, setEditDateLength] = useState(0)
+  const [leveladd, setLeveladd] = useState(0)
+  const [leveladdedit, setLeveladdedit] = useState(0)
+  const [levelSub, setlevelSub] = useState(0)
+  const [levelsubedit, setLevelsubedit] = useState(0)
+
   const store = Store();
   const { t, i18n } = useTranslation();
   const handleChange = (e, sectiontype, sentence) => {
@@ -91,9 +98,12 @@ const EstablishmentSearchVisitForm = ({
         caseFileCheckListId: parseInt(id),
         casefileId: casefileId ? casefileId : currentcasescaseFileId,
         sectionType: sectiontype,
-        completedSentence:sentence
+        completedSentence: sentence,
       };
-      if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
+      if (
+        (store.activeCase === "currentcases" || store.activeNavbarTab === 0) &&
+        sectiontype === 1
+      ) {
         setstate((pre) => {
           return {
             ...pre,
@@ -103,7 +113,7 @@ const EstablishmentSearchVisitForm = ({
                   caseFileCheckListId: parseInt(val.caseFileCheckListId),
                   casefileId: casefileId ? casefileId : currentcasescaseFileId,
                   sectionType: sectiontype,
-                  completedSentence:val?.completedSentence  
+                  completedSentence: val?.completedSentence,
                 };
               }),
               obj,
@@ -111,13 +121,16 @@ const EstablishmentSearchVisitForm = ({
           };
         });
       }
-      if (store.activeCase==="newcase") {
+      if (store.activeCase === "newcase") {
         setCheckboxObj((pre) => [...pre, obj]);
       }
     }
     if (!checked) {
       setOpen(false);
-      if ((store.activeCase  === "currentcases" || store.activeNavbarTab===0) && sectiontype===1) {
+      if (
+        (store.activeCase === "currentcases" || store.activeNavbarTab === 0) &&
+        sectiontype === 1
+      ) {
         setstate((pre) => {
           return {
             ...pre,
@@ -129,7 +142,7 @@ const EstablishmentSearchVisitForm = ({
           };
         });
       }
-      if (store.activeCase==="newcase") {
+      if (store.activeCase === "newcase") {
         setCheckboxObj((pre) => [
           ...pre.filter((item) => item.caseFileCheckListId != id),
         ]);
@@ -138,72 +151,111 @@ const EstablishmentSearchVisitForm = ({
   };
   const updatestore = UpdateStore();
   const handleClose = () => setOpen(false);
-  const saveChanges = (sentence, sentenceId, nature, seriesname) => {
-    const newdata = []
-     let new2 = [];
-     newdata.push({completedSentence:sentence, caseFileCheckListId: sentenceId})
-     if(store.activeCase==="newcase"){
-      newdata.map((i) => {
-      new2 = checkboxObj.findIndex(
-        (s) => s.caseFileCheckListId === i.caseFileCheckListId
-      );
-      checkboxObj[new2].completedSentence = sentence;
-    }); 
-
-  }
-    console.log("item?.chkList", visit?.map((val)=>{
-     const a =    val.chkList.findIndex(
-        (obj) => obj?.caseFileCheckListId === sentenceId
+  const saveChanges = (...data) => {
+    let Sentence
+    let reg4=/r[+]\d+/g
+    let reg5=/r[-]\d+/g
+    let modifiedsentence;
+   let[sentence, sentenceId,,,,,dates,level,datelength] = data;
+   sentence = sentence.replace("r+ ___","r+"+level)
+   sentence = sentence.replace("r - ___","r-"+level)
+   sentence = sentence.replace(reg4, "r+"+level)
+   sentence = sentence.replace(reg5, "r-"+level)
+   if(datelength==0){
+    const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
+    const sentencewithDate = dates?.map((val, index)=>{
+      modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+      }
       )
-     if(a>-1){
-      val.chkList[a].name=sentence
+      Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
+   }
+   if(datelength!=0){
+    let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
+    console.log(arr);
+    const sentencewithDate = dates?.map((val, index)=>{
+     modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
      }
-    }))
-    if (store.activeCase  === "currentcases"){
-    
+     )
+    Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
+   }
+
+    const newdata = [];
+    let new2 = [];
+    newdata.push({
+      completedSentence: sentence,
+      caseFileCheckListId: sentenceId,
+    });
+    if (store.activeCase === "newcase") {
+      newdata.map((i) => {
+        new2 = checkboxObj.findIndex(
+          (s) => s.caseFileCheckListId === i.caseFileCheckListId
+        );
+        checkboxObj[new2].completedSentence = sentence;
+      });
+    }
+    console.log(
+      "item?.chkList",
+      visit?.map((val) => {
+        const a = val.chkList.findIndex(
+          (obj) => obj?.caseFileCheckListId === sentenceId
+        );
+        if (a > -1) {
+          val.chkList[a].name = sentence;
+        }
+      })
+    );
+    if (store.activeCase === "currentcases") {
       newdata.map((i) => {
         new2 = state.visitcheck.findIndex(
           (s) => s.caseFileCheckListId === i.caseFileCheckListId
         );
-        if(new2>-1){
-        state.visitcheck[new2].completedSentence = sentence;
+        if (new2 > -1) {
+          state.visitcheck[new2].completedSentence = sentence;
         }
-      }); 
+      });
     }
-    setText("")
+    setText("");
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (store.activeCase==="newcase") {
+    if (store.activeCase === "newcase") {
       api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
         .then((res) => {
           {
             toast.success(t("Successfull"));
-            setToggler((pre)=>{
-              return{
-               ...pre,
-               togglervisit:false,
-              }
-            })
-            setIcon((pre)=>{
-              return{
+            setToggler((pre) => {
+              return {
                 ...pre,
-                iconvisit:true,
-              }
+                togglervisit: false,
+              };
             });
-            updatestore({ 
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconvisit: true,
+              };
+            });
+            updatestore({
               activeNavbarTab: 1,
-              buttonenable:true
-             });
+              buttonenable: true,
+            });
           }
         })
         .catch((err) => toast.error(err?.statusText));
     }
-    if (store.activeCase  === "currentcases") {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, state.visitcheck.length===0?([{
-        caseFileId:currentcasescaseFileId,
-        sectionType:1
-      }]):(state.visitcheck))
+    if (store.activeCase === "currentcases") {
+      api(
+        "post",
+        `/api/v1/casefiles/save_casefile_checklist`,
+        state.visitcheck.length === 0
+          ? [
+              {
+                caseFileId: currentcasescaseFileId,
+                sectionType: 1,
+              },
+            ]
+          : state.visitcheck
+      )
         .then((res) => {
           {
             toast.success(t("Successfull"));
@@ -240,18 +292,87 @@ const EstablishmentSearchVisitForm = ({
                       <div class="container">
                         <div class="group">
                           <input
-                           onClick={()=>{ 
-                            if(val.name.match(/[_]/g)){
-                              setOpen(true);
-                              setText(val?.name);
-                              setId(val?.caseFileCheckListId)
-                            }
-                            }
-                          }
+                            onClick={() => {
+                              let str = val?.name;
+                              let reg = /([__/__/__/]+)/g; /////for date pattern
+                              //let regeditdate = /([\[d][/]\[d][/]\[d][/]]+)/g;
+                              let regeditdate = /([\d/\d/\d/]+)/g;
+                              let reg2 = /([r+\s___]+)/g; //////for r+ level
+                              let reg3 = /\s[`\-=]\s[___]/g; /////for r_ level
+                              let reg4 = /r[+]\d+/g;
+                              let reg5 = /r[-]\d+/g;
+                              let match;
+                              let datematch;
+                              let date = [];
+                              let dateedit = [];
+                              let levelmatchadd;
+                              let levelsadd = [];
+                              let levelsaddedit = [];
+                              let levelmatchsub;
+                              let levelssub = [];
+                              let levelssubedit = [];
+                              while ((match = reg.exec(str))) {
+                                date.push(match[1] || match[0]);
+                              }
+                              while ((datematch = regeditdate.exec(str))) {
+                                dateedit.push(datematch[1] || datematch[0]);
+                              }
+                              while ((levelmatchadd = reg2.exec(str))) {
+                                levelsadd.push(
+                                  levelmatchadd[1] || levelmatchadd[0]
+                                );
+                              }
+
+                              while ((levelmatchadd = reg4.exec(val?.name))) {
+                                levelsaddedit.push(
+                                  levelmatchadd[1] || levelmatchadd[0]
+                                );
+                              }
+                              ///
+                              while ((levelmatchsub = reg3.exec(str))) {
+                                levelssub.push(
+                                  levelmatchsub[1] || levelmatchsub[0]
+                                );
+                              }
+                              ////
+                              while ((levelmatchsub = reg5.exec(str))) {
+                                levelssubedit.push(
+                                  levelmatchsub[1] || levelmatchsub[0]
+                                );
+                              }
+                              if (
+                                date.length > 0 ||
+                                levelsadd > 0 ||
+                                levelssub > 0
+                              ) {
+                                setOpen(true);
+                                setText(val?.name);
+                                setId(val?.caseFileCheckListId);
+
+                                setDateLength(
+                                  date.filter((val) => val == "___/___/___")
+                                    .length
+                                );
+                                setEditDateLength(dateedit.length);
+                                setLeveladd(
+                                  levelsadd.filter((val) => val == " r+ ___ ")
+                                    .length
+                                );
+                                setLeveladdedit(levelsaddedit.length);
+                                setlevelSub(levelssub.length);
+                                setLevelsubedit(levelssubedit.length);
+                              }
+                            }}
                             type="checkbox"
-                            defaultChecked={store.activeCase==="currentcases"? val.isSelected:""}
+                            defaultChecked={
+                              store.activeCase === "currentcases"
+                                ? val.isSelected
+                                : ""
+                            }
                             id={val.caseFileCheckListId}
-                            onChange={(e) => handleChange(e, val?.sectionType, val?.name)}
+                            onChange={(e) =>
+                              handleChange(e, val?.sectionType, val?.name)
+                            }
                           />
                           <label
                             className="dropdown-checkbox"
@@ -277,7 +398,7 @@ const EstablishmentSearchVisitForm = ({
                               color: "#3675B7",
                             }}
                           >
-                          {parse(val?.name)}
+                            {parse(val?.name)}
                           </Box>
                         </Box>
                       </div>
@@ -286,15 +407,21 @@ const EstablishmentSearchVisitForm = ({
                 ))}
               </Box>
               <EditModal
-        setOpen={setOpen}
-        open={open}
-        handleClose={handleClose}
-        text={text}
-        saveChanges={saveChanges}
-        setSubcheck={setSubcheck}
-        checklistid={checklistid}
-        datetab={true}
-      />
+                setOpen={setOpen}
+                open={open}
+                handleClose={handleClose}
+                text={text}
+                saveChanges={saveChanges}
+                setSubcheck={setSubcheck}
+                checklistid={checklistid}
+                datetab={true}
+                dateLength={dateLength}
+                leveladdlength={leveladd}
+                levelSublength={levelSub}
+                leveladdeditlength={leveladdedit}
+                levelsubeditlength={levelsubedit}
+                editDateLength={editDateLength}
+              />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"

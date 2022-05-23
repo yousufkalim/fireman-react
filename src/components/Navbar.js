@@ -50,8 +50,6 @@ export default function Navbar() {
     .catch((err) =>
       console.log("Error while establishing connection :(", err.message)
     )
-
-
   }, [])
   let user = localStorage.getItem("user");
   const handleProfileMenuOpen = (event) => {

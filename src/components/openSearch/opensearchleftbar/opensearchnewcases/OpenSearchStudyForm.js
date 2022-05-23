@@ -55,6 +55,13 @@ const EstablishmentSearchStudyForm = ({
   const [text, setText] = React.useState("");
   const [checklistid, setId] = React.useState("");
   const [sectionType, setSectionType] = useState("");
+  const [sent, setsent] = useState("")
+  const [dateLength, setDateLength] = useState(0)
+  const [editDateLength, setEditDateLength] = useState(0)
+  const [leveladd, setLeveladd] = useState(0)
+  const [leveladdedit, setLeveladdedit] = useState(0)
+  const [levelSub, setlevelSub] = useState(0)
+  const [levelsubedit, setLevelsubedit] = useState(0)
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId
       ? Studydata?.data?.originId
@@ -347,45 +354,75 @@ const EstablishmentSearchStudyForm = ({
       };
     });
   };
-  const saveChanges = (
-    sentence, sentenceId, sectiontype
-  ) => {
+  const saveChanges = (...data) => {
+    let Sentence
+    let reg4=/r[+]\d+/g
+    let reg5=/r[-]\d+/g
+    let modifiedsentence;
+   let[sentence, sentenceId,,,,dates,level,datelength,sectiontype] = data;
+   console.log(data);
+   sentence = sentence.replace("r+ ___","r+"+level)
+   sentence = sentence.replace("r - ___","r-"+level)
+   sentence = sentence.replace(reg4, "r+"+level)
+   sentence = sentence.replace(reg5, "r-"+level)
+   console.log(data,"stype");
+   if(datelength==0){
+    const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
+    const sentencewithDate = dates?.map((val, index)=>{
+      modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+      }
+      )
+      console.log(modifiedsentence,"modifiedsentence");
+      Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
+
+   }
+   if(datelength!=0){
+    let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
+    console.log(arr);
+    const sentencewithDate = dates?.map((val, index)=>{
+     modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+     }
+     )
+    Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
+   }
     const newdata = [];
     let new2 = [];
     newdata.push({
-      completedSentence: sentence,
+      completedSentence: Sentence,
       caseFileCheckListId: sentenceId,
     });
-    console.log("359", sentence, sentenceId, sectiontype);
+
     if (store.activeCase === "newcase") {
       newdata.map((i) => {
         new2 = checkboxObj.findIndex(
           (s) => s.caseFileCheckListId === i.caseFileCheckListId
         );
         if (new2 > -1) {
-          checkboxObj[new2].completedSentence = sentence;
+          checkboxObj[new2].completedSentence = Sentence;
         }
       });
     }
     if (store.activeCase === "currentcases") {
       if (sectiontype !== 2) {
+        alert("0")
         newdata.map((i) => {
           new2 = state.check.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
           );
           if (new2 > -1) {
-            state.check[new2].completedSentence = sentence;
+            state.check[new2].completedSentence = Sentence;
           }
         });
       }
 
       if (sectiontype === 2) {
+        alert("hit")
         newdata.map((i) => {
           new2 = state.studycheck.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
           );
           if (new2 > -1) {
-            state.studycheck[new2].completedSentence = sentence;
+            state.studycheck[new2].completedSentence = Sentence;
           }
         });
       }
@@ -397,7 +434,7 @@ const EstablishmentSearchStudyForm = ({
           (obj) => obj?.caseFileCheckListId === sentenceId
         );
         if (a > -1) {
-          val.chkList[a].name = sentence;
+          val.chkList[a].name = Sentence;
         }
       })
     );
@@ -408,7 +445,7 @@ const EstablishmentSearchStudyForm = ({
           (obj) => obj?.caseFileCheckListId === sentenceId
         );
         if (a > -1) {
-          val.chkList[a].name = sentence;
+          val.chkList[a].name = Sentence;
         }
       })
     );
@@ -472,7 +509,6 @@ const EstablishmentSearchStudyForm = ({
   };
 
   const handleSubmitdetailsobj = (e) => {
- console.log(state.studycheck,"474");
     e.preventDefault();
     if (store.activeCase === "currentcases") {
       api(
@@ -541,7 +577,11 @@ const EstablishmentSearchStudyForm = ({
         ) : null}
       </Box>
       <Accordion
-        sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5%" }}
+        sx={{
+          margin: "3px auto !important",
+          borderRadius: "10px",
+          width: "97.5%",
+        }}
         expanded={Toggler.togglerstudy ? true : false}
       >
         <AccordionSummary
@@ -775,7 +815,7 @@ const EstablishmentSearchStudyForm = ({
                         <>
                           <Box sx={{ textAlign: "start", padding: "20px 0px" }}>
                             <label className="checklist-heading">
-                              {item.checkHeadingName}
+                              {item?.checkHeadingName}
                             </label>
                           </Box>
                           <Divider />
@@ -784,27 +824,74 @@ const EstablishmentSearchStudyForm = ({
                               <div class="group">
                                 <input
                                   onClick={() => {
-                                    if (val.name.match(/[_]/g)) {
+                                    let str = val?.name;
+                                    let reg = /([__/__/__/]+)/g;/////for date pattern
+                                    //let regeditdate = /([\[d][/]\[d][/]\[d][/]]+)/g;
+                                    //let regeditdate = /([\d/\d/\d/]+)/g;
+                                    let regeditdate = /(\d{1,4}([\/])\d{1,2}([\/])\d{4})/g
+                                    let reg2 = /([r+\s___]+)/g;//////for r+ level
+                                    let reg3 = (/\s[`\-=]\s[___]/g)/////for r_ level
+                                    let reg4=/r[+]\d+/g
+                                    let reg5=/r[-]\d+/g
+                                    let match; 
+                                    let datematch;
+                                    let date = [];
+                                    let dateedit = []
+                                    let levelmatchadd;
+                                    let levelsadd = []
+                                    let levelsaddedit = []
+                                    let levelmatchsub;
+                                    let levelssub = []
+                                    let levelssubedit = []
+                                    while ((match = reg.exec(str))) {
+                                      date.push(match[1] || match[0]);
+                                    }
+                                    while ((datematch = regeditdate.exec(str))) {
+                                      dateedit.push(datematch[1] || datematch[0]);
+                                    }
+                                    while ((levelmatchadd = reg2.exec(str))) {
+                                     levelsadd.push(levelmatchadd[1] || levelmatchadd[0]);
+                                   }
+                                    
+                                    while ((levelmatchadd = reg4.exec(val?.name))) {
+                                      levelsaddedit.push(levelmatchadd[1] || levelmatchadd[0]);
+                                    }
+                                    ///
+                                    while ((levelmatchsub = reg3.exec(str))) {
+                                      levelssub.push(levelmatchsub[1] || levelmatchsub[0]);
+                                    }
+                                   ////
+                                   while ((levelmatchsub = reg5.exec(str))) {
+                                    levelssubedit.push(levelmatchsub[1] || levelmatchsub[0]);
+                                  }
+                                  console.log(dateedit);
+                                    if (date.length>0||levelsadd>0||levelssub>0) {
                                       setOpen(true);
                                       setText(val?.name);
                                       setId(val?.caseFileCheckListId);
                                       setSectionType(val?.sectionType);
+                                      setDateLength(date.filter((val)=>(val=="___/___/___")).length)
+                                      setEditDateLength(dateedit.length)
+                                      setLeveladd(levelsadd.filter((val)=>(val==" r+ ___ ")).length)
+                                      setLeveladdedit(levelsaddedit.length)
+                                      setlevelSub(levelssub.length)
+                                      setLevelsubedit(levelssubedit.length)
                                     }
                                   }}
                                   type="checkbox"
                                   defaultChecked={
                                     store.activeCase === "currentcases"
-                                      ? val.isSelected
+                                      ? val?.isSelected
                                       : ""
                                   }
-                                  id={val.caseFileCheckListId}
+                                  id={val?.caseFileCheckListId}
                                   onChange={(e) =>
-                                    handleChange(e, val.sectionType)
+                                    handleChange(e, val?.sectionType)
                                   }
                                 />
                                 <label
                                   className="dropdown-checkbox"
-                                  for={val.caseFileCheckListId}
+                                  for={val?.caseFileCheckListId}
                                 ></label>
                               </div>
                               <Box
@@ -827,7 +914,7 @@ const EstablishmentSearchStudyForm = ({
                                     color: "#3675B7",
                                   }}
                                 >
-                                  {parse(val.name)}
+                                  {parse(val?.name)}
                                 </Box>
                               </Box>
                             </div>
@@ -836,6 +923,7 @@ const EstablishmentSearchStudyForm = ({
                       ))}
                     </Grid>
                   </Box>
+
                   <EditModal
                     setOpen={setOpen}
                     open={open}
@@ -845,6 +933,12 @@ const EstablishmentSearchStudyForm = ({
                     setSubcheck={setSubcheck}
                     checklistid={checklistid}
                     sectionType={sectionType}
+                    dateLength={dateLength}
+                    leveladdlength={leveladd}
+                    levelSublength={levelSub}
+                    leveladdeditlength={leveladdedit}
+                    levelsubeditlength={levelsubedit}
+                    editDateLength={editDateLength}
                   />
                   <Box sx={{ textAlign: "right", padding: "10px" }}>
                     <Button
@@ -890,7 +984,8 @@ const EstablishmentSearchStudyForm = ({
         }}
       >
         <Typography variant="h6">{t("Details Of Object")}</Typography>
-        {Icon.iconstudytwo || store?.validatedSections.detailsobjectvalidated? (
+        {Icon.iconstudytwo ||
+        store?.validatedSections.detailsobjectvalidated ? (
           <svg
             width="32"
             height="21"
@@ -906,7 +1001,11 @@ const EstablishmentSearchStudyForm = ({
         ) : null}
       </Box>
       <Accordion
-        sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5%" }}
+        sx={{
+          margin: "3px auto !important",
+          borderRadius: "10px",
+          width: "97.5%",
+        }}
         expanded={Toggler.togglerstudytwo ? true : false}
       >
         <AccordionSummary
@@ -945,11 +1044,51 @@ const EstablishmentSearchStudyForm = ({
                               <div class="group">
                                 <input
                                   onClick={() => {
-                                    if (val.name.match(/[_]/g)) {
+                                    let str = val?.name;
+                                    let reg = /([__/__/__/]+)/g;
+                                    let regeditdate = /([\d/\d/\d/]+)/g;
+                                    let reg2 = /([r+\s___]+)/g;
+                                    let reg3 = (/\s[`\-=]\s[___]/g)
+                                    let reg4=/r[+]\d+/g
+                                    let reg5=/r[-]\d+/g
+                                    let match; 
+                                    let date = [];
+                                    let dateedit = []
+                                    let levelmatchadd;
+                                    let levelsadd = []
+                                    let levelsaddedit = []
+                                    let levelmatchsub;
+                                    let levelssub = []
+                                    let levelssubedit = []
+                                    while ((match = reg.exec(str))) {
+                                      date.push(match[1] || match[0]);
+                                    }
+                                    while ((match = regeditdate.exec(str))) {
+                                      dateedit.push(match[1] || match[0]);
+                                    }
+                                    while ((levelmatchadd = reg2.exec(str))) {
+                                      levelsadd.push(levelmatchadd[1] || levelmatchadd[0]);
+                                    }
+                                    while ((levelmatchadd = reg4.exec(val?.name))) {
+                                      levelsaddedit.push(levelmatchadd[1] || levelmatchadd[0]);
+                                    }
+                                    while ((levelmatchsub = reg3.exec(str))) {
+                                      levelssub.push(levelmatchsub[1] || levelmatchsub[0]);
+                                    }
+                                    while ((levelmatchsub = reg5.exec(str))) {
+                                      levelssubedit.push(levelmatchsub[1] || levelmatchsub[0]);
+                                    }
+                                    if (date.length>0||levelsadd>0||levelssub>0) {
                                       setOpen(true);
                                       setText(val?.name);
                                       setId(val?.caseFileCheckListId);
                                       setSectionType(val?.sectionType);
+                                      setDateLength(date.filter((val)=>(val=="___/___/___")).length)
+                                      setEditDateLength(dateedit.length)
+                                      setLeveladd(levelsadd.filter((val)=>(val==" r+ ___ ")).length)
+                                      setLeveladdedit(levelsaddedit.length)
+                                      setlevelSub(levelssub.length)
+                                      setLevelsubedit(levelssubedit.length)
                                     }
                                   }}
                                   type="checkbox"
@@ -987,7 +1126,13 @@ const EstablishmentSearchStudyForm = ({
                                     color: "#3675B7",
                                   }}
                                 >
-                                <span onClick={(e)=>{console.log(e.target)}}>{parse(val?.name)}</span>  
+                                  <span
+                                    onClick={(e) => {
+                                      console.log(e.target);
+                                    }}
+                                  >
+                                    {parse(val?.name)}
+                                  </span>
                                 </Box>
                               </Box>
                             </div>
@@ -1004,8 +1149,14 @@ const EstablishmentSearchStudyForm = ({
                     setSubcheck={setSubcheck}
                     checklistid={checklistid}
                     sectionType={sectionType}
+                    dateLength={dateLength}
+                    leveladdlength={leveladd}
+                    levelSublength={levelSub}
+                    leveladdeditlength={leveladdedit}
+                    levelsubeditlength={levelsubedit}
+                    editDateLength={editDateLength}
                   />
-                  <Box sx={{ textAlign: "right", padding: "2% 0.3%"}}>
+                  <Box sx={{ textAlign: "right", padding: "2% 0.3%" }}>
                     <Button
                       disabled={buttonEnability.detailsobject}
                       type="submit"
