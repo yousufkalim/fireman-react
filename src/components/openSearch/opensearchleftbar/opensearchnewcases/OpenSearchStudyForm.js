@@ -361,10 +361,12 @@ const EstablishmentSearchStudyForm = ({
     let modifiedsentence;
    let[sentence, sentenceId,,,,dates,level,datelength,sectiontype] = data;
    console.log(data);
-   sentence = sentence.replace("r+ ___","r+"+level)
-   sentence = sentence.replace("r - ___","r-"+level)
-   sentence = sentence.replace(reg4, "r+"+level)
-   sentence = sentence.replace(reg5, "r-"+level)
+   if(level){
+    sentence = sentence.replace("r+ ___","r+"+level)
+    sentence = sentence.replace("r - ___","r-"+level)
+    sentence = sentence.replace(reg4, "r+"+level)
+    sentence = sentence.replace(reg5, "r-"+level)
+   }
    console.log(data,"stype");
    if(datelength==0){
     const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
