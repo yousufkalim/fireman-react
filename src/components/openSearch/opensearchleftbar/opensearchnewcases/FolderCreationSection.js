@@ -760,7 +760,11 @@ const getIndexData =()=>{
                   ) : null}
                 </Box>
                 <Accordion
-                  sx={{ margin: "3px auto !important", borderRadius: "10px", width:"97.5" }}
+        sx={{
+          margin: "3px auto !important",
+          borderRadius: "10px",
+          width: "97.5%",
+        }}
                   expanded={Toggler.togglervisit ? true : false}
                 >
                   <AccordionSummary

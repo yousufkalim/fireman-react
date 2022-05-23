@@ -67,6 +67,7 @@ export default function CustomizedDialogs(props) {
     new DateObject().set({ day: 20, format }),
   ]);
   const [value, setValue] = useState("")
+  const [String, setString] = useState("")
   useEffect(() => {
     setDates([]);
   }, []);
@@ -78,6 +79,9 @@ export default function CustomizedDialogs(props) {
        value = min;
     }
     setValue(value);
+  }
+  const StringChange = (e)=>{
+    setString(e.target.value)
   }
   // console.log(dates.length, props.editDateLength);
   // console.log(props.dateLength);
@@ -98,22 +102,45 @@ export default function CustomizedDialogs(props) {
           Edit title
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <div style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
+          <div className="cursor" style={{ display: "flex", flexDirection:"column", justifyContent: "center", alignItems:"center"}}>
+            <span  style={{width:"60%", marginBottom:"2%", height:"auto"}}  className="custom-input">{props?.text}</span>
             {props?.sectionType == 0 ||
             props?.sectionType == 2 ||
             props?.datetab ? (
               <>
+              {
+                props?.EmptyStringBlankLength>0 || props?.stringLength>0?
+                (<input
+                  style={{width:"17%", marginBottom:"2%"}} 
+                 type="text"
+                 placeholder="Enter String" 
+                 className="custom-input cursor"
+                 value={String}
+                 onChange={(e)=>StringChange(e)}
+                 />):
+                null
+              }
+              {
+                  props?.levelSublength>0 ||
+                  props?.leveladdeditlength>0||
+                  props?.leveladdlength>0||
+                  props?.levelsubeditlength>0? 
+                  (
               <input
               style={{width:"17%", marginBottom:"2%"}} 
               //disabled={props?.leveladdlength==0 && props?.levelSublength==0 && props?.levelsubeditlength && props?.leveladdeditlength? true:false} 
               placeholder="Enter Level" 
-              className="custom-input" 
+              className="custom-input cursor" 
               type="number"
               value={value}
               onChange={(e)=>onChange(e)}
               />
-                <DatePickers
-                  inputClass="custom-input"
+              ): null
+              }
+              {
+                props?.dateLength>0 || props?.editDateLength>0?(
+                   <DatePickers
+                  inputClass="custom-input cursor"
                   placeholder="DD-MM-YYYY"
                   value={dates}
                   onChange={setDates}
@@ -129,25 +156,9 @@ export default function CustomizedDialogs(props) {
                   calendarPosition="bottom-center"
                   plugins={[<DatePanel />]}
                 />
-                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Select Date"
-                    value={value}
-                    onChange={(newValue) => {
-                      setValue(newValue);
-                      setSentence(
-                        props.text.replace(/[^a-zA-Z0-9 ]/g, "") +
-                          moment(newValue, "YYYY-MM-DD").format("YYYY-MM-DD")
-                      );
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        sx={{ width: "50%", background: "#e9e9e9" }}
-                        {...params}
-                      />
-                    )}
-                  />
-                </LocalizationProvider> */}
+                ):null
+                
+                  }
               </>
             ) : (
               <div className="ckeditor">
@@ -208,15 +219,17 @@ export default function CustomizedDialogs(props) {
                 props?.seriesName ? props?.seriesName : "",
                
                 props.sectionid ? props.sectionid : "",
-                dates,
-                value,
-                props?.dateLength,
+                dates?dates:"",
+                value?value:"",
+                props?.dateLength?props?.dateLength:"",
                 props?.sectionType ? props?.sectionType : "",
+                String?String:""
               )
               props?.setSubcheck("");
               props.setOpen(false);
               setDates([])
               setValue("")
+              setString("")
             }}
           >
             Save changes

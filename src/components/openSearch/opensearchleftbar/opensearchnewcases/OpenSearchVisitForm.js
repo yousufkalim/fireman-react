@@ -87,6 +87,8 @@ const EstablishmentSearchVisitForm = ({
   const [leveladdedit, setLeveladdedit] = useState(0)
   const [levelSub, setlevelSub] = useState(0)
   const [levelsubedit, setLevelsubedit] = useState(0)
+  const [stringLength, setStringLength] = useState(0)
+  const [EmptyStringBlankLength, setEmptyStringBlankLength] = useState(0)
 
   const store = Store();
   const { t, i18n } = useTranslation();
@@ -155,20 +157,29 @@ const EstablishmentSearchVisitForm = ({
     let Sentence
     let reg4=/r[+]\d+/g
     let reg5=/r[-]\d+/g
+    let reg6=/([_______________.]+)/g;
+    let reg7=/[.]([a-z]{1,})[.]/g 
     let modifiedsentence;
-   let[sentence, sentenceId,,,,,dates,level,datelength] = data;
+  let[sentence, sentenceId,,,,dates,level,datelength,sectiontype,String] = data;
+  if(String){
+    const editstrlength =  reg7.exec(sentence)
+    console.log("one", editstrlength?.length);
+    console.log(reg6.exec(sentence));
+     if(editstrlength?.length>0){
+       sentence = sentence.replace(reg7,"."+String +".")
+     }
+    if(!reg7.exec(sentence)){
+     sentence = sentence.replace(reg6,"."+String+".")
+    }
+   // console.log(sentence.split(reg7));
+ }
+  if(level){
+    console.log("two");
    sentence = sentence.replace("r+ ___","r+"+level)
    sentence = sentence.replace("r - ___","r-"+level)
    sentence = sentence.replace(reg4, "r+"+level)
    sentence = sentence.replace(reg5, "r-"+level)
-   if(datelength==0){
-    const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
-    const sentencewithDate = dates?.map((val, index)=>{
-      modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
-      }
-      )
-      Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
-   }
+  }
    if(datelength!=0){
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
     console.log(arr);
@@ -301,6 +312,8 @@ const EstablishmentSearchVisitForm = ({
                               let reg3 = /\s[`\-=]\s[___]/g; /////for r_ level
                               let reg4 = /r[+]\d+/g;
                               let reg5 = /r[-]\d+/g;
+                              let reg6=/([_______________.]+)/g; 
+                              let reg7=/[.]([a-z]{1,})[.]/ 
                               let match;
                               let datematch;
                               let date = [];
@@ -311,6 +324,8 @@ const EstablishmentSearchVisitForm = ({
                               let levelmatchsub;
                               let levelssub = [];
                               let levelssubedit = [];
+                              let stringlength = str.match(reg7)
+                              let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___"))
                               while ((match = reg.exec(str))) {
                                 date.push(match[1] || match[0]);
                               }
@@ -340,10 +355,13 @@ const EstablishmentSearchVisitForm = ({
                                   levelmatchsub[1] || levelmatchsub[0]
                                 );
                               }
+                              setStringLength(stringlength?.length)
+                              setEmptyStringBlankLength(emptyBlanksLength?.length)
                               if (
                                 date.length > 0 ||
                                 levelsadd > 0 ||
-                                levelssub > 0
+                                levelssub > 0 ||
+                                stringlength?.length>0
                               ) {
                                 setOpen(true);
                                 setText(val?.name);
@@ -421,6 +439,8 @@ const EstablishmentSearchVisitForm = ({
                 leveladdeditlength={leveladdedit}
                 levelsubeditlength={levelsubedit}
                 editDateLength={editDateLength}
+                stringLength={stringLength}
+                EmptyStringBlankLength={EmptyStringBlankLength}
               />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button

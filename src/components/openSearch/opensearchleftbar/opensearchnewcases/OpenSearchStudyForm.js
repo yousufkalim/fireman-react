@@ -62,6 +62,8 @@ const EstablishmentSearchStudyForm = ({
   const [leveladdedit, setLeveladdedit] = useState(0)
   const [levelSub, setlevelSub] = useState(0)
   const [levelsubedit, setLevelsubedit] = useState(0)
+  const [stringLength, setStringLength] = useState(0)
+  const [EmptyStringBlankLength, setEmptyStringBlankLength] = useState(0)
   const [formValues, setFormValues] = useState({
     originId: Studydata?.data?.originId
       ? Studydata?.data?.originId
@@ -358,9 +360,19 @@ const EstablishmentSearchStudyForm = ({
     let Sentence
     let reg4=/r[+]\d+/g
     let reg5=/r[-]\d+/g
+    let reg6=/([_______________.]+)/g;
+    let reg7=/[.]([a-z]{1,})[.]/g 
     let modifiedsentence;
-   let[sentence, sentenceId,,,,dates,level,datelength,sectiontype] = data;
-   console.log(data);
+   let[sentence, sentenceId,,,,dates,level,datelength,sectiontype,String] = data;
+   if(String){
+     const editstrlength =  reg7.exec(sentence)
+      if(editstrlength?.length>0){
+        sentence = sentence.replace(reg7,"."+String +".")
+      }
+     if(!reg7.exec(sentence)){
+      sentence = sentence.replace(reg6,"."+String+".")
+     }
+  }
    if(level){
     sentence = sentence.replace("r+ ___","r+"+level)
     sentence = sentence.replace("r - ___","r-"+level)
@@ -370,8 +382,12 @@ const EstablishmentSearchStudyForm = ({
    console.log(data,"stype");
    if(datelength==0){
     const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
-    const sentencewithDate = dates?.map((val, index)=>{
-      modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+   console.log(arr);
+    const sentencewithDate = arr?.map((val, index)=>{
+      modifiedsentence = modifiedsentence + val + " ";
+     if(dates[index]){
+      modifiedsentence = modifiedsentence + dates[index].format();
+     }
       }
       )
       console.log(modifiedsentence,"modifiedsentence");
@@ -380,10 +396,18 @@ const EstablishmentSearchStudyForm = ({
    }
    if(datelength!=0){
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
-    console.log(arr);
-    const sentencewithDate = dates?.map((val, index)=>{
-     modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+    console.log(arr,"re");
+    console.log(dates[0].format());
+     //const sentencewithDate = dates?.map((val, index)=>{
+      //modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
+      //}
+      
+   const sentencewithDate = arr?.map((val, index)=>{
+    modifiedsentence = modifiedsentence + val + " ";
+     if(dates[index]){
+      modifiedsentence = modifiedsentence + dates[index].format();
      }
+      }
      )
     Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
    }
@@ -406,7 +430,6 @@ const EstablishmentSearchStudyForm = ({
     }
     if (store.activeCase === "currentcases") {
       if (sectiontype !== 2) {
-        alert("0")
         newdata.map((i) => {
           new2 = state.check.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
@@ -418,7 +441,6 @@ const EstablishmentSearchStudyForm = ({
       }
 
       if (sectiontype === 2) {
-        alert("hit")
         newdata.map((i) => {
           new2 = state.studycheck.findIndex(
             (s) => s.caseFileCheckListId === i.caseFileCheckListId
@@ -835,6 +857,8 @@ const EstablishmentSearchStudyForm = ({
                                     let reg3 = (/\s[`\-=]\s[___]/g)/////for r_ level
                                     let reg4=/r[+]\d+/g
                                     let reg5=/r[-]\d+/g
+                                    let reg6=/([_______________.]+)/g; 
+                                    let reg7=/[.]([a-z]{1,})[.]/ 
                                     let match; 
                                     let datematch;
                                     let date = [];
@@ -845,6 +869,9 @@ const EstablishmentSearchStudyForm = ({
                                     let levelmatchsub;
                                     let levelssub = []
                                     let levelssubedit = []
+                                    let stringlength = str.match(reg7)
+                                    let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___"))
+                                    console.log(reg6.exec(str));
                                     while ((match = reg.exec(str))) {
                                       date.push(match[1] || match[0]);
                                     }
@@ -866,7 +893,8 @@ const EstablishmentSearchStudyForm = ({
                                    while ((levelmatchsub = reg5.exec(str))) {
                                     levelssubedit.push(levelmatchsub[1] || levelmatchsub[0]);
                                   }
-                                  console.log(dateedit);
+                                  setStringLength(stringlength?.length)
+                                  setEmptyStringBlankLength(emptyBlanksLength?.length)
                                     if (date.length>0||levelsadd>0||levelssub>0) {
                                       setOpen(true);
                                       setText(val?.name);
@@ -941,6 +969,8 @@ const EstablishmentSearchStudyForm = ({
                     leveladdeditlength={leveladdedit}
                     levelsubeditlength={levelsubedit}
                     editDateLength={editDateLength}
+                    stringLength={stringLength}
+                    EmptyStringBlankLength={EmptyStringBlankLength}
                   />
                   <Box sx={{ textAlign: "right", padding: "10px" }}>
                     <Button
@@ -1053,7 +1083,9 @@ const EstablishmentSearchStudyForm = ({
                                     let reg3 = (/\s[`\-=]\s[___]/g)
                                     let reg4=/r[+]\d+/g
                                     let reg5=/r[-]\d+/g
-                                    let match; 
+                                    let reg6=/([_______________.]+)/g; 
+                                    let reg7=/[.]([a-z]{1,})[.]/g 
+                                    let match;
                                     let date = [];
                                     let dateedit = []
                                     let levelmatchadd;
@@ -1062,6 +1094,10 @@ const EstablishmentSearchStudyForm = ({
                                     let levelmatchsub;
                                     let levelssub = []
                                     let levelssubedit = []
+                                    let stringlength = str.match(reg7)
+                                    let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___" && val!="."))
+                                    console.log(reg6.exec(str));
+                                    console.log(emptyBlanksLength);
                                     while ((match = reg.exec(str))) {
                                       date.push(match[1] || match[0]);
                                     }
@@ -1080,7 +1116,9 @@ const EstablishmentSearchStudyForm = ({
                                     while ((levelmatchsub = reg5.exec(str))) {
                                       levelssubedit.push(levelmatchsub[1] || levelmatchsub[0]);
                                     }
-                                    if (date.length>0||levelsadd>0||levelssub>0) {
+                                    setStringLength(stringlength?.length)
+                                    setEmptyStringBlankLength(emptyBlanksLength?.length)
+                                    if (date.length>0||levelsadd>0||levelssub>0||stringlength?.length>0) {
                                       setOpen(true);
                                       setText(val?.name);
                                       setId(val?.caseFileCheckListId);
@@ -1157,6 +1195,8 @@ const EstablishmentSearchStudyForm = ({
                     leveladdeditlength={leveladdedit}
                     levelsubeditlength={levelsubedit}
                     editDateLength={editDateLength}
+                    stringLength={stringLength}
+                    EmptyStringBlankLength={EmptyStringBlankLength}
                   />
                   <Box sx={{ textAlign: "right", padding: "2% 0.3%" }}>
                     <Button
