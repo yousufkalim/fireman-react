@@ -362,6 +362,8 @@ const EstablishmentSearchStudyForm = ({
     let reg5=/r[-]\d+/g
     let reg6=/([_______________.]+)/g;
     let reg7=/[.]([a-z]{1,})[.]/g 
+    let reg8 = /[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/g
+    let match
     let modifiedsentence;
    let[sentence, sentenceId,,,,dates,level,datelength,sectiontype,String] = data;
    if(String){
@@ -379,22 +381,38 @@ const EstablishmentSearchStudyForm = ({
     sentence = sentence.replace(reg4, "r+"+level)
     sentence = sentence.replace(reg5, "r-"+level)
    }
-   console.log(data,"stype");
+   console.log(dates,"stype");
+
+   if(dates.length>0){
    if(datelength==0){
     const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
-   console.log(arr);
-    const sentencewithDate = arr?.map((val, index)=>{
-      modifiedsentence = modifiedsentence + val + " ";
-     if(dates[index]){
-      modifiedsentence = modifiedsentence + dates[index].format();
-     }
+    // const sentencewithDate = arr?.map((val, index)=>{
+    //   modifiedsentence = modifiedsentence + val + " ";
+    //  if(dates[index]){
+    //   modifiedsentence = modifiedsentence + dates[index].format();
+    //  }
+    //   }
+    //   )
+    // modifiedsentence=sentence;
+    // dates.map((val)=>{
+    //   modifiedsentence = modifiedsentence.replace(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/,val?.format())
+    //   console.log(modifiedsentence)
+    // })
+    const strmatch=[];
+    while (match = reg8.exec(sentence)) {
+      strmatch.push(match.index)
+    }
+     let prevExtractedDate;
+    strmatch.map((val,index)=>{
+       prevExtractedDate = sentence.slice(val,val+10)
+      if(dates[index]){
+        sentence = sentence.replace(prevExtractedDate,dates[index]?.format())
       }
-      )
-      console.log(modifiedsentence,"modifiedsentence");
-      Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
-
+   })
+      Sentence = modifiedsentence? modifiedsentence:sentence
    }
    if(datelength!=0){
+    console.log(datelength)
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
     console.log(arr,"re");
     console.log(dates[0].format());
@@ -407,10 +425,17 @@ const EstablishmentSearchStudyForm = ({
      if(dates[index]){
       modifiedsentence = modifiedsentence + dates[index].format();
      }
+     if(!dates[index] && index<datelength){
+      modifiedsentence = modifiedsentence + " ___/___/___"
+     }
       }
      )
     Sentence = modifiedsentence? modifiedsentence?.slice(9):sentence
    }
+  }
+  else{
+    Sentence=sentence
+  }
     const newdata = [];
     let new2 = [];
     newdata.push({

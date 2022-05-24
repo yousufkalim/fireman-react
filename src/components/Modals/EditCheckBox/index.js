@@ -83,8 +83,6 @@ export default function CustomizedDialogs(props) {
   const StringChange = (e)=>{
     setString(e.target.value)
   }
-  // console.log(dates.length, props.editDateLength);
-  // console.log(props.dateLength);
   console.log(props);
   return (
     <div>

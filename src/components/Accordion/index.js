@@ -327,6 +327,7 @@ const AccordionComponent = (props) => {
                     getSubCheckListData={getSubCheckListData}
                     getModifiedSentence={getModifiedSentence}
                     setSentenceText={setSentenceText}
+                    sentenceText={sentenceText}
                     chapterindex={props.chapterindex + 1}
                     sectionindex={props.sectionindex}
                     series={series.serialName}

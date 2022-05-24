@@ -8,8 +8,12 @@ import Subchecklist from "./Subchecklist";
 import pencil from "../../assets/pencilediticon.png";
 import { Store } from "../../StoreContext";
 import { UpdateStore } from "../../StoreContext";
-const CheckList = (props) => {
 
+const regexInt = /\[int\]/g
+const regexString = /\[string\]/g
+const regexDate = /\[date\]/g
+
+const CheckList = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const [checklistdata, setChecklistdata] = React.useState({});
@@ -18,6 +22,7 @@ const CheckList = (props) => {
   const [index, setIndex] = React.useState("");
   const [checked, setChacked] = React.useState("");
   const [subCheck, setSubcheck] = React.useState("");
+  const [datetab, setdatetab] = useState(false)
   const [sentenceStatus, setSentenceStatus] = React.useState({
     complete: false,
     incomplete: "",
@@ -204,6 +209,14 @@ console.log(checked);
                   handleOpen(data, props.accordionData.serialName + i);
                   props.setSentenceText(data.sentenceText);
                   setIndex(i);
+                  //setdatetab(true)
+                  let intlength = props.sentenceText.match(regexInt)
+                  let strlength = props.sentenceText.match(regexString)
+                  let datelength = props.sentenceText.match(regexDate)
+                  console.log(props.sentenceText);
+                  console.log(intlength);
+                  console.log(strlength);
+                  console.log(datelength);
                 }}
                   className={`sentence ${
                     checked == props.accordionData.serialName + i
@@ -221,6 +234,7 @@ console.log(checked);
                     handleOpen(data, props.accordionData.serialName + i);
                     props.setSentenceText(data.sentenceText);
                     setIndex(i);
+                    //setdatetab(false)
                   }}
                   sx={{ cursor: "pointer" }}
                 />
@@ -257,6 +271,7 @@ console.log(checked);
         open={open}
         handleClose={handleClose}
         setSubcheck={setSubcheck}
+        datetab={datetab}
       />
     </>
   );
