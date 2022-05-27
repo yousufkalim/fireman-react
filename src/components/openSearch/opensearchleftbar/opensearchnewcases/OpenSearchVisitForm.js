@@ -249,6 +249,10 @@ const EstablishmentSearchVisitForm = ({
             updatestore({
               activeNavbarTab: 1,
               buttonenable: true,
+              validatedSections:{
+                ...store?.validatedSections,
+                detailsobjectvalidated:true
+              }
             });
           }
         })
@@ -445,6 +449,7 @@ const EstablishmentSearchVisitForm = ({
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
                   type="submit"
+                  disabled={store.activeCase === "newcase"?!store?.validatedSections?.foldercreation?true:store.activeCase === "currentcase"?false:false:false}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

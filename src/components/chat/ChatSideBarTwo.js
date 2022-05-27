@@ -15,7 +15,7 @@ const ChatSideBarTwo = (props) => {
   };
   return (
     <>
-      <div style={{ background: "#314A6C" }} className="chatSidebar__body scroll-styling">
+      <div style={{ background: "#314A6C" }} className="chatSidebar__body ">
         <Box sx={{ padding: "20.8px" }}></Box>
         <Box sx={{ padding: "8% 0%", color: "#ffffff" }}>
           <Box
@@ -27,10 +27,11 @@ const ChatSideBarTwo = (props) => {
             }}
           >
             <h2> Recent Chats</h2>
-          </Box>
+          </Box >
+          <Box className="scroll-styling" sx={{maxHeight:"570px", overflow:"auto"}}> 
           {props.chatList?.map((chat) => (
             <div
-            style={{maxHeight:"550px", overflow:"auto"}}
+            
               className={AlertShow(chat.chatroom_id)}
               key={chat.chatroom_id}
               onClick={() => props.chatChange(chat)}
@@ -47,6 +48,7 @@ const ChatSideBarTwo = (props) => {
               {/* {chat.unread ? <span className="unread_chat"></span> : ""} */}
             </div>
           ))}
+          </Box>
         </Box>
       </div>
     </>

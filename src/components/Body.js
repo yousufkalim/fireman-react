@@ -12,12 +12,10 @@ import Implantation from "./Implantation/index";
 import NavbarNew from "./NavbarNew";
 import { Store } from "../StoreContext";
 import { UpdateStore } from "../StoreContext";
-import { toast } from "react-toastify";
 import FolderCreationContainer from "./openSearch/opensearchleftbar/opensearchnewcases/FolderCreationContainer";
 import EndedCases from "./openSearch/opensearchleftbar/opensearchendedcases/EndedCases";
 import Home from "./home";
 import Profile from "./profile";
-import SideBar from "./SideBar";
 import TeamManagement from "../components/TeamManagement";
 import NavbarDashBoard from "../components/NavbarDashBoard";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
@@ -194,6 +192,7 @@ const Body = () => {
                 TeamformDisplay={TeamformDisplay}
                 setTeamFormDisplay={setTeamFormDisplay}
                 getResponse={getResponse}
+                setRightBarData={setRightBarData}
               />
             </Grid>
             {store.activeNavbarTab === "termine" ||
@@ -225,6 +224,7 @@ const Body = () => {
                       currentcasesData={responseData}
                       CompName={CompName}
                       setCompName={setCompName}
+                      setRightBarData={setRightBarData}
                     />
                   ) : null}
                   {store.activeNavbarTab === 2 ? (

@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
 import scrollStyles from '../../../../components/ScrollBarStyle'
 
-const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
+const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
   const [indexdata, setIndexdata] = useState({
@@ -223,6 +223,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       cityname: params?.row?.val?.cityName,
       serialNum: params?.row?.val?.serialNum,
     });
+    getNotes(params.row.val.caseFileId);
     setCompName("currentcases");
     
       if (
@@ -257,7 +258,24 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName}) => {
       setFolderCreationData(res?.data);
     });
   };
-
+  const getNotes = (caseFileId) => {
+    if (store?.caseFileId || caseFileId) {
+      api("get", `/api/v1/checkList/section_notes/${store?.caseFileId?store?.caseFileId:caseFileId}`).then(
+        (res) => {
+          console.log(res.data,"121");
+          if (res.data.length > 0) {
+            updatestore({ unreadnotes: res?.data?.length });
+          }
+          setRightBarData((pre) => {
+            return {
+              ...pre,
+              notes: res?.data,
+            };
+          });
+        }
+      );
+    }
+  };
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),

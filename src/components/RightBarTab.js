@@ -118,8 +118,9 @@ const EstablishmentSearchRightBar = ({
     if (store?.caseFileId) {
       api("get", `/api/v1/checkList/section_notes/${store?.caseFileId}`).then(
         (res) => {
+          console.log(res.data,"121");
           if (res.data.length > 0) {
-            update({ unreadnotes: res.data.length });
+            update({ unreadnotes: res?.data?.length });
           }
           setRightBarData((pre) => {
             return {
@@ -201,6 +202,7 @@ const EstablishmentSearchRightBar = ({
 
       api("post", "/api/v1/checkList/section_assistance", form_data).then(
         (res) => {
+          console.log(res);
           if (res.data.success === true) {
             setImage("");
             setInputValues((pre) => {
@@ -212,7 +214,7 @@ const EstablishmentSearchRightBar = ({
             });
             toast.success("Email envoyé");
           } else {
-            toast.error("error");
+            toast.error(res?.data?.errorMessage[0]);
           }
         }
       );
@@ -625,7 +627,7 @@ const EstablishmentSearchRightBar = ({
                   };
                 });
               }}
-              src={store.unreadnotes > 0 ? unreadnotes : notesicon}
+              src={store.unreadnotes > 0  || rightBarData.notes? unreadnotes : notesicon}
             />
 
             <svg

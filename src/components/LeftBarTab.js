@@ -8,6 +8,7 @@ const EstablishmentSearchLeftBar = ({
   getResponse,
   setCompName,
   setTeamFormDisplay,
+  setRightBarData
 }) => {
   const { t, i18n } = useTranslation();
   const [active, setActive] = useState("newcases");
@@ -178,8 +179,22 @@ const EstablishmentSearchLeftBar = ({
     if (activelefttab == "team") {
       setTeamFormDisplay(true);
     }
-    update({ activeNavbarTab: activelefttab, catTab: false, validatedSections:{}});
+    update({ 
+      activeNavbarTab: activelefttab, 
+      catTab: false, 
+      validatedSections:{}, 
+      unreadnotes:"",
+      caseFileId:"", 
+      implantationvideodata:"",
+      implantationcommentsdata:""
+    });
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab
+    setRightBarData((pre)=>{
+   return{
+     ...pre,
+     notes:"",
+   }
+    })
     if (activelefttab === "currentcases") {
       setCompName("");
       let userId = localStorage.getItem("userData");

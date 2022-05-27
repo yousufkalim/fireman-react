@@ -88,7 +88,6 @@ const FolderCreationSection = ({
         : false,
     visitbutton: true,
   });
-
   const updatestore = UpdateStore();
   useEffect(() => {
     let userId = localStorage.getItem("userData");
@@ -331,6 +330,7 @@ const getIndexData =()=>{
       if (store.activeCase === "newcase") {
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
           .then((res) => {
+            console.log(res?.data);
             getIndexData();
             setInputValues((preVal) => {
               return {
