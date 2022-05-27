@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Grid, Paper } from "@mui/material";
 import { Store } from "../StoreContext";
 import Box from "@mui/material/Box";
-import Firecart from "../assets/Firecart.svg";
+import Firecart from "../assets/firecart.png";
 import cartwithdata from "../assets/cartwithdata.svg";
 import Commentaries from "../assets/commentaries.png";
 import don from "../assets/ronaldo.jpeg";
@@ -586,6 +586,7 @@ const EstablishmentSearchRightBar = ({
             sx={{ display: "flex", flexDirection: "column" }}
           >
             <img
+             style={{height:"65px", width:"70px"}}
               onClick={() => {
                 setSideBar(true);
                 setActiveTab((pre) => {
@@ -617,6 +618,7 @@ const EstablishmentSearchRightBar = ({
               }
             />
             <img
+            style={{height:"65px", width:"70px"}}
               onClick={() => {
                 setSideBar(true);
                 getNotes();
@@ -640,8 +642,8 @@ const EstablishmentSearchRightBar = ({
                   };
                 });
               }}
-              width="50"
-              height="50"
+              width="60"
+              height="60"
               viewBox="0 0 23 22"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
