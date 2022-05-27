@@ -174,7 +174,9 @@ const EstablishmentSearchRightBar = ({
     }
     if (!store?.caseFileId) {
       toast.error("Vous n'avez pas ouvert ou créé de dossier");
-    } else {
+    } 
+    if(inputValues?.notes && store?.caseFileId)
+    {
       api("post", "/api/v1/checkList/save_section_notes", obj).then((res) => {
         if (res.data === true) {
           toast.success(t("Successfull"));
@@ -184,6 +186,8 @@ const EstablishmentSearchRightBar = ({
         }
       });
     }
+          
+    
   };
   const sendAssistance = () => {
     if (!imageData || !inputValues.subject || !inputValues.assistance) {

@@ -333,7 +333,8 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
                 <Button
-                disabled={buttonEnability?.Rankingbutton}
+                //disabled={!store?.validatedSections?.stafflevel? true:false}
+                disabled={store.activeCase === "newcase"?!store?.validatedSections?.stafflevel?true:store.activeCase === "currentcase"?false:false:false}
                   type="submit"
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{

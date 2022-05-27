@@ -84,6 +84,8 @@
     background-color: aliceblue;
     width: 25%;
     border-right: 3px solid #314A6C;
+    overflow: scroll;
+    height: 747px;
   }
   .send-icon{
     background-color: #314A6C;

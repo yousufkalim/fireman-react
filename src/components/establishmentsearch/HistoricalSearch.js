@@ -576,7 +576,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   >
                     <Button
                       type="submit"
-                      disabled={buttonEnability?.historicalmainbutton}
+                      //disabled={!store?.validatedSections?.detailsobjectvalidated?true:false}
+                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.detailsobjectvalidated?true:store.activeCase === "currentcase"?false:false:false}
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
                       }

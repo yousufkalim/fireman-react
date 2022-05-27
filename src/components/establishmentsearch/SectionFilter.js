@@ -316,7 +316,6 @@ const SectionFilter = ({
                                   ? "1px solid #C5D3DB"
                                   : "",
                               width: "97%",
-                              justifyContent: "center",
                             }}
                             className="radio-btn-container"
                           >
@@ -576,11 +575,12 @@ const SectionFilter = ({
                               style={{
                                 width: "100%",
                                 borderBottom: "1px solid #C5D3DB",
+                                padding:"0% 2%" 
                               }}
                               className="radion-btn-text-container"
                             >
                               <span
-                                style={{ width: "25%" }}
+                                style={{ width: "auto", marginRight:"0.5%" }}
                                 className="radio-btn-name-text"
                               >
                                 Avec sommeil
@@ -616,7 +616,7 @@ const SectionFilter = ({
                                 }
                               />
                               <span
-                                style={{ width: "25%" }}
+                                style={{ width: "auto" }}
                                 className="radio-btn-name-text"
                               >
                                 Sans sommeil
@@ -1155,7 +1155,9 @@ const SectionFilter = ({
               >
                 <Button
                   type="submit"
-                  disabled={buttonEnability?.Sectionfilterbutton}
+                  //disabled={buttonEnability?.Sectionfilterbutton||store?.validatedSections?.sectionfiltervalidated!=true? true:false}
+                  //disabled={store?.validatedSections?.rankingvalidated!=true? true:false}
+                  disabled={store.activeCase === "newcase"?!store?.validatedSections?.rankingvalidated?true:store.activeCase === "currentcase"?false:false:false}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

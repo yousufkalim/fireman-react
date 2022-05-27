@@ -47,8 +47,6 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
       setOpen(true);
     };
     return (
-      <FormControlLabel
-        control={
           <IconButton
             color="secondary"
             aria-label="add an alarm"
@@ -56,8 +54,6 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
           >
             <DeleteIcon style={{ color: red[500] }} />
           </IconButton>
-        }
-      />
     );
   };
   const column = [

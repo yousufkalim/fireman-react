@@ -609,7 +609,8 @@ const EstablishmentLevel = ({
                     sx={{ textAlign: "right", width: "96%", margin: "auto" }}
                   >
                     <button
-                      disabled={buttonEnability?.establishmentlevelbutton}
+                      //disabled={!store?.validatedSections?.createhistoricalvalidated?true:false}
+                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.createhistoricalvalidated?true:store.activeCase === "currentcase"?false:false:false}
                       className={
                         !buttonEnability?.establishmentlevelbutton
                           ? "btn-validate"

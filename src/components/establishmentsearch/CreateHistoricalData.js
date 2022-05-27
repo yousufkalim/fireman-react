@@ -1244,7 +1244,8 @@ const CreateHistoricalData = ({
                     <Box sx={{ textAlign: "right", padding: "10px" }}>
                       <Button
                         type="submit"
-                        disabled={buttonEnability?.historicalsearchbutton}
+                        //disabled={!store?.validatedSections?.historicalsearchvalidated?true:false}
+                        disabled={store.activeCase === "newcase"?!store?.validatedSections?.historicalsearchvalidated?true:store.activeCase === "currentcase"?false:false:false}
                         endIcon={
                           <img className="icon-validate" src={Rightarrow} />
                         }

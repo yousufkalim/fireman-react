@@ -414,8 +414,6 @@ const EstablishmentSearchStudyForm = ({
    if(datelength!=0){
     console.log(datelength)
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
-    console.log(arr,"re");
-    console.log(dates[0].format());
      //const sentencewithDate = dates?.map((val, index)=>{
       //modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
       //}
@@ -1000,7 +998,8 @@ const EstablishmentSearchStudyForm = ({
                   <Box sx={{ textAlign: "right", padding: "10px" }}>
                     <Button
                       type="submit"
-                      disabled={buttonEnability.townplanningbutton}
+                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.foldercreation?true:store.activeCase === "currentcase"?false:false:false}
+                      //disabled={!store?.validatedSections?.foldercreation?true:false}
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
                       }
@@ -1225,7 +1224,8 @@ const EstablishmentSearchStudyForm = ({
                   />
                   <Box sx={{ textAlign: "right", padding: "2% 0.3%" }}>
                     <Button
-                      disabled={buttonEnability.detailsobject}
+                      //disabled={!store?.validatedSections?.townplanningvalidated?true:false}
+                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.townplanningvalidated?true:store.activeCase === "currentcase"?false:false:false}
                       type="submit"
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />

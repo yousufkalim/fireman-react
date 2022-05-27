@@ -733,7 +733,8 @@ const StaffLevel = ({
             </Box>
             <Box sx={{ textAlign: "right", padding: "10px" }}>
               <Button
-                disabled={buttonEnability?.stafftablebutton}
+                //disabled={!store?.validatedSections?.establishmentlevelvalidated? true:false}
+                disabled={store.activeCase === "newcase"?!store?.validatedSections?.establishmentlevelvalidated?true:store.activeCase === "currentcase"?false:false:false}
                 type="submit"
                 onClick={handleSubmit}
                 endIcon={<img className="icon-validate" src={Rightarrow} />}

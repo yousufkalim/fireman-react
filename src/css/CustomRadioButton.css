@@ -27,7 +27,6 @@ input[type="radio"]:focus {
 }
 .radion-btn-text-container {
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 20%;
 }

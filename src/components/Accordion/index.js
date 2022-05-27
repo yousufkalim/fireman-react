@@ -418,7 +418,7 @@ const AccordionComponent = (props) => {
                   PRECEDENT
                 </Button> */}
                 <Button
-                  disabled={store?.btnenableImpantation}
+                  disabled={store.activeCase==="currentcases"?false:store?.btnenableImpantation}
                   onClick={() => {
                     setSectiondDetail(() => {
                       return {

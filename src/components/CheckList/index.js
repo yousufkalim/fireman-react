@@ -12,6 +12,12 @@ import { UpdateStore } from "../../StoreContext";
 const regexInt = /\[int\]/g
 const regexString = /\[string\]/g
 const regexDate = /\[date\]/g
+const regexeditdate = /(\d{1,4}([\/])\d{1,2}([\/])\d{4})/g
+let regexeditInt=/[,](-?[0-9]{1,})[,]/g 
+//let regexeditstring=/[.]([a-z]{1,})[.]/||/[.]([a-z]{1,}\s*?[a-z]{1,}?)[.]/
+//let regexeditstring = /[.]([a-z]{1,}\s*?[a-z]{1,}?)[.]/g
+ let regexeditstring =  /\.([^\.]+)\./g
+let modifiedsentence;
 
 const CheckList = (props) => {
 
@@ -28,6 +34,7 @@ const CheckList = (props) => {
     incomplete: "",
     subcheck: "",
   });
+  const [blanksLength, setBlanksLength] = useState({})
   const [sentenceDetails, setSentenceDetails] = useState({
     sentenceNature: "",
     seriesname: "",
@@ -46,7 +53,163 @@ const CheckList = (props) => {
   };
 
   const handleClose = () => setOpen(false);
-  const saveChanges = (sentence, sentenceId, nature, seriesname, sectiontype, serialid) => {
+  const saveChanges = (...data) => {
+    let [sentence, sentenceId, nature, seriesname,serialid,dates,level,datelength,,,items,intlength, inputstrings,stringlength] = data
+     console.log(data);
+      console.log(inputstrings);
+////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////     
+if(inputstrings.length>0){
+  if(stringlength!=0){
+    let arrStrOccurence=sentence.split(regexString)
+    console.log(arrStrOccurence,"arrStrOccurence");
+    const sentencewithInt = arrStrOccurence?.map((val, index)=>{
+      modifiedsentence = modifiedsentence + val + " ";
+       if(inputstrings[index]){
+        modifiedsentence = modifiedsentence + "." + inputstrings[index]?.text + ".";
+       }
+       if(!inputstrings[index] && index<stringlength){
+        modifiedsentence = modifiedsentence + " [string]"
+       }
+        }
+       )
+       sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence
+       modifiedsentence=""
+  }
+  if(stringlength==""){
+    const strmatch=[];
+    const tobereplacedarr=[];
+    const obj={}
+    let match;
+    while (match = regexeditstring.exec(sentence)) {
+      strmatch.push({
+        "index" : match.index,
+        "length" : match[0]?.length 
+      })
+    }
+    console.log(strmatch,"strmatch");
+    let tobereplaced;
+    strmatch.map((val,index)=>{
+       tobereplaced = sentence?.slice(val?.index,val?.index+val?.length)
+       tobereplacedarr.push(tobereplaced)
+      //if(inputstrings[index]?.text){
+        //sentence = sentence.replace(tobereplaced, `.${inputstrings[index]?.text}.`)
+      //}
+   })
+   tobereplacedarr.map((val,index)=>{
+        if(inputstrings[index]?.text){
+        sentence = sentence.replace(val, `.${inputstrings[index]?.text}.`)
+      }
+      return sentence;
+    })
+  
+   sentence = sentence? sentence?.replace(undefined,""):sentence;
+   modifiedsentence=""
+  }
+  
+}
+else{
+  sentence = sentence
+}
+////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////
+
+////////////////////////////////////////////levelsreplacement////////////////////////////////////////////////////
+console.log(items?.length,"items.intlength")
+console.log(intlength,"intlength")
+if(items?.length>0){
+if(intlength!=0){
+  let arrIntOccurence=sentence.split(regexInt)
+  console.log(arrIntOccurence,"arrIntOccurence");
+  const sentencewithInt = arrIntOccurence?.map((val, index)=>{
+    modifiedsentence = modifiedsentence + val + " ";
+     if(items[index]){
+      modifiedsentence = modifiedsentence + "," + items[index]?.name + ",";
+     }
+     if(!items[index] && index<intlength){
+      modifiedsentence = modifiedsentence + " [int]"
+     }
+      }
+     )
+     sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence
+     modifiedsentence=""
+}
+if(intlength==""){
+const strmatch=[];
+let tobereplacedarr =[];
+      let match;
+      while (match = regexeditInt.exec(sentence)) {
+        strmatch.push({
+          "index" : match.index,
+          "length" : match[0]?.length 
+        })
+      }
+      console.log(strmatch);
+      console.log(sentence);
+      let prevExtractedInt;
+      strmatch.map((val,index)=>{
+         prevExtractedInt = sentence?.slice(val?.index,val?.index+val?.length)
+         tobereplacedarr.push(prevExtractedInt)
+        // if(items[index]?.name){
+        //   sentence = sentence.replace(prevExtractedInt,","+items[index]?.name+",")
+        // }
+     })
+     tobereplacedarr?.map((val,index)=>{
+      if(items[index]?.name){
+      sentence = sentence.replace(val, `,${items[index]?.name},`)
+    }
+    return sentence;
+  })
+
+     sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence;
+     modifiedsentence=""
+     
+}
+}
+else{
+  sentence =  sentence?.replace(undefined,"")
+}
+////////////////////////////////////////////levels replacement////////////////////////////////////////////////////
+
+////////////////////////////////////////////dates replacement////////////////////////////////////////////////////
+    if(dates.length>0){
+     /////
+     if(datelength==0){
+      const arr = sentence.split(regexeditdate);
+      const strmatch=[];
+      let match;
+      while (match = regexeditdate.exec(sentence)) {
+        strmatch.push(match.index)
+      }
+       let prevExtractedDate;
+      strmatch.map((val,index)=>{
+         prevExtractedDate = sentence.slice(val,val+10)
+        if(dates[index]){
+          sentence = sentence.replace(prevExtractedDate,dates[index]?.format())
+        }
+     })
+     sentence = modifiedsentence? modifiedsentence:sentence;
+     modifiedsentence=""
+     }
+     /////
+     if(datelength!=0){
+      let arr=sentence.split(regexDate)
+      const sentencewithDate = arr?.map((val, index)=>{
+        modifiedsentence = modifiedsentence + val + " ";
+         if(dates[index]){
+          modifiedsentence = modifiedsentence + dates[index].format();
+         }
+         if(!dates[index] && index<datelength){
+          modifiedsentence = modifiedsentence + " [date]"
+         }
+          }
+         )
+         sentence = modifiedsentence? modifiedsentence:sentence
+      modifiedsentence=""
+     }
+    }
+    else{
+      sentence =  sentence?.replace(undefined,"")
+    }
+////////////////////////////////////////////dates replacement////////////////////////////////////////////////////
     const objIndex = checklists.findIndex(
       (obj) => obj?.sectionSentencesId === sentenceId
     );
@@ -72,9 +235,6 @@ const CheckList = (props) => {
     );
     checklists[new2] = i;
   });
-  console.log(store);
-console.log(checked);
-  console.log(store?.implantationtabdata?.implantationchecked);
  
   return (
     <>
@@ -96,8 +256,6 @@ console.log(checked);
                   : ""
               }`}
             >
-               {console.log(store?.implantationtabdata?.implantationchecked,"lk")}
-               {console.log(props.accordionData?.serialName + i,"bk")}
               <div className="checklist_content">
                
                 <Checkbox
@@ -209,14 +367,22 @@ console.log(checked);
                   handleOpen(data, props.accordionData.serialName + i);
                   props.setSentenceText(data.sentenceText);
                   setIndex(i);
-                  //setdatetab(true)
-                  let intlength = props.sentenceText.match(regexInt)
-                  let strlength = props.sentenceText.match(regexString)
-                  let datelength = props.sentenceText.match(regexDate)
-                  console.log(props.sentenceText);
-                  console.log(intlength);
-                  console.log(strlength);
-                  console.log(datelength);
+                  setdatetab(true)
+                  let intlength = data?.sentenceText.match(regexInt)
+                  let strlength = data?.sentenceText.match(regexString)
+                  let datelength = data?.sentenceText.match(regexDate)
+                  let editdatelength = data?.sentenceText.match(regexeditdate)
+                  let editintlength = data?.sentenceText.match(regexeditInt)
+                  let regexeditString = data?.sentenceText.match(regexeditstring)
+                  console.log(data.sentenceText,"regexeditString");
+                  setBlanksLength({
+                    intLength:intlength?.length, 
+                    strLength:strlength?.length,
+                    datelength:datelength?.length,
+                    editDateLength:editdatelength?.length,
+                    editintLength:editintlength?.length,
+                    strEditString:regexeditString?.length
+                  })
                 }}
                   className={`sentence ${
                     checked == props.accordionData.serialName + i
@@ -231,10 +397,11 @@ console.log(checked);
                 <img
                   src={pencil}
                   onClick={() => {
+                    console.log(data);
                     handleOpen(data, props.accordionData.serialName + i);
                     props.setSentenceText(data.sentenceText);
                     setIndex(i);
-                    //setdatetab(false)
+                    setdatetab(false)
                   }}
                   sx={{ cursor: "pointer" }}
                 />
@@ -271,7 +438,10 @@ console.log(checked);
         open={open}
         handleClose={handleClose}
         setSubcheck={setSubcheck}
+        blanksLength={blanksLength}
+        dateLength={blanksLength?.datelength}
         datetab={datetab}
+        sentenceText={props?.sentenceText}
       />
     </>
   );

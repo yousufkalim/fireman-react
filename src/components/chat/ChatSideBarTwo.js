@@ -15,7 +15,7 @@ const ChatSideBarTwo = (props) => {
   };
   return (
     <>
-      <div style={{ background: "#314A6C" }} className="chatSidebar__body">
+      <div style={{ background: "#314A6C" }} className="chatSidebar__body scroll-styling">
         <Box sx={{ padding: "20.8px" }}></Box>
         <Box sx={{ padding: "8% 0%", color: "#ffffff" }}>
           <Box
