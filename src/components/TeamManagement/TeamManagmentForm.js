@@ -116,7 +116,7 @@ const TeamManagmentForm = ({
       api("post", "/api/v1/register", data).then((res) => {
         console.log("res register api", res);
         setTeamFormDisplay(true);
-        if (res?.status == 200) {
+       
           if (res?.data.success == true) {
             setTeamFormDisplay(true);
             toast.success("Employé ajouté avec succès");
@@ -125,7 +125,7 @@ const TeamManagmentForm = ({
           if (res?.data?.success == false) {
             toast.error(res?.data?.errorMessage[0]);
           }
-        }
+        
       });
     }
     if (team.employeeId > 0) {
