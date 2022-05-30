@@ -8,7 +8,7 @@ import ForgetPassword from "../components/auth/ForgetPassword";
 import Body from '../components/Body'
 import Accuceil from "../components/Accuceil";
 import Home from '../components/home/index';
-import OpenSearchCurrentCases from '../components/openSearch/opensearchleftbar/opensearchcurrentcases/OpenSearchCurrentCases'
+
 const index = () => {
   let userdata = localStorage.getItem("userData");
   userdata = JSON.parse(userdata);

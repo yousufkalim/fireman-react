@@ -191,6 +191,7 @@ const EstablishmentSearchRightBar = ({
     
   };
   const sendAssistance = () => {
+    console.log(inputValues.subject,"store?.userId");
     if (!imageData || !inputValues.subject || !inputValues.assistance) {
       toast.error("Veuillez remplir tous les champs obligatoires");
     } else {
