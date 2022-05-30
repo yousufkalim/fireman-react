@@ -157,7 +157,10 @@ const SectionFilter = ({
           updatestore({
             activeNavbarTab: 2,
             btnenableImpantation: false,
-              validatedSections: {...store?.validatedSections, sectionfiltervalidated:true}
+            validatedSections: {
+              ...store?.validatedSections,
+              sectionfiltervalidated: true,
+            },
           });
           setToggler((pre) => {
             return {
@@ -202,7 +205,10 @@ const SectionFilter = ({
         }}
       >
         <Typography variant="h6"> reglementaions</Typography>
-        {Icon.iconsectionfilter || store?.validatedSections?.sectionfiltervalidated? <img src={don} /> : null}
+        {Icon.iconsectionfilter ||
+        store?.validatedSections?.sectionfiltervalidated ? (
+          <img src={don} />
+        ) : null}
       </Box>
       <Accordion
         sx={{
@@ -232,7 +238,7 @@ const SectionFilter = ({
                   {filterData?.groups?.map((val) => (
                     <>
                       <div
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", padding:"2% 0%" }}
                         className="heading-establishment"
                       >
                         <span className="checklist-heading line">
@@ -269,7 +275,7 @@ const SectionFilter = ({
                             {val?.groupTypes.map((grouptypes) => (
                               <>
                                 <div className="radion-btn-text-container">
-                                  <span className="radio-btn-name-text">
+                                  <span style={{textAlign:"start"}} className="radio-btn-name-text">
                                     {grouptypes?.name}
                                   </span>
                                   <CustomRadioButton
@@ -309,20 +315,24 @@ const SectionFilter = ({
                       }
                       {
                         <>
+                         <div
+                         style={{
+                          borderTop:
+                            val?.groupClassements.length > 0
+                              ? "1px solid #C5D3DB"
+                              : "",
+                          width: "100%",
+                        }}
+                        > 
+                        </div>
                           <div
-                            style={{
-                              borderTop:
-                                val?.groupClassements.length > 0
-                                  ? "1px solid #C5D3DB"
-                                  : "",
-                              width: "97%",
-                            }}
+                           
                             className="radio-btn-container"
                           >
                             {val?.groupClassements.map((groupClassements) => (
                               <>
-                                <div className="radion-btn-text-container">
-                                  <span className="radio-btn-name-text">
+                                <div style={{textAlign:"start"}} className="radion-btn-text-container">
+                                  <span style={{width:"80%"}}  className="radio-btn-name-text">
                                     {groupClassements?.name}
                                   </span>
                                   <CustomRadioButton
@@ -339,6 +349,7 @@ const SectionFilter = ({
                                       //    ||
                                       //    (store.activeCase === "currentcases" && groupClassements?.isSelected && !radioValues?.sectionClassementId)
                                     }
+                                    textAlign={true}
                                     onChange={(e) =>
                                       _setState(
                                         "sectionClassementId",
@@ -366,17 +377,18 @@ const SectionFilter = ({
                             className="radio-btn-container"
                             style={{
                               borderTop: "1px solid #C5D3DB",
-                              width: "100%",
+                              width: "99%",
                               display: "flex",
                               flexDirection: "column",
+                              padding:"0% 0.4%"
                             }}
                           >
                             <div style={{ display: "flex" }}>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "25%" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span style={{textAlign:"start", width:"100%"}} className="radio-btn-name-text">
                                   Simple RDC
                                 </span>
                                 <CustomRadioButton
@@ -416,10 +428,10 @@ const SectionFilter = ({
                                 />
                               </div>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "29%" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span style={{width:"100%"}} className="radio-btn-name-text">
                                   A etages moins 8m
                                 </span>
                                 <CustomRadioButton
@@ -453,10 +465,10 @@ const SectionFilter = ({
                                 />
                               </div>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "40%", textAlign:"start" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span style={{width:"45%"}} className="radio-btn-name-text">
                                   A etages plus 8m
                                 </span>
                                 <CustomRadioButton
@@ -492,10 +504,10 @@ const SectionFilter = ({
                             </div>
 
                             <div
-                              style={{ width: "66.5%" }}
+                              style={{ width: "52.7%" }}
                               className="radion-btn-text-container"
                             >
-                              <span className="radio-btn-name-text">
+                              <span style={{textAlign:"start", width:"94%"}} className="radio-btn-name-text">
                                 Avec sous-soul
                               </span>
                               <CustomRadioButton
@@ -528,7 +540,7 @@ const SectionFilter = ({
                                 }
                                 value="1"
                               />
-                              <span className="radio-btn-name-text">
+                              <span style={{textAlign:"start", width:"100%"}}  className="radio-btn-name-text">
                                 Sans sous-soul
                               </span>
                               <CustomRadioButton
@@ -572,16 +584,13 @@ const SectionFilter = ({
                               {" "}
                             </div>
                             <div
-                              style={{
-                                width: "100%",
-                                borderBottom: "1px solid #C5D3DB",
-                                padding:"0% 2%" 
-                              }}
-                              className="radion-btn-text-container"
+                              style={{display:"flex", padding:"1% 0%", borderBottom:"1px solid #C5D3DB"}}
+                             
                             >
+                                <div style={{display:"flex", alignItems:"center", width:"26%"}}> 
                               <span
-                                style={{ width: "auto", marginRight:"0.5%" }}
-                                className="radio-btn-name-text"
+                               style={{textAlign:"start", width:"47%"}}
+                              
                               >
                                 Avec sommeil
                               </span>
@@ -615,9 +624,11 @@ const SectionFilter = ({
                                   val?.sectionGroupId != radioValues?.groupid
                                 }
                               />
+                              </div>
+                              <div style={{display:"flex", alignItems:"center", width:"60%"}}>
                               <span
-                                style={{ width: "auto" }}
-                                className="radio-btn-name-text"
+                                 style={{textAlign:"start", width:"20.5%"}}
+                               
                               >
                                 Sans sommeil
                               </span>
@@ -652,6 +663,7 @@ const SectionFilter = ({
                                   val?.sectionGroupId != radioValues?.groupid
                                 }
                               />
+                              </div>
                             </div>
                           </div>
                         </>
@@ -672,7 +684,7 @@ const SectionFilter = ({
                   {filterData?.groups?.map((val) => (
                     <>
                       <div
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", padding:"2% 0%" }}
                         className="heading-establishment"
                       >
                         <span className="checklist-heading line">
@@ -708,7 +720,7 @@ const SectionFilter = ({
                             {val?.groupTypes.map((grouptypes) => (
                               <>
                                 <div className="radion-btn-text-container">
-                                  <span className="radio-btn-name-text">
+                                  <span style={{textAlign:"start"}} className="radio-btn-name-text">
                                     {grouptypes?.name}
                                   </span>
                                   <CustomRadioButton
@@ -751,21 +763,23 @@ const SectionFilter = ({
                       }
                       {
                         <>
+                        <div
+                         style={{
+                          borderTop:
+                            val?.groupClassements.length > 0
+                              ? "1px solid #C5D3DB"
+                              : "",
+                          width: "100%",
+                        }}
+                        > 
+                        </div>
                           <div
-                            style={{
-                              borderTop:
-                                val?.groupClassements.length > 0
-                                  ? "1px solid #C5D3DB"
-                                  : "",
-                              width: "97%",
-                              justifyContent: "center",
-                            }}
                             className="radio-btn-container"
                           >
                             {val?.groupClassements.map((groupClassements) => (
                               <>
-                                <div className="radion-btn-text-container">
-                                  <span className="radio-btn-name-text">
+                                <div style={{textAlign:"start"}} className="radion-btn-text-container">
+                                  <span style={{width:"80%"}} className="radio-btn-name-text">
                                     {groupClassements?.name}
                                   </span>
                                   <CustomRadioButton
@@ -785,6 +799,7 @@ const SectionFilter = ({
                                       //    ||
                                       //    (store.activeCase === "currentcases" && groupClassements?.isSelected && !radioValues?.sectionClassementId)
                                     }
+                                    textAlign={true}
                                     onChange={(e) =>
                                       _setState(
                                         "sectionClassementId",
@@ -812,17 +827,18 @@ const SectionFilter = ({
                             className="radio-btn-container"
                             style={{
                               borderTop: "1px solid #C5D3DB",
-                              width: "100%",
+                              width: "99%",
                               display: "flex",
                               flexDirection: "column",
+                              padding:"0% 0.4%"
                             }}
                           >
                             <div style={{ display: "flex" }}>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "25%" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span style={{textAlign:"start", width:"100%"}} className="radio-btn-name-text">
                                   Simple RDC
                                 </span>
                                 <CustomRadioButton
@@ -864,10 +880,10 @@ const SectionFilter = ({
                                 />
                               </div>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "29%" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span  style={{ width: "100%" }} className="radio-btn-name-text">
                                   A etages moins 8m
                                 </span>
                                 <CustomRadioButton
@@ -907,10 +923,10 @@ const SectionFilter = ({
                                 />
                               </div>
                               <div
-                                style={{ width: "40%" }}
+                                style={{ width: "40%", textAlign:"start" }}
                                 className="radion-btn-text-container"
                               >
-                                <span className="radio-btn-name-text">
+                                <span style={{width:"45%"}} className="radio-btn-name-text">
                                   A etages plus 8m
                                 </span>
                                 <CustomRadioButton
@@ -951,10 +967,10 @@ const SectionFilter = ({
                               </div>
                             </div>
                             <div
-                              style={{ width: "66.5%" }}
+                              style={{ width: "52.7%" }}
                               className="radion-btn-text-container"
                             >
-                              <span className="radio-btn-name-text">
+                              <span style={{textAlign:"start", width:"94%"}} className="radio-btn-name-text">
                                 Avec sous-soul
                               </span>
                               <CustomRadioButton
@@ -994,7 +1010,7 @@ const SectionFilter = ({
                                 }
                                 value="1"
                               />
-                              <span className="radio-btn-name-text">
+                              <span style={{width:"100%", textAlign:"start"}} className="radio-btn-name-text">
                                 Sans sous-soul
                               </span>
                               <CustomRadioButton
@@ -1045,15 +1061,11 @@ const SectionFilter = ({
                               {" "}
                             </div>
                             <div
-                              style={{
-                                width: "100%",
-                                borderBottom: "1px solid #C5D3DB",
-                              }}
-                              className="radion-btn-text-container"
+                               style={{display:"flex", padding:"1% 0%"}}
                             >
+                              <div style={{display:"flex", alignItems:"center", width:"26%"}}> 
                               <span
-                                style={{ width: "25%" }}
-                                className="radio-btn-name-text"
+                              style={{textAlign:"start", width:"47%"}}
                               >
                                 Avec sommeil
                               </span>
@@ -1094,9 +1106,10 @@ const SectionFilter = ({
                                 }
                                 width="auto"
                               />
+                             </div>
+                              <div style={{display:"flex", alignItems:"center", width:"60%"}}>
                               <span
-                                style={{ width: "25%" }}
-                                className="radio-btn-name-text"
+                                style={{textAlign:"start", width:"20.5%"}}
                               >
                                 Sans sommeil
                               </span>
@@ -1138,7 +1151,9 @@ const SectionFilter = ({
                                 }
                                 width="auto"
                               />
+                              </div>
                             </div>
+                            <div style={{borderBottom:"1px solid #C5D3DB", width:"100%"}}></div>
                           </div>
                         </>
                       }
@@ -1146,6 +1161,61 @@ const SectionFilter = ({
                   ))}
                 </div>
               ) : null}
+              <>
+                <div
+                  style={{
+                    width: "99%",
+                    borderBottom: "1px solid #C5D3DB",
+                    textAlign:"start",
+                    margin:"auto"
+                  }}
+                  className="radion-btn-text-container"
+                >
+                  <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", width:"83%", padding:"1% 0%"}}> 
+                  <div style={{width:"41%"}} className="levels"> 
+                  <span
+                 style={{ width:"47%"}}
+                    className="radio-btn-name-text"
+                  >
+                    N1
+                  </span>
+                  <CustomRadioButton
+                    Name="difficultylevels"
+                    For="none"
+                    btnName="none"
+                    width="auto"
+                  />
+                  </div>
+                  <div style={{width:"45%"}} className="levels"> 
+                  <span
+                   style={{ width:"46%"}}
+                  >
+                    N2
+                  </span>
+                  <CustomRadioButton
+                    Name="difficultylevels"
+                    For="ntwo"
+                    btnName="ntwo"
+                    width="auto"
+                  />
+                  </div>
+                  <div style={{width:"45%"}} className="levels"> 
+                  <span
+                  style={{width:"42%"}}
+                    className="radio-btn-name-text"
+                  >
+                    N3
+                  </span>
+                  <CustomRadioButton
+                     Name="difficultylevels"
+                    For="nthree"
+                    btnName="nthree"
+                    width="auto"
+                  />
+                 </div>
+                </div>
+                </div>
+              </>
               <Box
                 sx={{
                   textAlign: "right",
@@ -1157,7 +1227,15 @@ const SectionFilter = ({
                   type="submit"
                   //disabled={buttonEnability?.Sectionfilterbutton||store?.validatedSections?.sectionfiltervalidated!=true? true:false}
                   //disabled={store?.validatedSections?.rankingvalidated!=true? true:false}
-                  disabled={store.activeCase === "newcase"?!store?.validatedSections?.rankingvalidated?true:store.activeCase === "currentcase"?false:false:false}
+                  disabled={
+                    store.activeCase === "newcase"
+                      ? !store?.validatedSections?.rankingvalidated
+                        ? true
+                        : store.activeCase === "currentcase"
+                        ? false
+                        : false
+                      : false
+                  }
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",

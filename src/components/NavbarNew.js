@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/nav.svg";
-import Site from "../assets/site.png";
+import Site from "../assets/siteprev.png";
 import dummy from "../assets/dummy.jpeg";
 import { useTranslation, Trans } from "react-i18next";
 import { UpdateStore } from "../StoreContext";

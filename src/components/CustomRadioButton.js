@@ -1,12 +1,12 @@
 import React from 'react'
 
 
-const CustomRadioButton = ({btnName,Name,For,setState,onChange,disabled,checked,defaultChecked, width}) => {
+const CustomRadioButton = ({btnName,Name,For,setState,onChange,disabled,checked,defaultChecked, width,textAlign}) => {
   
   return (
    <>
     
-   <label style={{width:width}} className="radio-btn-container" for={For}>
+   <label style={{width:width, justifyContent:textAlign?"center":""}} className="radio-btn-container" for={For}>
     <input
     checked={checked}
     defaultChecked={defaultChecked}

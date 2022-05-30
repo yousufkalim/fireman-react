@@ -41,8 +41,8 @@ const Body = () => {
   const [phoneBookDisplay, setPhoneBookDisplay] = useState(false);
   const [TeamformDisplay, setTeamFormDisplay] = useState(true);
   const [rightBarData, setRightBarData] = useState({
-    videoLink: "",
-    comments: "",
+    videoLink: [],
+    comments: [],
     assistance: "",
     sectionId: "",
     notes: "",

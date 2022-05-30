@@ -282,6 +282,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  console.log(currentcasesData,"currentcasesData");
   return (
     <>
       {folderCreationData.length !== 0 && CompName=="currentcases"? (
@@ -342,7 +343,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
                 typeref: `${val?.caseTypeName}`,
                 commisionName: val?.commisionName,
                 commisionDate: moment(val?.commisionDate, "YYYY-MM-DD").format(
-                  "DD-MM-YYYY"
+                  "DD/MM/YYYY"
                 ),
                 establishmentName: val?.establishmentName,
                 refNum: val?.refNum,

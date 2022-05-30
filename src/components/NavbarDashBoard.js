@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import Box from "@mui/material/Box";
-import Site from "../assets/site.png";
+import Site from "../assets/siteprev.png";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import notificationicon from "../assets/noti.png";
-import ronaldo from "../assets/ronaldo.jpeg";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import { UpdateStore } from "../StoreContext";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -34,6 +34,7 @@ const NavbarDashBoard = () => {
   let user = localStorage.getItem("user");
   const store = Store();
   useEffect(() => {
+    //notificationinfo();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
@@ -45,6 +46,24 @@ const NavbarDashBoard = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  // const notificationinfo = ()=>{
+  //   const newConnection = new HubConnectionBuilder()
+  // .withUrl("https://192.168.10.15:9090/notificationsHub")
+  //     .withAutomaticReconnect()
+  //     .build();
+  // setConnection(newConnection);
+  // setState((pre)=>{
+  //   return{
+  //    ...pre,
+  //    connection:newConnection
+  //   }
+  // })
+  
+  // }
+
+  console.log(state,"state");
+
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

@@ -123,7 +123,7 @@ const EndedCases = () => {
                 id: val.caseFileId,
                 typeref: val.caseTypeName,
                 commisionName: val.commisionName,
-                commisionDate: moment(val.commisionDate, "YYYY-MM-DD").format("DD-MM-YYYY"),
+                commisionDate: moment(val.commisionDate, "YYYY-MM-DD").format("DD/MM/YYYY"),
                 establishmentName: val.establishmentName,
                 cityName: val.cityName,
                 state: val.state,

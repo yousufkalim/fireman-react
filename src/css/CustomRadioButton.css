@@ -24,6 +24,7 @@ input[type="radio"]:focus {
   width: 100%;
   flex-wrap: wrap;
   padding: 2% 2%;
+  justify-content: space-between;
 }
 .radion-btn-text-container {
   display: flex;
@@ -32,4 +33,9 @@ input[type="radio"]:focus {
 }
 .radio-btn-name-text{
   width: 60%;
+}
+
+.levels{
+  display: flex;
+  align-items: center;
 }

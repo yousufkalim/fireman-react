@@ -231,11 +231,12 @@ const AccordionComponent = (props) => {
               "get",
               `/api/v1/checkList/section_video_link/${props.accordionData?.sectionId}`
             ).then((res) => {
+              console.log(res,"resvideos");
               updateStore({ implantationvideodata: res.data.length });
               props.setRightBarData((pre) => {
                 return {
                   ...pre,
-                  videoLink: res.data,
+                  videoLink: res?.data,
                   sectionId: props.accordionData?.sectionId,
                 };
               });
@@ -243,6 +244,7 @@ const AccordionComponent = (props) => {
                 "get",
                 `/api/v1/checkList/section_comments/${props.accordionData?.sectionId}`
               ).then((res) => {
+                console.log(res,"rescomments");
                 updateStore({ implantationcommentsdata: res.data.length });
                 props.setRightBarData((pre) => {
                   return {

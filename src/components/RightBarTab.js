@@ -25,7 +25,7 @@ import notesicon from "../assets/notesicon.svg";
 import unreadnotes from "../assets/unreadnotes.svg";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from "@material-ui/styles";
 import { UpdateStore } from "../StoreContext";
 //import Chat from './chat/IndexTwo'
 
@@ -118,7 +118,7 @@ const EstablishmentSearchRightBar = ({
     if (store?.caseFileId) {
       api("get", `/api/v1/checkList/section_notes/${store?.caseFileId}`).then(
         (res) => {
-          console.log(res.data,"121");
+          console.log(res.data, "121");
           if (res.data.length > 0) {
             update({ unreadnotes: res?.data?.length });
           }
@@ -175,9 +175,8 @@ const EstablishmentSearchRightBar = ({
     }
     if (!store?.caseFileId) {
       toast.error("Vous n'avez pas ouvert ou créé de dossier");
-    } 
-    if(inputValues?.notes && store?.caseFileId)
-    {
+    }
+    if (inputValues?.notes && store?.caseFileId) {
       api("post", "/api/v1/checkList/save_section_notes", obj).then((res) => {
         if (res.data === true) {
           toast.success(t("Successfull"));
@@ -187,11 +186,9 @@ const EstablishmentSearchRightBar = ({
         }
       });
     }
-          
-    
   };
   const sendAssistance = () => {
-    console.log(inputValues.subject,"store?.userId");
+    console.log(inputValues.subject, "store?.userId");
     if (!imageData || !inputValues.subject || !inputValues.assistance) {
       toast.error("Veuillez remplir tous les champs obligatoires");
     } else {
@@ -221,7 +218,7 @@ const EstablishmentSearchRightBar = ({
       );
     }
   };
-
+  console.log(rightBarData, "rightBarData");
   return (
     <>
       {sideBar ? (
@@ -390,17 +387,24 @@ const EstablishmentSearchRightBar = ({
                   <h4>{t("Companion")}</h4>
                 </Box>
                 <div className="Compagnon_icons v-tut">
-                  <SlowMotionVideoIcon sx={{ color: "#9095A2" }} />
-                  <p>
-                    <a href={`${rightBarData.videoLink}`} target="_blank">
-                      {rightBarData?.videoLink}{" "}
-                    </a>{" "}
-                  </p>
+                  {rightBarData?.videoLink.map((val) => (
+                    <Box className="icon-text-vtut">
+                      <SlowMotionVideoIcon sx={{ color: "#9095A2" }} />
+                      <a href={`${val?.links}`} target="_blank">
+                        {val?.title}
+                      </a>
+                    </Box>
+                  ))}
+                  <p></p>
                 </div>
 
                 <div className="Compagnon_icons comments">
-                  <img src={Commentaries} />
-                  <p> {rightBarData?.comments}</p>
+                  {rightBarData?.comments.map((val) => (
+                    <Box className="icon-text-vtut">
+                      <img src={Commentaries} />
+                      <p> {val?.comment}</p>
+                    </Box>
+                  ))}
                 </div>
               </div>
             ) : null}
@@ -587,7 +591,7 @@ const EstablishmentSearchRightBar = ({
             sx={{ display: "flex", flexDirection: "column" }}
           >
             <img
-             style={{height:"65px", width:"70px"}}
+              style={{ height: "65px", width: "70px" }}
               onClick={() => {
                 setSideBar(true);
                 setActiveTab((pre) => {
@@ -619,7 +623,7 @@ const EstablishmentSearchRightBar = ({
               }
             />
             <img
-            style={{height:"65px", width:"70px"}}
+              style={{ height: "65px", width: "70px" }}
               onClick={() => {
                 setSideBar(true);
                 getNotes();
@@ -630,7 +634,11 @@ const EstablishmentSearchRightBar = ({
                   };
                 });
               }}
-              src={store.unreadnotes > 0  || rightBarData.notes? unreadnotes : notesicon}
+              src={
+                store.unreadnotes > 0 || rightBarData.notes
+                  ? unreadnotes
+                  : notesicon
+              }
             />
 
             <svg

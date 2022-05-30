@@ -289,6 +289,8 @@
 }
 
 .left_side .Compagnon .Compagnon_icons {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #d2dce4;
   border-radius: 10px;
   margin-top: 20px;
@@ -310,7 +312,14 @@
   height: 40vh;
   align-items: start !important;
 }
-
+.icon-text-vtut{
+  display: flex;
+  width:100%;
+}
+.icon-text-vtut>*{
+  margin-right: 2%;
+  margin-bottom: 2%;
+}
 .v-tut {
   height: 20vh;
   align-items: start !important;
