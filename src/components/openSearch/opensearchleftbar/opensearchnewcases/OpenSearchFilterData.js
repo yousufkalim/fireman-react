@@ -104,7 +104,7 @@ const onRowClick =(data, event)=>{
          ref:val.referenceNo,
          commune:val.commune,
          nom:val.establishmentName,
-         Ref:val.serialNo,
+         Ref:val.etabNo,
          address:val.address,
          statut:val.status,
          type:val.classification,

@@ -163,9 +163,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       estNumber: generalDataEstablishment.estNumber
         ? generalDataEstablishment.estNumber
         : "",
-      estSerial: generalDataEstablishment.estSerial
-        ? generalDataEstablishment.estSerial
+        RefNo: generalDataEstablishment.refNo
+        ? generalDataEstablishment.refNo
         : "",
+        Commune:generalDataEstablishment?.commune?generalDataEstablishment?.commune:""
     });
   }, [generalDataEstablishment]);
   useEffect(() => {
@@ -201,9 +202,22 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
+  const setCommunedata = (text,id)=>{
+    console.log(id);
+    console.log(text);
+    setInputValues((pre)=>{
+      return{
+       ...pre,
+       cityId:id,
+       Commune:text
+      }
+    })
+  }
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    console.log(name);
+    console.log(value);
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
@@ -248,6 +262,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       establishmentId: store.establishmentId,
       caseFileId: store.caseFileId,
     };
+    console.log(updatedObj);
     api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
       .then((res) => {
         console.log(res,"kl");
@@ -282,7 +297,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         console.log(err);
       });
   };
- 
+
   return (
     <>
       <Box
@@ -385,8 +400,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           required
                           type="search"
                           onChange={handleChange}
-                          name="estSerial"
-                          value={inputValues?.estSerial}
+                          name="RefNo"
+                          value={inputValues.RefNo}
                           onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
@@ -440,6 +455,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             }
                             if(!inputRefone.current.validity.patternMismatch){
                               e.target.setCustomValidity('')
+                            }
+                            if(inputRefone.current.validity.valueMissing){
+                              e.target.setCustomValidity(`'Numéro de téléphone requis'`)
                             }
                           }}
                           name="estNumber"
@@ -513,7 +531,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           type="select"
                           name="cityId"
                           value={inputValues.cityId}
-                          onChange={handleChange}
+                          onChange={(e)=>{
+                            setCommunedata(e.target.selectedOptions[0].text,e.target.value);  
+                          }}
                           required
                           onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
@@ -596,6 +616,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             }
                             if(!inputRef.current.validity.patternMismatch){
                               e.target.setCustomValidity('')
+                            }
+                            if(inputRef.current.validity.valueMissing){
+                              e.target.setCustomValidity(`'Numéro de téléphone requis'`)
                             }
                           }}
                           name="securityManagerMobile"
@@ -715,6 +738,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         Icon={Icon}
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
+        generalDataEstablishment={generalDataEstablishment}
       />
     </>
   );

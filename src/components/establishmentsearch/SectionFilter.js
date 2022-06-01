@@ -29,6 +29,7 @@ const SectionFilter = ({
   setIcon,
   Icon,
   buttonEnability,
+  generalDataEstablishment
 }) => {
   const [radioValues, setRadioValues] = useState({});
   const [configurationValues, setConfigurationValues] = useState({
@@ -39,7 +40,6 @@ const SectionFilter = ({
   const store = Store();
   const updatestore = UpdateStore();
   useEffect(() => {
-    console.log("rendered");
     api(
       "get",
       `/api/v1/casefiles/section_filters/${
@@ -182,7 +182,8 @@ const SectionFilter = ({
       toast.error("ID de dossier manquant");
     }
   };
-  console.log(radioValues,"radioValues");
+  console.log(generalDataEstablishment,"generalDataEstablishment");
+ 
   return (
     <>
       <Box

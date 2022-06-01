@@ -850,16 +850,19 @@ const EstablishmentSearchStudyForm = ({
                              }
                             })
                             if(inputRef.current.validity.patternMismatch){
-                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')
                             }
                             if(!inputRef.current.validity.patternMismatch){
                               e.target.setCustomValidity('')
+                            }
+                            if(inputRef.current.validity.valueMissing){
+                              e.target.setCustomValidity(`'Numéro de téléphone requis'`)
                             }
                           }}
                           pattern="^0{1}[\d]{9}$"
                           name="mobile"
                           value={formValues?.mobile}
-                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -878,6 +881,7 @@ const EstablishmentSearchStudyForm = ({
                           type="email"
                           autocomplete="off"
                           onChange={(e)=>{
+                            console.log(inputRefemail.current.validity.valueMissing,"missing");
                             setFormValues((pre)=>{
                               return{
                               ...pre,
@@ -889,6 +893,9 @@ const EstablishmentSearchStudyForm = ({
                             }
                             if(!inputRefemail.current.validity.patternMismatch){
                               e.target.setCustomValidity('')
+                            }
+                            if(inputRefemail.current.validity.valueMissing){
+                              e.target.setCustomValidity(`'Email (requis'`)
                             }
                           }}
                           name="email"

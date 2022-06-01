@@ -31,7 +31,6 @@ const StaffLevel = ({
   setIcon,
   Icon,
   casefileId,
-  buttonEnability,
   setButtonEnability,
 }) => {
   const { t, i18n } = useTranslation();
@@ -58,42 +57,112 @@ const StaffLevel = ({
   ]);
   const store = Store();
   const updatestore = UpdateStore();
-  useEffect(() => {
-    api("get", "/api/v1/stafflevel/dropdown").then((res) => {
-      setdropdownValue((pre) => {
-        return {
-          ...pre,
-          leveldropdown: res.data,
-        };
-      });
-    });
-    api(
-      "get",
-      `/api/v1/get_establishment_stafftable/${
-        establishmentid ? establishmentid : store.establishmentId
-      }`
-    ).then((res) => {
-      setpeople(
-        res.data.map((val) => {
-          return {
-            ...val,
-            id: generate(),
-          };
-        })
-      );
-    });
+  
+//////
 
-    api("get", "/api/v1/stafflevel_rule/dropdown").then((res) => {
+
+useEffect(() => {
+  getGridData();
+  }, []);
+
+  const getGridData = async () => {
+    await getRows();
+    await getstaffleveldropdown();
+    await getstafflevelruledropdown();
+  };
+
+  const getRows = async () => {
+    let response;
+    try {
+      response = await api("get", `/api/v1/get_establishment_stafftable/${
+        establishmentid ? establishmentid : store.establishmentId
+      }`);
+      const ordersData = response?.data.map((val) => {
+        return {
+          ...val,
+          id: generate(),
+        };
+      });
+      setpeople(ordersData);
+    } catch (e) {
+      console.trace(e);
+    }
+    return;
+  };
+
+  const getstaffleveldropdown = async () => {
+    let response;
+    try {
+      response = await api("get", "/api/v1/stafflevel/dropdown");
+      const dropdowndata = response?.data;
       setdropdownValue((pre) => {
         return {
           ...pre,
-          rules: res.data,
+          leveldropdown: dropdowndata,
         };
       });
-    });
-  }, []);
+    } catch (e) {
+      console.trace(e);
+    }
+    return;
+  };
+
+  const getstafflevelruledropdown = async () => {
+    let response;
+    try {
+      response = await api("get", "/api/v1/stafflevel_rule/dropdown");
+      const dropdowndata = response?.data;
+      setdropdownValue((pre) => {
+        return {
+          ...pre,
+          rules: dropdowndata,
+        };
+      });
+    } catch (e) {
+      console.trace(e);
+    }
+    return;
+  };
+
+  //const getGridData =  () => {
+    // api(
+    //   "get",
+    //   `/api/v1/get_establishment_stafftable/${
+    //     establishmentid ? establishmentid : store.establishmentId
+    //   }`
+    // ).then((res) => {
+    //   setpeople(
+    //     res.data.map((val) => {
+    //       return {
+    //         ...val,
+    //         id: generate(),
+    //       };
+    //     })
+    //   );
+    // });
+    // api("get", "/api/v1/stafflevel/dropdown").then((res) => {
+    //   setdropdownValue((pre) => {
+    //     return {
+    //       ...pre,
+    //       leveldropdown: res.data,
+    //     };
+    //   });
+    // });
+    
+    // api("get", "/api/v1/stafflevel_rule/dropdown").then((res) => {
+    //   setdropdownValue((pre) => {
+    //     return {
+    //       ...pre,
+    //       rules: res.data,
+    //     };
+    //   });
+    // });
+  //}
+
   const containerRef = useRef(null);
+
   const focusPoint = useRef(null);
+
   const handleSubmit = () => {
     const newArr = people
       .filter((val) => val.staffLevelId !== undefined)
@@ -146,13 +215,28 @@ const StaffLevel = ({
               iconstafflevel: true,
             };
           });
+          getGridData();
         })
         .catch((err) => {
           toast.error(err?.statusText);
         });
     }
     if (store.activeCase === "currentcases") {
-      api("put", "/api/v1/update_establishment_stafftable", newArr).then(
+      console.log(newArr);
+      const filteredarr = newArr.filter((val)=>(
+        val?.establishmentId
+        &&
+        (
+        val?.localData||
+        val?.cellNumber||
+        val?.publicInfo||
+        val?.staffInfo||
+        val?.staffLevelId||
+        val?.staffLevelRuleId
+        )
+        ))
+        console.log(filteredarr,"filteredarr");
+      api("put", "/api/v1/update_establishment_stafftable", filteredarr).then(
         (res) => {
           if (res.data === true) {
             {
@@ -170,6 +254,7 @@ const StaffLevel = ({
                 iconstafflevel: true,
               };
             });
+            getGridData()
           }
         }
       );
@@ -376,6 +461,7 @@ const StaffLevel = ({
                               >
                                 <select
                                   defaultValue={people && p?.staffLevelId}
+                                  value={people && p?.staffLevelId}
                                   className="field-width-staff"
                                   key={p.id}
                                   onChange={(e) => {
@@ -603,6 +689,7 @@ const StaffLevel = ({
                                 >
                                   <select
                                     defaultValue={people && p?.staffLevelRuleId}
+                                    value={p?.staffLevelRuleId}
                                     className="field-width-staff"
                                     onChange={(e) => {
                                       setpeople((curr) =>
@@ -641,6 +728,7 @@ const StaffLevel = ({
                                 <input
                                   className="field-width-staff staff-feild-width"
                                   defaultValue={p?.publicInfo}
+                                  value={p?.publicInfo}
                                   onChange={(e) => {
                                     setpeople((curr) =>
                                       curr.map((x) =>

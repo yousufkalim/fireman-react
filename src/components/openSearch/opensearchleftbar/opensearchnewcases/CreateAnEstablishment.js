@@ -39,7 +39,7 @@ const CreateAnEstablishment = () => {
   const update = UpdateStore();
  
  
-   const setCommunedata = (id,text)=>{
+   const setCommunedata = (text,id)=>{
      console.log(id);
      console.log(text);
     setCommune(text);
@@ -232,10 +232,13 @@ const CreateAnEstablishment = () => {
                       onChange={(e) => {
                         SetNumber(e.target.value);
                         if(inputRef.current.validity.patternMismatch){
-                          e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                          e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')
                         }
                         if(!inputRef.current.validity.patternMismatch){
                           e.target.setCustomValidity('')
+                        }
+                        if(inputRef.current.validity.valueMissing){
+                          e.target.setCustomValidity(`'Numéro de téléphone requis'`)
                         }
                       }}
                       required
@@ -243,7 +246,7 @@ const CreateAnEstablishment = () => {
                       minlength="10"
                       maxlength="10"
                       onInvalid={e => {
-                        e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                        e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')
                          }}
                          pattern="^0{1}[\d]{9}$"
                       onInput={e => e.target.setCustomValidity('')}
@@ -314,13 +317,15 @@ const CreateAnEstablishment = () => {
                       // onChange={(e) => {
                       //   setCommune(e.target.value);
                       // }}
-                      onChange={(e)=>setCommunedata(e.target.text,e.target.value)}
+                      onChange={(e)=>{
+                        setCommunedata(e.target.selectedOptions[0].text,e.target.value);  
+                      }}
                       onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
                       onInput={e => e.target.setCustomValidity('')}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.cityId.data?.map((item) => (
-                        <option key={item.value} value={item?.text}>
+                        <option key={item.value} value={item?.value}>
                           {item.text}
                         </option>
                       ))}

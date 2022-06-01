@@ -71,13 +71,17 @@ const EstablishmentLevel = ({
         };
       });
     });
+    getGridData();
+  }, []);
+
+  const getGridData = ()=>{
     api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
       (res) => {
         setLevelData(res.data.levels);
         setDescription(res.data.descriptions);
       }
     );
-  }, []);
+  }
 
   const handleClose = (column) => {
     setColumnState((pre) => {
@@ -149,24 +153,24 @@ const EstablishmentLevel = ({
                 establishmentdescription: description?.description,
               }}
               enableReinitialize
-              validationSchema={object({
-                donations: array(
-                  object({
-                    // levelId: string()
-                    // .required("Level required")
-                    // ,
-                    // cellNumber: string()
-                    //   .required("Cell number needed")
-                    //   .min(12, "number length needs to be at least 12")
-                    //   .max(12, "number length should not be more than 12")
-                    //   .matches(/^[0-9]+$/, "Must be only digits"),
-                    // cellName: string()
-                    //   .required("name required")
-                    //   .min(2, "name length should be 2")
-                    //   .max(30, "name length should not exceed 30"),
-                  })
-                ),
-              })}
+              // validationSchema={object({
+              //   donations: array(
+              //     object({
+              //       levelId: string()
+              //       .required("Level required")
+              //       ,
+              //       cellNumber: string()
+              //         .required("Cell number needed")
+              //         .min(12, "number length needs to be at least 12")
+              //         .max(12, "number length should not be more than 12")
+              //         .matches(/^[0-9]+$/, "Must be only digits"),
+              //       cellName: string()
+              //         .required("name required")
+              //         .min(2, "name length should be 2")
+              //         .max(30, "name length should not exceed 30"),
+              //     })
+              //   ),
+              // })}
               onSubmit={(values) => {
                 const obj = {
                   establishmentId: store?.establishmentId,
@@ -211,6 +215,7 @@ const EstablishmentLevel = ({
                         establishmentlevel: true,
                       };
                     });
+                    getGridData();
                   }
                 );
               }}

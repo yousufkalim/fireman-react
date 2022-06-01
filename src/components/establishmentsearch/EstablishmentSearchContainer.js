@@ -11,7 +11,7 @@ const EstablishmentSearchContainer = () => {
       "get",
       `/api/v1/get_generaldata_establishment/${store.establishmentId}`
     ).then((res) => {
-      setgeneralDataEstablishment(res.data);
+      setgeneralDataEstablishment(res?.data);
     });
   }, []);
   return (
