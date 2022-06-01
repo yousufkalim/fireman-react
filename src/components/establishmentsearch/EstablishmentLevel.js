@@ -417,7 +417,7 @@ const EstablishmentLevel = ({
                                   {columnState.cellnumber ? (
                                     <Field
                                       className="field-cellno"
-                                      type="string"
+                                      type="number"
                                       name={`donations.${index}.cellNumber`}
                                       component={TextField}
                                     />

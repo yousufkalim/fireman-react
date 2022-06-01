@@ -258,11 +258,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     e.preventDefault();
     const updatedObj = {
       ...inputValues,
-      //estSerial: inputValues.estSerial,
       establishmentId: store.establishmentId,
       caseFileId: store.caseFileId,
     };
-    console.log(updatedObj);
     api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
       .then((res) => {
         console.log(res,"kl");
