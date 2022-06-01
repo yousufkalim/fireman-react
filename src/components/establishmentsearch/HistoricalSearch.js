@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
@@ -125,6 +125,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const [historicalDataEstablishment, setHistoricalDataEstablishment] =
     useState([]);
   const [inputValues, setInputValues] = useState({});
+  const inputRef = useRef(null);
+  const inputRefone = useRef(null);
+  const inputRefemail = useRef(null);
   useEffect(() => {
     setInputValues({
       establishmentName: generalDataEstablishment.establishmentName
@@ -372,16 +375,20 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="establishmentName"
                           value={inputValues.establishmentName}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form">
-                        <label className="label-color">REF. #</label>
+                        <label className="label-color">Ref</label>
                         <input
                           required
                           type="search"
                           onChange={handleChange}
                           name="estSerial"
                           value={inputValues?.estSerial}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form channel-name">
@@ -397,6 +404,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           name="statusId"
                           onChange={handleChange}
                           value={inputValues.statusId}
+                          required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.status.data?.map((item) => (
@@ -416,16 +426,31 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           {t("Number")}
                         </label>
                         <input
-                          required
+                          ref={inputRefone}
                           type="search"
-                          onChange={handleChange}
+                          onChange={(e)=>{
+                            setInputValues((pre)=>{
+                              return{
+                                 ...pre,
+                                 estNumber:e.target.value
+                              }
+                            })
+                            if(inputRefone.current.validity.patternMismatch){
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                            }
+                            if(!inputRefone.current.validity.patternMismatch){
+                              e.target.setCustomValidity('')
+                            }
+                          }}
                           name="estNumber"
+                          required
                           value={inputValues.estNumber}
-                          //type="tel"
-                          minlength="12"
-                          maxlength="12"
-                          title="Number should contain 12 digits and No Character"
-                          pattern="^(\d{12})$"
+                          
+                          minlength="10"
+                          maxlength="10"
+                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                           onInput={e => e.target.setCustomValidity('')}
+                           pattern="^0{1}[\d]{9}$"
                         />
                       </div>
                       <div className="flex-form">
@@ -438,6 +463,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           name="trackTypeId"
                           onChange={handleChange}
                           value={inputValues.trackTypeId}
+                          required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.tracktype.data?.map((item) => (
@@ -457,6 +485,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="channelName"
                           value={inputValues?.channelName?.toUpperCase()}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
@@ -470,6 +500,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="zipCode"
                           value={inputValues.zipCode}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form">
@@ -482,6 +514,9 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           name="cityId"
                           value={inputValues.cityId}
                           onChange={handleChange}
+                          required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.cityId.data?.map((item) => (
@@ -519,6 +554,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerLastName"
                           value={inputValues?.securityManagerLastName?.toUpperCase()}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form nom-et-form">
@@ -531,6 +568,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerName"
                           value={inputValues.securityManagerName}
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
@@ -540,15 +579,30 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           Mobile{" "}
                         </label>
                         <input
+                           ref={inputRef}
                           required
                           type="tel"
-                          minlength="12"
-                          maxlength="12"
-                          title="Number should contain 12 digits and No Character"
-                          pattern="^(\d{12})$"
-                          onChange={handleChange}
+                          minlength="10"
+                          maxlength="10"
+                          onChange={(e)=>{
+                            setInputValues((pre)=>{
+                            return{
+                              ...pre,
+                              securityManagerMobile:e.target.value
+                            }
+                            })
+                            if(inputRef.current.validity.patternMismatch){
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                            }
+                            if(!inputRef.current.validity.patternMismatch){
+                              e.target.setCustomValidity('')
+                            }
+                          }}
                           name="securityManagerMobile"
                           value={inputValues.securityManagerMobile}
+                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                          onInput={e => e.target.setCustomValidity('')}
+                          pattern="^0{1}[\d]{9}$"
                         />
                       </div>
 
@@ -557,11 +611,29 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           Mail
                         </label>
                         <input
+                         ref={inputRefemail}
                           required
                           type="email"
-                          onChange={handleChange}
+                          autocomplete="off"
+                          onChange={(e)=>{
+                            setInputValues((pre)=>{
+                              return{
+                              ...pre,
+                              securityManagerEmail:e.target.value
+                              }
+                            })
+                            if(inputRefemail.current.validity.patternMismatch){
+                              e.target.setCustomValidity(`Format d'email invalide`)
+                            }
+                            if(!inputRefemail.current.validity.patternMismatch){
+                              e.target.setCustomValidity('')
+                            }
+                          }}
                           name="securityManagerEmail"
                           value={inputValues.securityManagerEmail}
+                          onInvalid={e => e.target.setCustomValidity(`Format d'email invalide`)}
+                          onInput={e => e.target.setCustomValidity('')}
+                          pattern="(.+)@(.+){2,}\.(.+){2,}"
                         />
                       </div>
                     </Box>

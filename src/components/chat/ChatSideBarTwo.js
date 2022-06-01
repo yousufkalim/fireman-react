@@ -15,7 +15,7 @@ const ChatSideBarTwo = (props) => {
   };
   return (
     <>
-      <div style={{ background: "#314A6C" }} className="chatSidebar__body ">
+      <div style={{ background: "#314A6C" }} className="chatSidebar__body">
         <Box sx={{ padding: "20.8px" }}></Box>
         <Box sx={{ padding: "8% 0%", color: "#ffffff" }}>
           <Box
@@ -28,7 +28,7 @@ const ChatSideBarTwo = (props) => {
           >
             <h2> Recent Chats</h2>
           </Box >
-          <Box className="scroll-styling" sx={{maxHeight:"570px", overflow:"auto"}}> 
+          <Box className="scroll-styling" sx={{maxHeight:"470px", overflow:"auto"}}> 
           {props.chatList?.map((chat) => (
             <div
             

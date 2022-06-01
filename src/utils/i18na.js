@@ -25,7 +25,7 @@ i18n
           "Streel/Avenue": "Streel/Avenue",
           "Existing establishment": "Existing establishment",
           "New Establishment": "New Establishment",
-          "Create": "Create",
+          "CREATE": "CREATE",
           "Search": "Search",
           // navbar, sidebars
           "HOMEPAGE": "HOMEPAGE",
@@ -222,7 +222,7 @@ i18n
           "Streel/Avenue": "Rue/Avenue",
           "Existing establishment": "Etablissement existant",
           "New Establishment": "Establissement nouveau",
-          "Create": "CREER",
+          "CREATE": "Créer",
           "Search": "RECHERCHER",
           // navbar, sidebars
           "HOMEPAGE": "ACCUEIL",

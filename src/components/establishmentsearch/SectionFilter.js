@@ -147,9 +147,11 @@ const SectionFilter = ({
         ? true
         : false,
       caseFileId: store?.caseFileId,
+      difficultyLevel:radioValues?.difficultyLevel
     };
 
     if (store?.caseFileId) {
+      console.log(obj,"obj");
       api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
         if (res?.data?.success === true) {
           toast.success(t("Successfull"));
@@ -180,7 +182,7 @@ const SectionFilter = ({
       toast.error("ID de dossier manquant");
     }
   };
-  console.log(store);
+  console.log(radioValues,"radioValues");
   return (
     <>
       <Box
@@ -1184,6 +1186,13 @@ const SectionFilter = ({
                     For="none"
                     btnName="none"
                     width="auto"
+                    onChange={(e) =>
+                      _setState(
+                        "difficultyLevel",
+                        1
+                      )
+                    }
+                    setState={setRadioValues}
                   />
                   </div>
                   <div style={{width:"45%"}} className="levels"> 
@@ -1197,6 +1206,13 @@ const SectionFilter = ({
                     For="ntwo"
                     btnName="ntwo"
                     width="auto"
+                    onChange={(e) =>
+                      _setState(
+                        "difficultyLevel",
+                        2
+                      )
+                    }
+                    setState={setRadioValues}
                   />
                   </div>
                   <div style={{width:"45%"}} className="levels"> 
@@ -1211,6 +1227,13 @@ const SectionFilter = ({
                     For="nthree"
                     btnName="nthree"
                     width="auto"
+                    onChange={(e) =>
+                      _setState(
+                        "difficultyLevel",
+                        3
+                      )
+                    }
+                    setState={setRadioValues}
                   />
                  </div>
                 </div>

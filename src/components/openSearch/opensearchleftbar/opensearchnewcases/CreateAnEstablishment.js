@@ -32,11 +32,19 @@ const CreateAnEstablishment = () => {
   let [channelType, setChannelType] = useState([]);
   let [channelName, setChannelName] = useState("");
   let [cp, setcp] = useState("");
-  let [commune, setCommune] = useState([]);
-
+  let [commune, setCommune] = useState("");
+  let [cityid, setcityid] = useState("")
+  const inputRef = useRef(null);
   const store = Store();
   const update = UpdateStore();
-
+ 
+ 
+   const setCommunedata = (id,text)=>{
+     console.log(id);
+     console.log(text);
+    setCommune(text);
+    setcityid(id)
+   }
   const handleSubmit = (e) => {
     //alert("hit");
     e.preventDefault();
@@ -49,7 +57,8 @@ const CreateAnEstablishment = () => {
       trackTypeId: channelType,
       channelName: channelName,
       zipCode: cp,
-      cityId: commune,
+      commune: commune,
+      cityId:cityid
     };
     if (
       establishmentName &&
@@ -61,14 +70,15 @@ const CreateAnEstablishment = () => {
       cp &&
       commune
     ) {
+      console.log(data,"dat");
       api("post", "/api/v1/create_generaldata_establishment", data).then(
         (res) => {
           if (res.data == "-1") {
             {
-              toast.error("Establishment already created");
+              toast.error("Etablissement déjà créé");
             }
           } else {
-            toast.success("Establishment Created");
+            toast.success("Établissement créé");
             update({ activeNavbarTab: "searchestablishment"});
           }
         }
@@ -150,37 +160,44 @@ const CreateAnEstablishment = () => {
                 <div className="flex-form">
                   <label className="label-color label-general"> {"Nom"}</label>
                   <input
-                    required
                     type="search"
+                    required
                     onChange={(e) => {
                       setEstablishmentName(e.target.value);
                     }}
                     name="establishmentName"
+                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues.establishmentName}
                   />
                 </div>
-                <div className="flex-form refnum-est">
-                  <label className="label-color">REF. #</label>
+                <div className="flex-form">
+                  <label className="label-color">Ref</label>
                   <input
-                    required
+                   required
+                  style={{width:"70% !important"}}
                     type="search"
                     onChange={(e) => {
                       setRefNum(e.target.value);
                     }}
                     name="estSerial"
+                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues?.estSerial}
                   />
                 </div>
                 <div className="flex-form channel-name">
                   <label className="label-color">{"Statut"}</label>
                   <select
-                    required
                     className="dropdown statusid"
                     type="select"
                     name="statusId"
+                    required
                     onChange={(e) => {
                       setStatus(e.target.value);
                     }}
+                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues.statusId}
                   >
                     <option value="">Choisissez s'il vous plaît</option>
@@ -211,16 +228,25 @@ const CreateAnEstablishment = () => {
                     </label>
                     <input
                       type="search"
+                      ref={inputRef}
                       onChange={(e) => {
                         SetNumber(e.target.value);
+                        if(inputRef.current.validity.patternMismatch){
+                          e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                        }
+                        if(!inputRef.current.validity.patternMismatch){
+                          e.target.setCustomValidity('')
+                        }
                       }}
+                      required
                       name="estNumber"
-                      //value={inputValues.estNumber}
-                      //type="tel"
-                      minlength="12"
-                      maxlength="12"
-                      title="Number should contain 12 digits and No Character"
-                      pattern="^(\d{12})$"
+                      minlength="10"
+                      maxlength="10"
+                      onInvalid={e => {
+                        e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                         }}
+                         pattern="^0{1}[\d]{9}$"
+                      onInput={e => e.target.setCustomValidity('')}
                     />
                   </div>
                   <div className="flex-form">
@@ -229,9 +255,12 @@ const CreateAnEstablishment = () => {
                       className="dropdown dropdown-tracktype"
                       type="select"
                       name="trackTypeId"
+                      required
                       onChange={(e) => {
                         setChannelType(e.target.value);
                       }}
+                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues.trackTypeId}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
@@ -245,12 +274,14 @@ const CreateAnEstablishment = () => {
                   <div className="flex-form channel-name">
                     <label className="label-color">{"Nom voie"}</label>
                     <input
-                      required
                       type="search"
+                      required
                       onChange={(e) => {
                         setChannelName(e.target.value);
                       }}
                       name="channelName"
+                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues?.channelName?.toUpperCase()}
                     />
                   </div>
@@ -259,12 +290,14 @@ const CreateAnEstablishment = () => {
                   <div className="flex-form cp">
                     <label className="label-cp label-general">CP</label>
                     <input
-                      required
                       type="search"
+                      required
                       onChange={(e) => {
                         setcp(e.target.value);
                       }}
                       name="zipCode"
+                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues.zipCode}
                     />
                   </div>
@@ -278,13 +311,16 @@ const CreateAnEstablishment = () => {
                       type="select"
                       name="cityId"
                       //value={inputValues.cityId}
-                      onChange={(e) => {
-                        setCommune(e.target.value);
-                      }}
+                      // onChange={(e) => {
+                      //   setCommune(e.target.value);
+                      // }}
+                      onChange={(e)=>setCommunedata(e.target.text,e.target.value)}
+                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInput={e => e.target.setCustomValidity('')}
                     >
                       <option value="">Choisissez s'il vous plaît</option>
                       {dropdownValue.cityId.data?.map((item) => (
-                        <option key={item.value} value={item.value}>
+                        <option key={item.value} value={item?.text}>
                           {item.text}
                         </option>
                       ))}

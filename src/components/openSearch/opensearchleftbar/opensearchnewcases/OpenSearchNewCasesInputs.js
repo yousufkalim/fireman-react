@@ -111,12 +111,11 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       status: inputValues.status === "" ? 0 : inputValues.status,
       ranking: inputValues.ranking === "" ? 0 : inputValues.ranking,
     };
-    console.log(obj,"jkjk");
     api("post", `/api/v1/establishment/search`, obj).then((res) => {
       setEstablishmentSearchData(res);
     });
   };
-
+console.log(establishmentSearchData);
   return (
     <>
       <Box
@@ -153,13 +152,13 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
           <Box sx={{ textAlign: "start", display: "flex", paddingLeft: "8px" }}>
             <h5>{t("New Establishment")}</h5>
             <BootstrapTooltip title="Sera mis en œuvre plus tard">
-              <Button
+              <Button style={{textTransform:"none"}}
                 onClick={() => {
                   update({ activeNavbarTab: "createanestablishment" });
                 }}
                 sx={{ padding: "2px 15px" }}
               >
-                {"Créer"}
+                Créer
               </Button>
             </BootstrapTooltip>
           </Box>

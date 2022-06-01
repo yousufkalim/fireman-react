@@ -88,6 +88,7 @@ const FolderCreationSection = ({
         : false,
     visitbutton: true,
   });
+  
   const updatestore = UpdateStore();
   useEffect(() => {
     let userId = localStorage.getItem("userData");
@@ -426,6 +427,7 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
+    console.log(checkboxObj.filter((item) => item.sectionType != 0),"kl")
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
@@ -472,7 +474,7 @@ const getIndexData =()=>{
   };
 
   ///////////////////////////////
-
+console.log(store);
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
@@ -544,6 +546,8 @@ const getIndexData =()=>{
                             onChange={handleChange}
                             value={inputValues.caseTypeId}
                             required
+                            onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                            onInput={e => e.target.setCustomValidity('')}
                           >
                             <option value="">{t("Please choose")}</option>
                             {dropdownValue.casetype.data?.map((item, i) => (
@@ -561,6 +565,8 @@ const getIndexData =()=>{
                             onChange={handleChange}
                             value={inputValues.commisionTypeId}
                             required
+                            onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                            onInput={e => e.target.setCustomValidity('')}
                           >
                             <option value="">{t("Please choose")}</option>
                             {dropdownValue.commission.data?.map((item) => (
@@ -577,6 +583,8 @@ const getIndexData =()=>{
                             name="agent"
                             value={inputValues.agent}
                             required
+                            onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                            onInput={e => e.target.setCustomValidity('')}
                           />
                         </div>
                       </div>
@@ -592,6 +600,8 @@ const getIndexData =()=>{
                                 onChange={handleChange}
                                 value={inputValues?.studyTypeId}
                                 required
+                                onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                                onInput={e => e.target.setCustomValidity('')}
                               >
                                 <option value="">{t("Please choose")}</option>
                                 {dropdownValue.studytype.data?.map((item) => (
@@ -614,6 +624,8 @@ const getIndexData =()=>{
                                 onChange={handleChange}
                                 value={inputValues?.visitTypeId}
                                 required
+                                onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                                onInput={e => e.target.setCustomValidity('')}
                               >
                                 <option value="">{t("Please choose")}</option>
                                 {dropdownValue.visittype.data?.map((item) => (
@@ -644,6 +656,8 @@ const getIndexData =()=>{
                               name="commisionDate"
                               value={inputValues.commisionDate}
                               required
+                              onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                              onInput={e => e.target.setCustomValidity('')}
                             />
                           </div>
                         </Box>
@@ -656,16 +670,21 @@ const getIndexData =()=>{
                             name="group"
                             value={inputValues.group}
                             required
+                            onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                            onInput={e => e.target.setCustomValidity('')}
                           />
                         </div>
 
                         <div class="flex-form flex-form-foldercreation">
                           <label className="label-color">{t("Service")}</label>
                           <input
+                          
                             type="search"
                             onChange={handleChange}
                             name="service"
                             value={inputValues.service}
+                            onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                            onInput={e => e.target.setCustomValidity('')}
                           />
                         </div>
                       </div>

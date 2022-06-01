@@ -106,6 +106,8 @@ const EstablishmentSearchStudyForm = ({
     origin: "",
     requesttype: "",
   });
+  const inputRef = useRef(null);
+  const inputRefemail = useRef(null);
   useEffect(() => {
     ///////for townplanning checkboxes
     const ab = townplanning
@@ -500,59 +502,63 @@ const EstablishmentSearchStudyForm = ({
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      ...formValues,
-      casefileId: casefileId
-        ? casefileId
-        : currentcasescaseFileId?.data?.caseFileId,
-    };
-    api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
-      .then((res) => {
-        setButtonEnability((pre) => {
-          return {
-            ...pre,
-            detailsobject: false,
-          };
-        });
-        if (store.activeCase === "newcase") {
-          postCheckboxesData("townplanning");
-        }
-        if (store.activeCase === "currentcases") {
-          console.log(state.check);
-          api(
-            "post",
-            `/api/v1/casefiles/save_casefile_checklist`,
-            state.check.length === 0
-              ? [
-                  {
-                    caseFileId: currentcasescaseFileId?.data?.caseFileId,
-                    sectionType: 0,
-                  },
-                ]
-              : state.check
-          )
-            .then((res) => {
-              {
-                toast.success(t("Successfull"));
-              }
-            })
-            .catch((err) => toast.error(err?.statusText));
-        }
-        setToggler((pre) => {
-          return {
-            ...pre,
-            togglerstudy: false,
-            togglerstudytwo: true,
-          };
-        });
-        setIcon((pre) => {
-          return {
-            ...pre,
-            iconstudy: true,
-          };
-        });
-      })
-      .catch((err) => toast.error(err?.statusText));
+      const formData = {
+        ...formValues,
+        casefileId: casefileId
+          ? casefileId
+          : currentcasescaseFileId?.data?.caseFileId,
+      };
+      api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
+        .then((res) => {
+          setButtonEnability((pre) => {
+            return {
+              ...pre,
+              detailsobject: false,
+            };
+          });
+          if (store.activeCase === "newcase") {
+            postCheckboxesData("townplanning");
+          }
+          if (store.activeCase === "currentcases") {
+            console.log(state.check);
+            api(
+              "post",
+              `/api/v1/casefiles/save_casefile_checklist`,
+              state.check.length === 0
+                ? [
+                    {
+                      caseFileId: currentcasescaseFileId?.data?.caseFileId,
+                      sectionType: 0,
+                    },
+                  ]
+                : state.check
+            )
+              .then((res) => {
+                {
+                  toast.success(t("Successfull"));
+                }
+              })
+              .catch((err) => toast.error(err?.statusText));
+          }
+          setToggler((pre) => {
+            return {
+              ...pre,
+              togglerstudy: false,
+              togglerstudytwo: true,
+            };
+          });
+          setIcon((pre) => {
+            return {
+              ...pre,
+              iconstudy: true,
+            };
+          });
+        })
+        .catch((err) => toast.error(err?.statusText));
+    
+   
+
+
   };
 
   const handleSubmitdetailsobj = (e) => {
@@ -684,6 +690,8 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.originId}
                           onChange={handleChange}
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
                           {dropdownValue?.origin?.data?.map((item) => (
@@ -701,6 +709,8 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.caseAverageId}
                           onChange={handleChange}
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
                           {dropdownValue.average.data?.map((item) => (
@@ -720,6 +730,8 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.townPlanningDate}
                           type="date"
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form townplanning-flex">
@@ -729,6 +741,8 @@ const EstablishmentSearchStudyForm = ({
                           onChange={handleChange}
                           name="receptionServiceDate"
                           type="date"
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                           value={
                             formValues?.receptionServiceDate
                               ? formValues?.receptionServiceDate
@@ -767,6 +781,8 @@ const EstablishmentSearchStudyForm = ({
                           onChange={handleChange}
                           value={formValues?.requestTypeId}
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
                           {dropdownValue.requesttype.data?.map((item) => (
@@ -776,13 +792,15 @@ const EstablishmentSearchStudyForm = ({
                       </div>
 
                       <div class="flex-form townplanning-flex">
-                        <label className="label-color">Ref. </label>
+                        <label className="label-color">Ref </label>
                         <input
                           type="search"
                           onChange={handleChange}
                           name="refNum"
                           value={formValues?.refNum}
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
@@ -810,21 +828,38 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.applicant}
                           name="applicant"
                           required
+                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
 
                       <div class="flex-form townplanning-flex">
                         <label className="label-color"> {t("Phone")}</label>
                         <input
+                           ref={inputRef}
                           type="tel"
-                          minlength="12"
-                          maxlength="12"
-                          title="Number should contain 12 digits and No Character"
-                          onChange={handleChange}
-                          pattern="^(\d{12})$"
+                          minlength="10"
+                          maxlength="10"
+                          required
+                          onChange={(e)=>{
+                            setFormValues((pre)=>{
+                             return{
+                               ...pre,
+                               mobile:e.target.value
+                             }
+                            })
+                            if(inputRef.current.validity.patternMismatch){
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                            }
+                            if(!inputRef.current.validity.patternMismatch){
+                              e.target.setCustomValidity('')
+                            }
+                          }}
+                          pattern="^0{1}[\d]{9}$"
                           name="mobile"
                           value={formValues?.mobile}
-                          required
+                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                          onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
@@ -838,11 +873,29 @@ const EstablishmentSearchStudyForm = ({
                       <div class="flex-form townplanning-flex">
                         <label className="label-color">Mail</label>
                         <input
+                        ref={inputRefemail}
                           type="email"
-                          onChange={handleChange}
+                          autocomplete="off"
+                          onChange={(e)=>{
+                            setFormValues((pre)=>{
+                              return{
+                              ...pre,
+                              email:e.target.value
+                              }
+                            })
+                            if(inputRefemail.current.validity.patternMismatch){
+                              e.target.setCustomValidity(`Format d'email invalide`)
+                            }
+                            if(!inputRefemail.current.validity.patternMismatch){
+                              e.target.setCustomValidity('')
+                            }
+                          }}
                           name="email"
                           value={formValues?.email}
                           required
+                          onInvalid={e => e.target.setCustomValidity(`Format d'email invalide`)}
+                          onInput={e => e.target.setCustomValidity('')}
+                          pattern="(.+)@(.+){2,}\.(.+){2,}"
                         />
                       </div>
                     </Box>

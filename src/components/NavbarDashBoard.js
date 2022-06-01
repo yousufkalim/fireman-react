@@ -34,7 +34,7 @@ const NavbarDashBoard = () => {
   let user = localStorage.getItem("user");
   const store = Store();
   useEffect(() => {
-    //notificationinfo();
+    notificationinfo();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
@@ -46,22 +46,25 @@ const NavbarDashBoard = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // const notificationinfo = ()=>{
-  //   const newConnection = new HubConnectionBuilder()
-  // .withUrl("https://192.168.10.15:9090/notificationsHub")
-  //     .withAutomaticReconnect()
-  //     .build();
-  // setConnection(newConnection);
-  // setState((pre)=>{
-  //   return{
-  //    ...pre,
-  //    connection:newConnection
-  //   }
-  // })
+  const notificationinfo = ()=>{
+    const newConnection = new HubConnectionBuilder()
+  .withUrl("https://fireman-chat.falconconsulting.fr/notificationsHub")
+      .withAutomaticReconnect()
+      .build();
+  setConnection(newConnection);
+  setState((pre)=>{
+    return{
+     ...pre,
+     connection:newConnection
+    }
+  })
   
-  // }
+  }
 
-  console.log(state,"state");
+  useEffect(() => {
+   console.log(connection,"cpnn");
+  }, [connection])
+  
 
   
   const handleProfileMenuOpen = (event) => {
