@@ -283,6 +283,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     color: theme.palette.text.secondary,
   }));
   console.log(currentcasesData,"currentcasesData");
+  console.log(folderCreationData,"folderCreationData");
   return (
     <>
       {folderCreationData.length !== 0 && CompName=="currentcases"? (

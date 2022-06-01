@@ -67,14 +67,16 @@ const CreateHistoricalData = ({
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
   useEffect(() => {
+    get_historicaldata_establishment();
+  }, []);
+  const get_historicaldata_establishment =()=>{
     api(
       "get",
       `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
     ).then((res) => {
       setHistoricalDataEstablishment(res.data);
     });
-  }, []);
-  
+  }
   const store = Store();
   const updatestore = UpdateStore();
    const onChange =()=>{
@@ -93,6 +95,7 @@ const CreateHistoricalData = ({
     }));
       let toastShown = false;
       newarr.map((val) => {
+        console.log(val,"val");
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
@@ -134,6 +137,7 @@ const CreateHistoricalData = ({
                   })
                   .catch((err) => console.log(err));
               }
+              get_historicaldata_establishment();
             })
             .catch((err) => console.log(err));
         });

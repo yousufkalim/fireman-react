@@ -427,7 +427,7 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    console.log(checkboxObj.filter((item) => item.sectionType != 0),"kl")
+    console.log(checkboxObj,"checkboxObj")
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
@@ -436,6 +436,7 @@ const getIndexData =()=>{
         : checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
+        console.log("hres", res);
         updatestore({
           validatedSections:{
           ...store?.validatedSections,

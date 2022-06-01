@@ -508,6 +508,7 @@ const EstablishmentSearchStudyForm = ({
           ? casefileId
           : currentcasescaseFileId?.data?.caseFileId,
       };
+      console.log(formData,"formData")
       api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
         .then((res) => {
           setButtonEnability((pre) => {
