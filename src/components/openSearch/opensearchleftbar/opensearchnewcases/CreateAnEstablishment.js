@@ -166,7 +166,7 @@ const CreateAnEstablishment = () => {
                       setEstablishmentName(e.target.value);
                     }}
                     name="establishmentName"
-                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                     onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues.establishmentName}
                   />
@@ -181,7 +181,7 @@ const CreateAnEstablishment = () => {
                       setRefNum(e.target.value);
                     }}
                     name="estSerial"
-                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                     onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues?.estSerial}
                   />
@@ -196,7 +196,7 @@ const CreateAnEstablishment = () => {
                     onChange={(e) => {
                       setStatus(e.target.value);
                     }}
-                    onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                    onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                     onInput={e => e.target.setCustomValidity('')}
                     //value={inputValues.statusId}
                   >
@@ -262,7 +262,7 @@ const CreateAnEstablishment = () => {
                       onChange={(e) => {
                         setChannelType(e.target.value);
                       }}
-                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                       onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues.trackTypeId}
                     >
@@ -283,7 +283,7 @@ const CreateAnEstablishment = () => {
                         setChannelName(e.target.value);
                       }}
                       name="channelName"
-                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                       onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues?.channelName?.toUpperCase()}
                     />
@@ -299,7 +299,7 @@ const CreateAnEstablishment = () => {
                         setcp(e.target.value);
                       }}
                       name="zipCode"
-                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                       onInput={e => e.target.setCustomValidity('')}
                       //value={inputValues.zipCode}
                     />
@@ -320,7 +320,7 @@ const CreateAnEstablishment = () => {
                       onChange={(e)=>{
                         setCommunedata(e.target.selectedOptions[0].text,e.target.value);  
                       }}
-                      onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                       onInput={e => e.target.setCustomValidity('')}
                     >
                       <option value="">Choisissez s'il vous plaît</option>

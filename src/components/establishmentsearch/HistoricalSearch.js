@@ -388,7 +388,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="establishmentName"
                           value={inputValues.establishmentName}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -400,7 +400,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="RefNo"
                           value={inputValues.RefNo}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -418,7 +418,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           value={inputValues.statusId}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
@@ -480,7 +480,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           value={inputValues.trackTypeId}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
@@ -501,7 +501,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="channelName"
                           value={inputValues?.channelName?.toUpperCase()}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -516,7 +516,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="zipCode"
                           value={inputValues.zipCode}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -533,7 +533,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                             setCommunedata(e.target.selectedOptions[0].text,e.target.value);  
                           }}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
@@ -572,7 +572,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerLastName"
                           value={inputValues?.securityManagerLastName?.toUpperCase()}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -586,7 +586,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerName"
                           value={inputValues.securityManagerName}
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>

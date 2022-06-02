@@ -691,7 +691,7 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.originId}
                           onChange={handleChange}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
@@ -710,7 +710,7 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.caseAverageId}
                           onChange={handleChange}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
@@ -731,7 +731,7 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.townPlanningDate}
                           type="date"
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -742,7 +742,7 @@ const EstablishmentSearchStudyForm = ({
                           onChange={handleChange}
                           name="receptionServiceDate"
                           type="date"
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                           value={
                             formValues?.receptionServiceDate
@@ -782,7 +782,7 @@ const EstablishmentSearchStudyForm = ({
                           onChange={handleChange}
                           value={formValues?.requestTypeId}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         >
                           <option value="">{t("Please choose")}</option>
@@ -800,7 +800,7 @@ const EstablishmentSearchStudyForm = ({
                           name="refNum"
                           value={formValues?.refNum}
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
@@ -829,7 +829,7 @@ const EstablishmentSearchStudyForm = ({
                           value={formValues?.applicant}
                           name="applicant"
                           required
-                          onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
+                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
                           onInput={e => e.target.setCustomValidity('')}
                         />
                       </div>
