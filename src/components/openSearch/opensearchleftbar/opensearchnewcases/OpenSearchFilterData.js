@@ -1,6 +1,6 @@
 import  React,{useRef,useEffect} from "react";
 import {UpdateStore,Store} from '../../../../StoreContext'
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,GridToolbar,useGridApiRef } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ const EstablishmentSearchData = ({ establishmentSearchData, setCompShow,setPhone
   const { t } = useTranslation();
   const classes = scrollStyles();
   const messagesEndRef = useRef(null)
+  const apiRef = useGridApiRef();
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
@@ -72,6 +73,10 @@ const onRowClick =(data, event)=>{
   }
 
 }
+const handleFilterModelChange = (params)=>{
+console.log(params);
+}
+
   return (
     <>
     <Item
@@ -84,11 +89,18 @@ const onRowClick =(data, event)=>{
     > 
     <div style={{ height: "50vh", width: "100%" }}>
       <DataGrid
+      apiRef={apiRef}
       className={classes.root}
         sx={{
           border:"none",
         }}
-      onCellClick={(params,event)=>onRowClick(params,event)}
+        onFilterModelChange={handleFilterModelChange}
+        initialState={{
+          filter: {
+            hideFilterPanel: () => {}
+          }
+        }}
+        onCellClick={(params,event)=>onRowClick(params,event)}
       sortModel={sortModel}
       TablePagination
       labelRowsPerPage={"Lignes par page"}
@@ -99,7 +111,7 @@ const onRowClick =(data, event)=>{
         minWidth:val.minWidth,
         color: val.color
           })) } 
-       rows={establishmentSearchData.data.map((val, index) => ({
+       rows={establishmentSearchData?.data?.map((val, index) => ({
         id: val.establishmentId,
          ref:val.referenceNo,
          commune:val.commune,

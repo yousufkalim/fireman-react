@@ -3,19 +3,12 @@
    padding: 10px 0px;
 }
 
-.channel{
-   
-}
 .line{
     margin-right: 7px;
 }
 
 .head-est{
     margin-top: 52px;
-}
-
-.top-head{
-   
 }
 
 .form-top{
@@ -27,3 +20,8 @@
 .label-general{
     width:26% !important;
 }
+
+
+input::webkit-validation-bubble-message{
+    background-color: blue;
+  }

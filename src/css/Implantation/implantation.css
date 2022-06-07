@@ -241,7 +241,7 @@
 }
 
 .accordian-assistance {
-  height: 38vh !important;
+  height: 39vh !important;
   width: 75%;
   margin: 10px auto;
   border-radius: 12px;
@@ -257,14 +257,13 @@
 }
 .accordian-details {
   width: 80%;
-  margin: auto;
   border-radius: 12px;
   border: 0.2px solid #9095a3;
   color: #b4bcc3;
   font-style: italic;
   font-size: 12px;
-  margin-bottom: 15px;
-  height: 59vh !important;
+  height: 58vh !important;
+  margin: 1% auto;
 }
 .textarea-accordian {
   display: flex;
@@ -280,6 +279,7 @@
   border: transparent;
   padding: 17px 17px;
   position: relative;
+  height: 68.5vh;
 }
 .left_side .Compagnon h4 {
   color: #9095a3;
@@ -293,11 +293,12 @@
   flex-direction: column;
   border: 1px solid #d2dce4;
   border-radius: 10px;
-  margin-top: 20px;
-  padding: 5px 10px;
+  margin-top: 2%;
+  padding: 5px 5px;
   display: flex;
   width: 95%;
   overflow: auto;
+  height:29vh;
 }
 
 .left_side .Compagnon .Compagnon_icons p {

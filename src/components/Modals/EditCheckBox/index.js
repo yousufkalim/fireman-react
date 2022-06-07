@@ -15,7 +15,6 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 import { Multiselect } from "multiselect-react-dropdown";
 
-import parse from "html-react-parser";
 
 
 const options = [
@@ -132,11 +131,8 @@ export default function CustomizedDialogs(props) {
         setTagText("");
       }
     };
-   
-console.log(props,"tag");
   return (
     <>
-    {console.log(sentence, "AQZ")}
     <div>
       <BootstrapDialog
         fullWidth={true}

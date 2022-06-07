@@ -13,6 +13,7 @@ const Implantation = (props) => {
         console.log(store,"implant");
         if(store?.caseFileId){
             api("get", `/api/v1/checkList/tabs_checklist/${3}/${store?.caseFileId}`).then((res) => {
+                console.log(res,"res");
                 if (res.status == 200) {
                     setAccordionData(res.data)
                 }

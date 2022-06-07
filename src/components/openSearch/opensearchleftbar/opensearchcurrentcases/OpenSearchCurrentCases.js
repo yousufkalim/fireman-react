@@ -13,9 +13,13 @@ import CloudDoneSharpIcon from "@mui/icons-material/CloudDoneSharp";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import { useDemoData } from "@mui/x-data-grid-generator";
-import scrollStyles from '../../../../components/ScrollBarStyle'
+import scrollStyles from "../../../../components/ScrollBarStyle";
 
-const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData}) => {
+const EstablishmentSearchCurrentCases = ({
+  setCompName,
+  CompName,
+  setRightBarData,
+}) => {
   const [folderCreationData, setFolderCreationData] = useState([]);
   const [currentcasesData, setcurrentcasesData] = useState([]);
   const [indexdata, setIndexdata] = useState({
@@ -27,13 +31,13 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     labelRowsPerPage: "Lignes par page",
   });
   const classes = scrollStyles();
-  
+
   const [pageSize, setPageSize] = React.useState(25);
   const store = Store();
   let userId = localStorage.getItem("userData");
   userId = JSON.parse(userId);
   useEffect(() => {
-    getCurrentCasesData()
+    getCurrentCasesData();
   }, []);
 
   const { t, i18n } = useTranslation();
@@ -45,7 +49,7 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     },
   ]);
   const updatestore = UpdateStore();
-  const getCurrentCasesData = ()=>{
+  const getCurrentCasesData = () => {
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
     api(
@@ -54,69 +58,68 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     ).then((res) => {
       setcurrentcasesData(res);
     });
-  }
-  const MatEdit = ({ text,params }) => {
+  };
+  const MatEdit = ({ text, params }) => {
     return (
       <>
-      {
-        // (params?.row?.val?.state== "EN COURS" && (store.role=="1" || store.role=="2" || store.role=="3"))
-        // || 
-        (params?.row?.val?.state=="TERMINÉ Non Valide" && (store.role=="4"||store.role=="5"))
-        ?
-        ""
-        :
-          <Button
-            onClick={() => {
-              if(!params?.row?.val?.chapterIndex){
-                toast.error("L'onglet Overture and Establishment est incomplet")
-              }
-              if(params?.row?.val?.chapterIndex){
-                if(text=="Valider"){
-                  api(
-                    "put",
-                    `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
-                  )
-                    .then((res) => {
-                      if (res?.data === true) {
-                        toast.success(t("Successfull"));
-                        getCurrentCasesData();
-                      } else {
-                        toast.error("Le dossier n'est pas complet");
-                      }
-                    })
-                    .catch((err) => {
-                      toast.error("error");
-                    });
+        {
+          // (params?.row?.val?.state== "EN COURS" && (store.role=="1" || store.role=="2" || store.role=="3"))
+          // ||
+          params?.row?.val?.state == "TERMINÉ Non Valide" &&
+          (store.role == "4" || store.role == "5") ? (
+            ""
+          ) : (
+            <Button
+              onClick={() => {
+                if (!params?.row?.val?.chapterIndex) {
+                  toast.error(
+                    "L'onglet Overture and Establishment est incomplet"
+                  );
                 }
-                if(text=="Terminé"){
-                  api(
-                    "put",
-                    `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
-                  )
-                    .then((res) => {
-                      if (res?.data === true) {
-                        toast.success(t("Successfull"));
-                        getCurrentCasesData();
-                      } else {
-                        toast.error("Le dossier n'est pas complet");
-                      }
-                    })
-                    .catch((err) => {
-                      toast.error("error");
-                    });
+                if (params?.row?.val?.chapterIndex) {
+                  if (text == "Valider") {
+                    api(
+                      "put",
+                      `/api/v1/casefiles/validatecasefile/${params?.row?.val?.caseFileId}`
+                    )
+                      .then((res) => {
+                        if (res?.data === true) {
+                          toast.success(t("Successfull"));
+                          getCurrentCasesData();
+                        } else {
+                          toast.error("Le dossier n'est pas complet");
+                        }
+                      })
+                      .catch((err) => {
+                        toast.error("error");
+                      });
+                  }
+                  if (text == "Terminé") {
+                    api(
+                      "put",
+                      `/api/v1/casefiles/complete_casefile/${params?.row?.val?.caseFileId}`
+                    )
+                      .then((res) => {
+                        if (res?.data === true) {
+                          toast.success(t("Successfull"));
+                          getCurrentCasesData();
+                        } else {
+                          toast.error("Le dossier n'est pas complet");
+                        }
+                      })
+                      .catch((err) => {
+                        toast.error("error");
+                      });
+                  }
                 }
-              }
-              
-
-            }}
-            variant="contained"
-            endIcon={<CloudDoneSharpIcon />}
-          >
-            {text}
-          </Button>
-        
-    
-      }
+              }}
+              variant="contained"
+              endIcon={<CloudDoneSharpIcon />}
+            >
+              {text}
+            </Button>
+          )
+        }
       </>
     );
   };
@@ -183,20 +186,30 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
       field: "Validate",
       headerName: "",
       sortable: false,
-      minWidth: store.role==1 || store.role==2 || store.role==3? 140 : 0,
-      renderCell: store.role==1 || store.role==2 || store.role==3? ( (params) => {
-        return (
-          <div style={{ cursor: "pointer" }}>
-            <MatEdit text={"Valider"} params={params} />
-          </div>
-        );
-      }):"",
+      minWidth: store.role == 1 || store.role == 2 || store.role == 3 ? 140 : 0,
+      renderCell:
+        store.role == 1 || store.role == 2 || store.role == 3
+          ? (params) => {
+              return (
+                <div style={{ cursor: "pointer" }}>
+                  <MatEdit text={"Valider"} params={params} />
+                </div>
+              );
+            }
+          : "",
     },
     {
       field: "Completed",
       headerName: "",
       sortable: false,
-      minWidth: store.role==1 || store.role==2 || store.role==3|| store.role==4 || store.role==5? 140 : 0,
+      minWidth:
+        store.role == 1 ||
+        store.role == 2 ||
+        store.role == 3 ||
+        store.role == 4 ||
+        store.role == 5
+          ? 140
+          : 0,
       renderCell: (params) => {
         return (
           <div style={{ cursor: "pointer" }}>
@@ -205,7 +218,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
         );
       },
     },
-
   ];
   const onRowClick = (params) => {
     updatestore({
@@ -222,28 +234,37 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
       establishmentname: params?.row?.val?.establishmentName,
       cityname: params?.row?.val?.cityName,
       serialNum: params?.row?.val?.serialNum,
+      validatedSections: {
+        ...store?.validatedSections,
+        iconstudytwo:
+        params.row.val.sectionIndex === 3 ||
+        params.row.val.tabIndex === 2 ||
+        params.row.val.tabIndex === 3
+            ? true
+            : false,
+      },
     });
     getNotes(params.row.val.caseFileId);
     setCompName("currentcases");
-    
-      if (
-        (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
-        params.row.val.tabIndex === 2
-      ) {
-        updatestore({
-          activeNavbarTab: 1,
-          establishmentId: params.row.val.establishmentId,
-        });
-      }
-      if (
-        (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 6) ||
-        params.row.val.tabIndex === 3
-      ) {
-        updatestore({
-          activeNavbarTab: 2,
-          establishmentId: params.row.val.establishmentId,
-        });
-      }
+
+    if (
+      (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
+      params.row.val.tabIndex === 2
+    ) {
+      updatestore({
+        activeNavbarTab: 1,
+        establishmentId: params.row.val.establishmentId,
+      });
+    }
+    if (
+      (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 6) ||
+      params.row.val.tabIndex === 3
+    ) {
+      updatestore({
+        activeNavbarTab: 2,
+        establishmentId: params.row.val.establishmentId,
+      });
+    }
     setIndexdata(() => {
       return {
         sectionindex: params.row.val.sectionIndex,
@@ -260,20 +281,23 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
   };
   const getNotes = (caseFileId) => {
     if (store?.caseFileId || caseFileId) {
-      api("get", `/api/v1/checkList/section_notes/${store?.caseFileId?store?.caseFileId:caseFileId}`).then(
-        (res) => {
-          console.log(res.data,"121");
-          if (res.data.length > 0) {
-            updatestore({ unreadnotes: res?.data?.length });
-          }
-          setRightBarData((pre) => {
-            return {
-              ...pre,
-              notes: res?.data,
-            };
-          });
+      api(
+        "get",
+        `/api/v1/checkList/section_notes/${
+          store?.caseFileId ? store?.caseFileId : caseFileId
+        }`
+      ).then((res) => {
+        console.log(res.data, "121");
+        if (res.data.length > 0) {
+          updatestore({ unreadnotes: res?.data?.length });
         }
-      );
+        setRightBarData((pre) => {
+          return {
+            ...pre,
+            notes: res?.data,
+          };
+        });
+      });
     }
   };
   const Item = styled(Paper)(({ theme }) => ({
@@ -282,11 +306,11 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  console.log(currentcasesData,"currentcasesData");
-  console.log(folderCreationData,"folderCreationData");
+  console.log(currentcasesData, "currentcasesData");
+  console.log(folderCreationData, "folderCreationData");
   return (
     <>
-      {folderCreationData.length !== 0 && CompName=="currentcases"? (
+      {folderCreationData.length !== 0 && CompName == "currentcases" ? (
         <FolderCreationContainer
           CompName={CompName}
           indexdata={indexdata}
@@ -305,16 +329,22 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
             boxShadow: "none",
           }}
         >
-          <Box sx={{ 
-            '& .super-app-theme--open': {
-              bgcolor: "#3675B7",
-              '&:hover': "blue"
-            },
-            height: "71vh", width: "100%" 
-            
-            }}>
+          <Box
+            sx={{
+              "& .super-app-theme--open": {
+                bgcolor: "#3675B7",
+                "&:hover": "blue",
+              },
+              height: "71vh",
+              width: "100%",
+            }}
+          >
             <DataGrid
-               getRowClassName={(params) => params.row.state=="TERMINÉ Non Valide"? "super-app-theme--open":"" }
+              getRowClassName={(params) =>
+                params.row.state == "TERMINÉ Non Valide"
+                  ? "super-app-theme--open"
+                  : ""
+              }
               className={classes.root}
               sx={{ border: "none" }}
               {...data}
@@ -339,7 +369,6 @@ const EstablishmentSearchCurrentCases = ({setCompName,CompName,setRightBarData})
                 renderCell: val?.renderCell,
               }))}
               rows={currentcasesData.data?.map((val, index) => ({
-               
                 id: val?.caseFileId,
                 typeref: `${val?.caseTypeName}`,
                 commisionName: val?.commisionName,

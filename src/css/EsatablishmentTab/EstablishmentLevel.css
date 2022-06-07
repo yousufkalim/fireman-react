@@ -12,7 +12,8 @@ padding: 0% 0.2%;
 
 
 .textarea-width{
-  padding:100px 30px;
+ padding: 2%;
+ height: 20vh;
   background: #F1F5F9;
   outline:none;
   border:none;
@@ -20,6 +21,8 @@ padding: 0% 0.2%;
   width:60%;
   color: #8D919D;
   font-weight: 600;
+  font-size: 1.2em;
+  line-height: 2em;
 }
 .textarea-width::placeholder{
   color: #C5C8D2;

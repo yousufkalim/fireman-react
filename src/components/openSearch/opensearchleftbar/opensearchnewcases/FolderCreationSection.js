@@ -427,13 +427,42 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
+    console.log(data,"data");
     console.log(checkboxObj,"checkboxObj")
+    if(checkboxObj.length==0){
+      setCheckboxObj([{
+        caseFileCheckListId: 0,
+        caseFileId: 0,
+        sectionType: 0,
+        completedSentence: "string"
+      }])
+    }
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
-      data === "townplanning"
-        ? checkboxObj.filter((item) => item.sectionType != 2)
-        : checkboxObj.filter((item) => item.sectionType != 0)
+      data === "townplanning"? checkboxObj.length==0? 
+      [
+        { 
+          caseFileCheckListId: 0,
+          caseFileId: store?.caseFileId,
+          sectionType: 0,
+          completedSentence: "string"
+        }
+        ]
+           : 
+      checkboxObj.filter((item) => item.sectionType != 2)
+        : 
+        checkboxObj.length==0? 
+      [
+        { 
+          caseFileCheckListId: 0,
+          caseFileId: store?.caseFileId,
+          sectionType: 0,
+          completedSentence: "string"
+        }
+        ]
+        :
+        checkboxObj.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
         console.log("hres", res);
@@ -589,6 +618,7 @@ console.log(store);
                           />
                         </div>
                       </div>
+
                       <div className="inputs-container">
                         {inputDisableState === "1" ? (
                           <>
@@ -670,7 +700,7 @@ console.log(store);
                             onChange={handleChange}
                             name="group"
                             value={inputValues.group}
-                            required
+                            required={store?.userId==1? false:true}
                             onInvalid={e => e.target.setCustomValidity('Veuillez remplir ce champ')}
                             onInput={e => e.target.setCustomValidity('')}
                           />
@@ -679,7 +709,7 @@ console.log(store);
                         <div class="flex-form flex-form-foldercreation">
                           <label className="label-color">{t("Service")}</label>
                           <input
-                          
+                           required={store?.userId==1? false:true}
                             type="search"
                             onChange={handleChange}
                             name="service"
@@ -690,6 +720,8 @@ console.log(store);
                         </div>
                       </div>
                     </Box>
+
+
                     <Divider sx={{margin: "2% 1.1%",  width: "96%"}} />
                     <Box sx={{ textAlign: "right", padding: "1% 2.5%" }}>
                       <Button

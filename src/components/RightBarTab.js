@@ -218,7 +218,6 @@ const EstablishmentSearchRightBar = ({
       );
     }
   };
-  console.log(rightBarData, "rightBarData");
   return (
     <>
       {sideBar ? (
@@ -230,11 +229,11 @@ const EstablishmentSearchRightBar = ({
                   background: "#FFFFFF",
                   borderRadius: "10px",
                   width: "80%",
-                  padding: "20px",
+                  padding: "6%",
                   color: "#9095A3",
                   marginBottom: "25px",
                   bottom: 0,
-                  height: "74vh",
+                  height: "68vh",
                   // marginTop: "-90px",
                 }}
               >
@@ -332,7 +331,7 @@ const EstablishmentSearchRightBar = ({
                       boxSizing: "border-box",
                       padding: "0px 15px 0px 15px",
                       overflowY: "scroll",
-                      height: "64vh",
+                      height: "56vh",
                     }}
                   >
                     {users?.map((val) => (
@@ -421,6 +420,7 @@ const EstablishmentSearchRightBar = ({
                     borderTopRightRadius: "10.757px !important",
                     boxShadow: "none",
                     margin: "0px !important",
+                    height:"70vh"
                   }}
                 >
                   <AccordionSummary
@@ -502,6 +502,7 @@ const EstablishmentSearchRightBar = ({
                     margin: "0px !important",
                     height: "auto",
                     paddingBottom: "5%",
+                    height:"70vh"
                   }}
                 >
                   <AccordionSummary

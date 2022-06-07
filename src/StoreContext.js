@@ -47,7 +47,7 @@ export function StoreProvider({ children }) {
     chatactive:"",
     Sectionfilterdatasaved:false,
     validatedSections:{},
-    implantationtabdata:{}
+    implantationtabdata:{},
   });
 
   const updateStore = (data) => {

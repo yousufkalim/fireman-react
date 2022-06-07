@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { Button } from "@mui/material";
 import { Store } from "../../StoreContext";
+import { useTranslation } from "react-i18next";
 const TeamManagmentForm = ({
   importedData,
   prefilledData,
@@ -17,6 +18,10 @@ const TeamManagmentForm = ({
   let [team, setTeam] = useState({});
   let [ress, setRess] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
+  const { t } = useTranslation();
+  const inputRef = useRef(null);
+  const inputRefnew = useRef(null);
+  const inputRefemail = useRef(null);
   useEffect(() => {
     if (importedData) {
       setIsDisabled(true);
@@ -90,7 +95,7 @@ const TeamManagmentForm = ({
     });
   };
 
-  const submitForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let userId = localStorage.getItem("userData");
     userId = JSON.parse(userId);
@@ -103,6 +108,7 @@ const TeamManagmentForm = ({
       currentUserId: userId?.userid,
       isAdmin: true,
     };
+    console.log(data);
     if (
       !team.employeeId &&
       team.email &&
@@ -114,18 +120,14 @@ const TeamManagmentForm = ({
       team.empLastName
     ) {
       api("post", "/api/v1/register", data).then((res) => {
-        console.log("res register api", res);
-        setTeamFormDisplay(true);
-       
-          if (res?.data.success == true) {
-            setTeamFormDisplay(true);
-            toast.success("Employé ajouté avec succès");
-            getGridData();
-          }
-          if (res?.data?.success == false) {
-            toast.error(res?.data?.errorMessage[0]);
-          }
-        
+        if (res?.data.success == true) {
+          setTeamFormDisplay(true);
+          toast.success("Employé ajouté avec succès");
+          getGridData();
+        }
+        if (res?.data?.success == false) {
+          toast.error(res?.data?.errorMessage[0]);
+        }
       });
     }
     if (team.employeeId > 0) {
@@ -163,234 +165,328 @@ const TeamManagmentForm = ({
       });
     }
   };
-  const UserRole = localStorage.getItem("roleSerial");
   const store = Store();
   return (
     <>
       <div className="team_management">
-        <div className="team_management_row">
-          <div className="input_cont">
-            <label>SDIS</label>
-            <select
-              disabled={
-                store?.role == "2" ||
-                (store?.role == "3" && prefilledData.length !== 0)
-              }
-              value={team?.sdisId}
-              name="cars"
-              className="dropdown-team-managment-form"
-              id="cars"
-              onChange={(e) => {
-                setTeam({ ...team, ["sdisId"]: e.target.value });
-              }}
-            >
-              <option selected disabled>
+        <form type="submit" onSubmit={handleSubmit}>
+          <div className="team_management_row">
+            <div className="input_cont">
+              <label>SDIS</label>
+              <select
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                type="select"
+                disabled={
+                  store?.role == "2" ||
+                  (store?.role == "3" && prefilledData.length !== 0)
+                }
+                value={team?.sdisId}
+                className="dropdown-team-managment-form"
+                onChange={(e) => {
+                  setTeam({ ...team, ["sdisId"]: e.target.value });
+                }}
+              >
+                {/* <option selected disabled>
                 Select SDIS
-              </option>
-              {sdis &&
-                sdis.map((data) => {
-                  return <option value={data.value}>{data.text}</option>;
-                })}
-            </select>
-          </div>
+              </option> */}
+                <option value="">{t("Please choose")}</option>
+                {sdis &&
+                  sdis.map((data) => {
+                    return <option value={data.value}>{data.text}</option>;
+                  })}
+              </select>
+            </div>
 
-          <div className="input_cont">
-            <label>Group</label>
-            <select
-              className="dropdown-team-managment-form"
-              disabled={
-                store?.role == "2" ||
-                (store?.role == "3" && prefilledData.length !== 0)
-              }
-              value={
-                team?.groupId ? team.groupId : prefilledData?.data?.groupId
-              }
-              //onChange={getGroups}
-              onChange={(e) => {
-                setTeam({ ...team, ["groupId"]: e.target.value });
-              }}
-              name="cars"
-              id="cars"
-            >
-              <option selected disabled>
+            <div className="input_cont">
+              <label>Group</label>
+              <select
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                className="dropdown-team-managment-form"
+                disabled={
+                  store?.role == "2" ||
+                  (store?.role == "3" && prefilledData.length !== 0)
+                }
+                value={
+                  team?.groupId ? team.groupId : prefilledData?.data?.groupId
+                }
+                onChange={(e) => {
+                  setTeam({ ...team, ["groupId"]: e.target.value });
+                }}
+              >
+                {/* <option selected disabled>
                 Select Group
-              </option>
-              {groups &&
-                groups.map((data) => {
-                  return <option value={data.value}>{data.text}</option>;
-                })}
-            </select>
+              </option> */}
+                <option value="">{t("Please choose")}</option>
+                {groups &&
+                  groups.map((data) => {
+                    return <option value={data.value}>{data.text}</option>;
+                  })}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="field_seprator"></div>
-        <div className="team_management_row">
-          <div className="input_cont">
-            <label>Service</label>
-            <select
-              disabled={store?.role == "3" && prefilledData.length !== 0}
-              value={
-                team?.serviceId
-                  ? team?.serviceId
-                  : prefilledData?.data?.serviceId
-              }
-              onChange={(e) => {
-                setTeam({ ...team, ["serviceId"]: e.target.value });
-              }}
-              name="cars"
-              id="cars"
-              className="dropdown-team-managment-form"
-            >
-              {console.log("TEAM>SERVICEID", team.serviceId)}
-              <option selected disabled>
+          <div className="field_seprator"></div>
+          <div className="team_management_row">
+            <div className="input_cont">
+              <label>Service</label>
+              <select
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                disabled={store?.role == "3" && prefilledData.length !== 0}
+                value={
+                  team?.serviceId
+                    ? team?.serviceId
+                    : prefilledData?.data?.serviceId
+                }
+                onChange={(e) => {
+                  setTeam({ ...team, ["serviceId"]: e.target.value });
+                }}
+                className="dropdown-team-managment-form"
+              >
+                {/* <option selected disabled>
                 Select Service
-              </option>
-              {services &&
-                services.map((data) => {
-                  return <option value={data.value}>{data.text}</option>;
-                })}
-            </select>
-          </div>
-          <div className="input_cont">
-            <label>Employee Designation</label>
-            <select
-              className="dropdown-team-managment-form"
-              onChange={(e) => {
-                setTeam({ ...team, ["roleId"]: e.target.value });
-              }}
-              value={team.roleId}
-              name="cars"
-              id="cars"
-            >
-              <option selected disabled>
+              </option> */}
+                <option value="">{t("Please choose")}</option>
+                {services &&
+                  services.map((data) => {
+                    return <option value={data.value}>{data.text}</option>;
+                  })}
+              </select>
+            </div>
+            <div className="input_cont">
+              <label>Employee Designation</label>
+              <select
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                className="dropdown-team-managment-form"
+                onChange={(e) => {
+                  setTeam({ ...team, ["roleId"]: e.target.value });
+                }}
+                value={team.roleId}
+              >
+                {/* <option selected disabled>
                 Select Employee Designation
-              </option>
-              {roles &&
-                roles.map((data) => {
-                  return <option value={data.value}>{data.text}</option>;
-                })}
-            </select>
+              </option> */}
+                <option value="">{t("Please choose")}</option>
+                {roles &&
+                  roles.map((data) => {
+                    return <option value={data.value}>{data.text}</option>;
+                  })}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="field_seprator"></div>
-        <div className="team_management_row">
-          <div className="input_cont">
-            <label>First Name</label>
-            <input
-              type="search"
-              onChange={(e) => {
-                setTeam({ ...team, ["empFirstName"]: e.target.value });
-              }}
-              value={team.empFirstName}
-              placeholder="Enter First Name"
+          <div className="field_seprator"></div>
+          <div className="team_management_row">
+            <div className="input_cont">
+              <label>First Name</label>
+              <input
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                type="search"
+                onChange={(e) => {
+                  setTeam({ ...team, ["empFirstName"]: e.target.value });
+                }}
+                value={team.empFirstName}
+                placeholder="Enter First Name"
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+              />
+            </div>
+            <div className="input_cont">
+              <label>Last Name</label>
+              <input
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={(e) => e.target.setCustomValidity("")}
+                type="search"
+                onChange={(e) => {
+                  setTeam({ ...team, ["empLastName"]: e.target.value });
+                }}
+                value={team.empLastName}
+                placeholder="Enter Last Name"
+              />
+            </div>
+          </div>
+          <div className="field_seprator"></div>
+          <div className="team_management_row">
+            <div className="input_cont">
+              <label>Email</label>
+              <input
+              style={{width:"95%"}}
               required
-            />
-          </div>
-          <div className="input_cont">
-            <label>Last Name</label>
-            <input
-              type="search"
-              onChange={(e) => {
-                setTeam({ ...team, ["empLastName"]: e.target.value });
-              }}
-              value={team.empLastName}
-              placeholder="Enter Last Name"
-            />
-          </div>
-        </div>
-        <div className="field_seprator"></div>
-        <div className="team_management_row">
-          <div className="input_cont">
-            <label>Email</label>
-            <input
-              autoComplete="off"
-              type="search"
-              disabled={isDisabled}
-              onChange={(e) => {
-                setTeam({ ...team, ["email"]: e.target.value });
-              }}
-              value={team.email}
-              placeholder="Enter Email"
-            />
-          </div>
-          <div className="input_cont">
-            <label>Cell No</label>
-            <input
-              type="search"
-              onChange={(e) => {
-                setTeam({ ...team, ["cellNo"]: e.target.value });
-              }}
-              value={team.cellNo}
-              placeholder="Enter Cell No"
-            />
-          </div>
-          <div style={{ padding: "2% 0%" }} className="input_cont">
-            <label>Address</label>
-            <input
-              type="search"
-              value={team?.postalAddress}
-              onChange={(e) => {
-                setTeam({ ...team, ["postalAddress"]: e.target.value });
-              }}
-              placeholder="Enter Address"
-            />
-          </div>
-          <div style={{ padding: "2% 0%" }} className="input_cont">
-            <label>Password</label>
-            <input
-              autoComplete="off"
-              style={{ width: "95%" }}
-              type="password"
-              value={team.password}
-              onChange={(e) => {
-                setTeam({ ...team, ["password"]: e.target.value });
-              }}
-              placeholder="Enter Password"
-            />
-          </div>
-        </div>
-
-        {(() => {
-          if (!importedData) {
-            return <div className="field_seprator"></div>;
-          }
-        })()}
-
-        {(() => {
-          if (!importedData) {
-            return (
-              <div className="team_management_row">
-                <div style={{ visibility: "hidden" }} className="input_cont">
-                  <label>Cell No</label>
-                  <input
-                    placeholder="Enter Cell No"
-                    value={team.cellNo}
-                    onChange={(e) => {
-                      setTeam({ ...team, ["cellNo"]: e.target.value });
-                    }}
-                  />
-                </div>
+               ref={inputRefemail}
+                autoComplete="off"
+                type="email"
+                disabled={isDisabled}
+                required
+                onChange={(e) => {
+                  setTeam({ ...team, ["email"]: e.target.value });
+                  if(inputRefemail.current.validity.patternMismatch){
+                    e.target.setCustomValidity(`Format d'email invalide`)
+                  }
+                  if(!inputRefemail.current.validity.patternMismatch){
+                    e.target.setCustomValidity('')
+                  }
+                  if(inputRefemail.current.validity.valueMissing){
+                    e.target.setCustomValidity(`'Email (requis'`)
+                  }
+                }}
+                onInvalid={e => e.target.setCustomValidity(`Format d'email invalide`)}
+                onInput={e => e.target.setCustomValidity('')}
+                pattern="(.+)@(.+){2,}\.(.+){2,}"
+                value={team.email}
+                placeholder="Enter Email"
+                name="emailone"
+              />
+            </div>
+            <div className="input_cont">
+              <label>Cell No</label>
+              <input
+                ref={inputRef}
+                type="tel"
+                minlength="10"
+                maxlength="10"
+                pattern="^0{1}[\d]{9}$"
+                onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')}
+                onInput={(e) => e.target.setCustomValidity("")}
+                type="search"
+               required
+                onChange={(e) => {
+                  setTeam({ ...team, ["cellNo"]: e.target.value });
+                  if(inputRef.current.validity.patternMismatch){
+                    e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')
+                  }
+                  if(!inputRef.current.validity.patternMismatch){
+                    e.target.setCustomValidity('')
+                  }
+                  if(inputRef.current.validity.valueMissing){
+                    e.target.setCustomValidity(`'Numéro de téléphone requis'`)
+                  }
+                }}
+                value={team.cellNo}
+                placeholder="Enter Cell No"
+                name="cellno"
+              />
+            </div>
+            <div style={{ padding: "2% 0%" }} className="input_cont">
+              <label>Address</label>
+              <input
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("merci de remplir ce champ")
+                }
+                onInput={e => e.target.setCustomValidity('')}
+                type="search"
+                value={team?.postalAddress}
+                onChange={(e) => {
+                  setTeam({ ...team, ["postalAddress"]: e.target.value });
+                }}
+                placeholder="Enter Address"
+              />
+            </div>
+            {
+              <div style={{ padding: "2% 0%" }} className="input_cont">
+                <label>Password</label>
+                <input
+                  required
+                  onInvalid={(e) =>
+                    e.target.setCustomValidity("merci de remplir ce champ")
+                  }
+                  onInput={(e) => e.target.setCustomValidity("")}
+                  autoComplete="off"
+                  style={{ width: "95%" }}
+                  type="password"
+                  value={team.password}
+                  onChange={(e) => {
+                    setTeam({ ...team, ["password"]: e.target.value });
+                  }}
+                  placeholder="Enter Password"
+                />
               </div>
-            );
-          }
-        })()}
-        <div className="field_seprator"></div>
-        <div style={{ textAlign: "right", padding: "10px" }}>
-          <Button
-            type="submit"
-            onClick={submitForm}
-            endIcon={<img className="icon-validate" />}
-            sx={{
-              background: "#3675B7",
-              textAlign: "right",
-              fontSize: "12.97px",
-              ":hover": { background: "#3675B7" },
-            }}
-            variant="contained"
-          >
-            {" "}
-            Nouvel utilisateur{" "}
-          </Button>
-        </div>
+            }
+          </div>
+
+          {/* {(() => {
+            if (!importedData) {
+              return <div className="field_seprator"></div>;
+            }
+          })()} */}
+
+          {/* {(() => {
+            if (!importedData) {
+              return (
+                <div className="team_management_row">
+                  <div style={{ visibility: "hidden" }} className="input_cont">
+                    <label>Cell No</label>
+                    <input
+                    ref={inputRefnew}
+                     
+                      value={team.cellNo}
+                      onChange={(e) => {
+                        setTeam({ ...team, ["cellNo"]: e.target.value });
+                       
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            }
+          })()} */}
+          <div className="field_seprator"></div>
+          <div style={{ textAlign: "right", padding: "10px" }}>
+            <Button
+             type="submit"
+              endIcon={<img className="icon-validate" />}
+              sx={{
+                background: "#3675B7",
+                textAlign: "right",
+                fontSize: "12.97px",
+                ":hover": { background: "#3675B7" },
+              }}
+              variant="contained"
+            >
+              {" "}
+              Nouvel utilisateur{" "}
+            </Button>
+          </div>
+        </form>
       </div>
     </>
   );

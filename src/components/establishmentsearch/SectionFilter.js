@@ -27,9 +27,7 @@ const SectionFilter = ({
   setToggler,
   Toggler,
   setIcon,
-  Icon,
-  buttonEnability,
-  generalDataEstablishment
+  Icon
 }) => {
   const [radioValues, setRadioValues] = useState({});
   const [configurationValues, setConfigurationValues] = useState({
@@ -46,7 +44,6 @@ const SectionFilter = ({
         store?.caseFileId ? store?.caseFileId : 0
       }`
     ).then((res) => {
-      console.log(res);
       setFilterData(res?.data);
       if (res?.data?.selectedSectionGroupId) {
         setRadioValues({ groupid: res?.data?.selectedSectionGroupId });
@@ -152,37 +149,48 @@ const SectionFilter = ({
 
     if (store?.caseFileId) {
       console.log(obj,"obj");
-      api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
-        if (res?.data?.success === true) {
-          toast.success(t("Successfull"));
-          updatestore({ Sectionfilterdatasaved: true });
-          updatestore({
-            activeNavbarTab: 2,
-            btnenableImpantation: false,
-            validatedSections: {
-              ...store?.validatedSections,
-              sectionfiltervalidated: true,
-            },
-          });
-          setToggler((pre) => {
-            return {
-              ...pre,
-              togglerSectionFilter: false,
-            };
-          });
-          setIcon((pre) => {
-            return {
-              ...pre,
-              iconsectionfilter: true,
-            };
-          });
-        }
-      });
+      if(obj?.sectionGroupId && obj?.difficultyLevel){
+        api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
+          if (res?.data?.success === true) {
+            toast.success(t("Successfull"));
+            updatestore({ Sectionfilterdatasaved: true });
+            updatestore({
+              activeNavbarTab: 2,
+              btnenableImpantation: false,
+              validatedSections: {
+                ...store?.validatedSections,
+                sectionfiltervalidated: true,
+              },
+            });
+            setToggler((pre) => {
+              return {
+                ...pre,
+                togglerSectionFilter: false,
+              };
+            });
+            setIcon((pre) => {
+              return {
+                ...pre,
+                iconsectionfilter: true,
+              };
+            });
+          }
+        });
+      }
+      if(!obj?.sectionGroupId){
+        toast.error("veuillez sélectionner un filtre")
+      }
+      if(!obj?.difficultyLevel){
+        toast.error("veuillez sélectionner un niveau de difficulté")
+      }
+      if(!radioValues?.sectionGroupTypeId || radioValues?.configurationOne=="" || !radioValues?.configurationTwo=="" || !radioValues?.configurationThree==""){
+        toast.error("veuillez remplir tous les champs de filtre")
+      }
+      
     } else {
       toast.error("ID de dossier manquant");
     }
   };
-  console.log(generalDataEstablishment,"generalDataEstablishment");
  
   return (
     <>
@@ -1165,6 +1173,22 @@ const SectionFilter = ({
                 </div>
               ) : null}
               <>
+              <div
+                        style={{ width: "100%", padding:"1% 0%" }}
+                        className="heading-establishment"
+                      >
+                        <span className="checklist-heading line">
+                        Niveau de difficulté
+                        </span>
+                        
+                        <Box
+                          sx={{
+                            borderTop: "3px solid #C5D3DB",
+                            width: "100%",
+                            marginTop: "12px",
+                          }}
+                        ></Box>
+                      </div>
                 <div
                   style={{
                     width: "99%",
@@ -1175,6 +1199,7 @@ const SectionFilter = ({
                   className="radion-btn-text-container"
                 >
                   <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", width:"83%", padding:"1% 0%"}}> 
+                
                   <div style={{width:"41%"}} className="levels"> 
                   <span
                  style={{ width:"47%"}}
@@ -1182,7 +1207,8 @@ const SectionFilter = ({
                   >
                     N1
                   </span>
-                  <CustomRadioButton
+                  <CustomRadioButton 
+                  defaultChecked={filterData?.difficultyLevel==1? true:false}
                     Name="difficultylevels"
                     For="none"
                     btnName="none"
@@ -1203,6 +1229,7 @@ const SectionFilter = ({
                     N2
                   </span>
                   <CustomRadioButton
+                   defaultChecked={filterData?.difficultyLevel==2? true:false}
                     Name="difficultylevels"
                     For="ntwo"
                     btnName="ntwo"
@@ -1224,6 +1251,7 @@ const SectionFilter = ({
                     N3
                   </span>
                   <CustomRadioButton
+                   defaultChecked={filterData?.difficultyLevel==3? true:false}
                      Name="difficultylevels"
                     For="nthree"
                     btnName="nthree"
@@ -1247,18 +1275,12 @@ const SectionFilter = ({
                   paddingTop: "5px",
                 }}
               >
+                   {
+                      store.activeCase === "newcase"?(
                 <Button
                   type="submit"
-                  //disabled={buttonEnability?.Sectionfilterbutton||store?.validatedSections?.sectionfiltervalidated!=true? true:false}
-                  //disabled={store?.validatedSections?.rankingvalidated!=true? true:false}
                   disabled={
-                    store.activeCase === "newcase"
-                      ? !store?.validatedSections?.rankingvalidated
-                        ? true
-                        : store.activeCase === "currentcase"
-                        ? false
-                        : false
-                      : false
+                    !store?.validatedSections?.rankingvalidated? true:false
                   }
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
@@ -1269,6 +1291,26 @@ const SectionFilter = ({
                 >
                   {t("VALIDATE")}
                 </Button>
+                      ):null
+                     }
+                     {
+                      store.activeCase === "currentcases"?(
+                <Button
+                  type="submit"
+                  disabled={
+                    !store?.validatedSections?.rankingvalidated && !Icon.iconranking? true:false
+                  }
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
+                  sx={{
+                    background: "#3675B7",
+                    ":hover": { background: "#3675B7" },
+                  }}
+                  variant="contained"
+                >
+                  {t("VALIDATE")}
+                </Button>
+                      ):null
+                     }
               </Box>
             </form>
           </Item>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import api from "../../api/index";
@@ -20,6 +21,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Grid from "@mui/material/Grid";
 import { saveAs } from 'file-saver';
+import { generate } from "shortid";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -83,7 +85,9 @@ const CreateHistoricalData = ({
     scrollToBottom();
    }
   const onSubmit = (values) => {
-    const newarr = values.repeatable.map((object) => ({
+    console.log(values,"val");
+    if(values?.repeatable.length>0){
+    const newarr = values.repeatable.map(({id, ...object}) => ({
       ...object,
       historicalEventid: object.historicalEventId
         ? object.historicalEventId
@@ -142,9 +146,11 @@ const CreateHistoricalData = ({
             .catch((err) => console.log(err));
         });
       });
-    const photo = values.repeatable.map((object) => object.image);
+    }
+    else{
+      toast.error("Veuillez ajouter des données");
+    }
   };
-
   return (
     <>
       <Box
@@ -212,7 +218,7 @@ const CreateHistoricalData = ({
                       filesData: val.filesData,
                     })),
                 }}
-                render={({ values, setFieldValue }) => (
+                render={({ values, setFieldValue, setValues }) => (
                   <Form>
                     <FieldArray
                       name="repeatable"
@@ -343,21 +349,27 @@ const CreateHistoricalData = ({
                                         <div>
                                           {" "}
                                           <Field
+                                            required
                                             className="date-field"
                                             type="date"
                                             name={`repeatable.${i}.histDate`}
-                                            defaultValue={r && r?.histDate}
+                                            defaultValue={r?.histDate}
+                                            onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                            onInput={e => e.target.setCustomValidity('')}
                                           />
                                         </div>
                                       </th>
                                       <th>
                                         <div>
                                           <Field
+                                           required
+                                           onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                           onInput={e => e.target.setCustomValidity('')}
                                             className="field-width"
                                             as="select"
                                             name={`repeatable.${i}.historicalObjectId`}
                                             defaultValue={
-                                              r && r?.historicalObjectId
+                                              r?.historicalObjectId
                                             }
                                           >
                                             <option value="">
@@ -376,11 +388,14 @@ const CreateHistoricalData = ({
                                       <th>
                                         <div>
                                           <Field
+                                           required
+                                           onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                           onInput={e => e.target.setCustomValidity('')}
                                             className="field-width avis-field-width"
                                             as="select"
                                             name={`repeatable.${i}.historicalOpinionId`}
                                             defaultValue={
-                                              r && r?.historicalOpinionId
+                                              r?.historicalOpinionId
                                             }
                                           >
                                             <option value="">
@@ -401,7 +416,7 @@ const CreateHistoricalData = ({
                                           <Field
                                             className="field-width"
                                             name={`repeatable.${i}.details`}
-                                            defaultValue={r && r?.details}
+                                            defaultValue={r?.details}
                                             value={
                                               (values.repeatable[i]
                                                 .historicalObjectId === "4" ||
@@ -1169,7 +1184,7 @@ const CreateHistoricalData = ({
                                             className="field-width"
                                             name={`repeatable.${i}.urbanPlanningRef`}
                                             defaultValue={
-                                              r && r?.urbanPlanningRef
+                                              r?.urbanPlanningRef
                                             }
                                           />
                                          
@@ -1208,7 +1223,7 @@ const CreateHistoricalData = ({
                                                   <a
                                                     onClick={() => {   
                                                       saveAs(
-                                                        `http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`,
+                                                        `http://192.168.10.15:5519/Files/EventFiles/${val?.fileURL.slice(55)}`,
                                                         "example.pdf"
                                                       );
                                                       api(
@@ -1222,13 +1237,40 @@ const CreateHistoricalData = ({
                                                     // target="_blank"
                                                   
                                                   >
-                                                    {val.fileName}
+                                                    {val?.fileName}
                                                   </a>
                                                 </Grid>
                                               </>
                                             ))}
                                           </Grid>
                                         </Box>
+                                      </th>
+                                      <th style={{width:"100%"}}>
+                                      <Box sx={{ textAlign: "center" }}>
+                                      {/* <RemoveCircleIcon
+                                      sx={{color:"#3675B7"}}
+                                      onClick={() => {
+                                        console.log("onclick",values.repeatable);
+                                        console.log("onclick",r?.historicalEventId);
+                                        if(r?.id){
+                                          console.log("r.id");
+                                          setValues({
+                                            repeatable: values.repeatable.filter((val) => val?.id !== r?.id)
+                                          })
+                                        }
+                                        if(r?.historicalEventId){
+                                          console.log("r?.historicalEventId");
+                                          console.log(r?.historicalEventId);
+                                          console.log(values.repeatable);
+                                          setValues({
+                                            repeatable: values.repeatable.filter((val) => val?.historicalEventId!==r?.historicalEventId)
+                                          })
+                                        }
+                                       
+                                      
+                                      }}
+                                      /> */}
+                                      </Box>
                                       </th>
                                     </tr>
                                   </Box>
@@ -1240,16 +1282,24 @@ const CreateHistoricalData = ({
                           </Box>
                           
                           <Box sx={{ textAlign: "start" }}>
-                            <AddIcon sx={{color:"#3675B7"}} onClick={() => arrayHelpers.push({})} />
+                            <AddIcon sx={{color:"#3675B7"}} onClick={() => {
+                              // const obj={
+                              //   id:generate(),
+                              //   histDate:""
+                              // }
+                              arrayHelpers.push({})
+                              }}/>
                           </Box>
+
                         </>
                       )}
                     />
                     <Box sx={{ textAlign: "right", padding: "10px" }}>
-                      <Button
+                    {
+                      store.activeCase === "newcase"?(
+                        <Button
                         type="submit"
-                        //disabled={!store?.validatedSections?.historicalsearchvalidated?true:false}
-                        disabled={store.activeCase === "newcase"?!store?.validatedSections?.historicalsearchvalidated?true:store.activeCase === "currentcase"?false:false:false}
+                        disabled={!store?.validatedSections?.historicalsearchvalidated?true:false}
                         endIcon={
                           <img className="icon-validate" src={Rightarrow} />
                         }
@@ -1260,7 +1310,29 @@ const CreateHistoricalData = ({
                         variant="contained"
                       >
                         {t("VALIDATE")}
-                      </Button>
+                      </Button>  
+                      ):null
+                    }
+
+                    {
+                      store.activeCase === "currentcases"?(
+                        <Button
+                        type="submit"
+                        disabled={!store?.validatedSections?.historicalsearchvalidated && !Icon?.iconhistoricalsearch?true:false}
+                        endIcon={
+                          <img className="icon-validate" src={Rightarrow} />
+                        }
+                        sx={{
+                          background: "#3675B7",
+                          ":hover": { background: "#3675B7" },
+                        }}
+                        variant="contained"
+                      >
+                        {t("VALIDATE")}
+                      </Button> 
+                      ):null
+                    }
+                     
                      
                     </Box>
                    

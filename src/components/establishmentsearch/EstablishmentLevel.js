@@ -19,7 +19,6 @@ import Rightarrow from "../../assets/rightarrow.png";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tooltip from "@mui/material/Tooltip";
 import {TextField } from "formik-material-ui";
-import { array, boolean, number, object, string, ValidationError } from "yup";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -43,7 +42,10 @@ const EstablishmentLevel = ({
     leveldropdown: "",
   });
   const [Values, setLevelData] = useState([]);
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState({
+    site:"",
+    establishmentdescription:""
+  });
   const [columnState, setColumnState] = useState({
     cellname: true,
     cellnumber: true,
@@ -77,8 +79,12 @@ const EstablishmentLevel = ({
   const getGridData = ()=>{
     api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
       (res) => {
+        console.log(res);
         setLevelData(res.data.levels);
-        setDescription(res.data.descriptions);
+        setDescription({
+          site:res.data.descriptions.siteDescription,
+          establishmentdescription:res.data.descriptions.description
+        });
       }
     );
   }
@@ -92,9 +98,10 @@ const EstablishmentLevel = ({
     });
   };
 
-  const emptyDonation = { institution: "", percentage: 0, cellNumber: "" };
+  const emptyDonation = { institution: "", cellNumber: "" };
   const store = Store();
   const updatestore = UpdateStore();
+  console.log(description,"description");
   return (
     <>
       <Box
@@ -172,6 +179,8 @@ const EstablishmentLevel = ({
               //   ),
               // })}
               onSubmit={(values) => {
+                console.log(values);
+                if(values?.donations.length>0){
                 const obj = {
                   establishmentId: store?.establishmentId,
                   levels: values?.donations?.map((val) => {
@@ -183,8 +192,8 @@ const EstablishmentLevel = ({
                   descriptions: {
                     lessEightMeter: values?.lessEightMeter,
                     moreEightMeter: values?.moreEightMeter,
-                    siteDescription: values?.site,
-                    description: values?.establishmentdescription,
+                    siteDescription: description?.site,
+                    description: description?.establishmentdescription,
                   },
                   caseFileId: store?.caseFileId,
                 };
@@ -218,6 +227,10 @@ const EstablishmentLevel = ({
                     getGridData();
                   }
                 );
+                }
+                  else{
+                    toast.error("Veuillez ajouter des données");
+                  }
               }}
             >
               {({ values, errors, isSubmitting, isValid, setFieldValue }) => (
@@ -375,9 +388,12 @@ const EstablishmentLevel = ({
                                     }}
                                   >
                                     <Field
+                                      required
                                       className="field-width-staff"
                                       as="select"
                                       name={`donations.${index}.levelId`}
+                                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                      onInput={e => e.target.setCustomValidity('')}
                                     >
                                       <option value="">
                                         {t("Please choose")}
@@ -416,10 +432,13 @@ const EstablishmentLevel = ({
                                   </Box>
                                   {columnState.cellnumber ? (
                                     <Field
+                                       required
                                       className="field-cellno"
                                       type="number"
                                       name={`donations.${index}.cellNumber`}
                                       component={TextField}
+                                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                      onInput={e => e.target.setCustomValidity('')}
                                     />
                                   ) : null}
                                   {columnState.cellname ? (
@@ -432,10 +451,13 @@ const EstablishmentLevel = ({
                                       }}
                                     >
                                       <Field
+                                         required
                                         className="field-cellno"
                                         type="string"
                                         name={`donations.${index}.cellName`}
                                         component={TextField}
+                                        onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                        onInput={e => e.target.setCustomValidity('')}
                                       />
                                       <span
                                         style={{ color: "#3675B7" }}
@@ -520,7 +542,16 @@ const EstablishmentLevel = ({
                       </AccordionSummary>
                       <AccordionDetails>
                         <Tooltip title={tooltip.one}>
-                          <Field
+                          <textarea
+                            onChange={(e)=>{
+                              setDescription((pre)=>{
+                                return{
+                                  ...pre,
+                                  site:e.target.value
+                                }
+                              })
+                            }}
+                            value={description?.site}
                             type="textarea"
                             name="site"
                             className="textarea-width"
@@ -550,7 +581,7 @@ const EstablishmentLevel = ({
                       <AccordionDetails>
                         <Box>
                           <Tooltip title={tooltip.two}>
-                            <Field
+                            <textarea
                               className="textarea-width"
                               placeholder="Décrire en quelques mots le statut, les activités et le type de bâtiment. Le texte apparaitra dans le rapport juste avant le descriptif.
                         ETABLISSEMENT SIMPLE
@@ -558,6 +589,15 @@ const EstablishmentLevel = ({
                         GROUPEMENT D’ETABLISSEMENT
                         Ex: Il s’agit d’un groupement d’établissements comprenant xx cellules (commerces, cabinet médical, bureaux). Le bâtiment est du type R+1-1."
                               name="establishmentdescription"
+                            onChange={(e)=>{
+                              setDescription((pre)=>{
+                                return{
+                                  ...pre,
+                                  establishmentdescription:e.target.value
+                                }
+                              })
+                            }}
+                             value={description?.establishmentdescription}
                             />
                           </Tooltip>
                         </Box>
@@ -613,19 +653,37 @@ const EstablishmentLevel = ({
                   <Box
                     sx={{ textAlign: "right", width: "96%", margin: "auto" }}
                   >
+                     {
+                      store.activeCase === "newcase"?(
                     <button
-                      //disabled={!store?.validatedSections?.createhistoricalvalidated?true:false}
-                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.createhistoricalvalidated?true:store.activeCase === "currentcase"?false:false:false}
                       className={
-                        !buttonEnability?.establishmentlevelbutton
-                          ? "btn-validate"
-                          : "btn-validate-disable"
+                        !store?.validatedSections?.createhistoricalvalidated
+                        ? "btn-validate-disable"
+                        : " btn-validate"
                       }
                       type="submit"
                     >
                       {t("VALIDATE")}{" "}
                       <img className="icon-validate" src={Rightarrow} />
                     </button>
+                      ):null
+                    }
+                    {
+                      store.activeCase === "currentcases"?(
+                    <button
+                      //disabled={!store?.validatedSections?.createhistoricalvalidated && !Icon.createhistoricaldata?true:false}
+                      className={
+                        !store?.validatedSections?.createhistoricalvalidated && !Icon.createhistoricaldata
+                          ? "btn-validate-disable"
+                          : " btn-validate"
+                      }
+                      type="submit"
+                    >
+                      {t("VALIDATE")}{" "}
+                      <img className="icon-validate" src={Rightarrow} />
+                    </button>
+                      ):null
+                    }
                   </Box>
                 </Form>
               )}

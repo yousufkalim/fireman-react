@@ -111,6 +111,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       status: inputValues.status === "" ? 0 : inputValues.status,
       ranking: inputValues.ranking === "" ? 0 : inputValues.ranking,
     };
+    console.log(obj);
     api("post", `/api/v1/establishment/search`, obj).then((res) => {
       setEstablishmentSearchData(res);
     });
@@ -209,7 +210,16 @@ console.log(establishmentSearchData);
                         className="dropdown"
                         type="select"
                         name="commune"
-                        onChange={handleChange}
+                        //onChange={handleChange}
+                        onChange={(e)=>{
+                          setInputValues((pre)=>{
+                            return{
+                              ...pre,
+                              commune: e.target.selectedOptions[0].text
+                            }
+                          }); 
+                          //setInputValues(e.target.selectedOptions[0].text,e.target.value);  
+                        }}
                       >
                         <option value="">{t("Please choose")}</option>
                         {dropdownValue.city.data?.map((item) => (

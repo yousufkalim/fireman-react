@@ -12,7 +12,6 @@ import { UpdateStore } from "../../StoreContext";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
 import don from "../../assets/donne.svg";
-import DoneIcon from "@mui/icons-material/Done";
 import Rightarrow from "../../assets/rightarrow.png";
 import { useTranslation, Trans } from "react-i18next";
 import Accordion from "@mui/material/Accordion";
@@ -24,6 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
 const StaffLevel = ({
   establishmentid,
   setToggler,
@@ -64,7 +64,7 @@ const StaffLevel = ({
 useEffect(() => {
   getGridData();
   }, []);
-
+  const inputRef = useRef(null);
   const getGridData = async () => {
     await getRows();
     await getstaffleveldropdown();
@@ -163,7 +163,10 @@ useEffect(() => {
 
   const focusPoint = useRef(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(people);
+if(people.length>0){
     const newArr = people
       .filter((val) => val.staffLevelId !== undefined)
       .map((val) => ({
@@ -222,7 +225,6 @@ useEffect(() => {
         });
     }
     if (store.activeCase === "currentcases") {
-      console.log(newArr);
       const filteredarr = newArr.filter((val)=>(
         val?.establishmentId
         &&
@@ -235,7 +237,6 @@ useEffect(() => {
         val?.staffLevelRuleId
         )
         ))
-        console.log(filteredarr,"filteredarr");
       api("put", "/api/v1/update_establishment_stafftable", filteredarr).then(
         (res) => {
           if (res.data === true) {
@@ -259,6 +260,10 @@ useEffect(() => {
         }
       );
     }
+  }
+  else{
+    toast.error("Veuillez ajouter des données");
+  }
   };
 
   return (
@@ -312,6 +317,10 @@ useEffect(() => {
               margin: "auto",
             }}
           >
+            <form  
+            type="submit"
+            onSubmit={handleSubmit}
+            > 
             <Box className="scroll-styling" sx={{ overflow: "scroll" }}>
               <table class="table">
                 <thead>
@@ -460,6 +469,9 @@ useEffect(() => {
                                 }}
                               >
                                 <select
+                                required
+                                onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                onInput={e => e.target.setCustomValidity('')}
                                   defaultValue={people && p?.staffLevelId}
                                   value={people && p?.staffLevelId}
                                   className="field-width-staff"
@@ -591,11 +603,17 @@ useEffect(() => {
                               >
                                 {
                                   <input
+                                    required
                                     className="field-width-staff field-width-cellnum"
                                     type="number"
-                                    defaultValue={Math.abs(p.cellNumber)}
+                                    min="0"
+                                    max="200"
+                                    onInvalid={e => e.target.setCustomValidity('la valeur doit être comprise entre 0 et 200')}
+                                    onInput={e => e.target.setCustomValidity('')}
+                                    value={Math.abs(p.cellNumber)}
                                     onChange={(e) => {
-                                      setpeople((curr) =>
+                                      let value=parseInt(e.target.value)
+                                        setpeople((curr) =>
                                         curr.map((x) =>
                                           x.id === p.id
                                             ? {
@@ -623,6 +641,9 @@ useEffect(() => {
                                   }}
                                 >
                                   <input
+                                   required
+                                   onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                   onInput={e => e.target.setCustomValidity('')}
                                     className="field-width-staff"
                                     defaultValue={p?.localData}
                                     onChange={(e) => {
@@ -655,6 +676,9 @@ useEffect(() => {
                                   }}
                                 >
                                   <input
+                                   required
+                                   onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                   onInput={e => e.target.setCustomValidity('')}
                                     className="field-width-staff"
                                     defaultValue={p?.areaAccesibleToPublic}
                                     type="text"
@@ -688,6 +712,9 @@ useEffect(() => {
                                   }}
                                 >
                                   <select
+                                   required
+                                   onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                                   onInput={e => e.target.setCustomValidity('')}
                                     defaultValue={people && p?.staffLevelRuleId}
                                     value={p?.staffLevelRuleId}
                                     className="field-width-staff"
@@ -820,11 +847,12 @@ useEffect(() => {
               />
             </Box>
             <Box sx={{ textAlign: "right", padding: "10px" }}>
+            {
+                      store.activeCase === "newcase"?(
               <Button
-                //disabled={!store?.validatedSections?.establishmentlevelvalidated? true:false}
-                disabled={store.activeCase === "newcase"?!store?.validatedSections?.establishmentlevelvalidated?true:store.activeCase === "currentcase"?false:false:false}
+                disabled={!store?.validatedSections?.establishmentlevelvalidated?true:false}
                 type="submit"
-                onClick={handleSubmit}
+               
                 endIcon={<img className="icon-validate" src={Rightarrow} />}
                 sx={{
                   background: "#3675B7",
@@ -834,7 +862,27 @@ useEffect(() => {
               >
                 {t("VALIDATE")}
               </Button>
+                      ):null
+}
+{
+                      store.activeCase === "currentcases"?(
+              <Button
+                disabled={!store?.validatedSections?.establishmentlevelvalidated && !Icon?.establishmentlevel?true:false}
+                type="submit"
+               
+                endIcon={<img className="icon-validate" src={Rightarrow} />}
+                sx={{
+                  background: "#3675B7",
+                  ":hover": { background: "#3675B7" },
+                }}
+                variant="contained"
+              >
+                {t("VALIDATE")}
+              </Button>
+                      ):null
+}
             </Box>
+            </form>
           </Item>
         </AccordionDetails>
       </Accordion>

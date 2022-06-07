@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Vector from "../assets/nav.svg";
+import Vector from "../assets/sitelogo.png";
 import Site from "../assets/siteprev.png";
 import dummy from "../assets/dummy.jpeg";
 import { useTranslation, Trans } from "react-i18next";

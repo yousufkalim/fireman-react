@@ -295,7 +295,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         console.log(err);
       });
   };
-
+console.log(store,"store");
   return (
     <>
       <Box
@@ -359,6 +359,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                 <form
                   className="establishment-form"
                   type="submit"
+                  autoComplete="off"
                   onSubmit={handleSubmit}
                 >
                   <Box>
@@ -384,6 +385,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                           required
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           name="establishmentName"
@@ -396,6 +398,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <label className="label-color">Ref</label>
                         <input
                           required
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           name="RefNo"
@@ -413,6 +416,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <select
                           className="dropdown statusid"
+                          autocomplete="off"
                           type="select"
                           name="statusId"
                           onChange={handleChange}
@@ -440,6 +444,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                           ref={inputRefone}
+                          autocomplete="off"
                           type="search"
                           onChange={(e)=>{
                             setInputValues((pre)=>{
@@ -475,6 +480,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <select
                           className="dropdown dropdown-tracktype"
+                          autocomplete="off"
                           type="select"
                           name="trackTypeId"
                           onChange={handleChange}
@@ -497,6 +503,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                           required
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           name="channelName"
@@ -513,6 +520,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         <input
                           required
                           type="search"
+                          autocomplete="off"
                           onChange={handleChange}
                           name="zipCode"
                           value={inputValues.zipCode}
@@ -526,6 +534,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <select
                           className="dropdown commune-dropdown"
+                          autocomplete="off"
                           type="select"
                           name="cityId"
                           value={inputValues.cityId}
@@ -568,6 +577,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                           required
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           name="securityManagerLastName"
@@ -582,6 +592,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                           required
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           name="securityManagerName"
@@ -598,6 +609,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                            ref={inputRef}
+                           autocomplete="off"
                           required
                           type="tel"
                           minlength="10"
@@ -633,6 +645,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </label>
                         <input
                          ref={inputRefemail}
+                         autocomplete="off"
                           required
                           type="email"
                           autocomplete="off"
@@ -667,10 +680,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                       paddingTop: "5px",
                     }}
                   >
-                    <Button
+                   
+                    {
+                      store.activeCase === "newcase"?(
+                        <Button
                       type="submit"
-                      //disabled={!store?.validatedSections?.detailsobjectvalidated?true:false}
-                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.detailsobjectvalidated?true:store.activeCase === "currentcase"?false:false:false}
+                      disabled={!store?.validatedSections?.detailsobjectvalidated?true:false}
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
                       }
@@ -682,6 +697,27 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                     >
                       {t("VALIDATE")}
                     </Button>
+
+                      ):null
+                    }
+                     {
+                      store.activeCase === "currentcases"?(
+                        <Button
+                        type="submit"
+                        disabled={!store?.validatedSections?.detailsobjectvalidated && !store?.validatedSections?.iconstudytwo?true:false}
+                        endIcon={
+                          <img className="icon-validate" src={Rightarrow} />
+                        }
+                        sx={{
+                          background: "#3675B7",
+                          ":hover": { background: "#3675B7" },
+                        }}
+                        variant="contained"
+                      >
+                        {t("VALIDATE")}
+                      </Button>
+                      ):null
+                    }
                   </Box>
                 </form>
               </Grid>

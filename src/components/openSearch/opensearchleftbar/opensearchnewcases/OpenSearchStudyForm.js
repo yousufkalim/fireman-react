@@ -16,7 +16,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Store } from "../../../../StoreContext";
 import { UpdateStore } from "../../../../StoreContext";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import EditModal from "../../../Modals/EditCheckBox";
 import parse from "html-react-parser";
 
@@ -582,7 +582,16 @@ const EstablishmentSearchStudyForm = ({
             toast.success(t("Successfull"));
           }
           updatestore({
+            validatedSections: {...store?.validatedSections,
+            historicalsearchvalidated:true
+            }
+          })
+          updatestore({
             activeNavbarTab: 1,
+            validatedSections: {
+              ...store?.validatedSections,
+              iconstudytwo:true
+              }
           });
         })
         .catch((err) => toast.error(err?.statusText));
@@ -686,6 +695,7 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color"> {t("Origin")}</label>
                         <select
                           className="dropdown dropdown-townplanning"
+                          autocomplete="off"
                           type="select"
                           name="originId"
                           value={formValues?.originId}
@@ -706,6 +716,7 @@ const EstablishmentSearchStudyForm = ({
                         <select
                           className="dropdown dropdown-townplanning"
                           type="select"
+                          autocomplete="off"
                           name="caseAverageId"
                           value={formValues?.caseAverageId}
                           onChange={handleChange}
@@ -725,6 +736,7 @@ const EstablishmentSearchStudyForm = ({
                       <div className="flex-form townplanning-flex">
                         <label className="label-color">{t("Date")}</label>
                         <input
+                        autocomplete="off"
                           className=" townplanning-date-input"
                           onChange={handleChange}
                           name="townPlanningDate"
@@ -739,6 +751,7 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color">Réception service</label>
                         <input
                           className="townplanning-date-input"
+                          autocomplete="off"
                           onChange={handleChange}
                           name="receptionServiceDate"
                           type="date"
@@ -777,6 +790,7 @@ const EstablishmentSearchStudyForm = ({
 
                         <select
                           className="dropdown dropdown-townplanning"
+                          autocomplete="off"
                           type="select"
                           name="requestTypeId"
                           onChange={handleChange}
@@ -796,6 +810,7 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color">Ref </label>
                         <input
                           type="search"
+                          autocomplete="off"
                           onChange={handleChange}
                           name="refNum"
                           value={formValues?.refNum}
@@ -824,6 +839,7 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color">{t("Name")} </label>
                         <input
                           className="dropdown-townplanning"
+                          autocomplete="off"
                           type="search"
                           onChange={handleChange}
                           value={formValues?.applicant}
@@ -838,6 +854,7 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color"> {t("Phone")}</label>
                         <input
                            ref={inputRef}
+                           autocomplete="off"
                           type="tel"
                           minlength="10"
                           maxlength="10"
@@ -878,10 +895,10 @@ const EstablishmentSearchStudyForm = ({
                         <label className="label-color">Mail</label>
                         <input
                         ref={inputRefemail}
+                        autocomplete="off"
                           type="email"
                           autocomplete="off"
                           onChange={(e)=>{
-                            console.log(inputRefemail.current.validity.valueMissing,"missing");
                             setFormValues((pre)=>{
                               return{
                               ...pre,
@@ -1057,10 +1074,32 @@ const EstablishmentSearchStudyForm = ({
                     EmptyStringBlankLength={EmptyStringBlankLength}
                   />
                   <Box sx={{ textAlign: "right", padding: "10px" }}>
-                    <Button
+                    {
+                      store.activeCase === "newcase"?(
+                        <Button
+                        type="submit"
+                        disabled={!store?.validatedSections?.foldercreation?true:false}
+                        endIcon={
+                          <img className="icon-validate" src={Rightarrow} />
+                        }
+                        sx={{
+                          background: "#3675B7",
+                          ":hover": { background: "#3675B7" },
+                        }}
+                        variant="contained"
+                      >
+                        {t("VALIDATE")}
+                      </Button>
+                      ):null
+                    }
+                   
+                    {
+                      store.activeCase === "currentcases"?(
+                      <Button
+                      disabled={
+                        !store?.validatedSections?.foldercreation && !Icon.iconmain?true:false
+                    }
                       type="submit"
-                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.foldercreation?true:store.activeCase === "currentcase"?false:false:false}
-                      //disabled={!store?.validatedSections?.foldercreation?true:false}
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
                       }
@@ -1072,6 +1111,8 @@ const EstablishmentSearchStudyForm = ({
                     >
                       {t("VALIDATE")}
                     </Button>
+                      ):null
+                    }
                   </Box>
                 </form>
               </Grid>
@@ -1145,7 +1186,9 @@ const EstablishmentSearchStudyForm = ({
           >
             <Box>
               <Grid>
-                <form onSubmit={(e) => handleSubmitdetailsobj(e, "detailsobj")}>
+                <form 
+                  autoComplete="off"
+                onSubmit={(e) => handleSubmitdetailsobj(e, "detailsobj")}>
                   <Box>
                     {study &&
                       study?.map((item) => (
@@ -1284,9 +1327,34 @@ const EstablishmentSearchStudyForm = ({
                     EmptyStringBlankLength={EmptyStringBlankLength}
                   />
                   <Box sx={{ textAlign: "right", padding: "2% 0.3%" }}>
-                    <Button
+                    {
+                      store.activeCase === "newcase"?(
+                        <Button
+                        disabled={
+                       !store?.validatedSections?.townplanningvalidated?true:false
+                      }
+                        type="submit"
+                        endIcon={
+                          <img className="icon-validate" src={Rightarrow} />
+                        }
+                        sx={{
+                          background: "#3675B7",
+                          ":hover": { background: "#3675B7" },
+                        }}
+                        variant="contained"
+                      >
+                        {t("VALIDATE")}
+                      </Button>
+                      ):null
+                    }
+                   
+                    {
+                      store.activeCase === "currentcases"?(
+                      <Button
                       //disabled={!store?.validatedSections?.townplanningvalidated?true:false}
-                      disabled={store.activeCase === "newcase"?!store?.validatedSections?.townplanningvalidated?true:store.activeCase === "currentcase"?false:false:false}
+                      disabled={
+                        !store?.validatedSections?.townplanningvalidated && !Icon.iconstudy?true:false
+                    }
                       type="submit"
                       endIcon={
                         <img className="icon-validate" src={Rightarrow} />
@@ -1299,6 +1367,10 @@ const EstablishmentSearchStudyForm = ({
                     >
                       {t("VALIDATE")}
                     </Button>
+                      ):null
+                    }
+                    
+
                   </Box>
                 </form>
               </Grid>

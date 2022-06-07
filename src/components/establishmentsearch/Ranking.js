@@ -279,6 +279,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   onChange={handleChange}
                   value={inputValues.rankingStatusId}
                   style={{with:"24%"}}
+                  required
+                  onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                  onInput={e => e.target.setCustomValidity('')}
                 >
                   <option value="">{t("Please choose")}</option>
                   {dropdownValue.status.data?.map((item) => (
@@ -293,6 +296,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   name="rankingOrderId"
                   onChange={handleChange}
                   value={inputValues.rankingOrderId}
+                  required
+                  onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                  onInput={e => e.target.setCustomValidity('')}
                 >
                   <option value="">{t("Please choose")}</option>
                   {dropdownValue.rankingorder.data?.map((item) => (
@@ -307,6 +313,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   name="rankingClassificationId"
                   value={inputValues.rankingClassificationId}
                   onChange={handleChange}
+                  required
+                  onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                  onInput={e => e.target.setCustomValidity('')}
                 >
                   <option value="">{t("Please choose")}</option>
                   {dropdownValue.classification.data?.map((item) => (
@@ -321,6 +330,9 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
                   name="categoryRankingId"
                   value={inputValues.categoryRankingId}
                   onChange={handleChange}
+                  required
+                  onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
+                  onInput={e => e.target.setCustomValidity('')}
                 >
                   <option value="">{t("Please choose")}</option>
                   {dropdownValue.ranking.data?.map((item) => (
@@ -332,19 +344,38 @@ const Ranking = ({ establishmentid, setToggler, Toggler, setIcon, Icon, casefile
               
               </Box>
               <Box sx={{ textAlign: "right", padding: "10px" }}>
-                <Button
-                //disabled={!store?.validatedSections?.stafflevel? true:false}
-                disabled={store.activeCase === "newcase"?!store?.validatedSections?.stafflevel?true:store.activeCase === "currentcase"?false:false:false}
-                  type="submit"
-                  endIcon={<img className="icon-validate" src={Rightarrow} />}
-                  sx={{
-                    background: "#3675B7",
-                    ":hover": { background: "#3675B7" },
-                  }}
-                  variant="contained"
-                >
-                  {t("VALIDATE")}
-                </Button>
+                {
+                      store.activeCase === "newcase"?(
+                        <Button
+                        disabled={!store?.validatedSections?.stafflevel?true:false}
+                          type="submit"
+                          endIcon={<img className="icon-validate" src={Rightarrow} />}
+                          sx={{
+                            background: "#3675B7",
+                            ":hover": { background: "#3675B7" },
+                          }}
+                          variant="contained"
+                        >
+                          {t("VALIDATE")}
+                        </Button>
+                      ):null
+}
+{
+                      store.activeCase === "currentcases"?(
+                        <Button
+                        disabled={!store?.validatedSections?.stafflevel && !Icon.iconstafflevel?true:false}
+                          type="submit"
+                          endIcon={<img className="icon-validate" src={Rightarrow} />}
+                          sx={{
+                            background: "#3675B7",
+                            ":hover": { background: "#3675B7" },
+                          }}
+                          variant="contained"
+                        >
+                          {t("VALIDATE")}
+                        </Button>
+                      ):null
+}
               </Box>
             </form>
           </Item>

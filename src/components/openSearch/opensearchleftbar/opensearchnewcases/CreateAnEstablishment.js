@@ -140,6 +140,7 @@ const CreateAnEstablishment = () => {
         <Box></Box>
         <Grid item md={12}>
           <form
+           autoComplete="off"
             className="establishment-form"
             type="submit"
             onSubmit={handleSubmit}
@@ -160,6 +161,7 @@ const CreateAnEstablishment = () => {
                 <div className="flex-form">
                   <label className="label-color label-general"> {"Nom"}</label>
                   <input
+                  autocomplete="off"
                     type="search"
                     required
                     onChange={(e) => {
@@ -175,6 +177,7 @@ const CreateAnEstablishment = () => {
                   <label className="label-color">Ref</label>
                   <input
                    required
+                   autocomplete="off"
                   style={{width:"70% !important"}}
                     type="search"
                     onChange={(e) => {
@@ -190,6 +193,7 @@ const CreateAnEstablishment = () => {
                   <label className="label-color">{"Statut"}</label>
                   <select
                     className="dropdown statusid"
+                    autocomplete="off"
                     type="select"
                     name="statusId"
                     required
@@ -228,6 +232,7 @@ const CreateAnEstablishment = () => {
                     </label>
                     <input
                       type="search"
+                      autocomplete="off"
                       ref={inputRef}
                       onChange={(e) => {
                         SetNumber(e.target.value);
@@ -256,6 +261,7 @@ const CreateAnEstablishment = () => {
                     <label className="label-color">{"Type voie"} </label>
                     <select
                       className="dropdown dropdown-tracktype"
+                      autocomplete="off"
                       type="select"
                       name="trackTypeId"
                       required
@@ -278,6 +284,7 @@ const CreateAnEstablishment = () => {
                     <label className="label-color">{"Nom voie"}</label>
                     <input
                       type="search"
+                      autocomplete="off"
                       required
                       onChange={(e) => {
                         setChannelName(e.target.value);
@@ -294,6 +301,7 @@ const CreateAnEstablishment = () => {
                     <label className="label-cp label-general">CP</label>
                     <input
                       type="search"
+                      autocomplete="off"
                       required
                       onChange={(e) => {
                         setcp(e.target.value);
@@ -310,6 +318,7 @@ const CreateAnEstablishment = () => {
                     </label>
                     <select
                       required
+                      autocomplete="off"
                       className="dropdown commune-dropdown"
                       type="select"
                       name="cityId"

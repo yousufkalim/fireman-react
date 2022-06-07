@@ -275,7 +275,13 @@ const EstablishmentSearchVisitForm = ({
           {
             toast.success(t("Successfull"));
           }
-          updatestore({ activeNavbarTab: 1 });
+          updatestore({ 
+            activeNavbarTab: 1,
+            validatedSections: {
+              ...store?.validatedSections,
+              iconstudytwo:true
+              }
+          });
         })
         .catch((err) => toast.error(err?.statusText));
     }
@@ -447,9 +453,12 @@ const EstablishmentSearchVisitForm = ({
                 EmptyStringBlankLength={EmptyStringBlankLength}
               />
               <Box sx={{ textAlign: "right", padding: "10px" }}>
-                <Button
+               
+                {
+                      store.activeCase === "newcase"?(
+                        <Button
                   type="submit"
-                  disabled={store.activeCase === "newcase"?!store?.validatedSections?.foldercreation?true:store.activeCase === "currentcase"?false:false:false}
+                  disabled={!store?.validatedSections?.foldercreation?true:false}
                   endIcon={<img className="icon-validate" src={Rightarrow} />}
                   sx={{
                     background: "#3675B7",
@@ -459,6 +468,24 @@ const EstablishmentSearchVisitForm = ({
                 >
                   {t("VALIDATE")}
                 </Button>
+                      ):null
+                    }
+                    {
+                      store.activeCase === "currentcases"?(
+                        <Button
+                  type="submit"
+                  disabled={!store?.validatedSections?.foldercreation && !Icon.iconmain?true:false}
+                  endIcon={<img className="icon-validate" src={Rightarrow} />}
+                  sx={{
+                    background: "#3675B7",
+                    ":hover": { background: "#3675B7" },
+                  }}
+                  variant="contained"
+                >
+                  {t("VALIDATE")}
+                </Button>
+                      ):null
+                    }
               </Box>
             </form>
           </Grid>
