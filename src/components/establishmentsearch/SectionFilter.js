@@ -44,9 +44,10 @@ const SectionFilter = ({
         store?.caseFileId ? store?.caseFileId : 0
       }`
     ).then((res) => {
+      console.log(res?.data)
       setFilterData(res?.data);
       if (res?.data?.selectedSectionGroupId) {
-        setRadioValues({ groupid: res?.data?.selectedSectionGroupId });
+        setRadioValues({ groupid: res?.data?.selectedSectionGroupId, difficultyLevel: res?.data?.difficultyLevel});
       }
     });
   }, []);
@@ -73,6 +74,7 @@ const SectionFilter = ({
       setRadioValues({
         sectionGroupTypeId: "",
         sectionClassementId: "",
+        difficultyLevel:radioValues?.difficultyLevel,
         groupid: value,
       });
       setConfigurationValues({
@@ -104,14 +106,17 @@ const SectionFilter = ({
       });
     }
   };
-
+console.log(radioValues);
+console.log(configurationValues);
   const handleSubmit = (e) => {
     e.preventDefault();
     const alreadychecked = filterData?.groups?.filter((value) => {
       return value?.sectionGroupId == radioValues?.groupid;
     });
+    console.log(alreadychecked,"alreadychecked");
     const obj = {
       sectionGroupId: radioValues.groupid,
+
       sectionGroupTypeId: radioValues.sectionGroupTypeId
         ? radioValues.sectionGroupTypeId
         : alreadychecked[0]?.groupTypes
@@ -119,6 +124,7 @@ const SectionFilter = ({
               return val?.isSelected === true;
             })
             .map((values) => values?.sectionGroupTypeId)[0],
+
       sectionClassementId: radioValues?.sectionClassementId
         ? radioValues?.sectionClassementId
         : alreadychecked[0]?.groupClassements
@@ -126,13 +132,18 @@ const SectionFilter = ({
               return val?.isSelected === true;
             })
             .map((values) => values?.sectionClassementId)[0],
+
       configurationOne: configurationValues?.configurationOne
         ? configurationValues?.configurationOne
-        : alreadychecked[0]?.groupTypes
-            ?.filter((val) => {
+        : alreadychecked[0]?.configs?.configurationOne
+           /* ?.filter((val) => {
               return val?.isSelected === true;
             })
-            .map((values) => values?.sectionGroupTypeId)[0],
+            .map((values) => values?.sectionGroupTypeId)[0]
+            */
+            ,
+
+
       configurationTwo: !configurationValues?.configurationTwo
         ? alreadychecked[0]?.configs.configurationTwo
         : configurationValues?.configurationTwo == 1
@@ -148,8 +159,15 @@ const SectionFilter = ({
     };
 
     if (store?.caseFileId) {
-      console.log(obj,"obj");
-      if(obj?.sectionGroupId && obj?.difficultyLevel){
+      if(
+        obj?.sectionGroupId && 
+        obj?.difficultyLevel && 
+        obj?.sectionGroupTypeId && 
+        obj?.configurationOne && 
+        (obj?.configurationTwo==true||obj?.configurationTwo==false) && 
+        (obj?.configurationThree==true||obj?.configurationThree==false)
+        ){
+          console.log(obj,"lk");
         api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
           if (res?.data?.success === true) {
             toast.success(t("Successfull"));
@@ -177,14 +195,8 @@ const SectionFilter = ({
           }
         });
       }
-      if(!obj?.sectionGroupId){
-        toast.error("veuillez sélectionner un filtre")
-      }
-      if(!obj?.difficultyLevel){
-        toast.error("veuillez sélectionner un niveau de difficulté")
-      }
-      if(!radioValues?.sectionGroupTypeId || radioValues?.configurationOne=="" || !radioValues?.configurationTwo=="" || !radioValues?.configurationThree==""){
-        toast.error("veuillez remplir tous les champs de filtre")
+      else{
+        toast.error("Veuillez remplir tous les filtres et le niveau de difficulté");
       }
       
     } else {
@@ -237,453 +249,8 @@ const SectionFilter = ({
         <AccordionDetails>
           <Item sx={{ boxShadow: "none", width: "97%", margin: "auto" }}>
             <form type="submit" onSubmit={handleSubmit}>
-              {store?.activeCase === "newcase" ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {filterData?.groups?.map((val) => (
-                    <>
-                      <div
-                        style={{ width: "100%", padding:"2% 0%" }}
-                        className="heading-establishment"
-                      >
-                        <span className="checklist-heading line">
-                          {val?.name}
-                        </span>
-                        <Box sx={{ textAlign: "start", width: "5%" }}>
-                          <CustomRadioButton
-                            setState={setRadioValues}
-                            id={val?.sectionGroupId}
-                            defaultChecked={
-                              val?.sectionGroupId ===
-                                filterData?.selectedSectionGroupId &&
-                              !store?.Sectionfilterdatasaved
-                            }
-                            For={val?.name}
-                            Name="groupid"
-                            onChange={(e) => {
-                              _setState("groupid", val?.sectionGroupId);
-                            }}
-                            {...label}
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            borderTop: "3px solid #C5D3DB",
-                            width: "100%",
-                            marginTop: "12px",
-                          }}
-                        ></Box>
-                      </div>
-                      {
-                        <>
-                          <div className="radio-btn-container">
-                            {val?.groupTypes.map((grouptypes) => (
-                              <>
-                                <div className="radion-btn-text-container">
-                                  <span style={{textAlign:"start"}} className="radio-btn-name-text">
-                                    {grouptypes?.name}
-                                  </span>
-                                  <CustomRadioButton
-                                    checked={
-                                      (grouptypes?.sectionGroupTypeId ===
-                                        radioValues?.sectionGroupTypeId &&
-                                        val?.sectionGroupId ==
-                                          radioValues?.groupid) ||
-                                      (grouptypes?.isSelected &&
-                                        !radioValues?.sectionGroupTypeId &&
-                                        val?.sectionGroupId ==
-                                          radioValues?.groupid &&
-                                        !store?.Sectionfilterdatasaved)
-                                      //   ||
-                                      //   (grouptypes?.isSelected && filterData?.selectedSectionGroupId===val?.sectionGroupId && val?.sectionGroupId==radioValues?.groupid)
-                                    }
-                                    onChange={(e) =>
-                                      _setState(
-                                        "sectionGroupTypeId",
-                                        grouptypes?.sectionGroupTypeId
-                                      )
-                                    }
-                                    setState={setRadioValues}
-                                    Name="types"
-                                    For={grouptypes?.name}
-                                    btnName={grouptypes?.name}
-                                    disabled={
-                                      val?.sectionGroupId !=
-                                      radioValues?.groupid
-                                    }
-                                  />
-                                </div>
-                              </>
-                            ))}
-                          </div>
-                        </>
-                      }
-                      {
-                        <>
-                         <div
-                         style={{
-                          borderTop:
-                            val?.groupClassements.length > 0
-                              ? "1px solid #C5D3DB"
-                              : "",
-                          width: "100%",
-                        }}
-                        > 
-                        </div>
-                          <div
-                           
-                            className="radio-btn-container"
-                          >
-                            {val?.groupClassements.map((groupClassements) => (
-                              <>
-                                <div style={{textAlign:"start"}} className="radion-btn-text-container">
-                                  <span style={{width:"80%"}}  className="radio-btn-name-text">
-                                    {groupClassements?.name}
-                                  </span>
-                                  <CustomRadioButton
-                                    checked={
-                                      (groupClassements?.sectionClassementId ===
-                                        radioValues?.sectionClassementId &&
-                                        val?.sectionGroupId ==
-                                          radioValues?.groupid) ||
-                                      (groupClassements?.isSelected &&
-                                        !radioValues?.sectionClassementId &&
-                                        val?.sectionGroupId ==
-                                          radioValues?.groupid &&
-                                        !store?.Sectionfilterdatasaved)
-                                      //    ||
-                                      //    (store.activeCase === "currentcases" && groupClassements?.isSelected && !radioValues?.sectionClassementId)
-                                    }
-                                    textAlign={true}
-                                    onChange={(e) =>
-                                      _setState(
-                                        "sectionClassementId",
-                                        groupClassements.sectionClassementId
-                                      )
-                                    }
-                                    setState={setRadioValues}
-                                    Name="classements"
-                                    For={groupClassements?.name}
-                                    btnName={groupClassements?.name}
-                                    disabled={
-                                      val?.sectionGroupId !=
-                                      radioValues?.groupid
-                                    }
-                                  />
-                                </div>
-                              </>
-                            ))}
-                          </div>
-                        </>
-                      }
-                      {
-                        <>
-                          <div
-                            className="radio-btn-container"
-                            style={{
-                              borderTop: "1px solid #C5D3DB",
-                              width: "99%",
-                              display: "flex",
-                              flexDirection: "column",
-                              padding:"0% 0.4%"
-                            }}
-                          >
-                            <div style={{ display: "flex" }}>
-                              <div
-                                style={{ width: "25%" }}
-                                className="radion-btn-text-container"
-                              >
-                                <span style={{textAlign:"start", width:"100%"}} className="radio-btn-name-text">
-                                  Simple RDC
-                                </span>
-                                <CustomRadioButton
-                                  checked={
-                                    (val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                      val.configs.configurationId ==
-                                        configurationValues?.id &&
-                                      configurationValues?.configurationOne ==
-                                        1) ||
-                                    (val?.configs?.configurationOne == 1 &&
-                                      !configurationValues?.configurationOne &&
-                                      val?.sectionGroupId ==
-                                        radioValues?.groupid &&
-                                      !store?.Sectionfilterdatasaved)
-                                    // ||
-                                    //   (
-                                    //     (filterData?.selectedSectionGroupId===val?.sectionGroupId && !configurationValues?.configurationOne && val?.configs?.configurationOne==1 && !radioValues.groupid)
-                                    //   )
-                                    // ||
-                                    // (store.activeCase === "currentcases" && groupClassements?.isSelected && val.configs.configurationId==1)
-                                  }
-                                  onChange={(e) => {
-                                    setState(
-                                      "configurationOne",
-                                      1,
-                                      val?.configs?.configurationId
-                                    );
-                                  }}
-                                  setState={setConfigurationValues}
-                                  Name="configrationone"
-                                  For="simplerdc"
-                                  btnName="Simple RDC"
-                                  disabled={
-                                    val?.sectionGroupId != radioValues?.groupid
-                                  }
-                                />
-                              </div>
-                              <div
-                                style={{ width: "29%" }}
-                                className="radion-btn-text-container"
-                              >
-                                <span style={{width:"100%"}} className="radio-btn-name-text">
-                                  A etages moins 8m
-                                </span>
-                                <CustomRadioButton
-                                  checked={
-                                    (val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                      val.configs.configurationId ==
-                                        configurationValues?.id &&
-                                      configurationValues?.configurationOne ==
-                                        2) ||
-                                    (val?.configs?.configurationOne == 2 &&
-                                      !configurationValues?.configurationOne &&
-                                      val?.sectionGroupId ==
-                                        radioValues?.groupid &&
-                                      !store?.Sectionfilterdatasaved)
-                                  }
-                                  onChange={(e) =>
-                                    setState(
-                                      "configurationOne",
-                                      2,
-                                      val?.configs?.configurationId
-                                    )
-                                  }
-                                  setState={setConfigurationValues}
-                                  Name="configrationone"
-                                  For="moins8m"
-                                  btnName="plus8m"
-                                  disabled={
-                                    val?.sectionGroupId != radioValues?.groupid
-                                  }
-                                />
-                              </div>
-                              <div
-                                style={{ width: "40%", textAlign:"start" }}
-                                className="radion-btn-text-container"
-                              >
-                                <span style={{width:"45%"}} className="radio-btn-name-text">
-                                  A etages plus 8m
-                                </span>
-                                <CustomRadioButton
-                                  checked={
-                                    (val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                      val.configs.configurationId ==
-                                        configurationValues?.id &&
-                                      configurationValues?.configurationOne ==
-                                        3) ||
-                                    (val?.configs?.configurationOne == 3 &&
-                                      !configurationValues?.configurationOne &&
-                                      val?.sectionGroupId ==
-                                        radioValues?.groupid &&
-                                      !store?.Sectionfilterdatasaved)
-                                  }
-                                  onChange={(e) =>
-                                    setState(
-                                      "configurationOne",
-                                      3,
-                                      val?.configs?.configurationId
-                                    )
-                                  }
-                                  setState={setConfigurationValues}
-                                  Name="configrationone"
-                                  For="simplerdc"
-                                  btnName="Simple RDC"
-                                  disabled={
-                                    val?.sectionGroupId != radioValues?.groupid
-                                  }
-                                />
-                              </div>
-                            </div>
-
-                            <div
-                              style={{ width: "52.7%" }}
-                              className="radion-btn-text-container"
-                            >
-                              <span style={{textAlign:"start", width:"94%"}} className="radio-btn-name-text">
-                                Avec sous-soul
-                              </span>
-                              <CustomRadioButton
-                                checked={
-                                  (val?.sectionGroupId ==
-                                    radioValues?.groupid &&
-                                    val.configs.configurationId ==
-                                      configurationValues?.id &&
-                                    configurationValues?.configurationTwo ==
-                                      1) ||
-                                  (val?.configs?.configurationTwo &&
-                                    !configurationValues?.configurationTwo &&
-                                    val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                    !store?.Sectionfilterdatasaved)
-                                }
-                                onChange={(e) =>
-                                  setState(
-                                    "configurationTwo",
-                                    1,
-                                    val?.configs?.configurationId
-                                  )
-                                }
-                                setState={setConfigurationValues}
-                                Name="configrationtwo"
-                                For="avecsoussol"
-                                btnName="Avec sous-sol"
-                                disabled={
-                                  val?.sectionGroupId != radioValues?.groupid
-                                }
-                                value="1"
-                              />
-                              <span style={{textAlign:"start", width:"100%"}}  className="radio-btn-name-text">
-                                Sans sous-soul
-                              </span>
-                              <CustomRadioButton
-                                checked={
-                                  (val?.sectionGroupId ==
-                                    radioValues?.groupid &&
-                                    val.configs.configurationId ==
-                                      configurationValues?.id &&
-                                    configurationValues?.configurationTwo ==
-                                      2) ||
-                                  (val?.configs?.configurationTwo == false &&
-                                    configurationValues?.configurationTwo ==
-                                      false &&
-                                    val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                    !store?.Sectionfilterdatasaved)
-                                }
-                                onChange={(e) =>
-                                  setState(
-                                    "configurationTwo",
-                                    2,
-                                    val?.configs?.configurationId
-                                  )
-                                }
-                                setState={setConfigurationValues}
-                                Name="configrationtwo"
-                                For="sanssoussol"
-                                btnName="Sans sous-sol"
-                                disabled={
-                                  val?.sectionGroupId != radioValues?.groupid
-                                }
-                                value="2"
-                              />
-                            </div>
-                            <div
-                              style={{
-                                borderBottom: "1px solid #C5D3DB",
-                                width: "100%",
-                              }}
-                            >
-                              {" "}
-                            </div>
-                            <div
-                              style={{display:"flex", padding:"1% 0%", borderBottom:"1px solid #C5D3DB"}}
-                             
-                            >
-                                <div style={{display:"flex", alignItems:"center", width:"26%"}}> 
-                              <span
-                               style={{textAlign:"start", width:"47%"}}
-                              
-                              >
-                                Avec sommeil
-                              </span>
-                              <CustomRadioButton
-                                checked={
-                                  (val?.sectionGroupId ==
-                                    radioValues?.groupid &&
-                                    val.configs.configurationId ==
-                                      configurationValues?.id &&
-                                    configurationValues?.configurationThree ==
-                                      1) ||
-                                  (val?.configs?.configurationThree &&
-                                    !configurationValues?.configurationThree &&
-                                    val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                    !store?.Sectionfilterdatasaved)
-                                }
-                                onChange={(e) =>
-                                  setState(
-                                    "configurationThree",
-                                    1,
-                                    val?.configs?.configurationId
-                                  )
-                                }
-                                setState={setConfigurationValues}
-                                Name="configrationthree"
-                                For="avecsoussol"
-                                btnName="Avec sous-sol"
-                                width="auto"
-                                disabled={
-                                  val?.sectionGroupId != radioValues?.groupid
-                                }
-                              />
-                              </div>
-                              <div style={{display:"flex", alignItems:"center", width:"60%"}}>
-                              <span
-                                 style={{textAlign:"start", width:"20.5%"}}
-                               
-                              >
-                                Sans sommeil
-                              </span>
-                              <CustomRadioButton
-                                checked={
-                                  (val?.sectionGroupId ==
-                                    radioValues?.groupid &&
-                                    val.configs.configurationId ==
-                                      configurationValues?.id &&
-                                    configurationValues?.configurationThree ==
-                                      2) ||
-                                  (val?.configs?.configurationThree == false &&
-                                    configurationValues?.configurationThree ==
-                                      false &&
-                                    val?.sectionGroupId ==
-                                      radioValues?.groupid &&
-                                    !store?.Sectionfilterdatasaved)
-                                }
-                                onChange={(e) =>
-                                  setState(
-                                    "configurationThree",
-                                    2,
-                                    val?.configs?.configurationId
-                                  )
-                                }
-                                setState={setConfigurationValues}
-                                Name="configrationthree"
-                                For="sanssoussol"
-                                btnName="Sans sous-sol"
-                                width="auto"
-                                disabled={
-                                  val?.sectionGroupId != radioValues?.groupid
-                                }
-                              />
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      }
-                    </>
-                  ))}
-                </div>
-              ) : null}
-              {store?.activeCase === "currentcases" ? (
+           
+            
                 <div
                   style={{
                     display: "flex",
@@ -1171,7 +738,7 @@ const SectionFilter = ({
                     </>
                   ))}
                 </div>
-              ) : null}
+              
               <>
               <div
                         style={{ width: "100%", padding:"1% 0%" }}
@@ -1189,6 +756,8 @@ const SectionFilter = ({
                           }}
                         ></Box>
                       </div>
+                      {console.log(radioValues,"lo")}
+                      {console.log(filterData?.difficultyLevel,"mo")}
                 <div
                   style={{
                     width: "99%",
@@ -1208,7 +777,7 @@ const SectionFilter = ({
                     N1
                   </span>
                   <CustomRadioButton 
-                  defaultChecked={filterData?.difficultyLevel==1? true:false}
+                  checked={radioValues?.difficultyLevel==1}
                     Name="difficultylevels"
                     For="none"
                     btnName="none"
@@ -1229,7 +798,7 @@ const SectionFilter = ({
                     N2
                   </span>
                   <CustomRadioButton
-                   defaultChecked={filterData?.difficultyLevel==2? true:false}
+                   checked={radioValues?.difficultyLevel==2}
                     Name="difficultylevels"
                     For="ntwo"
                     btnName="ntwo"
@@ -1251,7 +820,7 @@ const SectionFilter = ({
                     N3
                   </span>
                   <CustomRadioButton
-                   defaultChecked={filterData?.difficultyLevel==3? true:false}
+                   checked={radioValues?.difficultyLevel==3}
                      Name="difficultylevels"
                     For="nthree"
                     btnName="nthree"
