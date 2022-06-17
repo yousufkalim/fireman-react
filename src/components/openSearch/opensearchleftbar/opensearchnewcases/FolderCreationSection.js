@@ -61,19 +61,23 @@ const FolderCreationSection = ({
       (store?.sectionindex === 2 ||
         store?.sectionindex === 3 ||
         store.tabindex === 2 ||
-        store.tabindex === 3)
+        store.tabindex === 3 ||
+        store.chapterIndex
+        )
         ? true
         : false,
     iconstudytwo:
       (store.activeCase === "currentcases" && store?.sectionindex === 3) ||
       (store.activeCase === "currentcases" && store.tabindex === 2) ||
-     (store.activeCase === "currentcases" && store.tabindex === 3)
+     (store.activeCase === "currentcases" && store.tabindex === 3) ||
+     (store.activeCase === "currentcases" && store.chapterIndex)
         ? true
         : false,
     iconvisit:
       (store.activeCase === "currentcases" && store?.sectionindex === 3) ||
       store.tabindex === 2 ||
-      store.tabindex === 3
+      store.tabindex === 3  ||
+      store?.chapterIndex
         ? true
         : false,
   });

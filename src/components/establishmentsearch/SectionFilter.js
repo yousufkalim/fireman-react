@@ -34,6 +34,7 @@ const SectionFilter = ({
     id: "",
   });
   const [filterData, setFilterData] = useState();
+  const [checklistId, setchecklistId] = useState("")
   const { t } = useTranslation();
   const store = Store();
   const updatestore = UpdateStore();
@@ -49,6 +50,7 @@ const SectionFilter = ({
       if (res?.data?.selectedSectionGroupId) {
         setRadioValues({ groupid: res?.data?.selectedSectionGroupId, difficultyLevel: res?.data?.difficultyLevel});
       }
+      getTabData();
     });
   }, []);
 
@@ -106,8 +108,18 @@ const SectionFilter = ({
       });
     }
   };
-console.log(radioValues);
-console.log(configurationValues);
+  ///
+  const getTabData = () => {
+    api("get", "/api/v1/categories/getall").then((res) => {
+      console.log(res?.data[0]?.sectionCategoryId, "tabs");
+      setchecklistId(res?.data[0]?.sectionCategoryId)
+      updatestore({
+        implantationDataid:res?.data[0]?.sectionCategoryId,
+        filterOrderno:res?.data[0]?.sectionCategoryId
+      })
+    });
+  };
+  ///
   const handleSubmit = (e) => {
     e.preventDefault();
     const alreadychecked = filterData?.groups?.filter((value) => {
@@ -167,7 +179,6 @@ console.log(configurationValues);
         (obj?.configurationTwo==true||obj?.configurationTwo==false) && 
         (obj?.configurationThree==true||obj?.configurationThree==false)
         ){
-          console.log(obj,"lk");
         api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
           if (res?.data?.success === true) {
             toast.success(t("Successfull"));
@@ -175,6 +186,9 @@ console.log(configurationValues);
             updatestore({
               activeNavbarTab: 2,
               btnenableImpantation: false,
+              implantaion:true,
+              Orderno:checklistId,
+              implantationDataid:checklistId,
               validatedSections: {
                 ...store?.validatedSections,
                 sectionfiltervalidated: true,

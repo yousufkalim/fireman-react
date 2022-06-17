@@ -253,6 +253,9 @@
         background: #596d88;
         animation:blinkingText 0.8s infinite; 
       }
+      .chat-window{
+        word-break: break-all;
+      }
 
       @keyframes blinkingText{
         0%{		color: #000;	}

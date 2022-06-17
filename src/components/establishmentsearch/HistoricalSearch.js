@@ -47,12 +47,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           store.sectionindex === 2 ||
           store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5
-          ||
-          store.sectionindex === 6
+          store.sectionindex === 5 ||
+          store.sectionindex === 6 
           ) &&
-        store?.tabindex === 2) ||
-      store.tabindex === 3
+        store?.tabindex === 2)
+        ||
+        store.chapterIndex
         ? true
         : false,
     createhistoricaldata:
@@ -62,10 +62,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           store.sectionindex === 4 ||
           store.sectionindex === 5
           ||
-          store.sectionindex === 6
+          store.sectionindex === 6 
           ) &&
         store?.tabindex === 2) ||
-      store.tabindex === 3
+          store.chapterIndex
         ? true
         : false,
     establishmentlevel:
@@ -74,33 +74,36 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           store.sectionindex === 4 ||
           store.sectionindex === 5
           ||
-          store.sectionindex === 6
+          store.sectionindex === 6 ||
+          store.chapterIndex
           ) &&
         store?.tabindex === 2) ||
-      store.tabindex === 3
+          store.chapterIndex
         ? true
         : false,
     iconstafflevel:
       (store.activeCase === "currentcases" &&
-        (store.sectionindex === 4 || store.sectionindex === 5 || store.sectionindex === 6) &&
+        (store.sectionindex === 4 || store.sectionindex === 5 || store.sectionindex === 6 || store.chapterIndex) &&
         store?.tabindex === 2) ||
-      store.tabindex === 3
+          store.chapterIndex
         ? true
         : false,
     iconranking:
       (store.activeCase === "currentcases" &&
       (store.sectionindex === 5 
       ||
-        store.sectionindex === 6) &&
+        store.sectionindex === 6 ||
+        store.chapterIndex ||
+        store.chapterIndex) &&
         store?.tabindex === 2) ||
-      store.tabindex === 3
+          store.chapterIndex
         ? true
         : false,
         iconsectionfilter:
         (store.activeCase === "currentcases" &&
-        store.sectionindex === 6 &&
+        store.sectionindex === 6 || store.chapterIndex &&
         store?.tabindex === 2) ||
-      store.tabindex === 3
+          store.chapterIndex
         ? true
         : false,
   });
@@ -168,6 +171,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         : "",
         Commune:generalDataEstablishment?.commune?generalDataEstablishment?.commune:""
     });
+
+    getTabData();
   }, [generalDataEstablishment]);
   useEffect(() => {
     api("get", "/api/v1/status/dropdown").then((res) => {
@@ -295,7 +300,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         console.log(err);
       });
   };
-console.log(store,"store");
+  const getTabData = () => {
+    api("get", "/api/v1/categories/getall").then((res) => {
+      updatestore({
+        implantationDataid:res?.data[0]?.orderNum
+      })
+    });
+  };
   return (
     <>
       <Box
@@ -648,7 +659,6 @@ console.log(store,"store");
                          autocomplete="off"
                           required
                           type="email"
-                          autocomplete="off"
                           onChange={(e)=>{
                             setInputValues((pre)=>{
                               return{

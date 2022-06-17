@@ -149,6 +149,7 @@ const TeamManagement = ({TeamformDisplay,setTeamFormDisplay}) => {
             setOpen={setOpen}
             open={open}
             userDelete={userDelete}
+            getGridData={getGridData}
           />
           <div style={{ textAlign: "right", padding: "10px" }}>
             <button

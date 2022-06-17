@@ -10,6 +10,7 @@ import Loader from './Loader';
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 const Login = () => {
     
 const [formInputs,setFormInputs]=useState({email:"",password:""});
@@ -27,6 +28,9 @@ const updatestore = UpdateStore()
               })
                 .then((res) => {
                     setloading(false);
+                    if(res.data.errorMessage){
+                        toast.error(res.data.errorMessage[0])
+                   }
                   const token = res?.data?.token;
                   const user = jwt(token); // decode your token here
                   localStorage.setItem('tokenData', user)
@@ -37,6 +41,7 @@ const updatestore = UpdateStore()
                     usertoken: res?.data?.token,
                     userid: res?.data?.userId,
                   };
+                 
                 
                   localStorage.setItem("userData", JSON.stringify(dataObj));
                    window.location = "/body";

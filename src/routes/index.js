@@ -18,10 +18,11 @@ const index = () => {
       {userdata && userdata.usertoken ? (
          <Switch>
          <Route
-           exact
-           path="/body"
-           component={Body}
+          exact
+          path="/body"
+          component={Body}
          />
+          
            <Route
            exact
            path="/accuceil"

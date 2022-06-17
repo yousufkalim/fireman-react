@@ -23,7 +23,8 @@ const IndexThree = ({handleClose}) => {
     isLoading: true,
     connection: "",
     msglist:[],
-    CurrentReceivedmsgData:{}
+    CurrentReceivedmsgData:{},
+    msgseenstatus:""
   })
   const [ connection, setConnection ] = useState(null);
   const [ chat, setChat ] = useState([]);
@@ -187,8 +188,8 @@ useEffect(() => {
                setState({ isLoading: false });
              }
            
-             store?.connection?.on(
-               "checkIsOnline",
+            store.connection?.on(
+               "CheckIsOnline",
                (userId, isOnline, lastSeen, status) => {
                  console.log(userId, isOnline, lastSeen, status);
                  if (userData.Id !== userId) {
@@ -198,13 +199,24 @@ useEffect(() => {
                        ? { ...chat, isOnline, lastSeen, status }
                        : chat
                    );
-           
+                     if(status){
+                      loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
+                     console.log(newChatList,"ok")
+                     console.log(chat,"ljskff");
+                      setState((pre)=>{
+                        return{
+                          ...pre,
+                          chatList:newChatList,
+                          msgseenstatus:status
+                        }
+                       }) 
+                     }
                    if (status !== "") {
                      console.log("extra messages", chat_active);
                      chat_active = counterRef.current.activeChat;
                      console.log("264",chat_active,userData.Id);
                //alert("third if load")
-                     // loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
+                     
                    } else {
                      console.log("extra messages not ", chat_active);
                    }
@@ -237,13 +249,12 @@ useEffect(() => {
                (userId, isOnline, status) => {
                  console.log("check online ", isOnline);
                  console.log("check online id ", userId);
+                 
                }
+              
              );
-             // loadActiveChatMessage(
-             //   token,
-             //   chat_active,
-             //   userId
-             // );
+             
+            
            
            
              ////////
@@ -289,7 +300,6 @@ useEffect(() => {
                   }
                   setChat(updatedChat);
               });
-               console.log("95");
                loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
                connection.on("msgSeenStatus", (usrId, chatId, seen) => {
                 console.log(">?<><><><",usrId, chatId, seen);
@@ -350,6 +360,9 @@ const loadActiveChatMessage = (token, chatId, userId)=>{
           connection &&
            connection.send("activeChat", userId, chatId);
     }
+    else{
+      setChat([])
+    }
   })
 }
 const sendMessage = async (user, message) => {
@@ -381,9 +394,11 @@ const changeChat = (chat) => {
   var token = localStorage.getItem("userdata");
   localStorage.removeItem("activeChat");
   var chatListis = state.chatList;
+  console.log(chatListis,"chatListis");
   var index = chatListis?.indexOf(
     chatListis?.find((item) => item.chatroom_id == chat.chatroom_id)
   );
+  console.log(index,"index");
   if (index != -1) {
     chatListis[index].unread = false;
     // this.setState({ chatList: chatListis });
@@ -418,8 +433,6 @@ const changeChat = (chat) => {
         state.userData?.Id
       );
 };
-console.log(state);
-console.log(store);
   return (
     <>
      <Box sx={{display:"flex", height:"100%"}}>
@@ -437,6 +450,7 @@ console.log(store);
            <ChatWindow
            handleClose={handleClose}
             chat={chat}
+            status={state?.msgseenstatus}
             sendMessage={sendMessage}
            activeChat={state.chatList?.find(
             (chat) => chat?.chatroom_id ==state.activeChat

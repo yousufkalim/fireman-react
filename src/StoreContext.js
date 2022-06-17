@@ -25,12 +25,15 @@ export function StoreProvider({ children }) {
     establishmentname:"",
     cityname:"",
     serialNum:"",
-    activeNavbarTab:10,
+    activeNavbarTab:"dsh",
     activeCase:"",
     caseFileId:"",
-    sectionindex:"",
-    chapterIndex:"",
+    sectionindex:0,
+    btn:3,
+    chapterIndex:0,
     tabindex:"",
+    Orderno:"",
+    filterOrderno:"",
     buttonenable:false,
     btnenableImpantation:true,
     caseName:"",
@@ -48,6 +51,8 @@ export function StoreProvider({ children }) {
     Sectionfilterdatasaved:false,
     validatedSections:{},
     implantationtabdata:{},
+    implantationDataid:"",
+    implantaion:false
   });
 
   const updateStore = (data) => {

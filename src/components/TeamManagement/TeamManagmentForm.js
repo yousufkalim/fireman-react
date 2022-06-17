@@ -179,10 +179,6 @@ const TeamManagmentForm = ({
                   e.target.setCustomValidity("merci de remplir ce champ")
                 }
                 onInput={(e) => e.target.setCustomValidity("")}
-                onInvalid={(e) =>
-                  e.target.setCustomValidity("merci de remplir ce champ")
-                }
-                onInput={(e) => e.target.setCustomValidity("")}
                 type="select"
                 disabled={
                   store?.role == "2" ||
@@ -209,10 +205,6 @@ const TeamManagmentForm = ({
               <label>Group</label>
               <select
                 required
-                onInvalid={(e) =>
-                  e.target.setCustomValidity("merci de remplir ce champ")
-                }
-                onInput={(e) => e.target.setCustomValidity("")}
                 onInvalid={(e) =>
                   e.target.setCustomValidity("merci de remplir ce champ")
                 }
@@ -250,10 +242,6 @@ const TeamManagmentForm = ({
                   e.target.setCustomValidity("merci de remplir ce champ")
                 }
                 onInput={(e) => e.target.setCustomValidity("")}
-                onInvalid={(e) =>
-                  e.target.setCustomValidity("merci de remplir ce champ")
-                }
-                onInput={(e) => e.target.setCustomValidity("")}
                 disabled={store?.role == "3" && prefilledData.length !== 0}
                 value={
                   team?.serviceId
@@ -283,10 +271,7 @@ const TeamManagmentForm = ({
                   e.target.setCustomValidity("merci de remplir ce champ")
                 }
                 onInput={(e) => e.target.setCustomValidity("")}
-                onInvalid={(e) =>
-                  e.target.setCustomValidity("merci de remplir ce champ")
-                }
-                onInput={(e) => e.target.setCustomValidity("")}
+             
                 className="dropdown-team-managment-form"
                 onChange={(e) => {
                   setTeam({ ...team, ["roleId"]: e.target.value });
@@ -320,11 +305,6 @@ const TeamManagmentForm = ({
                 }}
                 value={team.empFirstName}
                 placeholder="Enter First Name"
-                required
-                onInvalid={(e) =>
-                  e.target.setCustomValidity("merci de remplir ce champ")
-                }
-                onInput={(e) => e.target.setCustomValidity("")}
               />
             </div>
             <div className="input_cont">
@@ -355,7 +335,6 @@ const TeamManagmentForm = ({
                 autoComplete="off"
                 type="email"
                 disabled={isDisabled}
-                required
                 onChange={(e) => {
                   setTeam({ ...team, ["email"]: e.target.value });
                   if(inputRefemail.current.validity.patternMismatch){
@@ -386,7 +365,6 @@ const TeamManagmentForm = ({
                 pattern="^0{1}[\d]{9}$"
                 onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère, doit commencer par 0')}
                 onInput={(e) => e.target.setCustomValidity("")}
-                type="search"
                required
                 onChange={(e) => {
                   setTeam({ ...team, ["cellNo"]: e.target.value });

@@ -13,14 +13,13 @@ import Rightarrow from "../../assets/rightarrow.png";
 import Floppy from "../../assets/floppy.png";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { IconButton } from "@mui/material";
-import TooltipComp from '../TooltipComp'
+import TooltipComp from "../TooltipComp";
 import CheckList from "../CheckList";
 import { Store } from "../../StoreContext";
 import { UpdateStore } from "../../StoreContext";
 import api from "../../api/index";
 import { toast } from "react-toastify";
 import { useTranslation, Trans } from "react-i18next";
-import imgflop from "../../assets/imgflop.png";
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -74,7 +73,7 @@ const AccordionComponent = (props) => {
   const [seriesValues, setSeriesValues] = useState([]);
   const [alreadyChecked, setAlreadyChecked] = useState([]);
   const [subCheckValues, setSubCheckValues] = useState([]);
-  const [redo, setRedo] = useState("")
+  const [redo, setRedo] = useState("");
   const store = Store();
   const updateStore = UpdateStore();
   const onClick = (sentenceid, text, seriesname, nature, serialid) => {
@@ -155,11 +154,12 @@ const AccordionComponent = (props) => {
     let newdata = [];
     let new2 = [];
     const forcechecklistObj = {
-    caseFileId: store.caseFileId,
-  tabIndex: 3,
-  sectionIndex: section,
-  chapterIndex: chapter
-    }
+      caseFileId: store.caseFileId,
+      // tabIndex: props?.TabData?.filter((val)=>(val?.orderNum===store?.Orderno))[0]?.sectionCategoryId,
+      tabIndex: store?.filterOrderno ? store?.filterOrderno : store?.Orderno,
+      sectionIndex: section,
+      chapterIndex: chapter,
+    };
     seriesValues?.map((item, index) => {
       subCheckValues?.map((sub) => {
         if (sub.seriesname === item.seriesName) {
@@ -186,28 +186,35 @@ const AccordionComponent = (props) => {
     const obj = {
       caseFileId: store.caseFileId,
       chapterIndex: chapter,
-      tabIndex: store.activeNavbarTab + 1,
+      // tabIndex: store.activeNavbarTab + 1,
+      //  tabIndex: props?.TabData?.filter((val)=>(val?.orderNum===store?.Orderno))[0]?.sectionCategoryId,
+      tabIndex: store?.filterOrderno ? store?.filterOrderno : store?.Orderno,
       sectionIndex: section,
       checks: seriesValues,
       caseFileSelectedAnswerId: alreadyChecked[0]?.caseFileSelectedAnswerId
         ? alreadyChecked[0]?.caseFileSelectedAnswerId
         : 0,
     };
-    if(submittype){
-      api("post","/api/v1/checkList/save_tabs_empty_checklist",forcechecklistObj).then((res)=>{
-      if (res.data === true) {
-      toast.success(t("Successfull"));
-      }
-      })
+    if (submittype) {
+      console.log(forcechecklistObj);
+      api(
+        "post",
+        "/api/v1/checkList/save_tabs_empty_checklist",
+        forcechecklistObj
+      ).then((res) => {
+        if (res.data === true) {
+          toast.success(t("Successfull"));
+        }
+      });
     }
-    if(!submittype){
-    api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
-      if (res.data === true) {
-        props.setExpandchild(true);
-        toast.success(t("Successfull"));
-      }
-    });
-  }
+    if (!submittype) {
+      api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
+        if (res.data === true || obj.checks.length == 0) {
+          props.setExpandchild(true);
+          toast.success(t("Successfull"));
+        }
+      });
+    }
   };
   return (
     <>
@@ -231,7 +238,7 @@ const AccordionComponent = (props) => {
               "get",
               `/api/v1/checkList/section_video_link/${props.accordionData?.sectionId}`
             ).then((res) => {
-              console.log(res,"resvideos");
+              console.log(res, "resvideos");
               updateStore({ implantationvideodata: res.data.length });
               props.setRightBarData((pre) => {
                 return {
@@ -244,7 +251,7 @@ const AccordionComponent = (props) => {
                 "get",
                 `/api/v1/checkList/section_comments/${props.accordionData?.sectionId}`
               ).then((res) => {
-                console.log(res,"rescomments");
+                console.log(res, "rescomments");
                 updateStore({ implantationcommentsdata: res.data.length });
                 props.setRightBarData((pre) => {
                   return {
@@ -257,14 +264,12 @@ const AccordionComponent = (props) => {
 
             //
 
-            
-              api(
-                "get",
-                `/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`
-              ).then((res) => {
-                setAlreadyChecked(res?.data);
-              });
-            
+            api(
+              "get",
+              `/api/v1/checkList/show_section_selected_checklist/${store.caseFileId}/${props.accordionData?.sectionId}`
+            ).then((res) => {
+              setAlreadyChecked(res?.data);
+            });
           }}
           expandIcon={
             <svg
@@ -295,29 +300,35 @@ const AccordionComponent = (props) => {
           <Typography sx={{ fontSize: "20px" }}>
             {props?.accordionData.sectionName}
           </Typography>
-          {(props.chapterindex + 1 <= store.chapterIndex &&
-            props.sectionindex + 1 <= store.sectionindex &&
-            store.activeCase != "newcase") ||
-          (props.sectionindex === sectionDetail.sectionind &&
-            props.chapterindex === sectionDetail.chapterindex) ||
+          {
+            // (props?.tabindex + 1 <= store?.tabindex &&
+            //   (props.chapterindex + 1 <= store.chapterIndex ||
+            //     props?.tabindex + 1 < store?.tabindex) &&
+            //   (props.sectionindex + 1 <= store.sectionindex ||
+            //     props?.tabindex + 1 < store?.tabindex) &&
+            //   store.activeCase != "newcase") ||
+            (props.sectionindex === sectionDetail.sectionind &&
+              props.chapterindex === sectionDetail.chapterindex &&
+              props?.tabindex === sectionDetail.tabindex) ||
             (props.sectionindex == store?.implantationtabdata.sectionind &&
-              props.chapterindex == store?.implantationtabdata.chapterindex
-              )
-            ? (
-            <svg
-              className="cehck_section"
-              width="32"
-              height="21"
-              viewBox="0 0 32 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1268 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z"
-                fill="white"
-              />
-            </svg>
-          ) : null}
+              props.chapterindex == store?.implantationtabdata.chapterindex &&
+              sectionDetail.tabindex == store?.activeNavbarTab) ||
+            props?.accordionData?.isSelected ? (
+              <svg
+                className="cehck_section"
+                width="32"
+                height="21"
+                viewBox="0 0 32 21"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.2534 20.5954C11.9479 20.8551 11.5312 21 11.0983 21C10.6654 21 10.2486 20.8551 9.94316 20.5954L0.718025 12.7975C-0.239342 11.9884 -0.239342 10.6764 0.718025 9.86876L1.87315 8.89225C2.83082 8.08313 4.38145 8.08313 5.33882 8.89225L11.0983 13.7601L26.6612 0.606841C27.6188 -0.20228 29.171 -0.20228 30.1268 0.606841L31.282 1.58335C32.2393 2.39247 32.2393 3.70426 31.282 4.51212L12.2534 20.5954Z"
+                  fill="white"
+                />
+              </svg>
+            ) : null
+          }
         </AccordionSummary>
         <AccordionDetails>
           {props.accordionData.series &&
@@ -353,54 +364,58 @@ const AccordionComponent = (props) => {
               }}
             >
               <TooltipComp
-              title="Permet de valider la section alors qu’aucune réponse n’as été sélectionnée"
-               icon={<CheckCircleOutlineIcon
-               onClick={()=>{  setSectiondDetail(() => {
-                return {
-                  sectionind: props.sectionindex,
-                  chapterindex: props.chapterindex,
-                };
-              });
-              props.setExpandchild(true);
-              onSubmit(props.sectionindex + 1, props.chapterindex + 1, true);
-              updateStore({implantationtabdata:{
-                ...store?.implantationtabdata,
-                sectionind: props.sectionindex,
-                chapterindex: props.chapterindex,
-              }})
-            }}
-                style={{ color: "#BDC6D8", fontSize: "32px" }}
-              />}
+                title="Permet de valider la section alors qu’aucune réponse n’as été sélectionnée"
+                icon={
+                  <CheckCircleOutlineIcon
+                    onClick={() => {
+                      setSectiondDetail(() => {
+                        return {
+                          sectionind: props.sectionindex,
+                          chapterindex: props.chapterindex,
+                          tabindex: store?.activeNavbarTab,
+                        };
+                      });
+                      props.setExpandchild(true);
+                      onSubmit(
+                        props.sectionindex + 1,
+                        props.chapterindex + 1,
+                        true
+                      );
+                      updateStore({
+                        implantationtabdata: {
+                          ...store?.implantationtabdata,
+                          sectionind: props.sectionindex,
+                          chapterindex: props.chapterindex,
+                          tabindex: store?.activeNavbarTab,
+                        },
+                      });
+                    }}
+                    style={{ color: "#BDC6D8", fontSize: "32px" }}
+                  />
+                }
               />
-              {/* <CheckCircleOutlineIcon
-                style={{ color: "#BDC6D8", fontSize: "32px" }}
-              /> */}
-              {/* <img src={imgflop} /> */}
             </Box>
-            <div onClick={()=>{setRedo(true);}}> 
-            <TooltipComp
-              title="Permet de réinitialiser la section complète"
-               icon={<img src={Redo}/>}
+            <div
+              onClick={() => {
+                setRedo(true);
+              }}
+            >
+              <TooltipComp
+                title="Permet de réinitialiser la section complète"
+                icon={<img src={Redo} />}
               />
             </div>
-           
+
             {/* <img onClick={()=>{console.log("fdfg");}} src={Redo} /> */}
           </div>
 
           {
             <div className="bottom_buttons">
               <div className="bottom_buttons_left">
-              <TooltipComp
-              title="Permet d’enregistrer le travail en cours Permet d’enregistrer le travail en cours"
-               icon={<img src={Floppy}/>}
-              />
-                {/* <IconButton
-                  color="primary"
-                  aria-label="upload picture"
-                  component="span"
-                >
-                  <img src={Floppy} />
-                </IconButton> */}
+                <TooltipComp
+                  title="Permet d’enregistrer le travail en cours Permet d’enregistrer le travail en cours"
+                  icon={<img src={Floppy} />}
+                />
                 <IconButton
                   color="primary"
                   aria-label="upload picture"
@@ -408,32 +423,30 @@ const AccordionComponent = (props) => {
                 ></IconButton>
               </div>
               <div className="bottom_buttons_right">
-                {/* <Button
-                  sx={{
-                    background: "#BDC6D8",
-                    ":hover": { background: "#BDC6D8" },
-                  }}
-                  style={{ marginRight: "12px" }}
-                  variant="contained"
-                  startIcon={<img src={Leftarrow} />}
-                >
-                  PRECEDENT
-                </Button> */}
                 <Button
-                  disabled={store.activeCase==="currentcases"?false:store?.btnenableImpantation}
                   onClick={() => {
                     setSectiondDetail(() => {
                       return {
                         sectionind: props.sectionindex,
                         chapterindex: props.chapterindex,
+                        tabindex: store?.activeNavbarTab,
                       };
                     });
-                    onSubmit(props.sectionindex + 1, props.chapterindex + 1, false);
-                    updateStore({implantationtabdata:{
-                      ...store?.implantationtabdata,
-                      sectionind: props.sectionindex,
-                      chapterindex: props.chapterindex,
-                    }})
+
+                    onSubmit(
+                      //props.sectionindex + 1,
+                      props.sectionindex,
+                      props.chapterindex + 1,
+                      false
+                    );
+                    updateStore({
+                      implantationtabdata: {
+                        ...store?.implantationtabdata,
+                        sectionind: props.sectionindex,
+                        chapterindex: props.chapterindex,
+                        tabindex: store?.activeNavbarTab,
+                      },
+                    });
                   }}
                   endIcon={<img className="" src={Rightarrow} />}
                   sx={{
@@ -454,4 +467,4 @@ const AccordionComponent = (props) => {
   );
 };
 
-export default AccordionComponent
+export default AccordionComponent;

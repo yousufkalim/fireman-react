@@ -11,8 +11,8 @@ const ChatWindow = (props) => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(scrollToBottom, [props.chat]);
-  console.log(props?.chat,"lk");
-  const chat = props.chat.map((m) => (
+  console.log(props.chat,"pi");
+  const chat = props?.chat.map((m) => (
     // <Message
     //     key={Date.now() * Math.random()}
     //     user={m.user}
@@ -24,6 +24,7 @@ const ChatWindow = (props) => {
         sx={{ display: "flex", justifyContent: m.isSender ? "end" : "start" }}
       >
         <Box
+        className="chat-window"
           sx={{
             display: "flex",
             borderBottomLeftRadius: "15px",
@@ -38,16 +39,27 @@ const ChatWindow = (props) => {
             // color:m.isSender? "#9095A3": "#000000",
             background: m.isSender ? "#ffffff" : "aliceblue",
             border: m.isSender ? "1px solid #e9eaef" : "none",
+            wordBreak:"breakWord"
           }}
         >
           {m.message}
-          {m.isSender && m.status == "sent" ? (
+          <div> 
+          {m.isSender && m.status == "sent"? (
             <DoneIcon sx={{ color: "black" }} />
           ) : null || (m.isSender && m.status == "received") ? (
             <img style={{ width: "25px" }} src={blacktick} />
-          ) : null || (m.isSender && m.status == ("Seen" && "read")) ? (
-            <DoneAllIcon sx={{ color: "green" }} />
-          ) : null}
+          ) : null 
+          || 
+          (m.isSender && m.status == ("Seen" && "read")) ? (
+            <DoneAllIcon sx={{ color: "black" }} />
+          ) : null
+         
+          //|| 
+          //(m.isSender && m.status == ("Seen" && "read")) ? (
+            //<DoneAllIcon sx={{ color: "green" }} />
+          //) : null
+          }
+           </div>
         </Box>
       </Box>
     </>

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import useState from "react-usestateref";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -54,6 +55,7 @@ const Body = () => {
   const [state, setState, counterRef] = useState({
     connection: "",
   });
+  const { screen } = useParams();
   const getResponse = (data) => {
     setResponseData(data);
   };
@@ -147,6 +149,7 @@ const Body = () => {
   //     console.log("No connection to server yet in Admin.js");
   //   }
   // };
+  console.log(screen);
   return (
     <>
       {store.activeNavbarTab === "termine" ? <NavbarDashBoard /> : null}
@@ -155,7 +158,7 @@ const Body = () => {
         <div
           className={
             store.activeNavbarTab === "termine" ||
-            store.activeNavbarTab === 10 ||
+            store.activeNavbarTab === "dsh" ||
             store.activeNavbarTab == "profile"
               ? "mainhome"
               : ""
@@ -196,7 +199,7 @@ const Body = () => {
               />
             </Grid>
             {store.activeNavbarTab === "termine" ||
-            store.activeNavbarTab === 10 ? (
+            store.activeNavbarTab === "dsh" ? (
               <Home
                 handleClose={handleClose}
                 handleOpen={handleOpen}
@@ -227,7 +230,7 @@ const Body = () => {
                       setRightBarData={setRightBarData}
                     />
                   ) : null}
-                  {store.activeNavbarTab === 2 ? (
+                  {store.implantaion? (
                     <Implantation setRightBarData={setRightBarData} />
                   ) : null}
                   {store.activeNavbarTab === 0 ||
@@ -257,12 +260,14 @@ const Body = () => {
                       phoneBookDisplay={phoneBookDisplay}
                     />
                   ) : null}
-                  {store.activeNavbarTab === "team" ? (
+                  {store.activeNavbarTab === "team"?(
                     <TeamManagement
                       TeamformDisplay={TeamformDisplay}
                       setTeamFormDisplay={setTeamFormDisplay}
                     />
-                  ) : null}
+                  ):null
+                    
+                 }
                 </Grid>
                 <Grid sx={{ padding: "1.7%" }} item xs={sideBar ? 3 : 1}>
                   <RightBarTab

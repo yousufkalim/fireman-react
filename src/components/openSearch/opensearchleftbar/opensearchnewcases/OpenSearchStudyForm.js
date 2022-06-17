@@ -948,6 +948,7 @@ const EstablishmentSearchStudyForm = ({
                             <div class="container">
                               <div class="group">
                                 <input
+                                 onChange={(e) =>handleChange(e, val?.sectionType)}
                                   onClick={() => {
                                     let str = val?.name;
                                     let reg = /([__/__/__/]+)/g;/////for date pattern
@@ -972,7 +973,7 @@ const EstablishmentSearchStudyForm = ({
                                     let levelssubedit = []
                                     let stringlength = str.match(reg7)
                                     let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___"))
-                                    console.log(reg6.exec(str));
+                                  
                                     while ((match = reg.exec(str))) {
                                       date.push(match[1] || match[0]);
                                     }
@@ -1016,9 +1017,8 @@ const EstablishmentSearchStudyForm = ({
                                       : ""
                                   }
                                   id={val?.caseFileCheckListId}
-                                  onChange={(e) =>
-                                    handleChange(e, val?.sectionType)
-                                  }
+                                  
+                                 
                                 />
                                 <label
                                   className="dropdown-checkbox"
@@ -1224,7 +1224,6 @@ const EstablishmentSearchStudyForm = ({
                                     let levelssubedit = []
                                     let stringlength = str.match(reg7)
                                     let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___" && val!="."))
-                                    console.log(reg6.exec(str));
                                     console.log(emptyBlanksLength);
                                     while ((match = reg.exec(str))) {
                                       date.push(match[1] || match[0]);

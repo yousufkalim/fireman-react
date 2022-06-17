@@ -220,6 +220,7 @@ const EstablishmentSearchCurrentCases = ({
     },
   ];
   const onRowClick = (params) => {
+    console.log(params,"loop");
     updatestore({
       establishmentId: params.row.val.establishmentId,
       caseFileId: params.row.val.caseFileId,
@@ -265,11 +266,28 @@ const EstablishmentSearchCurrentCases = ({
         establishmentId: params.row.val.establishmentId,
       });
     }
+    if(params.row.val.chapterIndex){
+      console.log(params.row.val.tabIndex,"270");
+      updatestore({
+        activeNavbarTab: params.row.val.tabIndex-1,
+        establishmentId: params.row.val.establishmentId,
+        implantaion:true,
+        implantationDataid:params.row.val.tabIndex,
+        // Orderno:params.row.val.tabIndex,
+        // btn:params.row.val.tabIndex,
+          implantationtabdata: {
+            ...store?.implantationtabdata,
+            sectionind: params.row.val.sectionIndex,
+          },
+      });
+    }
     setIndexdata(() => {
       return {
         sectionindex: params.row.val.sectionIndex,
         tabindex: params.row.val.tabIndex,
         establishmentId: params.row.val.establishmentId,
+        chapterindex:params.row.val.chapterIndex,
+        implantationDataid:params.row.val.tabIndex
       };
     });
     api(

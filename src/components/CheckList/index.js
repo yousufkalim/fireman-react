@@ -55,8 +55,6 @@ const CheckList = (props) => {
   const handleClose = () => setOpen(false);
   const saveChanges = (...data) => {
     let [sentence, sentenceId, nature, seriesname,serialid,dates,level,datelength,,,items,intlength, inputstrings,stringlength] = data
-     console.log(data);
-      console.log(inputstrings);
 ////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////     
 if(inputstrings.length>0){
   if(stringlength!=0){
@@ -142,8 +140,6 @@ let tobereplacedarr =[];
           "length" : match[0]?.length 
         })
       }
-      console.log(strmatch);
-      console.log(sentence);
       let prevExtractedInt;
       strmatch.map((val,index)=>{
          prevExtractedInt = sentence?.slice(val?.index,val?.index+val?.length)
@@ -374,7 +370,6 @@ else{
                   let editdatelength = data?.sentenceText.match(regexeditdate)
                   let editintlength = data?.sentenceText.match(regexeditInt)
                   let regexeditString = data?.sentenceText.match(regexeditstring)
-                  console.log(data.sentenceText,"regexeditString");
                   setBlanksLength({
                     intLength:intlength?.length, 
                     strLength:strlength?.length,
@@ -383,6 +378,7 @@ else{
                     editintLength:editintlength?.length,
                     strEditString:regexeditString?.length
                   })
+                  console.log(datelength);
                 }}
                   className={`sentence ${
                     checked == props.accordionData.serialName + i
@@ -414,7 +410,6 @@ else{
           subcheckData={subcheckData}
           sentenceStatus={sentenceStatus}
           setSentenceStatus={setSentenceStatus}
-          subcheckData={subcheckData}
           subCheck={subCheck}
           setSubcheck={setSubcheck}
           setSubCheckIndex={setSubCheckIndex}

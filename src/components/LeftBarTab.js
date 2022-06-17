@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import api from "../api/index";
 import { useTranslation } from "react-i18next";
 import { Store, UpdateStore } from "../StoreContext";
-import jwt from "jwt-decode";
+
 const EstablishmentSearchLeftBar = ({
   getResponse,
   setCompName,
@@ -186,7 +186,10 @@ const EstablishmentSearchLeftBar = ({
       unreadnotes:"",
       caseFileId:"", 
       implantationvideodata:"",
-      implantationcommentsdata:""
+      implantationcommentsdata:"",
+      filterOrderno:"",
+      implantaion:"",
+      chapterIndex:""
     });
     setActive(activelefttab); ///////setting backgroundColor of leftbar tab
     setRightBarData((pre)=>{

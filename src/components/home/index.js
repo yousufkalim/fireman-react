@@ -161,6 +161,14 @@ const Home = ({ handleClose, handleOpen, open }) => {
                       implantationvideodata: "",
                       implantationcommentsdata: "",
                       caseFileId: "",
+                      implantaion:"",
+                      chapterIndex:"",
+                      btnenableImpantation:true,
+                      btn:3,
+                      sectionindex:0,
+                      implantationtabdata:{
+                        sectionind:0
+                      }
                     });
                   }}
                   sx={{ width: "100%", height: "100%" }}

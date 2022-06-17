@@ -8,18 +8,26 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import parse from "html-react-parser";
 import Checkbox from "@mui/material/Checkbox";
-import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import CircleUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
-import CreateIcon from "@mui/icons-material/Create";
 import EditTextComp from "./EditTextComp";
 import pencil from "../../assets/pencilediticon.png";
-import don from "../../assets/don.png";
 import { Store } from "../../StoreContext";
 import { UpdateStore } from "../../StoreContext";
+
+const regexInt = /\[int\]/g
+const regexString = /\[string\]/g
+const regexDate = /\[date\]/g
+const regexeditdate = /(\d{1,4}([\/])\d{1,2}([\/])\d{4})/g
+let regexeditInt=/[,](-?[0-9]{1,})[,]/g 
+//let regexeditstring=/[.]([a-z]{1,})[.]/||/[.]([a-z]{1,}\s*?[a-z]{1,}?)[.]/
+//let regexeditstring = /[.]([a-z]{1,}\s*?[a-z]{1,}?)[.]/g
+ let regexeditstring =  /\.([^\.]+)\./g
+ let modifiedsentence;
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -31,7 +39,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
-
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
       {children}
@@ -85,6 +92,8 @@ const Subchecklist = ({
   const [opensubCheck, setOpenSubcheck] = useState(false);
   const [subSentenceText, setSubSentenceText] = useState("");
   const [subSentenceId, setsubSentenceId] = useState("");
+  const [blanksLength, setBlanksLength] = useState({})
+  const [editSentenceTab, setEditSentenceTab] = useState(false)
   const handleClose = () => {
     setSnack(false);
   };
@@ -95,8 +104,165 @@ const Subchecklist = ({
     sentenceid,
     serialName,
     SentenceNature,
-    sectionId
+    sectionId,
+    datelength,
+    dates,
+    intlength,
+    items,
+    inputstrings,
+    stringlength
   ) => {
+   
+    ////////////////////////////////////////////dates replacement////////////////////////////////////////////////////
+    if(dates.length>0){
+      /////
+      if(datelength==0 || !datelength){
+       const arr = sentence.split(regexeditdate);
+       const strmatch=[];
+       let match;
+       while (match = regexeditdate.exec(sentence)) {
+         strmatch.push(match.index)
+       }
+        let prevExtractedDate;
+       strmatch.map((val,index)=>{
+          prevExtractedDate = sentence.slice(val,val+10)
+         if(dates[index]){
+           sentence = sentence.replace(prevExtractedDate,dates[index]?.format())
+         }
+      })
+      sentence = modifiedsentence? modifiedsentence:sentence;
+      modifiedsentence=""
+      }
+      /////
+      if(datelength!=0 && datelength){
+       let arr=sentence.split(regexDate)
+       const sentencewithDate = arr?.map((val, index)=>{
+         modifiedsentence = modifiedsentence + val + " ";
+          if(dates[index]){
+           modifiedsentence = modifiedsentence + dates[index].format();
+          }
+          if(!dates[index] && index<datelength){
+           modifiedsentence = modifiedsentence + " [date]"
+          }
+           }
+          )
+          sentence = modifiedsentence? modifiedsentence:sentence
+       modifiedsentence=""
+      }
+     }
+    else{
+      sentence =  sentence?.replace(undefined,"")
+    }
+    ////////////////////////////////////////////dates replacement////////////////////////////////////////////////////
+    ////////////////////////////////////////////levelsreplacement////////////////////////////////////////////////////
+console.log(items?.length,"items.intlength")
+console.log(intlength,"intlength")
+if(items?.length>0){
+if(intlength!=0){
+  let arrIntOccurence=sentence.split(regexInt)
+  console.log(arrIntOccurence,"arrIntOccurence");
+  const sentencewithInt = arrIntOccurence?.map((val, index)=>{
+    modifiedsentence = modifiedsentence + val + " ";
+     if(items[index]){
+      modifiedsentence = modifiedsentence + "," + items[index]?.name + ",";
+     }
+     if(!items[index] && index<intlength){
+      modifiedsentence = modifiedsentence + " [int]"
+     }
+      }
+     )
+     sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence
+     modifiedsentence=""
+}
+if(intlength==""){
+const strmatch=[];
+let tobereplacedarr =[];
+      let match;
+      while (match = regexeditInt.exec(sentence)) {
+        strmatch.push({
+          "index" : match.index,
+          "length" : match[0]?.length 
+        })
+      }
+      let prevExtractedInt;
+      strmatch.map((val,index)=>{
+         prevExtractedInt = sentence?.slice(val?.index,val?.index+val?.length)
+         tobereplacedarr.push(prevExtractedInt)
+        // if(items[index]?.name){
+        //   sentence = sentence.replace(prevExtractedInt,","+items[index]?.name+",")
+        // }
+     })
+     tobereplacedarr?.map((val,index)=>{
+      if(items[index]?.name){
+      sentence = sentence.replace(val, `,${items[index]?.name},`)
+    }
+    return sentence;
+  })
+
+     sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence;
+     modifiedsentence=""
+     
+}
+}
+else{
+  sentence =  sentence?.replace(undefined,"")
+}
+////////////////////////////////////////////levels replacement////////////////////////////////////////////////////
+////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////     
+if(inputstrings.length>0){
+  if(stringlength!=0){
+    let arrStrOccurence=sentence.split(regexString)
+    console.log(arrStrOccurence,"arrStrOccurence");
+    const sentencewithInt = arrStrOccurence?.map((val, index)=>{
+      modifiedsentence = modifiedsentence + val + " ";
+       if(inputstrings[index]){
+        modifiedsentence = modifiedsentence + "." + inputstrings[index]?.text + ".";
+       }
+       if(!inputstrings[index] && index<stringlength){
+        modifiedsentence = modifiedsentence + " [string]"
+       }
+        }
+       )
+       sentence = modifiedsentence? modifiedsentence?.replace(undefined,""):sentence
+       modifiedsentence=""
+  }
+  if(stringlength==""){
+    const strmatch=[];
+    const tobereplacedarr=[];
+    const obj={}
+    let match;
+    while (match = regexeditstring.exec(sentence)) {
+      strmatch.push({
+        "index" : match.index,
+        "length" : match[0]?.length 
+      })
+    }
+    console.log(strmatch,"strmatch");
+    let tobereplaced;
+    strmatch.map((val,index)=>{
+       tobereplaced = sentence?.slice(val?.index,val?.index+val?.length)
+       tobereplacedarr.push(tobereplaced)
+      //if(inputstrings[index]?.text){
+        //sentence = sentence.replace(tobereplaced, `.${inputstrings[index]?.text}.`)
+      //}
+   })
+   tobereplacedarr.map((val,index)=>{
+        if(inputstrings[index]?.text){
+        sentence = sentence.replace(val, `.${inputstrings[index]?.text}.`)
+      }
+      return sentence;
+    })
+  
+   sentence = sentence? sentence?.replace(undefined,""):sentence;
+   modifiedsentence=""
+  }
+  
+}
+else{
+  sentence = sentence
+}
+////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////
+    sentence =  sentence?.replace(undefined,"")
     setSentenceDetails((pre) => {
       return {
         seriesname: serialName,
@@ -197,9 +363,7 @@ const Subchecklist = ({
                       style={{
                         color: `${val?.sentenceColor}`,
                       }}
-                      style={{
-                        color: `${val?.sentenceColor}`,
-                      }}
+                      
                       //checked={subCheck? redo? setSubcheck(""): subCheck == val?.sectionSubSentencesId : (store?.implantationtabdata?.implantationsubchecked == val?.sectionSubSentencesId) || val?.sectionSubSentencesId === val?.alreadychecked}
                       checked={subCheck? redo? setSubcheck(""): subCheck == val?.sectionSubSentencesId : val?.sectionSubSentencesId === val?.alreadychecked}
                       onClick={() => {
@@ -245,9 +409,29 @@ const Subchecklist = ({
                         };
                       });
                       setOpenSubcheck(true);
+                      setEditSentenceTab(true)
                       setsubSentenceId(val?.sectionSubSentencesId);
                       setSubSentenceText(val?.subSentenceText);
-                    }} className="sentence">{parse(val?.subSentenceText)}</p>
+                       let intlength =val?.subSentenceText.match(regexInt)
+                       let strlength =val?.subSentenceText.match(regexString)
+                       let datelength =val?.subSentenceText.match(regexDate)
+                       let editdatelength =val?.subSentenceText.match(regexeditdate)
+                       let editintlength =val?.subSentenceText.match(regexeditInt)
+                       let regexeditString =val?.subSentenceText.match(regexeditstring)
+                      setBlanksLength({
+                        intLength:intlength?.length, 
+                        strLength:strlength?.length,
+                        datelength:datelength?.length,
+                        editDateLength:editdatelength?.length,
+                        editintLength:editintlength?.length,
+                        strEditString:regexeditString?.length
+                      })
+                      console.log(datelength);
+                    }} 
+                    className="sentence"
+                    >
+                      {parse(val?.subSentenceText)}
+                      </p>
                   </Box>
                   <img
                     src={pencil}
@@ -261,6 +445,7 @@ const Subchecklist = ({
                       setOpenSubcheck(true);
                       setsubSentenceId(val?.sectionSubSentencesId);
                       setSubSentenceText(val?.subSentenceText);
+                      setEditSentenceTab(false)
                     }}
                   />
                 </Box>
@@ -324,6 +509,9 @@ const Subchecklist = ({
         serialName={serialName}
         SentenceNature={sentenceDetails.sentenceNature}
         sectionid={sectionid}
+        blanksLength={blanksLength}
+        editSentenceTab={editSentenceTab}
+        setEditSentenceTab={setEditSentenceTab}
       />
     </>
   );

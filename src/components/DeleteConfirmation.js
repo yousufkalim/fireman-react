@@ -4,14 +4,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { toast } from "react-toastify";
 import api from "../api";
-const DeleteConfirmation = ({ setOpen, open, userDelete }) => {
+const DeleteConfirmation = ({ setOpen, open, userDelete, getGridData }) => {
   const handleClose = (deleteUser) => {
     if (deleteUser == true) {
       api(
         "delete",
         `/api/v1/Users/delete_user/${userDelete?.data?.employeeId}`
       ).then((res) => {
-        toast.success("Utilisateur supprimé");
+        console.log(res);
+        if(res?.data==true){
+          toast.success("Utilisateur supprimé");
+          getGridData()
+        }
+       
       });
       setOpen(false);
     } else {

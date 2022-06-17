@@ -18,7 +18,7 @@ import { useTranslation, Trans } from "react-i18next";
 import Rightarrow from "../../assets/rightarrow.png";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tooltip from "@mui/material/Tooltip";
-import {TextField } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -43,8 +43,8 @@ const EstablishmentLevel = ({
   });
   const [Values, setLevelData] = useState([]);
   const [description, setDescription] = useState({
-    site:"",
-    establishmentdescription:""
+    site: "",
+    establishmentdescription: "",
   });
   const [columnState, setColumnState] = useState({
     cellname: true,
@@ -76,18 +76,18 @@ const EstablishmentLevel = ({
     getGridData();
   }, []);
 
-  const getGridData = ()=>{
+  const getGridData = () => {
     api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
       (res) => {
         console.log(res);
         setLevelData(res.data.levels);
         setDescription({
-          site:res.data.descriptions.siteDescription,
-          establishmentdescription:res.data.descriptions.description
+          site: res.data.descriptions.siteDescription,
+          establishmentdescription: res.data.descriptions.description,
         });
       }
     );
-  }
+  };
 
   const handleClose = (column) => {
     setColumnState((pre) => {
@@ -101,7 +101,7 @@ const EstablishmentLevel = ({
   const emptyDonation = { institution: "", cellNumber: "" };
   const store = Store();
   const updatestore = UpdateStore();
-  console.log(description,"description");
+  console.log(description, "description");
   return (
     <>
       <Box
@@ -126,7 +126,10 @@ const EstablishmentLevel = ({
         }}
       >
         <Typography variant="h6">Description</Typography>
-        {Icon?.establishmentlevel || store?.validatedSections?.establishmentlevelvalidated? <img src={don} /> : null}
+        {Icon?.establishmentlevel ||
+        store?.validatedSections?.establishmentlevelvalidated ? (
+          <img src={don} />
+        ) : null}
       </Box>
       <Accordion
         sx={{
@@ -180,57 +183,56 @@ const EstablishmentLevel = ({
               // })}
               onSubmit={(values) => {
                 console.log(values);
-                if(values?.donations.length>0){
-                const obj = {
-                  establishmentId: store?.establishmentId,
-                  levels: values?.donations?.map((val) => {
-                    return {
-                      ...val,
-                      cellNumber: parseInt(val.cellNumber),
-                    };
-                  }),
-                  descriptions: {
-                    lessEightMeter: values?.lessEightMeter,
-                    moreEightMeter: values?.moreEightMeter,
-                    siteDescription: description?.site,
-                    description: description?.establishmentdescription,
-                  },
-                  caseFileId: store?.caseFileId,
-                };
-                api("put", "/api/v1/update_description_data", obj).then(
-                  (res) => {
-                    updatestore({
-                      validatedSections:{
-                      ...store?.validatedSections,
-                        establishmentlevelvalidated:true
-                     }
-                    })
-                    toast.success(t("Successfull"));
-                    setButtonEnability((pre) => {
+                if (values?.donations.length > 0) {
+                  const obj = {
+                    establishmentId: store?.establishmentId,
+                    levels: values?.donations?.map((val) => {
                       return {
-                        ...pre,
-                        stafftablebutton: false,
+                        ...val,
+                        cellNumber: parseInt(val.cellNumber),
                       };
-                    });
-                    setToggler((pre) => {
-                      return {
-                        ...pre,
-                        establishmentlevel: false,
-                      };
-                    });
-                    setIcon((pre) => {
-                      return {
-                        ...pre,
-                        establishmentlevel: true,
-                      };
-                    });
-                    getGridData();
-                  }
-                );
+                    }),
+                    descriptions: {
+                      lessEightMeter: values?.lessEightMeter,
+                      moreEightMeter: values?.moreEightMeter,
+                      siteDescription: description?.site,
+                      description: description?.establishmentdescription,
+                    },
+                    caseFileId: store?.caseFileId,
+                  };
+                  api("put", "/api/v1/update_description_data", obj).then(
+                    (res) => {
+                      updatestore({
+                        validatedSections: {
+                          ...store?.validatedSections,
+                          establishmentlevelvalidated: true,
+                        },
+                      });
+                      toast.success(t("Successfull"));
+                      setButtonEnability((pre) => {
+                        return {
+                          ...pre,
+                          stafftablebutton: false,
+                        };
+                      });
+                      setToggler((pre) => {
+                        return {
+                          ...pre,
+                          establishmentlevel: false,
+                        };
+                      });
+                      setIcon((pre) => {
+                        return {
+                          ...pre,
+                          establishmentlevel: true,
+                        };
+                      });
+                      getGridData();
+                    }
+                  );
+                } else {
+                  toast.error("Veuillez ajouter des données");
                 }
-                  else{
-                    toast.error("Veuillez ajouter des données");
-                  }
               }}
             >
               {({ values, errors, isSubmitting, isValid, setFieldValue }) => (
@@ -392,8 +394,14 @@ const EstablishmentLevel = ({
                                       className="field-width-staff"
                                       as="select"
                                       name={`donations.${index}.levelId`}
-                                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                                      onInput={e => e.target.setCustomValidity('')}
+                                      onInvalid={(e) =>
+                                        e.target.setCustomValidity(
+                                          "merci de remplir ce champ"
+                                        )
+                                      }
+                                      onInput={(e) =>
+                                        e.target.setCustomValidity("")
+                                      }
                                     >
                                       <option value="">
                                         {t("Please choose")}
@@ -432,13 +440,20 @@ const EstablishmentLevel = ({
                                   </Box>
                                   {columnState.cellnumber ? (
                                     <Field
-                                       required
+                                      required
+                                      disabled={false}
                                       className="field-cellno"
                                       type="number"
                                       name={`donations.${index}.cellNumber`}
                                       component={TextField}
-                                      onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                                      onInput={e => e.target.setCustomValidity('')}
+                                      onInvalid={(e) =>
+                                        e.target.setCustomValidity(
+                                          "merci de remplir ce champ"
+                                        )
+                                      }
+                                      onInput={(e) =>
+                                        e.target.setCustomValidity("")
+                                      }
                                     />
                                   ) : null}
                                   {columnState.cellname ? (
@@ -451,13 +466,20 @@ const EstablishmentLevel = ({
                                       }}
                                     >
                                       <Field
-                                         required
+                                        required
+                                        disabled={false}
                                         className="field-cellno"
                                         type="string"
                                         name={`donations.${index}.cellName`}
                                         component={TextField}
-                                        onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                                        onInput={e => e.target.setCustomValidity('')}
+                                        onInvalid={(e) =>
+                                          e.target.setCustomValidity(
+                                            "merci de remplir ce champ"
+                                          )
+                                        }
+                                        onInput={(e) =>
+                                          e.target.setCustomValidity("")
+                                        }
                                       />
                                       <span
                                         style={{ color: "#3675B7" }}
@@ -543,13 +565,13 @@ const EstablishmentLevel = ({
                       <AccordionDetails>
                         <Tooltip title={tooltip.one}>
                           <textarea
-                            onChange={(e)=>{
-                              setDescription((pre)=>{
-                                return{
+                            onChange={(e) => {
+                              setDescription((pre) => {
+                                return {
                                   ...pre,
-                                  site:e.target.value
-                                }
-                              })
+                                  site: e.target.value,
+                                };
+                              });
                             }}
                             value={description?.site}
                             type="textarea"
@@ -589,15 +611,15 @@ const EstablishmentLevel = ({
                         GROUPEMENT D’ETABLISSEMENT
                         Ex: Il s’agit d’un groupement d’établissements comprenant xx cellules (commerces, cabinet médical, bureaux). Le bâtiment est du type R+1-1."
                               name="establishmentdescription"
-                            onChange={(e)=>{
-                              setDescription((pre)=>{
-                                return{
-                                  ...pre,
-                                  establishmentdescription:e.target.value
-                                }
-                              })
-                            }}
-                             value={description?.establishmentdescription}
+                              onChange={(e) => {
+                                setDescription((pre) => {
+                                  return {
+                                    ...pre,
+                                    establishmentdescription: e.target.value,
+                                  };
+                                });
+                              }}
+                              value={description?.establishmentdescription}
                             />
                           </Tooltip>
                         </Box>
@@ -653,37 +675,35 @@ const EstablishmentLevel = ({
                   <Box
                     sx={{ textAlign: "right", width: "96%", margin: "auto" }}
                   >
-                     {
-                      store.activeCase === "newcase"?(
-                    <button
-                      className={
-                        !store?.validatedSections?.createhistoricalvalidated
-                        ? "btn-validate-disable"
-                        : " btn-validate"
-                      }
-                      type="submit"
-                    >
-                      {t("VALIDATE")}{" "}
-                      <img className="icon-validate" src={Rightarrow} />
-                    </button>
-                      ):null
-                    }
-                    {
-                      store.activeCase === "currentcases"?(
-                    <button
-                      //disabled={!store?.validatedSections?.createhistoricalvalidated && !Icon.createhistoricaldata?true:false}
-                      className={
-                        !store?.validatedSections?.createhistoricalvalidated && !Icon.createhistoricaldata
-                          ? "btn-validate-disable"
-                          : " btn-validate"
-                      }
-                      type="submit"
-                    >
-                      {t("VALIDATE")}{" "}
-                      <img className="icon-validate" src={Rightarrow} />
-                    </button>
-                      ):null
-                    }
+                    {store.activeCase === "newcase" ? (
+                      <button
+                        className={
+                          !store?.validatedSections?.createhistoricalvalidated
+                            ? "btn-validate-disable"
+                            : " btn-validate"
+                        }
+                        type="submit"
+                      >
+                        {t("VALIDATE")}{" "}
+                        <img className="icon-validate" src={Rightarrow} />
+                      </button>
+                    ) : null}
+                    {store.activeCase === "currentcases" ? (
+                      <button
+                        //disabled={!store?.validatedSections?.createhistoricalvalidated && !Icon.createhistoricaldata?true:false}
+                        className={
+                          !store?.validatedSections
+                            ?.createhistoricalvalidated &&
+                          !Icon.createhistoricaldata
+                            ? "btn-validate-disable"
+                            : " btn-validate"
+                        }
+                        type="submit"
+                      >
+                        {t("VALIDATE")}{" "}
+                        <img className="icon-validate" src={Rightarrow} />
+                      </button>
+                    ) : null}
                   </Box>
                 </Form>
               )}
