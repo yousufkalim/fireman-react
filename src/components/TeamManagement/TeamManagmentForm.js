@@ -148,7 +148,7 @@ const TeamManagmentForm = ({
         isValidated: true,
         isDeletable: true,
         currentUserId: 0,
-        isAdmin: true,
+        isAdmin: false,
         postalAddress: team?.postalAddress,
       };
       api("put", "/api/v1/Users/update", obj).then((res) => {
@@ -425,16 +425,16 @@ const TeamManagmentForm = ({
             if (!importedData) {
               return <div className="field_seprator"></div>;
             }
-          })()} */}
+          })()}
 
-          {/* {(() => {
+          {(() => {
             if (!importedData) {
               return (
                 <div className="team_management_row">
                   <div style={{ visibility: "hidden" }} className="input_cont">
                     <label>Cell No</label>
                     <input
-                    ref={inputRefnew}
+                    // ref={inputRefnew}
                      
                       value={team.cellNo}
                       onChange={(e) => {
