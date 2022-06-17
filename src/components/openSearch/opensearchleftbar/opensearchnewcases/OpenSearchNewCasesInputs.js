@@ -102,6 +102,7 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       left: 0,
       behavior: "smooth",
     });
+
     const obj = {
       ...inputValues,
       // commune: inputValues.commune === "" ? 0 : inputValues.commune,
@@ -111,12 +112,12 @@ const EstablishmentSearchNewCasesInputs = ({ setCompShow }) => {
       status: inputValues.status === "" ? 0 : inputValues.status,
       ranking: inputValues.ranking === "" ? 0 : inputValues.ranking,
     };
-    console.log(obj);
     api("post", `/api/v1/establishment/search`, obj).then((res) => {
       setEstablishmentSearchData(res);
+      console.log(res);
     });
   };
-console.log(establishmentSearchData);
+
   return (
     <>
       <Box
@@ -215,7 +216,7 @@ console.log(establishmentSearchData);
                           setInputValues((pre)=>{
                             return{
                               ...pre,
-                              commune: e.target.selectedOptions[0].text
+                              commune: e.target.selectedOptions[0].text=="Choisissez s'il vous plaît"?"":e.target.selectedOptions[0].text
                             }
                           }); 
                           //setInputValues(e.target.selectedOptions[0].text,e.target.value);  

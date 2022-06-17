@@ -45,11 +45,11 @@ const Profile = () => {
       .catch((err) => console.log(err));
   };
   const validatePhoneNumber = (e) => {
-    const isValidPhoneNumber = validator.isMobilePhone(e.target.value);
-    if (isValidPhoneNumber) {
+    // const isValidPhoneNumber = validator.isMobilePhone(e.target.value);
+    // if (isValidPhoneNumber) {
       setPhoneNo(e.target.value);
-    }
-  };
+    // }
+   };
   const chnageProfileImage = (e) => {
     if (e.target.files) {
       let objectURL = URL.createObjectURL(e.target.files[0]);
@@ -76,7 +76,8 @@ const Profile = () => {
         formData.append("ProfilePicture", "");
         formData.append("UserProfileImage", "");
         api("put", `/api/v1/Users/updateprofile`, formData).then((res) => {
-          if (res.data.message == "Record updated") {
+          console.log(res)
+          if (res.status == 200) {
             getProfile();
             toast.success("Record updated");
           }
