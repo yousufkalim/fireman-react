@@ -183,12 +183,13 @@ const AccordionComponent = (props) => {
       //new2.push( i)
       seriesValues[new2] = i;
     });
+    console.log(store,"store")
     const obj = {
       caseFileId: store.caseFileId,
       chapterIndex: chapter,
       // tabIndex: store.activeNavbarTab + 1,
       //  tabIndex: props?.TabData?.filter((val)=>(val?.orderNum===store?.Orderno))[0]?.sectionCategoryId,
-      tabIndex: store?.filterOrderno ? store?.filterOrderno : store?.Orderno,
+      tabIndex: store?.filterOrderno ? store?.filterOrderno : store?.implantationDataid,
       sectionIndex: section,
       checks: seriesValues,
       caseFileSelectedAnswerId: alreadyChecked[0]?.caseFileSelectedAnswerId

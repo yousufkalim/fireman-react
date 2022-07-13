@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -91,6 +91,7 @@ export default function CustomizedDialogs(props) {
   const [value, setValue] = useState("");
   const [String, setString] = useState("");
   const [tags, setTags] = useState([]);
+  const ref = useRef(null);
   //const [defaultValues, setDefaultValues] = useState(["test", "test2"]);
   useEffect(() => {
     setDates([]);
@@ -131,6 +132,9 @@ export default function CustomizedDialogs(props) {
         setTagText("");
       }
     };
+
+    console.log(props?.sentenceText,"props?.text,props?.sentenceText");
+    console.log(props?.text)
   return (
     <>
     <div>
@@ -187,10 +191,10 @@ export default function CustomizedDialogs(props) {
 
                   {/*multi select*/}
                 {props?.blanksLength?.intLength > 0||
-                props?.blanksLength?.editintLength>0
+                props?.blanksLength?.editintLength > 0
                 ? (
                   <div style={{width:"89%"}}>
-                    <Multiselect
+                    <Multiselect 
                     style={{
                       chips: { background: "#3675B7" },
                       searchBox: { 
@@ -204,10 +208,12 @@ export default function CustomizedDialogs(props) {
                     },
                     }}
                     placeholder="Sélectionner......."
+                    closeOnSelect={true}
                       options={options} // Options to display in the dropdown
                       selectedValues={items} // Preselected value to persist in dropdown
                       onSelect={handleSelect} // Function will trigger on select event
                       onRemove={handleRemove} // Function will trigger on remove event
+                     
                       displayValue="name" // Property name to display in the dropdown options
                       selectionLimit={
                         props?.blanksLength?.intLength? 

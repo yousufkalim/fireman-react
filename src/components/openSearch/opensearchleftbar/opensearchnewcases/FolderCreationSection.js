@@ -570,6 +570,7 @@ console.log(store);
                     onSubmit={handleSubmit}
                   >
                     <Box sx={{ display: "flex" }}>
+                      {console.log(dropdownValue.casetype.data,"dropdownValue.casetype.data")}
                       <div className="inputs-container">
                         <div class="flex-form">
                           <label className="label-color">Type</label>

@@ -129,8 +129,8 @@ const SectionFilter = ({
     const obj = {
       sectionGroupId: radioValues.groupid,
 
-      sectionGroupTypeId: radioValues.sectionGroupTypeId
-        ? radioValues.sectionGroupTypeId
+      sectionGroupTypeId: radioValues?.sectionGroupTypeId
+        ? radioValues?.sectionGroupTypeId
         : alreadychecked[0]?.groupTypes
             ?.filter((val) => {
               return val?.isSelected === true;

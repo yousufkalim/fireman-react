@@ -249,30 +249,31 @@ const EstablishmentSearchCurrentCases = ({
     setCompName("currentcases");
 
     if (
-      (params.row.val.tabIndex === 1 && params.row.val.sectionIndex === 3) ||
+      (params.row.val.tabIndex === 1 && params.row.val.sectionIndex <= 3) ||
       params.row.val.tabIndex === 2
+    ) {
+      updatestore({
+        activeNavbarTab: 0,
+        establishmentId: params.row.val.establishmentId,
+      });
+    }
+    if (
+      (params.row.val.tabIndex === 2 && params.row.val.sectionIndex <= 6) ||
+      params.row.val.tabIndex === 3
     ) {
       updatestore({
         activeNavbarTab: 1,
         establishmentId: params.row.val.establishmentId,
       });
     }
-    if (
-      (params.row.val.tabIndex === 2 && params.row.val.sectionIndex === 6) ||
-      params.row.val.tabIndex === 3
-    ) {
-      updatestore({
-        activeNavbarTab: 2,
-        establishmentId: params.row.val.establishmentId,
-      });
-    }
     if(params.row.val.chapterIndex){
       console.log(params.row.val.tabIndex,"270");
       updatestore({
-        activeNavbarTab: params.row.val.tabIndex-1,
+        // activeNavbarTab: params.row.val.tabIndex-1,
+        activeNavbarTab: params.row.val.tabIndex+1,
         establishmentId: params.row.val.establishmentId,
         implantaion:true,
-        implantationDataid:params.row.val.tabIndex,
+        implantationDataid:params.row.val.tabOrder,
         // Orderno:params.row.val.tabIndex,
         // btn:params.row.val.tabIndex,
           implantationtabdata: {

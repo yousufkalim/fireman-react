@@ -6,22 +6,48 @@ import { Grid } from "@mui/material";
 import api from "../api/index";
 import { useTranslation } from "react-i18next";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+
+import { Tabs, Tab } from "@material-ui/core";
+
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles(theme => ({
+  indicator: {
+    backgroundColor: "red",
+    height: "10px",
+    top: "45px"
+  },
+  selected3: {
+    background: "purple",
+    color: "white"
+  }
+}));
 
 const EstablishmentSearchActivePanel = ({ sideBar }) => {
   const { t, i18n } = useTranslation();
+  const updatestore = UpdateStore();
+  const store = Store();
   const [activeTab, setActiveTab] = useState(0);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState();
   const [TabData, setTabData] = useState([]);
+  const classes = useStyles();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const updatestore = UpdateStore();
-  const store = Store();
+ 
+  
   useEffect(() => {
     getTabData();
+
   }, []);
+  useEffect(() => {
+    changeActivetab();
+  }, [store?.activeNavbarTab])
+  
+  const changeActivetab = ()=>{
+    setValue(store?.activeNavbarTab=="searchestablishment"?0:store?.activeNavbarTab)
+  }
 
   const getTabData = () => {
     api("get", "/api/v1/categories/getall").then((res) => {
@@ -49,6 +75,7 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
     });
     setActiveTab(activetabindex);
   };
+  console.log(store?.activeNavbarTab,"activetabheader");
   return (
     <>
       {
@@ -70,9 +97,13 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
           <Box sx={{ 
           width: sideBar ? "80%" : "97%",
           margin: sideBar ? "" : "auto",
-          bgcolor: "#E9E9E9" 
+          // bgcolor: "#E9E9E9" 
           }}>
             <Tabs
+             //className={classes.indicator}
+            //  classes={{
+            //    indicator: classes.indicator
+            //  }}
               value={value}
               onChange={handleChange}
               variant="scrollable"
@@ -82,6 +113,10 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
             >
               {items?.map((val, index) => (
                 <Tab
+                value={index}
+                // classes={{
+                //   selected: classes.selected3
+                // }}
                   sx={{
                     color: "#9095a3",
                     textDecoration: "none",

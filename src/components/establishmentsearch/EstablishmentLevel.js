@@ -505,17 +505,23 @@ const EstablishmentLevel = ({
                                   ) : null}
                                   <Box>
                                     <Field
-                                      className="field-width-staff local-inp"
+                                       className="field-width-staff local-inp"
                                       name={`donations.${index}.details`}
                                     />
                                   </Box>
 
                                   <Field
+                                  style={{
+                                    height:"20px"
+                                  }}
                                     className="checkbox-width-establishment-level"
                                     type="checkbox"
                                     name={`donations.${index}.isPublic`}
                                   />
                                   <Field
+                                  style={{
+                                    height:"20px"
+                                  }}
                                     className="checkbox-width-establishment-level"
                                     type="checkbox"
                                     name={`donations.${index}.isRisk`}

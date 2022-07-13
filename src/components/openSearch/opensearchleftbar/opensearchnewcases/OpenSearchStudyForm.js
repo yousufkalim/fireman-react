@@ -556,10 +556,6 @@ const EstablishmentSearchStudyForm = ({
           });
         })
         .catch((err) => toast.error(err?.statusText));
-    
-   
-
-
   };
 
   const handleSubmitdetailsobj = (e) => {
@@ -897,7 +893,6 @@ const EstablishmentSearchStudyForm = ({
                         ref={inputRefemail}
                         autocomplete="off"
                           type="email"
-                          autocomplete="off"
                           onChange={(e)=>{
                             setFormValues((pre)=>{
                               return{

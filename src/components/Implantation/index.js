@@ -15,7 +15,8 @@ const Implantation = (props) => {
   }, [store?.implantationDataid]);
 
   const loadData = () => {
-    if (store?.activeNavbarTab != 0 && store?.activeNavbarTab != 1) {
+    if (store?.activeNavbarTab != 0 && store?.activeNavbarTab != 1 && store?.caseFileId) {
+      console.log("hit");
       let arr = [];
       let arrwithpushedvalues = [];
       let ind;
@@ -23,6 +24,7 @@ const Implantation = (props) => {
         "get",
         `/api/v1/checkList/chapter_selected_sections/${store?.caseFileId}/${store?.implantationDataid}`
       ).then((res) => {
+        console.log(res,"ljkhkjkjkjk");
         if (res.status == 200) {
           arrwithpushedvalues = res?.data.map((val) => val?.sectionId);
           res?.data.map((val) => console.log(val?.sectionId, "val?.sectionId"));
@@ -56,6 +58,8 @@ const Implantation = (props) => {
       console.log(res, "getall");
     });
   };
+  console.log(store,"store")
+  console.log(accordionData,"accordionData");
   return (
     <>
       {accordionData &&

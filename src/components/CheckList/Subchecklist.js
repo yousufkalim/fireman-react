@@ -76,6 +76,7 @@ const Subchecklist = ({
   setSentenceDetails,
   sentenceDetails,
   alreadyChecked,
+  setAlreadyChecked,
   sectionid, 
   redo,
   setRedo
@@ -155,8 +156,6 @@ const Subchecklist = ({
     }
     ////////////////////////////////////////////dates replacement////////////////////////////////////////////////////
     ////////////////////////////////////////////levelsreplacement////////////////////////////////////////////////////
-console.log(items?.length,"items.intlength")
-console.log(intlength,"intlength")
 if(items?.length>0){
 if(intlength!=0){
   let arrIntOccurence=sentence.split(regexInt)
@@ -263,6 +262,24 @@ else{
 }
 ////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////
     sentence =  sentence?.replace(undefined,"")
+    console.log(alreadyChecked,"alreadyChecked")
+    console.log(sentenceid,"sentenceid");
+    let index;
+    const objIndex_ = alreadyChecked?.map((val)=>{
+       index = val?.subchecks?.findIndex((subcheck)=>(
+        subcheck?.sectionSubSentenceId==sentenceid
+      ))
+      if(index>=0){
+        val.subchecks[index].modifiedSentenceText=sentence
+      }
+    //  setAlreadyChecked(subcheckarray)
+      console.log(val?.subchecks,"[]index")
+       })
+    //console.log(objIndex_.toString(),"bhj")
+    // const objIndex_ =  alreadyChecked?.subchecks.findIndex(
+    //   (obj) => obj?.sectionSubSentencesId === sentenceid
+    // );
+    //console.log(objIndex_,"objIndex_")
     setSentenceDetails((pre) => {
       return {
         seriesname: serialName,
@@ -299,9 +316,9 @@ else{
   const a = alreadyChecked?.map((val) => val.subchecks);
   var merged = [].concat.apply([], a);
   const newarray = merged?.map((val) => {
-    subcheckData.map((valtwo) => {
-      if (valtwo.sectionSubSentencesId === val.sectionSubSentenceId) {
-        newdata.push({
+    subcheckData?.map((valtwo) => {
+      if (valtwo?.sectionSubSentencesId === val?.sectionSubSentenceId) {
+        newdata?.push({
           ...valtwo,
           subSentenceText: val.modifiedSentenceText,
           alreadychecked: val.sectionSubSentenceId,
@@ -309,7 +326,7 @@ else{
       }
     });
   });
-  newdata.map((i) => {
+  newdata?.map((i) => {
     new2 = subcheckData.findIndex(
       (s) => s.sectionSubSentencesId === i.sectionSubSentencesId
     );
@@ -468,9 +485,9 @@ else{
           <DialogActions>
             <Button
               onClick={() => {
-                const arr = alreadyChecked.map((val) => val.subchecks);
+                const arr = alreadyChecked?.map((val) => val?.subchecks);
                 var merged = [].concat.apply([], arr);
-                const b = merged.map((val) => val.sectionSubSentenceId);
+                const b = merged.map((val) => val?.sectionSubSentenceId);
                 getSubCheckListData(
                   sentenceDetails.id,
                   sentenceDetails.text,
@@ -482,7 +499,7 @@ else{
                   (closeSatate == subCheck &&
                     closeSatate !== "" &&
                     subCheck !== "") ||
-                  subCheck === sentenceDetails.id ||
+                  subCheck === sentenceDetails?.id ||
                   b.length > 0
                 ) {
                   setOpen(false);

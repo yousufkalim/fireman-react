@@ -69,7 +69,6 @@ export default function Navbar() {
     // this.disconnectChat();
     const logoutTime = ""
     if(counterRef.current.connection){
-      alert("nav")
       counterRef.current.connection.send("Disconnect", parseInt(userData.Id), bool, logoutTime);
     }
     else{
