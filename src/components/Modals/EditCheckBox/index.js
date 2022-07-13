@@ -133,8 +133,8 @@ export default function CustomizedDialogs(props) {
       }
     };
 
-    console.log(props?.sentenceText,"props?.text,props?.sentenceText");
-    console.log(props?.text)
+    // console.log(props?.sentenceText,"props?.text,props?.sentenceText");
+    console.log(props?.datetab,"props?.datetab")
   return (
     <>
     <div>

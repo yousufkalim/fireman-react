@@ -118,6 +118,7 @@ const CheckList = (props) => {
 
         sentence = sentence ? sentence?.replace(undefined, "") : sentence;
         modifiedsentence = "";
+
       }
     } else {
       sentence = sentence;
@@ -170,6 +171,7 @@ const CheckList = (props) => {
 
         sentence = modifiedsentence ? modifiedsentence?.replace(undefined, "") : sentence;
         modifiedsentence = "";
+
       }
     } else {
       sentence = sentence?.replace(undefined, "");
@@ -210,6 +212,7 @@ const CheckList = (props) => {
         });
         sentence = modifiedsentence ? modifiedsentence : sentence;
         modifiedsentence = "";
+
       }
     } else {
       sentence = sentence?.replace(undefined, "");
@@ -335,6 +338,9 @@ const CheckList = (props) => {
                       });
                     }
                     if (data.sentenceNature === 1) {
+                      ///alert("incomp")
+                      setBlanksLength({})
+                      setdatetab(false);
                       props.setSentenceText(data.sentenceText);
                       handleOpen(data, props.accordionData.serialName + i);
                       setIndex(i);
