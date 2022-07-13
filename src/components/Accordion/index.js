@@ -197,7 +197,7 @@ const AccordionComponent = (props) => {
         : 0,
     };
     if (submittype) {
-      console.log(forcechecklistObj);
+      console.log(forcechecklistObj, "forcechecklistObj");
       api(
         "post",
         "/api/v1/checkList/save_tabs_empty_checklist",
@@ -209,6 +209,7 @@ const AccordionComponent = (props) => {
       });
     }
     if (!submittype) {
+      console.log(obj,"objwithoutforce")
       api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
         if (res.data === true || obj.checks.length == 0) {
           props.setExpandchild(true);

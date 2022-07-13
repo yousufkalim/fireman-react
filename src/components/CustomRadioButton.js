@@ -5,7 +5,6 @@ const CustomRadioButton = ({btnName,Name,For,setState,onChange,disabled,checked,
   
   return (
    <>
-    
    <label style={{width:width, justifyContent:textAlign?"center":""}} className="radio-btn-container" for={For}>
     <input
     checked={checked}

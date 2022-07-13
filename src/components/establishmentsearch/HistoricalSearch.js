@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import EstablishmentLevel from './EstablishmentLevel'
 import CreateHistoricalData from "./CreateHistoricalData";
 import SectionFilter from './SectionFilter'
+import SectionFilterCheckBox from './SectionFilterCheckBox'
 import Ranking from "./Ranking";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -784,6 +785,14 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         setButtonEnability={setButtonEnability}
         generalDataEstablishment={generalDataEstablishment}
       />
+      {/* <SectionFilterCheckBox
+      setToggler={setToggler}
+      Toggler={Toggler}
+      setIcon={setIcon}
+      Icon={Icon}
+      buttonEnability={buttonEnability}
+      setButtonEnability={setButtonEnability}
+      /> */}
     </>
   );
 };

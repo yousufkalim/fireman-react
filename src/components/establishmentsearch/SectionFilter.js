@@ -770,8 +770,7 @@ const SectionFilter = ({
                           }}
                         ></Box>
                       </div>
-                      {console.log(radioValues,"lo")}
-                      {console.log(filterData?.difficultyLevel,"mo")}
+
                 <div
                   style={{
                     width: "99%",

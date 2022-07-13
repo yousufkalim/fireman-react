@@ -210,7 +210,6 @@ const CheckList = (props) => {
         });
         sentence = modifiedsentence ? modifiedsentence : sentence;
         modifiedsentence = "";
-        console.log(sentence, "d");
       }
     } else {
       sentence = sentence?.replace(undefined, "");
@@ -270,8 +269,6 @@ const CheckList = (props) => {
     new2 = checklists.findIndex((s) => s.sectionSentencesId === i.sectionSentencesId);
     checklists[new2] = i;
   });
-  
-  console.log(props?.sentenceText, "sentenceText");
   return (
     <>
       {props?.index != 0 ? (
