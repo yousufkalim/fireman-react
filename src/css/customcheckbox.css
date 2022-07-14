@@ -1,0 +1,23 @@
+input[type="checkbox"].checkbox-filter{
+    border: 1px solid #000000;
+    padding: 1em;
+    -webkit-appearance: none;
+  }
+  
+  input[type="checkbox"].checkbox-filter:checked {
+     background: url(../assets/radiotick.png) no-repeat center center;
+      background-size: 25px 25px; 
+    /* background: blue; */
+  }
+  
+input[type="checkbox"].checkbox-filter:focus {
+    outline-color: transparent;
+  }
+.checkbox-btn-container{
+    display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 2% 2%;
+  justify-content: space-between;
+}
+

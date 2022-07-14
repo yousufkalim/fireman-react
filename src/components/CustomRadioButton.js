@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const CustomRadioButton = ({btnName,Name,For,setState,onChange,disabled,checked,defaultChecked, width,textAlign}) => {
+const CustomRadioButton = ({btnName,Name,For,onChange,disabled,checked,defaultChecked, width,textAlign}) => {
   
   return (
    <>
@@ -11,7 +11,7 @@ const CustomRadioButton = ({btnName,Name,For,setState,onChange,disabled,checked,
     defaultChecked={defaultChecked}
     disabled={disabled} 
     onChange={onChange} 
-    type="radio" 
+    type="radio"
     name={Name} 
     value={btnName}/> {""}
     </label>
