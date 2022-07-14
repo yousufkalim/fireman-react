@@ -31,6 +31,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   });
   const [filters, setFilters] = useState([])
   const [filterData, setFilterData] = useState();
+  const [filtersCount, setFiltersCount] = useState([])
   const [checklistId, setchecklistId] = useState("");
   const { t } = useTranslation();
   const store = Store();
@@ -76,6 +77,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
         configurationThree: "",
       });
       setFilters([]);
+      setFiltersCount([])
     }
   };
 
@@ -98,22 +100,29 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   };
 
   ///for filter
-  const setCheckBoxFilters = (key, value, checked, sectionGroupId) => {
-    console.log(sectionGroupId,"sectionGroupId");
-    console.log(checked,"checked");
-    console.log(value,"filterid")
+  const setCheckBoxFilters = (key, value, checked, sectionGroupId,filterType,index) => {
+    console.log(filterType,"filterType")
+    console.log(index,"index");
     const obj = {sectionGroupId:sectionGroupId};
     obj[key] = value;
+
+    const obj2={
+      filtertype:filterType,
+      index:index
+    }
     //setConfigurationValues({
       //...configurationValues,
       //...obj,
       //id: configid,
     //});
     console.log(obj,"obj");
+    console.log(obj2,"obj2");
+    setFiltersCount((pre)=>[...pre,obj2])
     if(checked){
       setFilters((pre)=>([...pre, obj]))
     }
      if(!checked){
+  setFiltersCount((pre)=>[...pre.filter((_)=>(_?.filtertype!=filterType))])
   setFilters((pre)=>([...pre.filter((val)=>val?.sectionFilterId!=value)]))
   filterData?.groups.filter((val)=>(val?.sectionGroupId==sectionGroupId)).map((valueToSearch)=>{
    let index =  valueToSearch?.sectionFilters?.findIndex((_)=>{
@@ -122,11 +131,11 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   if(index>=0){
     valueToSearch.sectionFilters[index].isSelected=false
   }
- 
     })
      }
     if (radioValues.groupid != value && key == "groupid" && radioValues.groupid != undefined) {
       setFilters([]);
+      setFiltersCount([])
     }
   };
   ///
@@ -235,7 +244,10 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   };
 
 
+  // console.log(filters,"filters");
   console.log(filterData,"filterData");
+  console.log(filtersCount,"filtersCount");
+  // console.log(filtersCount.includes(1&&2&&3),"filtersCount count");
   return (
     <>
       <Box
@@ -397,7 +409,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                       <div style={{ display: "flex" }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 1)
-                          .map((_) => (
+                          .map((_,i) => (
                             <>
                               <div style={{ width: "25%" }} className="radion-btn-text-container">
                                 <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
@@ -405,7 +417,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 </span>
                                 <CustomCheckBox
                                   onChange={(e) => {
-                                    setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId);
+                                    setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
                                   }}
                                   id={_?.sectionFilterId}
                                   setCheckBoxFilters={setFilters}
@@ -445,7 +457,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                       <div style={{ display: "flex" }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 2)
-                          .map((_) => (
+                          .map((_,i) => (
                             <>
                               <div style={{ width: "25%" }} className="radion-btn-text-container">
                                 <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
@@ -453,7 +465,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 </span>
                                 <CustomCheckBox
                                  onChange={(e) => {
-                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId);
+                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
                                 }}
                                 id={_?.sectionFilterId}
                                 setCheckBoxFilters={setFilters}
@@ -493,7 +505,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                       <div style={{ display: "flex" }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 3)
-                          .map((_) => (
+                          .map((_,i) => (
                             <>
                               <div style={{ width: "25%" }} className="radion-btn-text-container">
                                 <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
@@ -501,7 +513,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 </span>
                                 <CustomCheckBox
                                  onChange={(e) => {
-                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId);
+                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
                                 }}
                                 id={_?.sectionFilterId}
                                 setCheckBoxFilters={setFilters}
