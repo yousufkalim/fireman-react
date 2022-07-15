@@ -383,8 +383,6 @@ const EstablishmentSearchStudyForm = ({
     sentence = sentence.replace(reg4, "r+"+level)
     sentence = sentence.replace(reg5, "r-"+level)
    }
-   console.log(dates,"stype");
-
    if(dates.length>0){
    if(datelength==0){
     const arr = sentence.split(/[0-9]{2}([\-/ \.])[0-9]{2}[\-/ \.][0-9]{4}/).filter((val)=>(val.toString() && val!=";" && val!="\r" && val!="/"));
@@ -414,7 +412,6 @@ const EstablishmentSearchStudyForm = ({
       Sentence = modifiedsentence? modifiedsentence:sentence
    }
    if(datelength!=0){
-    console.log(datelength)
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
      //const sentencewithDate = dates?.map((val, index)=>{
       //modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
@@ -508,7 +505,6 @@ const EstablishmentSearchStudyForm = ({
           ? casefileId
           : currentcasescaseFileId?.data?.caseFileId,
       };
-      console.log(formData,"formData")
       api("post", `/api/v1/casefiles/create_open_townplanning`, formData)
         .then((res) => {
           setButtonEnability((pre) => {
@@ -521,7 +517,6 @@ const EstablishmentSearchStudyForm = ({
             postCheckboxesData("townplanning");
           }
           if (store.activeCase === "currentcases") {
-            console.log(state.check);
             api(
               "post",
               `/api/v1/casefiles/save_casefile_checklist`,
@@ -1219,7 +1214,6 @@ const EstablishmentSearchStudyForm = ({
                                     let levelssubedit = []
                                     let stringlength = str.match(reg7)
                                     let emptyBlanksLength = reg6.exec(str)?.filter((val)=>(val!="___" && val!="."))
-                                    console.log(emptyBlanksLength);
                                     while ((match = reg.exec(str))) {
                                       date.push(match[1] || match[0]);
                                     }
@@ -1289,8 +1283,12 @@ const EstablishmentSearchStudyForm = ({
                                   }}
                                 >
                                   <span
+                                  style={{
+                                    width:"100%",
+                                    lineBreak:"anywhere"
+                                  }}
                                     onClick={(e) => {
-                                      console.log(e.target);
+                                      console.log("e.target");
                                     }}
                                   >
                                     {parse(val?.name)}
@@ -1341,7 +1339,6 @@ const EstablishmentSearchStudyForm = ({
                       </Button>
                       ):null
                     }
-                   
                     {
                       store.activeCase === "currentcases"?(
                       <Button
@@ -1363,8 +1360,6 @@ const EstablishmentSearchStudyForm = ({
                     </Button>
                       ):null
                     }
-                    
-
                   </Box>
                 </form>
               </Grid>

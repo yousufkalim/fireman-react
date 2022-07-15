@@ -58,8 +58,6 @@ const Implantation = (props) => {
       console.log(res, "getall");
     });
   };
-  console.log(store,"store")
-  console.log(accordionData,"accordionData");
   return (
     <>
       {accordionData &&

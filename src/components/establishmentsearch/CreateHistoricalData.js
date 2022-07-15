@@ -85,7 +85,6 @@ const CreateHistoricalData = ({
     scrollToBottom();
    }
   const onSubmit = (values) => {
-    console.log(values,"val");
     if(values?.repeatable.length>0){
     const newarr = values.repeatable.map(({id, ...object}) => ({
       ...object,
@@ -99,7 +98,6 @@ const CreateHistoricalData = ({
     }));
       let toastShown = false;
       newarr.map((val) => {
-        console.log(val,"val");
         return new Promise((resolve, reject) => {
           api("post", "/api/v1/create_historicaldata_establishment", val)
             .then((res) => {
@@ -137,7 +135,7 @@ const CreateHistoricalData = ({
               if (val.image) {
                 api("post", "/api/v1/upload_historicaldata_file", form_data)
                   .then((res) => {
-                    console.log("success", res);
+                    console.log("success");
                   })
                   .catch((err) => console.log(err));
               }
@@ -1230,7 +1228,7 @@ const CreateHistoricalData = ({
                                                         "get",
                                                         `/api/v1/download_historicaldata_file/http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`
                                                          ).then((res) => {
-                                                        console.log(res);
+                                                        console.log("res");
                                                       });
                                                     }}
                                                     // href={`http://192.168.10.15:5519/Files/EventFiles/${val.fileURL.slice(55)}`}

@@ -290,7 +290,7 @@ const getIndexData =()=>{
     "get",
     `/api/v1/casefiles/rolewise_cases/${store?.role}/${store?.userId}/1`
   ).then((res) => {
-    console.log(res)
+    console.log("res")
   });
 }
   const handleChange = (e) => {
@@ -335,7 +335,6 @@ const getIndexData =()=>{
       if (store.activeCase === "newcase") {
         api("post", `/api/v1/casefiles/create_open_foldercreation`, formdata)
           .then((res) => {
-            console.log(res?.data);
             getIndexData();
             setInputValues((preVal) => {
               return {
@@ -431,8 +430,6 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    console.log(data,"data");
-    console.log(checkboxObj,"checkboxObj")
     if(checkboxObj.length==0){
       setCheckboxObj([{
         caseFileCheckListId: 0,
@@ -508,7 +505,6 @@ const getIndexData =()=>{
   };
 
   ///////////////////////////////
-console.log(store);
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||

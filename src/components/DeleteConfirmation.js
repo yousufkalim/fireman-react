@@ -11,7 +11,6 @@ const DeleteConfirmation = ({ setOpen, open, userDelete, getGridData }) => {
         "delete",
         `/api/v1/Users/delete_user/${userDelete?.data?.employeeId}`
       ).then((res) => {
-        console.log(res);
         if(res?.data==true){
           toast.success("Utilisateur supprimé");
           getGridData()

@@ -159,7 +159,6 @@ const Subchecklist = ({
 if(items?.length>0){
 if(intlength!=0){
   let arrIntOccurence=sentence.split(regexInt)
-  console.log(arrIntOccurence,"arrIntOccurence");
   const sentencewithInt = arrIntOccurence?.map((val, index)=>{
     modifiedsentence = modifiedsentence + val + " ";
      if(items[index]){
@@ -211,7 +210,6 @@ else{
 if(inputstrings.length>0){
   if(stringlength!=0){
     let arrStrOccurence=sentence.split(regexString)
-    console.log(arrStrOccurence,"arrStrOccurence");
     const sentencewithInt = arrStrOccurence?.map((val, index)=>{
       modifiedsentence = modifiedsentence + val + " ";
        if(inputstrings[index]){
@@ -236,14 +234,10 @@ if(inputstrings.length>0){
         "length" : match[0]?.length 
       })
     }
-    console.log(strmatch,"strmatch");
     let tobereplaced;
     strmatch.map((val,index)=>{
        tobereplaced = sentence?.slice(val?.index,val?.index+val?.length)
        tobereplacedarr.push(tobereplaced)
-      //if(inputstrings[index]?.text){
-        //sentence = sentence.replace(tobereplaced, `.${inputstrings[index]?.text}.`)
-      //}
    })
    tobereplacedarr.map((val,index)=>{
         if(inputstrings[index]?.text){
@@ -262,8 +256,6 @@ else{
 }
 ////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////
     sentence =  sentence?.replace(undefined,"")
-    console.log(alreadyChecked,"alreadyChecked")
-    console.log(sentenceid,"sentenceid");
     let index;
     const objIndex_ = alreadyChecked?.map((val)=>{
        index = val?.subchecks?.findIndex((subcheck)=>(
@@ -272,14 +264,7 @@ else{
       if(index>=0){
         val.subchecks[index].modifiedSentenceText=sentence
       }
-    //  setAlreadyChecked(subcheckarray)
-      console.log(val?.subchecks,"[]index")
        })
-    //console.log(objIndex_.toString(),"bhj")
-    // const objIndex_ =  alreadyChecked?.subchecks.findIndex(
-    //   (obj) => obj?.sectionSubSentencesId === sentenceid
-    // );
-    //console.log(objIndex_,"objIndex_")
     setSentenceDetails((pre) => {
       return {
         seriesname: serialName,

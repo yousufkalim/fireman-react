@@ -57,10 +57,10 @@ const HomeRight = ({
                   <img src={Folder} />
                   <div className="text">
                     <p style={{ fontSize: "14px" }}>
-                      {data.communeName} - {data.caseTypeName}
+                      {data?.communeName} - {data?.caseTypeName}
                     </p>
                     <p style={{ fontSize: "15px", fontWeight: "600" }}>
-                      {data.establishmentName}
+                      {data?.establishmentName.length>20? data?.establishmentName?.slice(0,40)+"...":data?.establishmentName}
                     </p>
                   </div>
                 </div>

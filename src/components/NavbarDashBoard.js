@@ -62,7 +62,7 @@ const NavbarDashBoard = () => {
   }
 
   useEffect(() => {
-   console.log(connection,"cpnn");
+   console.log("cpnn");
   }, [connection])
   
 
@@ -216,7 +216,7 @@ const NavbarDashBoard = () => {
                   className="img-nav"
                   src={
                     profile?.profilePicture
-                      ? `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(
+                      ? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(
                           37
                         )}`
                       : dummy

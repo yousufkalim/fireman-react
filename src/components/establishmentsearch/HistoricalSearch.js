@@ -308,6 +308,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       })
     });
   };
+  console.log(store,"storeest");
   return (
     <>
       <Box

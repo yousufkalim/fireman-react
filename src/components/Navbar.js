@@ -36,7 +36,7 @@ export default function Navbar() {
   .withUrl("http://192.168.10.15:9090/chatHub")
       .withAutomaticReconnect()
       .build();
-     console.log("started", newConnection);
+     console.log("started");
      setState((pre)=>{
       return{
        ...pre,

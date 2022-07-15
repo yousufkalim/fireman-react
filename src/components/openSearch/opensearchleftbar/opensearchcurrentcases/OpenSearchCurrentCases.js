@@ -220,7 +220,6 @@ const EstablishmentSearchCurrentCases = ({
     },
   ];
   const onRowClick = (params) => {
-    console.log(params,"loop");
     updatestore({
       establishmentId: params.row.val.establishmentId,
       caseFileId: params.row.val.caseFileId,
@@ -306,7 +305,6 @@ const EstablishmentSearchCurrentCases = ({
           store?.caseFileId ? store?.caseFileId : caseFileId
         }`
       ).then((res) => {
-        console.log(res.data, "121");
         if (res.data.length > 0) {
           updatestore({ unreadnotes: res?.data?.length });
         }
@@ -325,8 +323,6 @@ const EstablishmentSearchCurrentCases = ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  console.log(currentcasesData, "currentcasesData");
-  console.log(folderCreationData, "folderCreationData");
   return (
     <>
       {folderCreationData.length !== 0 && CompName == "currentcases" ? (

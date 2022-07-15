@@ -50,6 +50,8 @@ const EstablishmentLevel = ({
     cellname: true,
     cellnumber: true,
   });
+  const [inputValues, setInputValues] = useState({
+  });
   const [tooltip, setTooltip] = useState({
     one: `Rappel: un site est un ensemble d’établissements isolés exploités par la même personne physique ou morale.
   Exemple: Lycée dont l’internat, l’externat, le gymnase et le restaurant scolaire sont des établissements isolés.
@@ -84,6 +86,8 @@ const EstablishmentLevel = ({
         setDescription({
           site: res.data.descriptions.siteDescription,
           establishmentdescription: res.data.descriptions.description,
+          lessEightMeter:res.data.descriptions?.lessEightMeter,
+          moreEightMeter:res.data.descriptions?.moreEightMeter
         });
       }
     );
@@ -102,6 +106,18 @@ const EstablishmentLevel = ({
   const store = Store();
   const updatestore = UpdateStore();
   console.log(description, "description");
+  const onChangeCheckBox = (e) => {
+    const name = e.target.name;
+    const checked = e.target.checked;
+    setInputValues((pre) => {
+      return {
+        ...pre,
+        [name]: checked,
+      };
+    });
+  };
+  console.log(inputValues,"inputValues");
+  console.log(description,"description");
   return (
     <>
       <Box
@@ -193,8 +209,8 @@ const EstablishmentLevel = ({
                       };
                     }),
                     descriptions: {
-                      lessEightMeter: values?.lessEightMeter,
-                      moreEightMeter: values?.moreEightMeter,
+                      lessEightMeter: inputValues?.lessEightMeter,
+                      moreEightMeter: inputValues?.moreEightMeter,
                       siteDescription: description?.site,
                       description: description?.establishmentdescription,
                     },
@@ -653,22 +669,27 @@ const EstablishmentLevel = ({
                             {" "}
                             {t("Less Eight Meter")}
                           </label>
-                          <Field
-                            className="checkbox-width-establishment-level"
-                            type="checkbox"
-                            name="lessEightMeter"
-                          />
+                          {/* <label className="label-descriptif"> {t("Less Eight Meter")}</label> */}
+              <input
+                className="checkbox"
+                type="checkbox"
+                name="lessEightMeter"
+                defaultChecked={description?.lessEightMeter}
+                onChange={onChangeCheckBox}
+              />
                         </Box>
                         <Box sx={{ display: "flex" }}>
                           <label className="label-descriptif">
                             {" "}
                             {t("More Eight Meter")}
                           </label>
-                          <Field
-                            className="checkbox-width-establishment-level"
-                            type="checkbox"
-                            name="moreEightMeter"
-                          />
+                          <input
+                className="checkbox"
+                type="checkbox"
+                name="moreEightMeter"
+                defaultChecked={description?.moreEightMeter}
+                onChange={onChangeCheckBox}
+              />
                         </Box>
                       </AccordionDetails>
                     </Accordion>

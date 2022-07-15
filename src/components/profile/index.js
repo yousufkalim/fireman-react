@@ -76,7 +76,6 @@ const Profile = () => {
         formData.append("ProfilePicture", "");
         formData.append("UserProfileImage", "");
         api("put", `/api/v1/Users/updateprofile`, formData).then((res) => {
-          console.log(res)
           if (res.status == 200) {
             getProfile();
             toast.success("Record updated");
@@ -97,12 +96,12 @@ const Profile = () => {
               <img
                 src={
                   profile?.profileImage
-                    ? `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(
+                    ? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(
                         37
                       )}`
                     : image
                     ? image
-                    : `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(
+                    : `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(
                         37
                       )}`
                 }

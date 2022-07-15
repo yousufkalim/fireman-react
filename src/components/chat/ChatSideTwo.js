@@ -7,8 +7,6 @@ const ChatSideBarTwo = (props) => {
   const [message, setMessage] = useState('');
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("message", message );
-   
     var chat_active = localStorage.getItem("activeChat");
      const isUserProvided = chat_active && chat_active !== '';
      const isMessageProvided = message && message !== '';

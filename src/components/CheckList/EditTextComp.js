@@ -358,7 +358,7 @@ const EditTextComp = ({
                 console.log("Editor <><>!", editor);
               }}
               onKeyDown={(editor) => {
-                console.log(editor.getData());
+                console.log("editor.getData()");
               }}
               onChange={(event, editor) => {
                 const data = editor.getData();

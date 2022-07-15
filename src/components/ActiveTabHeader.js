@@ -52,7 +52,6 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
   const getTabData = () => {
     api("get", "/api/v1/categories/getall").then((res) => {
       setTabData(res?.data);
-      console.log(res, "tabs");
     });
   };
 
@@ -65,7 +64,6 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
     },
   ];
   const tabChange = (activetabindex, implantationDataId, orderno) => {
-    console.log(activetabindex, implantationDataId, orderno);
     updatestore({ 
       activeNavbarTab:orderno? orderno+1 : activetabindex, 
       implantationDataid: implantationDataId,
@@ -75,7 +73,6 @@ const EstablishmentSearchActivePanel = ({ sideBar }) => {
     });
     setActiveTab(activetabindex);
   };
-  console.log(store?.activeNavbarTab,"activetabheader");
   return (
     <>
       {

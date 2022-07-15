@@ -74,7 +74,7 @@ const onRowClick =(data, event)=>{
 
 }
 const handleFilterModelChange = (params)=>{
-console.log(params);
+console.log("params");
 }
 
   return (

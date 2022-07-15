@@ -38,7 +38,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   const updatestore = UpdateStore();
   useEffect(() => {
     api("get", `/api/v1/casefiles/section_filters/${store?.caseFileId ? store?.caseFileId : 0}`).then((res) => {
-      console.log(res?.data,"res.");
       setFilterData(res?.data);
       if (res?.data?.selectedSectionGroupId) {
         setRadioValues({ 
@@ -101,8 +100,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
 
   ///for filter
   const setCheckBoxFilters = (key, value, checked, sectionGroupId,filterType,index) => {
-    console.log(filterType,"filterType")
-    console.log(index,"index");
     const obj = {sectionGroupId:sectionGroupId};
     obj[key] = value;
 
@@ -110,13 +107,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
       filtertype:filterType,
       index:index
     }
-    //setConfigurationValues({
-      //...configurationValues,
-      //...obj,
-      //id: configid,
-    //});
-    console.log(obj,"obj");
-    console.log(obj2,"obj2");
     setFiltersCount((pre)=>[...pre,obj2])
     if(checked){
       setFilters((pre)=>([...pre, obj]))
@@ -141,7 +131,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   ///
   const getTabData = () => {
     api("get", "/api/v1/categories/getall").then((res) => {
-      console.log(res?.data[0]?.sectionCategoryId, "tabs");
       setchecklistId(res?.data[0]?.sectionCategoryId);
       updatestore({
         implantationDataid: res?.data[0]?.sectionCategoryId,
@@ -155,10 +144,8 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
     const alreadychecked = filterData?.groups?.filter((value) => {
       return value?.sectionGroupId == radioValues?.groupid;
     });
-    console.log(alreadychecked, "alreadychecked");
     const obj = {
       sectionGroupId: radioValues.groupid,
-
       sectionGroupTypeId: radioValues?.sectionGroupTypeId
         ? radioValues?.sectionGroupTypeId
         : alreadychecked[0]?.groupTypes
@@ -205,7 +192,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
         obj?.sectionGroupTypeId &&
        filters
       ) {
-        console.log(obj,"filters")
         api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
           if (res?.data?.success === true) {
             toast.success(t("Successfull"));
@@ -242,12 +228,6 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
       toast.error("ID de dossier manquant");
     }
   };
-
-
-  // console.log(filters,"filters");
-  console.log(filterData,"filterData");
-  console.log(filtersCount,"filtersCount");
-  // console.log(filtersCount.includes(1&&2&&3),"filtersCount count");
   return (
     <>
       <Box

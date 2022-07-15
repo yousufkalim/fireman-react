@@ -163,18 +163,14 @@ const EstablishmentSearchVisitForm = ({
   let[sentence, sentenceId,,,,dates,level,datelength,sectiontype,String] = data;
   if(String){
     const editstrlength =  reg7.exec(sentence)
-    console.log("one", editstrlength?.length);
-    console.log(reg6.exec(sentence));
      if(editstrlength?.length>0){
        sentence = sentence.replace(reg7,"."+String +".")
      }
     if(!reg7.exec(sentence)){
      sentence = sentence.replace(reg6,"."+String+".")
     }
-   // console.log(sentence.split(reg7));
  }
   if(level){
-    console.log("two");
    sentence = sentence.replace("r+ ___","r+"+level)
    sentence = sentence.replace("r - ___","r-"+level)
    sentence = sentence.replace(reg4, "r+"+level)
@@ -182,7 +178,6 @@ const EstablishmentSearchVisitForm = ({
   }
    if(datelength!=0){
     let arr=sentence.split(" ___/___/___"||" ___/___/___;").filter((val)=>(val.toString() && val!=";" && val!="\r"))
-    console.log(arr);
     const sentencewithDate = dates?.map((val, index)=>{
      modifiedsentence = modifiedsentence + arr[index] + " " + val.format();
      }
@@ -424,6 +419,7 @@ const EstablishmentSearchVisitForm = ({
                               fontSize: "15px",
                               lineHeight: "22px",
                               color: "#3675B7",
+                              lineBreak:"anywhere"
                             }}
                           >
                             {parse(val?.name)}

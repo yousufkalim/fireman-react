@@ -37,7 +37,6 @@ const SectionFilterCheckBox = ({
               store?.caseFileId ? store?.caseFileId : 0
             }`
           ).then((res) => {
-            console.log(res?.data)
             setFilterData(res?.data);
             // if (res?.data?.selectedSectionGroupId) {
             //   setRadioValues({ groupid: res?.data?.selectedSectionGroupId, difficultyLevel: res?.data?.difficultyLevel});
@@ -78,7 +77,6 @@ const SectionFilterCheckBox = ({
         //   });
         // }
       };
-      console.log(radioValues,"radioValues")
   return (
     <>
       <Box

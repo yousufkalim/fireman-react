@@ -15,7 +15,7 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 import { Multiselect } from "multiselect-react-dropdown";
 
-
+import Snackbar from "@mui/material/Snackbar";
 
 const options = [
   { name: "-2", id: 1 },
@@ -82,6 +82,7 @@ export default function CustomizedDialogs(props) {
       ? props.accordionData?.sentenceText
       : props.text
   );
+  const [snack, setSnack] = useState(false);
   const [dates, setDates] = useState([
     new DateObject().set({ day: 4, format }),
     new DateObject().set({ day: 25, format }),
@@ -132,9 +133,24 @@ export default function CustomizedDialogs(props) {
         setTagText("");
       }
     };
-
-    // console.log(props?.sentenceText,"props?.text,props?.sentenceText");
-    console.log(props?.datetab,"props?.datetab")
+    const handleCloseSnack = () => {
+      setSnack(false);
+    };
+    const action = (
+      <React.Fragment>
+        <Button color="secondary" size="small" onClick={handleCloseSnack}>
+          UNDO
+        </Button>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleCloseSnack}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </React.Fragment>
+    );
   return (
     <>
     <div>
@@ -275,13 +291,11 @@ export default function CustomizedDialogs(props) {
                   />
                 ) : null}
                  {/*datepicker*/}
-
-
                  {/* single string */}
                  {props?.EmptyStringBlankLength > 0 ||
                 props?.stringLength > 0 ? (
                   <input
-                    style={{ width: "17%", marginBottom: "2%" }}
+                    style={{ width: "60%", marginBottom: "2%" }}
                     type="text"
                     placeholder="Enter String"
                     className="custom-input cursor"
@@ -336,7 +350,19 @@ export default function CustomizedDialogs(props) {
 
                 ) : null}
                  {/* multi string */}
-                 
+                 <Snackbar
+              severity="error"
+              open={snack}
+              autoHideDuration={6000}
+              onClose={handleCloseSnack}
+              message="Veuillez sélectionner une option pour continuer"
+              action={action}
+              style={{ height: "100%" }}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "center",
+              }}
+            />
               </>
             ) : (
               <div className="ckeditor">
@@ -360,13 +386,13 @@ export default function CustomizedDialogs(props) {
                   }}
                   onReady={(editor) => {
                     // You can store the "editor" and use when it is needed.
-                    console.log("Editor is ready to use!", editor);
+                    console.log("Editor is ready to use!");
                   }}
                   onInit={(editor) => {
-                    console.log("Editor <><>!", editor);
+                    console.log("Editor <><>!");
                   }}
                   onKeyDown={(editor) => {
-                    console.log(editor.getData());
+                    console.log("editor.getData()");
                   }}
                   onChange={(event, editor) => {
                     console.log(editor.selectionStart);
@@ -382,44 +408,65 @@ export default function CustomizedDialogs(props) {
           <Button
             autoFocus
             onClick={() => {
-              console.log(  props.accordionData?.sentenceText,"xyz1");
-              console.log(sentence, "XYZ2");
-              props.saveChanges(
-                sentence
-                  ? sentence
-                  : props.accordionData?.sentenceText
-                  ? props.accordionData.sentenceText
-                  : props.text,
-                props.accordionData?.sectionSentencesId
-                  ? props.accordionData?.sectionSentencesId
-                  : props?.checklistid,
-                props.accordionData?.sentenceNature
-                  ? props.accordionData?.sentenceNature
-                  : "",
-                props?.seriesName ? props?.seriesName : "",
-                props.sectionid ? props.sectionid : "",
-                dates ? dates : "",
-                value ? value : "",
-                props?.dateLength ? props?.dateLength : "",
-                props?.sectionType ? props?.sectionType : "",
-                String ? String : "",
-                items? items:"",
-                props?.blanksLength?.intLength?
-                props?.blanksLength?.intLength:"",
-                tags?tags:"",
-                props?.blanksLength?.strLength?
-                props?.blanksLength?.strLength:"" 
-              );
-              props?.setSubcheck("");
-              props.setOpen(false);
-              /////overture
-              setDates([]);
-              setValue("");
-              setString("");
-              setItems([]);
-              setTags([]);
-              setSentence("")
+              let snackOpen = false;
+              /////condition for single date snackbar
+              console.log(props?.EmptyStringBlankLength,String,"li")
+              if(
+              (props?.dateLength>0 && dates?.length<1)
+              ||
+              (props?.leveladdlength>0 && !value || props?.levelSublength>0 && !value || (props?.EmptyStringBlankLength)>0 && !String)
+              )
+              {
+                snackOpen= props?.overtureExistence?false:true
+                setSnack(true)
+              }
+             /////condition for single date snackbar
+             console.log(snackOpen,"snackOpen")
+              if(!snackOpen){
+                snackOpen=false;
+                setSnack(false)
+                props.saveChanges(
+                  sentence
+                    ? sentence
+                    : props.accordionData?.sentenceText
+                    ? props.accordionData.sentenceText
+                    : props.text,
+                  props.accordionData?.sectionSentencesId
+                    ? props.accordionData?.sectionSentencesId
+                    : props?.checklistid,
+                  props.accordionData?.sentenceNature
+                    ? props.accordionData?.sentenceNature
+                    : "",
+                  props?.seriesName ? props?.seriesName : "",
+                  props.sectionid ? props.sectionid : "",
+                  dates ? dates : "",
+                  value ? value : "",
+                  props?.dateLength ? props?.dateLength : "",
+                  props?.sectionType ? props?.sectionType : "",
+                  String ? String : "",
+                  items? items:"",
+                  props?.blanksLength?.intLength?
+                  props?.blanksLength?.intLength:"",
+                  tags?tags:"",
+                  props?.blanksLength?.strLength?
+                  props?.blanksLength?.strLength:"",
+                );
+                props?.setSubcheck("");
+                props.setOpen(false);
+                /////overture
+                setDates([]);
+                setValue("");
+                setString("");
+                setItems([]);
+                setTags([]);
+                setSentence("")
+                if(props?.setOvertureExistence){
+                  props?.setOvertureExistence(false)
+                }
+              }
+              
               //////
+              props.setOpen(!snackOpen?false:true);
             }}
           >
           Sauvegarder les modifications

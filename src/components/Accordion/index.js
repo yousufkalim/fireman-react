@@ -183,7 +183,6 @@ const AccordionComponent = (props) => {
       //new2.push( i)
       seriesValues[new2] = i;
     });
-    console.log(store,"store")
     const obj = {
       caseFileId: store.caseFileId,
       chapterIndex: chapter,
@@ -197,7 +196,6 @@ const AccordionComponent = (props) => {
         : 0,
     };
     if (submittype) {
-      console.log(forcechecklistObj, "forcechecklistObj");
       api(
         "post",
         "/api/v1/checkList/save_tabs_empty_checklist",
@@ -209,7 +207,6 @@ const AccordionComponent = (props) => {
       });
     }
     if (!submittype) {
-      console.log(obj,"objwithoutforce")
       api("post", "/api/v1/checkList/save_tabs_checklist", obj).then((res) => {
         if (res.data === true || obj.checks.length == 0) {
           props.setExpandchild(true);
@@ -240,7 +237,6 @@ const AccordionComponent = (props) => {
               "get",
               `/api/v1/checkList/section_video_link/${props.accordionData?.sectionId}`
             ).then((res) => {
-              console.log(res, "resvideos");
               updateStore({ implantationvideodata: res.data.length });
               props.setRightBarData((pre) => {
                 return {
@@ -253,7 +249,6 @@ const AccordionComponent = (props) => {
                 "get",
                 `/api/v1/checkList/section_comments/${props.accordionData?.sectionId}`
               ).then((res) => {
-                console.log(res, "rescomments");
                 updateStore({ implantationcommentsdata: res.data.length });
                 props.setRightBarData((pre) => {
                   return {
@@ -407,8 +402,6 @@ const AccordionComponent = (props) => {
                 icon={<img src={Redo} />}
               />
             </div>
-
-            {/* <img onClick={()=>{console.log("fdfg");}} src={Redo} /> */}
           </div>
 
           {

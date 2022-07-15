@@ -108,7 +108,6 @@ const TeamManagmentForm = ({
       currentUserId: userId?.userid,
       isAdmin: true,
     };
-    console.log(data);
     if (
       !team.employeeId &&
       team.email &&

@@ -118,7 +118,6 @@ const EstablishmentSearchRightBar = ({
     if (store?.caseFileId) {
       api("get", `/api/v1/checkList/section_notes/${store?.caseFileId}`).then(
         (res) => {
-          console.log(res.data, "121");
           if (res.data.length > 0) {
             update({ unreadnotes: res?.data?.length });
           }
@@ -188,7 +187,6 @@ const EstablishmentSearchRightBar = ({
     }
   };
   const sendAssistance = () => {
-    console.log(inputValues.subject, "store?.userId");
     if (!imageData || !inputValues.subject || !inputValues.assistance) {
       toast.error("Veuillez remplir tous les champs obligatoires");
     } else {
@@ -200,7 +198,6 @@ const EstablishmentSearchRightBar = ({
 
       api("post", "/api/v1/checkList/section_assistance", form_data).then(
         (res) => {
-          console.log(res);
           if (res.data.success === true) {
             setImage("");
             setInputValues((pre) => {

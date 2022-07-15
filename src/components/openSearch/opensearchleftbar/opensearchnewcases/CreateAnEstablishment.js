@@ -40,8 +40,6 @@ const CreateAnEstablishment = () => {
  
  
    const setCommunedata = (text,id)=>{
-     console.log(id);
-     console.log(text);
     setCommune(text);
     setcityid(id)
    }
@@ -70,7 +68,6 @@ const CreateAnEstablishment = () => {
       cp &&
       commune
     ) {
-      console.log(data,"dat");
       api("post", "/api/v1/create_generaldata_establishment", data).then(
         (res) => {
           if (res.data == "-1") {

@@ -85,8 +85,6 @@ const Body = () => {
       .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
       .withAutomaticReconnect()
       .build();
-    console.log("started", newConnection);
-
     setState((pre) => {
       return {
         ...pre,
@@ -149,7 +147,6 @@ const Body = () => {
   //     console.log("No connection to server yet in Admin.js");
   //   }
   // };
-  console.log(screen);
   return (
     <>
       {store.activeNavbarTab === "termine" ? <NavbarDashBoard /> : null}

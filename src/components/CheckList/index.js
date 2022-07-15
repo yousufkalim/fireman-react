@@ -41,6 +41,7 @@ const CheckList = (props) => {
     id: "",
     sectionid: "",
   });
+  const [overtureExistence, setOvertureExistence] = useState(false)
   const [checklists, setchecklists] = React.useState(props.accordionData.checkList && props.accordionData.checkList);
   const store = Store();
   const updateStore = UpdateStore();
@@ -69,14 +70,10 @@ const CheckList = (props) => {
       inputstrings,
       stringlength,
     ] = data;
-    console.log(data, "data");
-    console.log(dates, "dates");
-
     ////////////////////////////////////////////Stringreplacement////////////////////////////////////////////////////
     if (inputstrings.length > 0) {
       if (stringlength != 0) {
         let arrStrOccurence = sentence.split(regexString);
-        console.log(arrStrOccurence, "arrStrOccurence");
         const sentencewithInt = arrStrOccurence?.map((val, index) => {
           modifiedsentence = modifiedsentence + val + " ";
           if (inputstrings[index]) {
@@ -100,14 +97,10 @@ const CheckList = (props) => {
             length: match[0]?.length,
           });
         }
-        console.log(strmatch, "strmatch");
         let tobereplaced;
         strmatch.map((val, index) => {
           tobereplaced = sentence?.slice(val?.index, val?.index + val?.length);
           tobereplacedarr.push(tobereplaced);
-          //if(inputstrings[index]?.text){
-          //sentence = sentence.replace(tobereplaced, `.${inputstrings[index]?.text}.`)
-          //}
         });
         tobereplacedarr.map((val, index) => {
           if (inputstrings[index]?.text) {
@@ -129,12 +122,10 @@ const CheckList = (props) => {
     if (items?.length > 0) {
       if (intlength != 0) {
         let arrIntOccurence = sentence.split(regexInt);
-        console.log(arrIntOccurence, "arrIntOccurence");
         const sentencewithInt = arrIntOccurence?.map((val, index) => {
           modifiedsentence = modifiedsentence + val + " ";
           if (items[index]) {
             modifiedsentence = modifiedsentence + "," + items[index]?.name + ",";
-            console.log(modifiedsentence, "modifiedsentence");
           }
           if (!items[index] && index < intlength) {
             modifiedsentence = modifiedsentence + " [int]";
@@ -143,7 +134,6 @@ const CheckList = (props) => {
         sentence = modifiedsentence ? modifiedsentence?.replace(undefined, "") : sentence;
         modifiedsentence = "";
       }
-      console.log("sentence", sentence);
       if (intlength == "") {
         const strmatch = [];
         let tobereplacedarr = [];
@@ -158,9 +148,6 @@ const CheckList = (props) => {
         strmatch.map((val, index) => {
           prevExtractedInt = sentence?.slice(val?.index, val?.index + val?.length);
           tobereplacedarr.push(prevExtractedInt);
-          // if(items[index]?.name){
-          //   sentence = sentence.replace(prevExtractedInt,","+items[index]?.name+",")
-          // }
         });
         tobereplacedarr?.map((val, index) => {
           if (items[index]?.name) {
@@ -233,7 +220,6 @@ const CheckList = (props) => {
         (obj) => obj?.sectionSentencesId === sentenceId
       );
       copyalreadyChecked[objIndex]=sentence
-      console.log(copyalreadyChecked,"copyalreadyChecked")
       props?.setAlreadyChecked(copyalreadyChecked)
     //setchecklists((prev) => {
       //props.getModifiedSentence(sentence, sentenceId, nature, seriesname,serialid);
@@ -275,7 +261,7 @@ const CheckList = (props) => {
   return (
     <>
       {props?.index != 0 ? (
-        <h3 style={{ visibility: "hidden", marginBottom: "50px" }}>
+        <h3 style={{ visibility: "hidden", marginBottom: "5px" }}>
           {props.accordionData.serialName} {props.accordionData.serialId}
         </h3>
       ) : null}
@@ -377,7 +363,6 @@ const CheckList = (props) => {
                 <Box className={`checkbox-border ${checked == props.accordionData.serialName + i ? "checkbox-bord" : ""}`}></Box>
                 <p
                   onClick={() => {
-                    // alert("hit")
                     handleOpen(data, props.accordionData.serialName + i);
                     props.setSentenceText(data.sentenceText);
                     setIndex(i);
@@ -396,7 +381,6 @@ const CheckList = (props) => {
                       editintLength: editintlength?.length,
                       strEditString: regexeditString?.length,
                     });
-                    console.log(datelength);
                   }}
                   className={`sentence ${checked == props.accordionData.serialName + i ? "sentence-bold" : ""}`}
                 >
@@ -407,11 +391,11 @@ const CheckList = (props) => {
                 <img
                   src={pencil}
                   onClick={() => {
-                    console.log(data);
                     handleOpen(data, props.accordionData.serialName + i);
                     props.setSentenceText(data.sentenceText);
                     setIndex(i);
                     setdatetab(false);
+                    setOvertureExistence(true)
                   }}
                   sx={{ cursor: "pointer" }}
                 />
@@ -437,6 +421,7 @@ const CheckList = (props) => {
           sectionid={props.accordionData.serialId}
           redo={props.redo}
           setRedo={props.setRedo}
+          overtureExistence={overtureExistence}   
         />
       ) : null}
       <EditModal
@@ -452,6 +437,8 @@ const CheckList = (props) => {
         dateLength={blanksLength?.datelength}
         datetab={datetab}
         sentenceText={props?.sentenceText}
+        overtureExistence={overtureExistence}   
+        setOvertureExistence={setOvertureExistence}
       />
     </>
   );

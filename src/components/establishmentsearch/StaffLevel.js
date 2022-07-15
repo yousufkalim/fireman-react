@@ -165,7 +165,6 @@ useEffect(() => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(people);
 if(people.length>0){
     const newArr = people
       .filter((val) => val.staffLevelId !== undefined)

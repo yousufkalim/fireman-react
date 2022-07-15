@@ -39,7 +39,7 @@ export default function Navbar({ Story }) {
     userId = JSON.parse(userId);
     api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
       .then((res) => {
-        console.log(res);
+        console.log("res");
         if (res.status == 200) {
           setProfile(res.data);
         }
@@ -55,7 +55,6 @@ export default function Navbar({ Story }) {
   };
 
   const handleMenuClose = () => {
-    console.log(store);
     setAnchorEl(null);
     handleMobileMenuClose();
     var token = localStorage.getItem("userData");
@@ -173,7 +172,7 @@ export default function Navbar({ Story }) {
               {store.activeCase === "currentcases" ? (
                 <p className="casename">{store?.caseName}</p>
               ) : null}
-              <p className="establishmentname">{store?.establishmentname}</p>
+              <p className="establishmentname">{store?.establishmentname.length>20?store?.establishmentname.slice(0,40)+"...":store?.establishmentname}</p>
               {store.activeCase === "currentcases" ? (
                 <p className="serial-name-num">
                   {store?.cityname} / {store?.serialNum}
@@ -240,7 +239,7 @@ export default function Navbar({ Story }) {
                   }}
                   className="img-nav"
                   
-                  src={profile?.profilePicture? `https://fireman-dev2.web.app/${profile?.profilePicture?.substr(37)}`:dummy}
+                  src={profile?.profilePicture? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(37)}`:dummy}
                 />
                 {logout ? (
                   <p
