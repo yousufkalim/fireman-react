@@ -767,6 +767,10 @@ if(people.length>0){
                                       )
                                     );
                                   }}
+                                    min="0"
+                                    max="10000000"
+                                    onInvalid={e => e.target.setCustomValidity('la valeur doit être comprise entre 0 et 10000000')}
+                                    onInput={e => e.target.setCustomValidity('')}
                                   type="number"
                                 />
                               </Box>
@@ -799,7 +803,11 @@ if(people.length>0){
                                       )
                                     );
                                   }}
-                                  type="number"
+                                    min="0"
+                                    max="10000000"
+                                    onInvalid={e => e.target.setCustomValidity('la valeur doit être comprise entre 0 et 10000000')}
+                                    onInput={e => e.target.setCustomValidity('')}
+                                    type="number"
                                 />
                               </Box>{" "}
                             </th>
@@ -835,6 +843,7 @@ if(people.length>0){
               <AddIcon
                 sx={{ color: "#3675B7" }}
                 onClick={() => {
+                  const arrKeys = people.map(el => el.staffLevelId);
                   setpeople((curr) => [
                     ...curr,
                     {

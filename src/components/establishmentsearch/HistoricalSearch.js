@@ -209,8 +209,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     });
   }, []);
   const setCommunedata = (text,id)=>{
-    console.log(id);
-    console.log(text);
     setInputValues((pre)=>{
       return{
        ...pre,
@@ -222,8 +220,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name);
-    console.log(value);
     if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
       setOpen(true);
       setMessageText(
@@ -269,7 +265,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     };
     api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
       .then((res) => {
-        console.log(res,"kl");
         if (res.data === true) {
           setButtonEnability((pre) => {
             return {
@@ -308,7 +303,6 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       })
     });
   };
-  console.log(store,"storeest");
   return (
     <>
       <Box

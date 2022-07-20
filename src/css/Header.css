@@ -26,7 +26,11 @@ h1 {
   padding: 8px 12px;
   margin-right: 10px;
 }
-
+.bellIcon span {
+  position: absolute;
+  font-size: 12px;
+  color: #db3700;
+}
 .bellIcon .css-1ei1svh-MuiButtonBase-root-MuiIconButton-root:hover {
   background: transparent !important;
 }
@@ -57,7 +61,29 @@ h1 {
   text-align: center;
   font-size: 12px;
 }
-
+.notification_box {
+  position: absolute;
+  top: 78%;
+  background: white;
+  color: #9095a3;
+  z-index: 9;
+  max-height: 250px;
+  overflow: scroll;
+  width: 250px;
+  font-size: 13px;
+  padding: 15%;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 33px 42px rgba(0, 23, 44, 0.1);
+}
+.view-all_btn_container{
+  display: flex;
+  justify-content: end;
+  font-size: 5px;
+}
+.notification_box p {
+  padding: 1% 0%;
+}
 .icon svg {
   fill: #314a6c;
 }
@@ -158,18 +184,17 @@ h1 {
   padding: 0px !important;
 }
 
-.css-1aquho2-MuiTabs-indicator{
-  height:0px !important;
+.css-1aquho2-MuiTabs-indicator {
+  height: 0px !important;
 }
-.css-ttwr4n{
+.css-ttwr4n {
   height: 0 !important;
   width: 0 !important;
   padding: 0px 27px;
-    color: #9095a3;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    display: inline-block;
-    cursor: pointer;
+  color: #9095a3;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-block;
+  cursor: pointer;
 }
-

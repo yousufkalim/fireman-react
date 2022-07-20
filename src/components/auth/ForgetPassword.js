@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import api from "../../api/index";
 import { toast } from "react-toastify";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Link } from "react-router-dom";
 import logo from "../../assets/LoginfromLogo.png";
 import { useTranslation, Trans } from "react-i18next";
 const ForgetPassword = () => {
@@ -19,8 +19,12 @@ const ForgetPassword = () => {
     e.preventDefault();
     api("get", `/api/v1/forgetPassword/${formValue}`)
       .then((res) => {
+        console.log(res,"res")
         if (res.data.success === true) {
-          toast.success(t("Successfull"));
+          toast.success(res?.data?.message);
+        }
+        if(res.data.success === false){
+          toast.error("L'e-mail n'existe pas")
         }
       })
       .catch((err) => console.log(err));
@@ -36,10 +40,11 @@ const ForgetPassword = () => {
         </Grid>
         <Grid item xs={11}>
           <div className="login-form">
-            <p className="topHeading">Retour à la page d’accueil</p>
+         
+            <Link style={{textDecoration:"none"}} to="/login"><p className="topHeading">Retour à la page de connexion</p></Link>
             <div className="mainform">
               <div style={{ textAlign: "start", width: "80%" }}>
-                <h6 className="form-heading">Connectez-vous à votre compte</h6>
+                <h6 className="form-heading">Mot de passe oublié</h6>
                 <Box
                 >
                   <form onSubmit={ForgetPassword}>

@@ -10,6 +10,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import nonotification from "../assets/Nonotification.svg";
+import notificationicon from "../assets/noti.png";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Vector from "../assets/sitelogo.png";
 import Site from "../assets/siteprev.png";
@@ -18,17 +21,24 @@ import { useTranslation, Trans } from "react-i18next";
 import { UpdateStore } from "../StoreContext";
 import moment from "moment";
 import api from "../api/index";
-import notificationicon from "../assets/noti.png";
 import ronaldo from "../assets/ronaldo.jpeg";
 import "moment/locale/fr";
 import useState from "react-usestateref";
 import jwt from "jwt-decode";
 import useClickOutside from "use-click-outside";
+
+import Popup from "./Popup";
+
 export default function Navbar({ Story }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElPopup, setAnchorElPopup] = React.useState(null);
+  const [connection, setConnection] = useState(null);
   let [profile, setProfile] = useState({});
   const [logout, setLogout] = useState(false);
   const ref = useRef();
+  const refNotification = useRef();
+  const [NotificationData, setNotificationData] = useState([]);
+  const [ShowNotificationBox, setShowNotificationBox] = useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const store = Store();
   const isMenuOpen = Boolean(anchorEl);
@@ -46,6 +56,35 @@ export default function Navbar({ Story }) {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  ////
+  useEffect(() => {
+    const newConnection = new HubConnectionBuilder()
+      .withUrl("https://fireman-chat.falconconsulting.fr/notificationsHub")
+      .withAutomaticReconnect()
+      .build();
+    setConnection(newConnection);
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.send("DesktopNotification", parseInt(store?.userId), parseInt(store?.role));
+          connection.on("DesktopNotification", (message) => {
+            console.log(message, "message");
+            setNotificationData(message);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [connection]);
+
+  ///
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,12 +101,10 @@ export default function Navbar({ Story }) {
     const bool = false;
     const logoutTime = "";
     if (store.connection) {
-      store.connection
-        .send("Disconnect", parseInt(userData.Id), bool, logoutTime)
-        .then(() => {
-          localStorage.removeItem("userData");
-          window.location = "/login";
-        });
+      store.connection.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(() => {
+        localStorage.removeItem("userData");
+        window.location = "/login";
+      });
     } else {
       alert("not connected to server");
       localStorage.removeItem("userData");
@@ -117,11 +154,7 @@ export default function Navbar({ Story }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
+        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
           <Badge badgeContent={17} color="error">
             <NotificationsNoneOutlinedIcon />
           </Badge>
@@ -145,8 +178,12 @@ export default function Navbar({ Story }) {
   useClickOutside(ref, () => {
     setLogout(false);
   });
+  useClickOutside(refNotification, () => {
+    setShowNotificationBox(false);
+  });
   return (
-    <Box sx={{ flexGrow: 1, fontSize: "18px", width: "99%",height:"90px", margin: "auto" }}>
+    <Box sx={{ flexGrow: 1, fontSize: "18px", width: "99%", height: "90px", margin: "auto" }}>
+      <Popup anchorElPopup={anchorElPopup} setAnchorElPopup={setAnchorElPopup} NotificationData={NotificationData} />
       <AppBar
         sx={{
           backgroundColor: "#e9e9e9",
@@ -169,10 +206,10 @@ export default function Navbar({ Story }) {
             ""
           ) : store.catTab === true ? (
             <div className="nav_headings">
-              {store.activeCase === "currentcases" ? (
-                <p className="casename">{store?.caseName}</p>
-              ) : null}
-              <p className="establishmentname">{store?.establishmentname.length>20?store?.establishmentname.slice(0,40)+"...":store?.establishmentname}</p>
+              {store.activeCase === "currentcases" ? <p className="casename">{store?.caseName}</p> : null}
+              <p className="establishmentname">
+                {store?.establishmentname.length > 20 ? store?.establishmentname.slice(0, 40) + "..." : store?.establishmentname}
+              </p>
               {store.activeCase === "currentcases" ? (
                 <p className="serial-name-num">
                   {store?.cityname} / {store?.serialNum}
@@ -195,9 +232,7 @@ export default function Navbar({ Story }) {
             // </Button>
               : */}
               <Box sx={{ display: "flex" }}>
-                <p className="nav_date">
-                  {moment().format("dddd DD MMMM YYYY")}
-                </p>
+                <p className="nav_date">{moment().format("dddd DD MMMM YYYY")}</p>
                 {/* <Button variant="outlined"  onClick={() =>
                 changeLanguage(`${language == "en" ? "fr" : "en"}`)
               }>
@@ -208,15 +243,39 @@ export default function Navbar({ Story }) {
           ) : null}
 
           <Box className="bellIcon" sx={{ display: "flex" }}>
-            <IconButton
-              disableRipple
-              size="small"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <div className="icon">
-                <img src={notificationicon} />
+            <IconButton disableRipple size="small" aria-label="show 17 new notifications" color="inherit">
+              <div ref={refNotification} className="icon">
+                {NotificationData?.length > 0 ? (
+                  <img
+                    onClick={() => {
+                      setShowNotificationBox(true);
+                    }}
+                    src={notificationicon}
+                  />
+                ) : (
+                  <img src={nonotification} />
+                )}
+                <span>{NotificationData?.length}</span>
               </div>
+
+              {ShowNotificationBox ? (
+                <>
+                  <div className="notification_box">
+                    {NotificationData?.map((_) => (
+                      <p>{_?.notificationText}</p>
+                    ))}
+                    <div className="view-all_btn_container">
+                      <Button
+                        onClick={(event) => setAnchorElPopup(event.currentTarget)}
+                        sx={{ fontSize: "9px", padding: "1.2%" }}
+                        variant="contained"
+                      >
+                        View All
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              ) : null}
             </IconButton>
             <IconButton
               edge="end"
@@ -238,8 +297,11 @@ export default function Navbar({ Story }) {
                     setLogout(true);
                   }}
                   className="img-nav"
-                  
-                  src={profile?.profilePicture? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(37)}`:dummy}
+                  src={
+                    profile?.profilePicture
+                      ? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(37)}`
+                      : dummy
+                  }
                 />
                 {logout ? (
                   <p
@@ -263,17 +325,10 @@ export default function Navbar({ Story }) {
               className="navbar_user"
               sx={{ padding: "25px 10px", cursor: "pointer" }}
             >
-              <p
-                className={`${
-                  store.activeNavbarTab === "termine" ? "" : "user-text-dash"
-                }`}
-                style={{ cursor: "pointer" }}
-              >
+              <p className={`${store.activeNavbarTab === "termine" ? "" : "user-text-dash"}`} style={{ cursor: "pointer" }}>
                 {profile?.firstName} {profile?.lastName}
               </p>
-              <p style={{ fontSize: "13px", color: "#A7B9CA" }}>
-                Préventioniste
-              </p>
+              <p style={{ fontSize: "13px", color: "#A7B9CA" }}>Préventioniste</p>
             </Box>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

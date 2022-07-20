@@ -430,7 +430,26 @@ const getIndexData =()=>{
 
   ////////////////// passed to study form visit form for getting checkedboxes id
   const postCheckboxesData = (data) => {
-    if(checkboxObj.length==0){
+    let resulttownplanning = state.check.concat(checkboxObj)
+    let resultObjectDetails = state.studycheck.concat(checkboxObj)
+ 
+    ////for townplanning
+    let uniquecheckboxesarrTownplanning = resulttownplanning.filter((e, i) => {
+      return resulttownplanning.findIndex((x) => {
+      return x.caseFileCheckListId == e.caseFileCheckListId}) == i;
+  });
+    ///
+
+    /////for objectdetails
+    let uniquecheckboxesarrObjectDetails = resultObjectDetails.filter((e, i) => {
+      return resultObjectDetails.findIndex((x) => {
+      return x.caseFileCheckListId == e.caseFileCheckListId}) == i;
+  });
+
+    ////
+
+    console.log(uniquecheckboxesarrObjectDetails,"uniquecheckboxesarrTownplanning");
+    if(checkboxObj?.length==0){
       setCheckboxObj([{
         caseFileCheckListId: 0,
         caseFileId: 0,
@@ -441,7 +460,7 @@ const getIndexData =()=>{
     api(
       "post",
       `/api/v1/casefiles/save_casefile_checklist`,
-      data === "townplanning"? checkboxObj.length==0? 
+      data === "townplanning"? uniquecheckboxesarrTownplanning?.length==0? 
       [
         { 
           caseFileCheckListId: 0,
@@ -451,9 +470,9 @@ const getIndexData =()=>{
         }
         ]
            : 
-      checkboxObj.filter((item) => item.sectionType != 2)
+           uniquecheckboxesarrTownplanning?.filter((item) => item.sectionType != 2)
         : 
-        checkboxObj.length==0? 
+        uniquecheckboxesarrObjectDetails?.length==0? 
       [
         { 
           caseFileCheckListId: 0,
@@ -463,7 +482,7 @@ const getIndexData =()=>{
         }
         ]
         :
-        checkboxObj.filter((item) => item.sectionType != 0)
+        uniquecheckboxesarrObjectDetails?.filter((item) => item.sectionType != 0)
     )
       .then((res) => {
         console.log("hres", res);

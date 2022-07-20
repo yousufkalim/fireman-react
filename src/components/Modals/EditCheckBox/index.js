@@ -295,6 +295,7 @@ export default function CustomizedDialogs(props) {
                  {props?.EmptyStringBlankLength > 0 ||
                 props?.stringLength > 0 ? (
                   <input
+                    maxlength="250"
                     style={{ width: "60%", marginBottom: "2%" }}
                     type="text"
                     placeholder="Enter String"
@@ -414,7 +415,7 @@ export default function CustomizedDialogs(props) {
               if(
               (props?.dateLength>0 && dates?.length<1)
               ||
-              (props?.leveladdlength>0 && !value || props?.levelSublength>0 && !value || (props?.EmptyStringBlankLength)>0 && !String)
+              (props?.leveladdlength>0 && !value || props?.levelSublength>0 && !value || (props?.EmptyStringBlankLength)>0 && String.trim().length==0)
               )
               {
                 snackOpen= props?.overtureExistence?false:true

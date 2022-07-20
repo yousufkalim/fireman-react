@@ -45,6 +45,8 @@ const EstablishmentLevel = ({
   const [description, setDescription] = useState({
     site: "",
     establishmentdescription: "",
+    lessEightMeter:"",
+    moreEightMeter:""
   });
   const [columnState, setColumnState] = useState({
     cellname: true,
@@ -81,8 +83,14 @@ const EstablishmentLevel = ({
   const getGridData = () => {
     api("get", `/api/v1/get_description_data/${store.establishmentId}`).then(
       (res) => {
-        console.log(res);
+        console.log("res");
         setLevelData(res.data.levels);
+        setInputValues(()=>{
+          return{
+            lessEightMeter:res.data.descriptions?.lessEightMeter,
+            moreEightMeter:res.data.descriptions?.moreEightMeter
+          }
+        })
         setDescription({
           site: res.data.descriptions.siteDescription,
           establishmentdescription: res.data.descriptions.description,
@@ -105,10 +113,10 @@ const EstablishmentLevel = ({
   const emptyDonation = { institution: "", cellNumber: "" };
   const store = Store();
   const updatestore = UpdateStore();
-  console.log(description, "description");
   const onChangeCheckBox = (e) => {
     const name = e.target.name;
     const checked = e.target.checked;
+    console.log(e.target.checked);
     setInputValues((pre) => {
       return {
         ...pre,
@@ -116,8 +124,7 @@ const EstablishmentLevel = ({
       };
     });
   };
-  console.log(inputValues,"inputValues");
-  console.log(description,"description");
+  console.log(inputValues,"j");
   return (
     <>
       <Box
@@ -659,38 +666,43 @@ const EstablishmentLevel = ({
                         </Typography>
                       </AccordionSummary>
                       <AccordionDetails sx={{ textAlign: "start" }}>
+                       
                         <Box
-                          sx={{
-                            display: "flex",
-                            paddingBottom: "10px",
-                          }}
-                        >
-                          <label className="label-descriptif">
-                            {" "}
-                            {t("Less Eight Meter")}
-                          </label>
-                          {/* <label className="label-descriptif"> {t("Less Eight Meter")}</label> */}
-              <input
-                className="checkbox"
-                type="checkbox"
-                name="lessEightMeter"
-                defaultChecked={description?.lessEightMeter}
-                onChange={onChangeCheckBox}
-              />
-                        </Box>
-                        <Box sx={{ display: "flex" }}>
-                          <label className="label-descriptif">
-                            {" "}
-                            {t("More Eight Meter")}
-                          </label>
-                          <input
-                className="checkbox"
-                type="checkbox"
-                name="moreEightMeter"
-                defaultChecked={description?.moreEightMeter}
-                onChange={onChangeCheckBox}
-              />
-                        </Box>
+                        sx={{
+                          display: "flex",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        <label className="label-descriptif">
+                          {" "}
+                          {t("Less Eight Meter")}
+                        </label>
+                        {/* <label className="label-descriptif"> {t("Less Eight Meter")}</label> */}   
+            <input
+              className="checkbox"
+              type="checkbox"
+              name="lessEightMeter"
+              checked={inputValues?.lessEightMeter}
+              onChange={onChangeCheckBox}
+            />
+                      </Box>
+                       <Box sx={{ display: "flex" }}>
+                       <label className="label-descriptif">
+                         {" "}
+                         {t("More Eight Meter")}
+                       </label>
+                       <input
+             className="checkbox"
+             type="checkbox"
+             name="moreEightMeter"
+             checked={inputValues?.moreEightMeter}
+             onChange={onChangeCheckBox}
+           />
+                     </Box>
+                     
+                       
+
+                       
                       </AccordionDetails>
                     </Accordion>
                   </Box>

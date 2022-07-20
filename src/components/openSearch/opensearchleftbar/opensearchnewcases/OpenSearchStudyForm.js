@@ -110,6 +110,7 @@ const EstablishmentSearchStudyForm = ({
   const inputRefemail = useRef(null);
   useEffect(() => {
     ///////for townplanning checkboxes
+    if(store?.caseFileId){
     const ab = townplanning
       .map((val) =>
         val.chkList
@@ -149,9 +150,14 @@ const EstablishmentSearchStudyForm = ({
         }),
       };
     });
+  }
+  else{
+    return false;
+  }
     ///////for townplanning checkboxes
   }, [townplanning]);
   useEffect(() => {
+    if(store?.caseFileId){
     const studycheckboxes = study
       ?.map((val) =>
         val.chkList
@@ -191,6 +197,10 @@ const EstablishmentSearchStudyForm = ({
         }),
       };
     });
+  }
+  else{
+    return false;
+  }
   }, [study]);
   useEffect(() => {
     setFormValues({
@@ -591,6 +601,7 @@ const EstablishmentSearchStudyForm = ({
       postCheckboxesData("studytwo");
     }
   };
+  console.log(store,"st")
   return (
     <>
       <Box
@@ -667,7 +678,7 @@ const EstablishmentSearchStudyForm = ({
                   onSubmit={(e) => handleSubmit(e, "townplanning")}
                 >
                   <Box className="townplanning-heading">
-                    <label className="checklist-heading">{t("Capture")}</label>
+                    <label  className="checklist-heading">{t("Capture")}</label>
                     <Box
                       sx={{
                         borderTop: "3px solid #C5D3DB",
@@ -1001,8 +1012,9 @@ const EstablishmentSearchStudyForm = ({
                                     }
                                   }}
                                   type="checkbox"
+                                  // defaultChecked={val?.isSelected}
                                   defaultChecked={
-                                    store.activeCase === "currentcases"
+                                    (store.activeCase === "currentcases" ||  store.activeCase ==="newcase" && store?.caseFileId)
                                       ? val?.isSelected
                                       : ""
                                   }
@@ -1248,9 +1260,10 @@ const EstablishmentSearchStudyForm = ({
                                     }
                                   }}
                                   type="checkbox"
+                                  // defaultChecked={val?.isSelected}
                                   defaultChecked={
-                                    store.activeCase === "currentcases"
-                                      ? val.isSelected
+                                    (store.activeCase === "currentcases" ||  store.activeCase ==="newcase" && store?.caseFileId)
+                                      ? val?.isSelected
                                       : ""
                                   }
                                   id={val.caseFileCheckListId}
