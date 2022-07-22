@@ -37,6 +37,7 @@ const EstablishmentSearchVisitForm = ({
   setButtonEnability,
 }) => {
   useEffect(() => {
+    if(store?.caseFileId){
     const ab = visit
       ?.map((val) =>
         val.chkList
@@ -74,6 +75,10 @@ const EstablishmentSearchVisitForm = ({
         }),
       };
     });
+  }
+  else{
+    return false;
+  }
   }, [visit]);
 
   const [open, setOpen] = React.useState(false);
@@ -246,7 +251,8 @@ const EstablishmentSearchVisitForm = ({
               buttonenable: true,
               validatedSections:{
                 ...store?.validatedSections,
-                detailsobjectvalidated:true
+                detailsobjectvalidated:true,
+                iconvisit:true
               }
             });
           }
@@ -387,7 +393,12 @@ const EstablishmentSearchVisitForm = ({
                               }
                             }}
                             type="checkbox"
-                            defaultChecked={val?.isSelected}
+                            // defaultChecked={val?.isSelected}
+                            defaultChecked={
+                              (store.activeCase === "currentcases" ||  store.activeCase ==="newcase" && store?.caseFileId)
+                                ? val?.isSelected
+                                : ""
+                            }
                             // defaultChecked={
                             //   store.activeCase === "currentcases"
                             //     ? val.isSelected

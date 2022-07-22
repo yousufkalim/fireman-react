@@ -8,6 +8,7 @@
     margin-top: 10px;
     width: 67%;
     text-align: center;
+    line-break:anywhere;
   }
   .rmdp-container{
     width: 90%;

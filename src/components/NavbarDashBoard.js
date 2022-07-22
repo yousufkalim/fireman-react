@@ -22,6 +22,7 @@ import jwt from "jwt-decode";
 import dummy from "../assets/dummy.jpeg";
 
 import Popup from "./Popup";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const NavbarDashBoard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,9 +33,7 @@ const NavbarDashBoard = () => {
   const refNotification = useRef();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [connection, setConnection] = useState(null);
-  const [state, setState, counterRef] = useState({
-    connection: "",
-  });
+
   const [NotificationData, setNotificationData] = useState([]);
   const [logout, setLogout] = useState(false);
   const [ShowNotificationBox, setShowNotificationBox] = useState(false);
@@ -73,12 +72,17 @@ const NavbarDashBoard = () => {
             console.log(message, "message");
             setNotificationData(message);
           });
+          connection?.on("CheckIsOnline", (userId, isOnline, lastSeen, status) => {
+            console.log("CheckIsOnline",userId, isOnline, lastSeen, status);
+          })
+          console.log(connection, "connection");
         })
         .catch((err) => {
           console.log(err);
         });
     }
   }, [connection]);
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };

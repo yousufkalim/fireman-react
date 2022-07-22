@@ -162,8 +162,8 @@ const IndexThree = ({ handleClose }) => {
               setState({ isLoading: false });
             }
 
-            store.connection?.on("CheckIsOnline", (userId, isOnline, lastSeen, status) => {
-              //  console.log(userId, isOnline, lastSeen, status);
+            connection?.on("CheckIsOnline", (userId, isOnline, lastSeen, status) => {
+                console.log("CheckIsOnline",userId, isOnline, lastSeen, status);
               if (userData.Id !== userId) {
                 //  console.log("user is online now", userId);
                 let newChatList = chatlist.map((chat, index) =>

@@ -524,6 +524,8 @@ const getIndexData =()=>{
   };
 
   ///////////////////////////////
+
+  console.log(Icon.iconvisit,"Icon.iconvisit")
   return (
     <>
       {(activeLink === 0 && CompName === "currentcases") ||
@@ -816,7 +818,7 @@ const getIndexData =()=>{
                   }}
                 >
                   <Typography variant="h6">{t("Details Of Object")}</Typography>
-                  {Icon.iconvisit ? (
+                  {Icon.iconvisit || store?.validatedSections?.iconvisit ? (
                     <svg
                       width="32"
                       height="21"

@@ -165,7 +165,7 @@ const EditTextComp = ({
             }}
           >
             <span
-              style={{ width: "60%", marginBottom: "2%", height: "auto" }}
+              style={{ width: "60%", marginBottom: "2%", height: "auto", lineBreak:"anywhere" }}
               className="custom-input"
             >
               {subSentenceText}
