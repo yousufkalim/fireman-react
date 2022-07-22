@@ -230,7 +230,12 @@ const EstablishmentSearchVisitForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (store.activeCase === "newcase") {
-      api("post", `/api/v1/casefiles/save_casefile_checklist`, checkboxObj)
+      let resultVisitCheck =  state?.visitcheck?.concat(checkboxObj)
+      let UniqueresultVisitCheck = resultVisitCheck.filter((e, i) => {
+        return resultVisitCheck.findIndex((x) => {
+        return x.caseFileCheckListId == e.caseFileCheckListId}) == i;
+    });
+      api("post", `/api/v1/casefiles/save_casefile_checklist`, UniqueresultVisitCheck)
         .then((res) => {
           {
             toast.success(t("Successfull"));

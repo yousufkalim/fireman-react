@@ -601,7 +601,6 @@ const EstablishmentSearchStudyForm = ({
       postCheckboxesData("studytwo");
     }
   };
-  console.log(store,"st")
   return (
     <>
       <Box
