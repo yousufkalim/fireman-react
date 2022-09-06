@@ -1,16 +1,16 @@
-input[type="radio"] {
+input[type='radio'] {
   border: 1px solid #000000;
   padding: 1em;
   -webkit-appearance: none;
 }
 
-input[type="radio"]:checked {
-   background: url(../assets/radiotick.png) no-repeat center center;
-    background-size: 25px 25px; 
+input[type='radio']:checked {
+  background: url(../assets/radiotick.png) no-repeat center center;
+  background-size: 25px 25px;
   /* background: blue; */
 }
 
-input[type="radio"]:focus {
+input[type='radio']:focus {
   outline-color: transparent;
 }
 
@@ -29,13 +29,13 @@ input[type="radio"]:focus {
 .radion-btn-text-container {
   display: flex;
   align-items: center;
-  width: 20%;
+  width: 14%;
 }
-.radio-btn-name-text{
+.radio-btn-name-text {
   width: 60%;
 }
 
-.levels{
+.levels {
   display: flex;
   align-items: center;
 }

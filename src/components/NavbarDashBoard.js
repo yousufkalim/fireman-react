@@ -1,28 +1,28 @@
-import React, { useEffect, useRef } from "react";
-import useState from "react-usestateref";
-import Box from "@mui/material/Box";
-import Site from "../assets/siteprev.png";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import Badge from "@mui/material/Badge";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import notificationicon from "../assets/noti.png";
-import nonotification from "../assets/Nonotification.svg";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import { UpdateStore } from "../StoreContext";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import moment from "moment";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import api from "../api/index";
-import { Store } from "../StoreContext";
-import useClickOutside from "use-click-outside";
-import jwt from "jwt-decode";
-import dummy from "../assets/dummy.jpeg";
+import React, { useEffect, useRef } from 'react';
+import useState from 'react-usestateref';
+import Box from '@mui/material/Box';
+import Site from '../assets/siteprev.png';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Badge from '@mui/material/Badge';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import notificationicon from '../assets/noti.png';
+import nonotification from '../assets/Nonotification.svg';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import { UpdateStore } from '../StoreContext';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import moment from 'moment';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import api from '../api/index';
+import { Store } from '../StoreContext';
+import useClickOutside from 'use-click-outside';
+import jwt from 'jwt-decode';
+import dummy from '../assets/dummy.jpeg';
 
-import Popup from "./Popup";
-import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
+import Popup from './Popup';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 const NavbarDashBoard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,12 +40,12 @@ const NavbarDashBoard = () => {
   const isMenuOpen = Boolean(anchorEl);
   const update = UpdateStore();
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  let user = localStorage.getItem("user");
+  let user = localStorage.getItem('user');
   const store = Store();
   useEffect(() => {
-    let userId = localStorage.getItem("userData");
+    let userId = localStorage.getItem('userData');
     userId = JSON.parse(userId);
-    api("get", `/api/v1/Users/userprofile/${userId?.userid}`)
+    api('get', `/api/v1/Users/userprofile/${userId?.userid}`)
       .then((res) => {
         if (res.status == 200) {
           setProfile(res.data);
@@ -56,7 +56,7 @@ const NavbarDashBoard = () => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
+      .withUrl('https://fireman-chat.falconconsulting.fr/chatHub')
       .withAutomaticReconnect()
       .build();
     setConnection(newConnection);
@@ -67,15 +67,15 @@ const NavbarDashBoard = () => {
       connection
         .start()
         .then(() => {
-          connection.send("DesktopNotification", parseInt(store?.userId), parseInt(store?.role));
-          connection.on("DesktopNotification", (message) => { 
-            console.log(message, "message");
+          connection.send('DesktopNotification', parseInt(store?.userId), parseInt(store?.role));
+          connection.on('DesktopNotification', (message) => {
+            console.log(message, 'message');
             setNotificationData(message);
           });
-          connection?.on("CheckIsOnline", (userId, isOnline, lastSeen, status) => {
-            console.log("CheckIsOnline",userId, isOnline, lastSeen, status);
-          })
-          console.log(connection, "connection");
+          connection?.on('CheckIsOnline', (userId, isOnline, lastSeen, status) => {
+            console.log('CheckIsOnline', userId, isOnline, lastSeen, status);
+          });
+          console.log(connection, 'connection');
         })
         .catch((err) => {
           console.log(err);
@@ -95,45 +95,45 @@ const NavbarDashBoard = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
 
-    var token = localStorage.getItem("userData");
+    var token = localStorage.getItem('userData');
     const userData = jwt(token);
     const bool = false;
-    const logoutTime = "";
+    const logoutTime = '';
     if (store.connection) {
-      store.connection?.send("Disconnect", parseInt(userData.Id), bool, logoutTime).then(() => {
-        localStorage.removeItem("userData");
-        window.location = "/login";
+      store.connection?.send('Disconnect', parseInt(userData.Id), bool, logoutTime).then(() => {
+        localStorage.removeItem('userData');
+        window.location = '/login';
       });
     } else {
-      alert("not connected to server");
-      localStorage.removeItem("userData");
-      window.location = "/login";
+      alert('not connected to server');
+      localStorage.removeItem('userData');
+      window.location = '/login';
     }
   };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu>
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
+        vertical: 'top',
+        horizontal: 'right',
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -170,15 +170,15 @@ const NavbarDashBoard = () => {
     <>
       <Box
         sx={{
-          width: "89%",
-          margin: "auto",
-          display: "flex",
-          height: "80px",
-          justifyContent: "space-between",
+          width: '89%',
+          margin: 'auto',
+          display: 'flex',
+          height: '80px',
+          justifyContent: 'space-between',
         }}
       >
         <Popup anchorElPopup={anchorElPopup} setAnchorElPopup={setAnchorElPopup} NotificationData={NotificationData} />
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <div className="dashboard_logo1">
             <img width="166px" src={Site} />
           </div>
@@ -186,17 +186,17 @@ const NavbarDashBoard = () => {
 
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "42%",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '42%',
           }}
         >
-          <Box sx={{ display: "flex" }}>
-            <p className="nav_date">{moment().format("dddd DD MMMM YYYY")}</p>
+          <Box sx={{ display: 'flex' }}>
+            <p className="nav_date">{moment().format('dddd DD MMMM YYYY')}</p>
           </Box>
 
-          <Box className="bellIcon" sx={{ display: "flex" }}>
+          <Box className="bellIcon" sx={{ display: 'flex' }}>
             <IconButton disableRipple size="small" aria-label="show 17 new notifications" color="inherit">
               <div ref={refNotification} className="icon">
                 {NotificationData?.length > 0 ? (
@@ -221,7 +221,7 @@ const NavbarDashBoard = () => {
                     <div className="view-all_btn_container">
                       <Button
                         onClick={(event) => setAnchorElPopup(event.currentTarget)}
-                        sx={{ fontSize: "9px", padding: "1.2%" }}
+                        sx={{ fontSize: '9px', padding: '1.2%' }}
                         variant="contained"
                       >
                         View All
@@ -242,9 +242,9 @@ const NavbarDashBoard = () => {
               <Box
                 ref={ref}
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  position: 'relative',
                 }}
               >
                 <img
@@ -263,9 +263,9 @@ const NavbarDashBoard = () => {
                     className="logout-btn"
                     onClick={handleMenuClose}
                     style={{
-                      position: "absolute",
-                      top: "45px",
-                      fontSize: "15px",
+                      position: 'absolute',
+                      top: '45px',
+                      fontSize: '15px',
                     }}
                   >
                     Logout
@@ -275,18 +275,21 @@ const NavbarDashBoard = () => {
             </IconButton>
             <Box
               onClick={() => {
-                update({ activeNavbarTab: "profile", catTab: false });
+                update({ activeNavbarTab: 'profile', catTab: false });
               }}
               className="navbar_user"
-              sx={{ padding: "25px 20px", cursor: "pointer" }}
+              sx={{ padding: '25px 20px', cursor: 'pointer' }}
             >
-              <p className={`${store.activeNavbarTab === "termine" ? "" : "user-text-dash"}`} style={{ cursor: "pointer" }}>
+              <p
+                className={`${store.activeNavbarTab === 'termine' ? '' : 'user-text-dash'}`}
+                style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
                 {profile?.firstName} {profile?.lastName}
               </p>
-              <p style={{ fontSize: "13px", color: "#A7B9CA" }}>Préventioniste</p>
+              <p style={{ fontSize: '13px', color: '#A7B9CA' }}>Préventioniste</p>
             </Box>
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="show more"

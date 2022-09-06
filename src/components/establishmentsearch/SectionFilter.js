@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
-import CustomRadioButton from "../CustomRadioButton";
-import CustomCheckBox from '../CustomCheckBox'
-import Button from "@mui/material/Button";
-import Rightarrow from "../../assets/rightarrow.png";
-import don from "../../assets/donne.svg";
-import { useTranslation } from "react-i18next";
-import { Store } from "../../StoreContext";
-import { UpdateStore } from "../../StoreContext";
-import api from "../../api/index";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
+import CustomRadioButton from '../CustomRadioButton';
+import CustomCheckBox from '../CustomCheckBox';
+import Button from '@mui/material/Button';
+import Rightarrow from '../../assets/rightarrow.png';
+import don from '../../assets/donne.svg';
+import { useTranslation } from 'react-i18next';
+import { Store } from '../../StoreContext';
+import { UpdateStore } from '../../StoreContext';
+import api from '../../api/index';
+import { toast } from 'react-toastify';
 //In checked conditions first two are for add radio options and second two are for edit radio options
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: "center",
+  textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
   const [radioValues, setRadioValues] = useState({});
   const [configurationValues, setConfigurationValues] = useState({
-    id: "",
+    id: '',
   });
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useState([]);
   const [filterData, setFilterData] = useState();
-  const [filtersCount, setFiltersCount] = useState([])
-  const [checklistId, setchecklistId] = useState("");
+  const [filtersCount, setFiltersCount] = useState([]);
+  const [checklistId, setchecklistId] = useState('');
   const { t } = useTranslation();
   const store = Store();
   const updatestore = UpdateStore();
   useEffect(() => {
-    api("get", `/api/v1/casefiles/section_filters/${store?.caseFileId ? store?.caseFileId : 0}`).then((res) => {
+    api('get', `/api/v1/casefiles/section_filters/${store?.caseFileId ? store?.caseFileId : 0}`).then((res) => {
       setFilterData(res?.data);
       if (res?.data?.selectedSectionGroupId) {
-        setRadioValues({ 
-          groupid: res?.data?.selectedSectionGroupId, 
-          difficultyLevel: res?.data?.difficultyLevel 
+        setRadioValues({
+          groupid: res?.data?.selectedSectionGroupId,
+          difficultyLevel: res?.data?.difficultyLevel,
         });
       }
       getTabData();
@@ -63,20 +63,20 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
     //         id:configid
     //       }
     //   )
-    if (radioValues.groupid != value && key == "groupid" && radioValues.groupid != undefined) {
+    if (radioValues.groupid != value && key == 'groupid' && radioValues.groupid != undefined) {
       setRadioValues({
-        sectionGroupTypeId: "",
-        sectionClassementId: "",
+        sectionGroupTypeId: '',
+        sectionClassementId: '',
         difficultyLevel: radioValues?.difficultyLevel,
         groupid: value,
       });
       setConfigurationValues({
-        configurationOne: "",
-        configurationTwo: "",
-        configurationThree: "",
+        configurationOne: '',
+        configurationTwo: '',
+        configurationThree: '',
       });
       setFilters([]);
-      setFiltersCount([])
+      setFiltersCount([]);
     }
   };
 
@@ -89,48 +89,50 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
       ...obj,
       id: configid,
     });
-    if (radioValues.groupid != value && key == "groupid" && radioValues.groupid != undefined) {
+    if (radioValues.groupid != value && key == 'groupid' && radioValues.groupid != undefined) {
       setConfigurationValues({
-        configurationOne: "",
-        configurationTwo: "",
-        configurationThree: "",
+        configurationOne: '',
+        configurationTwo: '',
+        configurationThree: '',
       });
     }
   };
 
   ///for filter
-  const setCheckBoxFilters = (key, value, checked, sectionGroupId,filterType,index) => {
-    const obj = {sectionGroupId:sectionGroupId};
+  const setCheckBoxFilters = (key, value, checked, sectionGroupId, filterType, index) => {
+    const obj = { sectionGroupId: sectionGroupId };
     obj[key] = value;
 
-    const obj2={
-      filtertype:filterType,
-      index:index
+    const obj2 = {
+      filtertype: filterType,
+      index: index,
+    };
+    setFiltersCount((pre) => [...pre, obj2]);
+    if (checked) {
+      setFilters((pre) => [...pre, obj]);
     }
-    setFiltersCount((pre)=>[...pre,obj2])
-    if(checked){
-      setFilters((pre)=>([...pre, obj]))
+    if (!checked) {
+      setFiltersCount((pre) => [...pre.filter((_) => _?.filtertype != filterType)]);
+      setFilters((pre) => [...pre.filter((val) => val?.sectionFilterId != value)]);
+      filterData?.groups
+        .filter((val) => val?.sectionGroupId == sectionGroupId)
+        .map((valueToSearch) => {
+          let index = valueToSearch?.sectionFilters?.findIndex((_) => {
+            return _?.sectionFilterId == value;
+          });
+          if (index >= 0) {
+            valueToSearch.sectionFilters[index].isSelected = false;
+          }
+        });
     }
-     if(!checked){
-  setFiltersCount((pre)=>[...pre.filter((_)=>(_?.filtertype!=filterType))])
-  setFilters((pre)=>([...pre.filter((val)=>val?.sectionFilterId!=value)]))
-  filterData?.groups.filter((val)=>(val?.sectionGroupId==sectionGroupId)).map((valueToSearch)=>{
-   let index =  valueToSearch?.sectionFilters?.findIndex((_)=>{
-    return _?.sectionFilterId==value
-  }) 
-  if(index>=0){
-    valueToSearch.sectionFilters[index].isSelected=false
-  }
-    })
-     }
-    if (radioValues.groupid != value && key == "groupid" && radioValues.groupid != undefined) {
+    if (radioValues.groupid != value && key == 'groupid' && radioValues.groupid != undefined) {
       setFilters([]);
-      setFiltersCount([])
+      setFiltersCount([]);
     }
   };
   ///
   const getTabData = () => {
-    api("get", "/api/v1/categories/getall").then((res) => {
+    api('get', '/api/v1/categories/getall').then((res) => {
       setchecklistId(res?.data[0]?.sectionCategoryId);
       updatestore({
         implantationDataid: res?.data[0]?.sectionCategoryId,
@@ -182,19 +184,14 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
       //   : false,
       caseFileId: store?.caseFileId,
       difficultyLevel: radioValues?.difficultyLevel,
-      filters:filters
+      filters: filters,
     };
 
     if (store?.caseFileId) {
-      if (
-        obj?.sectionGroupId &&
-        obj?.difficultyLevel &&
-        obj?.sectionGroupTypeId &&
-       filters
-      ) {
-        api("post", "/api/v1/casefiles/save_section_filters", obj).then((res) => {
+      if (obj?.sectionGroupId && obj?.difficultyLevel && obj?.sectionGroupTypeId && filters) {
+        api('post', '/api/v1/casefiles/save_section_filters', obj).then((res) => {
           if (res?.data?.success === true) {
-            toast.success(t("Successfull"));
+            toast.success(t('Successfull'));
             updatestore({ Sectionfilterdatasaved: true });
             updatestore({
               activeNavbarTab: 2,
@@ -222,10 +219,10 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
           }
         });
       } else {
-        toast.error("Veuillez remplir tous les filtres et le niveau de difficulté");
+        toast.error('Veuillez remplir tous les filtres et le niveau de difficulté');
       }
     } else {
-      toast.error("ID de dossier manquant");
+      toast.error('ID de dossier manquant');
     }
   };
   return (
@@ -240,15 +237,15 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
           });
         }}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: "0.6px solid #C5D3DB",
-          padding: "8px 10px",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          color: "#ffffff",
-          width: "96%",
-          margin: "auto",
+          display: 'flex',
+          justifyContent: 'space-between',
+          borderBottom: '0.6px solid #C5D3DB',
+          padding: '8px 10px',
+          backgroundColor: '#3675B7',
+          borderRadius: '5px',
+          color: '#ffffff',
+          width: '96%',
+          margin: 'auto',
         }}
       >
         <Typography variant="h6"> reglementaions</Typography>
@@ -256,29 +253,29 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
       </Box>
       <Accordion
         sx={{
-          margin: "10px auto !important",
-          borderRadius: "10px",
-          width: "97.5%",
+          margin: '10px auto !important',
+          borderRadius: '10px',
+          width: '97.5%',
         }}
         expanded={Toggler.togglerSectionFilter ? true : false}
       >
-        <AccordionSummary sx={{ display: "none" }} aria-controls="panel1a-content" id="panel1a-header"></AccordionSummary>
+        <AccordionSummary sx={{ display: 'none' }} aria-controls="panel1a-content" id="panel1a-header"></AccordionSummary>
         <AccordionDetails>
-          <Item sx={{ boxShadow: "none", width: "97%", margin: "auto" }}>
+          <Item sx={{ boxShadow: 'none', width: '97%', margin: 'auto' }}>
             <form type="submit" onSubmit={handleSubmit}>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {filterData?.groups?.map((val) => (
                   <>
-                    <div style={{ width: "100%", padding: "2% 0%" }} className="heading-establishment">
+                    <div style={{ width: '100%', padding: '2% 0%' }} className="heading-establishment">
                       <span className="checklist-heading line">{val?.name}</span>
-                      <Box sx={{ textAlign: "start", width: "5%" }}>
+                      <Box sx={{ textAlign: 'start', width: '5%' }}>
                         <CustomRadioButton
                           setState={setRadioValues}
                           id={val?.sectionGroupId}
@@ -286,16 +283,16 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                           For={val?.name}
                           Name="groupid"
                           onChange={(e) => {
-                            _setState("groupid", val?.sectionGroupId);
+                            _setState('groupid', val?.sectionGroupId);
                           }}
                           {...label}
                         />
                       </Box>
                       <Box
                         sx={{
-                          borderTop: "3px solid #C5D3DB",
-                          width: "100%",
-                          marginTop: "12px",
+                          borderTop: '3px solid #C5D3DB',
+                          width: '100%',
+                          marginTop: '12px',
                         }}
                       ></Box>
                     </div>
@@ -305,7 +302,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                           {val?.groupTypes.map((grouptypes) => (
                             <>
                               <div className="radion-btn-text-container">
-                                <span style={{ textAlign: "start" }} className="radio-btn-name-text">
+                                <span style={{ textAlign: 'start' }} className="radio-btn-name-text">
                                   {grouptypes?.name}
                                 </span>
                                 <CustomRadioButton
@@ -321,7 +318,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                     //   ||
                                     //   (grouptypes?.isSelected && filterData?.selectedSectionGroupId===val?.sectionGroupId && val?.sectionGroupId==radioValues?.groupid)
                                   }
-                                  onChange={(e) => _setState("sectionGroupTypeId", grouptypes?.sectionGroupTypeId)}
+                                  onChange={(e) => _setState('sectionGroupTypeId', grouptypes?.sectionGroupTypeId)}
                                   setState={setRadioValues}
                                   Name="types"
                                   For={grouptypes?.name}
@@ -338,15 +335,15 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                       <>
                         <div
                           style={{
-                            borderTop: val?.groupClassements.length > 0 ? "1px solid #C5D3DB" : "",
-                            width: "100%",
+                            borderTop: val?.groupClassements.length > 0 ? '1px solid #C5D3DB' : '',
+                            width: '100%',
                           }}
                         ></div>
                         <div className="radio-btn-container">
                           {val?.groupClassements.map((groupClassements) => (
                             <>
-                              <div style={{ textAlign: "start" }} className="radion-btn-text-container">
-                                <span style={{ width: "80%" }} className="radio-btn-name-text">
+                              <div style={{ textAlign: 'start' }} className="radion-btn-text-container">
+                                <span style={{ width: '80%' }} className="radio-btn-name-text">
                                   {groupClassements?.name}
                                 </span>
                                 <CustomRadioButton
@@ -363,7 +360,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                     //    (store.activeCase === "currentcases" && groupClassements?.isSelected && !radioValues?.sectionClassementId)
                                   }
                                   textAlign={true}
-                                  onChange={(e) => _setState("sectionClassementId", groupClassements.sectionClassementId)}
+                                  onChange={(e) => _setState('sectionClassementId', groupClassements.sectionClassementId)}
                                   setState={setRadioValues}
                                   Name="classements"
                                   For={groupClassements?.name}
@@ -379,25 +376,32 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                     <div
                       className="radio-btn-container"
                       style={{
-                        borderTop: "1px solid #C5D3DB",
-                        width: "99%",
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "0% 0.4%",
+                        borderTop: '1px solid #C5D3DB',
+                        width: '99%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0% 0.4%',
                       }}
                     >
-                      <div style={{ display: "flex" }}>
+                      <div style={{ display: 'flex' }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 1)
-                          .map((_,i) => (
+                          .map((_, i) => (
                             <>
-                              <div style={{ width: "25%" }} className="radion-btn-text-container">
-                                <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
+                              <div style={{ width: '25%' }} className="radion-btn-text-container">
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
                                   {_?.name}
                                 </span>
                                 <CustomCheckBox
                                   onChange={(e) => {
-                                    setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
+                                    setCheckBoxFilters(
+                                      'sectionFilterId',
+                                      _?.sectionFilterId,
+                                      e.target.checked,
+                                      val?.sectionGroupId,
+                                      _?.filterType,
+                                      i
+                                    );
                                   }}
                                   id={_?.sectionFilterId}
                                   setCheckBoxFilters={setFilters}
@@ -406,17 +410,9 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                                   btnName="Simple RDC"
                                   disabled={val?.sectionGroupId != radioValues?.groupid}
                                   checked={
-                                    (
-                                    radioValues?.groupid==val?.sectionGroupId 
-                                    && 
-                                    filters.filter((value)=>value?.sectionFilterId==_?.sectionFilterId).length>0
-                                    )
-                                    ||
-                                    (
-                                      radioValues?.groupid==val?.sectionGroupId 
-                                       &&
-                                       _?.isSelected 
-                                    )
+                                    (radioValues?.groupid == val?.sectionGroupId &&
+                                      filters.filter((value) => value?.sectionFilterId == _?.sectionFilterId).length > 0) ||
+                                    (radioValues?.groupid == val?.sectionGroupId && _?.isSelected)
                                   }
                                 />
                               </div>
@@ -427,44 +423,43 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                     <div
                       className="radio-btn-container"
                       style={{
-                        borderTop: "1px solid #C5D3DB",
-                        width: "99%",
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "0% 0.4%",
+                        borderTop: '1px solid #C5D3DB',
+                        width: '99%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0% 0.4%',
                       }}
                     >
-                      <div style={{ display: "flex" }}>
+                      <div style={{ display: 'flex' }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 2)
-                          .map((_,i) => (
+                          .map((_, i) => (
                             <>
-                              <div style={{ width: "25%" }} className="radion-btn-text-container">
-                                <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
+                              <div style={{ width: '25%' }} className="radion-btn-text-container">
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
                                   {_?.name}
                                 </span>
                                 <CustomCheckBox
-                                 onChange={(e) => {
-                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
-                                }}
-                                id={_?.sectionFilterId}
-                                setCheckBoxFilters={setFilters}
+                                  onChange={(e) => {
+                                    setCheckBoxFilters(
+                                      'sectionFilterId',
+                                      _?.sectionFilterId,
+                                      e.target.checked,
+                                      val?.sectionGroupId,
+                                      _?.filterType,
+                                      i
+                                    );
+                                  }}
+                                  id={_?.sectionFilterId}
+                                  setCheckBoxFilters={setFilters}
                                   Name="configrationone"
                                   // For="simplerdc"
                                   btnName="Simple RDC"
                                   disabled={val?.sectionGroupId != radioValues?.groupid}
                                   checked={
-                                    (
-                                    radioValues?.groupid==val?.sectionGroupId 
-                                    && 
-                                    filters.filter((value)=>value?.sectionFilterId==_?.sectionFilterId).length>0
-                                    )
-                                    ||
-                                    (
-                                      radioValues?.groupid==val?.sectionGroupId 
-                                       &&
-                                       _?.isSelected 
-                                    )
+                                    (radioValues?.groupid == val?.sectionGroupId &&
+                                      filters.filter((value) => value?.sectionFilterId == _?.sectionFilterId).length > 0) ||
+                                    (radioValues?.groupid == val?.sectionGroupId && _?.isSelected)
                                   }
                                 />
                               </div>
@@ -475,44 +470,43 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                     <div
                       className="radio-btn-container"
                       style={{
-                        borderTop: "1px solid #C5D3DB",
-                        width: "99%",
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "0% 0.4%",
+                        borderTop: '1px solid #C5D3DB',
+                        width: '99%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '0% 0.4%',
                       }}
                     >
-                      <div style={{ display: "flex" }}>
+                      <div style={{ display: 'flex' }}>
                         {val?.sectionFilters
                           ?.filter((val) => val?.filterType == 3)
-                          .map((_,i) => (
+                          .map((_, i) => (
                             <>
-                              <div style={{ width: "25%" }} className="radion-btn-text-container">
-                                <span style={{ textAlign: "start", width: "100%" }} className="radio-btn-name-text">
+                              <div style={{ width: '25%' }} className="radion-btn-text-container">
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
                                   {_?.name}
                                 </span>
                                 <CustomCheckBox
-                                 onChange={(e) => {
-                                  setCheckBoxFilters("sectionFilterId", _?.sectionFilterId,e.target.checked,val?.sectionGroupId,_?.filterType,i);
-                                }}
-                                id={_?.sectionFilterId}
-                                setCheckBoxFilters={setFilters}
+                                  onChange={(e) => {
+                                    setCheckBoxFilters(
+                                      'sectionFilterId',
+                                      _?.sectionFilterId,
+                                      e.target.checked,
+                                      val?.sectionGroupId,
+                                      _?.filterType,
+                                      i
+                                    );
+                                  }}
+                                  id={_?.sectionFilterId}
+                                  setCheckBoxFilters={setFilters}
                                   Name="configrationone"
                                   // For="simplerdc"
                                   btnName="Simple RDC"
                                   disabled={val?.sectionGroupId != radioValues?.groupid}
                                   checked={
-                                    (
-                                    radioValues?.groupid==val?.sectionGroupId 
-                                    && 
-                                    filters.filter((value)=>value?.sectionFilterId==_?.sectionFilterId).length>0
-                                    )
-                                    ||
-                                    (
-                                      radioValues?.groupid==val?.sectionGroupId 
-                                       &&
-                                       _?.isSelected 
-                                    )
+                                    (radioValues?.groupid == val?.sectionGroupId &&
+                                      filters.filter((value) => value?.sectionFilterId == _?.sectionFilterId).length > 0) ||
+                                    (radioValues?.groupid == val?.sectionGroupId && _?.isSelected)
                                   }
                                 />
                               </div>
@@ -524,37 +518,37 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                 ))}
               </div>
               <>
-                <div style={{ width: "100%", padding: "1% 0%" }} className="heading-establishment">
+                <div style={{ width: '100%', padding: '1% 0%' }} className="heading-establishment">
                   <span className="checklist-heading line">Niveau de difficulté</span>
 
                   <Box
                     sx={{
-                      borderTop: "3px solid #C5D3DB",
-                      width: "100%",
-                      marginTop: "12px",
+                      borderTop: '3px solid #C5D3DB',
+                      width: '100%',
+                      marginTop: '12px',
                     }}
                   ></Box>
                 </div>
                 <div
                   style={{
-                    width: "99%",
-                    borderBottom: "1px solid #C5D3DB",
-                    textAlign: "start",
-                    margin: "auto",
+                    width: '99%',
+                    borderBottom: '1px solid #C5D3DB',
+                    textAlign: 'start',
+                    margin: 'auto',
                   }}
                   className="radion-btn-text-container"
                 >
                   <div
                     style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "83%",
-                      padding: "1% 0%",
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '83%',
+                      padding: '1% 0%',
                     }}
                   >
-                    <div style={{ width: "41%" }} className="levels">
-                      <span style={{ width: "47%" }} className="radio-btn-name-text">
+                    <div style={{ width: '41%' }} className="levels">
+                      <span style={{ width: '47%' }} className="radio-btn-name-text">
                         N1
                       </span>
                       <CustomRadioButton
@@ -563,24 +557,24 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                         For="none"
                         btnName="none"
                         width="auto"
-                        onChange={(e) => _setState("difficultyLevel", 1)}
+                        onChange={(e) => _setState('difficultyLevel', 1)}
                         setState={setRadioValues}
                       />
                     </div>
-                    <div style={{ width: "45%" }} className="levels">
-                      <span style={{ width: "46%" }}>N2</span>
+                    <div style={{ width: '45%' }} className="levels">
+                      <span style={{ width: '46%' }}>N2</span>
                       <CustomRadioButton
                         checked={radioValues?.difficultyLevel == 2}
                         Name="difficultylevels"
                         For="ntwo"
                         btnName="ntwo"
                         width="auto"
-                        onChange={(e) => _setState("difficultyLevel", 2)}
+                        onChange={(e) => _setState('difficultyLevel', 2)}
                         setState={setRadioValues}
                       />
                     </div>
-                    <div style={{ width: "45%" }} className="levels">
-                      <span style={{ width: "42%" }} className="radio-btn-name-text">
+                    <div style={{ width: '45%' }} className="levels">
+                      <span style={{ width: '42%' }} className="radio-btn-name-text">
                         N3
                       </span>
                       <CustomRadioButton
@@ -589,7 +583,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
                         For="nthree"
                         btnName="nthree"
                         width="auto"
-                        onChange={(e) => _setState("difficultyLevel", 3)}
+                        onChange={(e) => _setState('difficultyLevel', 3)}
                         setState={setRadioValues}
                       />
                     </div>
@@ -598,37 +592,37 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
               </>
               <Box
                 sx={{
-                  textAlign: "right",
-                  width: "100%",
-                  paddingTop: "5px",
+                  textAlign: 'right',
+                  width: '100%',
+                  paddingTop: '5px',
                 }}
               >
-                {store.activeCase === "newcase" ? (
+                {store.activeCase === 'newcase' ? (
                   <Button
                     type="submit"
                     disabled={!store?.validatedSections?.rankingvalidated ? true : false}
                     endIcon={<img className="icon-validate" src={Rightarrow} />}
                     sx={{
-                      background: "#3675B7",
-                      ":hover": { background: "#3675B7" },
+                      background: '#3675B7',
+                      ':hover': { background: '#3675B7' },
                     }}
                     variant="contained"
                   >
-                    {t("VALIDATE")}
+                    {t('VALIDATE')}
                   </Button>
                 ) : null}
-                {store.activeCase === "currentcases" ? (
+                {store.activeCase === 'currentcases' ? (
                   <Button
                     type="submit"
                     disabled={!store?.validatedSections?.rankingvalidated && !Icon.iconranking ? true : false}
                     endIcon={<img className="icon-validate" src={Rightarrow} />}
                     sx={{
-                      background: "#3675B7",
-                      ":hover": { background: "#3675B7" },
+                      background: '#3675B7',
+                      ':hover': { background: '#3675B7' },
                     }}
                     variant="contained"
                   >
-                    {t("VALIDATE")}
+                    {t('VALIDATE')}
                   </Button>
                 ) : null}
               </Box>

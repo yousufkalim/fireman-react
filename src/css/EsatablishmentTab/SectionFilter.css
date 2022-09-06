@@ -1,0 +1,11 @@
+.main-selector-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cts-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}

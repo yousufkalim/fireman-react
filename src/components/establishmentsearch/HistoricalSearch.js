@@ -1,32 +1,32 @@
-import React, { useEffect, useState,useRef } from "react";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
-import api from "../../api/index";
-import { Store } from "../../StoreContext";
-import { UpdateStore } from "../../StoreContext";
-import { toast } from "react-toastify";
-import DialogBox from "../DialogBox";
-import don from "../../assets/donne.svg";
-import Button from "@mui/material/Button";
-import Rightarrow from "../../assets/rightarrow.png";
-import StaffLevel from "./StaffLevel";
-import { useTranslation } from "react-i18next";
-import EstablishmentLevel from './EstablishmentLevel'
-import CreateHistoricalData from "./CreateHistoricalData";
-import SectionFilter from './SectionFilter'
-import SectionFilterCheckBox from './SectionFilterCheckBox'
-import Ranking from "./Ranking";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-
+import React, { useEffect, useState, useRef } from 'react';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import api from '../../api/index';
+import { Store } from '../../StoreContext';
+import { UpdateStore } from '../../StoreContext';
+import { toast } from 'react-toastify';
+import DialogBox from '../DialogBox';
+import don from '../../assets/donne.svg';
+import Button from '@mui/material/Button';
+import Rightarrow from '../../assets/rightarrow.png';
+import StaffLevel from './StaffLevel';
+import { useTranslation } from 'react-i18next';
+import EstablishmentLevel from './EstablishmentLevel';
+import CreateHistoricalData from './CreateHistoricalData';
+import SectionFilter from './SectionFilter';
+import SectionFilters from './SectionFilters';
+import SectionFilterCheckBox from './SectionFilterCheckBox';
+import Ranking from './Ranking';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  textAlign: "center",
+  textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
 const HistoricalSearch = ({ generalDataEstablishment }) => {
@@ -39,144 +39,108 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
     establishmentlevel: false,
     togglerstafflevel: false,
     togglerranking: false,
-    togglerSectionFilter:false
+    togglerSectionFilter: false,
   });
   const [Icon, setIcon] = useState({
     iconhistoricalsearch:
-      (store.activeCase === "currentcases" &&
+      (store.activeCase === 'currentcases' &&
         (store.sectionindex === 1 ||
           store.sectionindex === 2 ||
           store.sectionindex === 3 ||
           store.sectionindex === 4 ||
           store.sectionindex === 5 ||
-          store.sectionindex === 6 
-          ) &&
-        store?.tabindex === 2)
-        ||
-        store.chapterIndex
+          store.sectionindex === 6) &&
+        store?.tabindex === 2) ||
+      store.chapterIndex
         ? true
         : false,
     createhistoricaldata:
-      (store.activeCase === "currentcases" &&
+      (store.activeCase === 'currentcases' &&
         (store.sectionindex === 2 ||
           store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5
-          ||
-          store.sectionindex === 6 
-          ) &&
+          store.sectionindex === 5 ||
+          store.sectionindex === 6) &&
         store?.tabindex === 2) ||
-          store.chapterIndex
+      store.chapterIndex
         ? true
         : false,
     establishmentlevel:
-      (store.activeCase === "currentcases" &&
+      (store.activeCase === 'currentcases' &&
         (store.sectionindex === 3 ||
           store.sectionindex === 4 ||
-          store.sectionindex === 5
-          ||
+          store.sectionindex === 5 ||
           store.sectionindex === 6 ||
-          store.chapterIndex
-          ) &&
+          store.chapterIndex) &&
         store?.tabindex === 2) ||
-          store.chapterIndex
+      store.chapterIndex
         ? true
         : false,
     iconstafflevel:
-      (store.activeCase === "currentcases" &&
+      (store.activeCase === 'currentcases' &&
         (store.sectionindex === 4 || store.sectionindex === 5 || store.sectionindex === 6 || store.chapterIndex) &&
         store?.tabindex === 2) ||
-          store.chapterIndex
+      store.chapterIndex
         ? true
         : false,
     iconranking:
-      (store.activeCase === "currentcases" &&
-      (store.sectionindex === 5 
-      ||
-        store.sectionindex === 6 ||
-        store.chapterIndex ||
-        store.chapterIndex) &&
+      (store.activeCase === 'currentcases' &&
+        (store.sectionindex === 5 || store.sectionindex === 6 || store.chapterIndex || store.chapterIndex) &&
         store?.tabindex === 2) ||
-          store.chapterIndex
+      store.chapterIndex
         ? true
         : false,
-        iconsectionfilter:
-        (store.activeCase === "currentcases" &&
-        store.sectionindex === 6 || store.chapterIndex &&
-        store?.tabindex === 2) ||
-          store.chapterIndex
+    iconsectionfilter:
+      (store.activeCase === 'currentcases' && store.sectionindex === 6) ||
+      (store.chapterIndex && store?.tabindex === 2) ||
+      store.chapterIndex
         ? true
         : false,
   });
   const [buttonEnability, setButtonEnability] = useState({
-    historicalmainbutton:
-      store.buttonenable || store.activeCase === "currentcases" ? false : true,
-    historicalsearchbutton: store.activeCase === "currentcases" ? false : true,
-    establishmentlevelbutton:
-      store.activeCase === "currentcases" ? false : true,
-    stafftablebutton: store.activeCase === "currentcases" ? false : true,
-    Rankingbutton: store.activeCase === "currentcases" ? false : true,
-    Sectionfilterbutton:store.activeCase === "currentcases" ? false : true,
+    historicalmainbutton: store.buttonenable || store.activeCase === 'currentcases' ? false : true,
+    historicalsearchbutton: store.activeCase === 'currentcases' ? false : true,
+    establishmentlevelbutton: store.activeCase === 'currentcases' ? false : true,
+    stafftablebutton: store.activeCase === 'currentcases' ? false : true,
+    Rankingbutton: store.activeCase === 'currentcases' ? false : true,
+    Sectionfilterbutton: store.activeCase === 'currentcases' ? false : true,
   });
   const [open, setOpen] = useState(false);
-  const [messageText, setMessageText] = useState("");
+  const [messageText, setMessageText] = useState('');
   const [dropdownValue, setdropdownValue] = useState({
-    tracktype: "",
-    status: "",
-    cityId: "",
+    tracktype: '',
+    status: '',
+    cityId: '',
   });
 
-  const [historicalDataEstablishment, setHistoricalDataEstablishment] =
-    useState([]);
+  const [historicalDataEstablishment, setHistoricalDataEstablishment] = useState([]);
   const [inputValues, setInputValues] = useState({});
   const inputRef = useRef(null);
   const inputRefone = useRef(null);
   const inputRefemail = useRef(null);
   useEffect(() => {
     setInputValues({
-      establishmentName: generalDataEstablishment.establishmentName
-        ? generalDataEstablishment.establishmentName
-        : "",
-      statusId: generalDataEstablishment.statusId
-        ? generalDataEstablishment.statusId
-        : "",
-      cityId: generalDataEstablishment.cityId
-        ? generalDataEstablishment.cityId
-        : "",
-      trackTypeId: generalDataEstablishment.trackTypeId
-        ? generalDataEstablishment.trackTypeId
-        : "",
-      zipCode: generalDataEstablishment.zipCode
-        ? generalDataEstablishment.zipCode
-        : "",
-      channelName: generalDataEstablishment.channelName
-        ? generalDataEstablishment.channelName
-        : "",
-      securityManagerName: generalDataEstablishment.securityManagerName
-        ? generalDataEstablishment.securityManagerName
-        : "",
+      establishmentName: generalDataEstablishment.establishmentName ? generalDataEstablishment.establishmentName : '',
+      statusId: generalDataEstablishment.statusId ? generalDataEstablishment.statusId : '',
+      cityId: generalDataEstablishment.cityId ? generalDataEstablishment.cityId : '',
+      trackTypeId: generalDataEstablishment.trackTypeId ? generalDataEstablishment.trackTypeId : '',
+      zipCode: generalDataEstablishment.zipCode ? generalDataEstablishment.zipCode : '',
+      channelName: generalDataEstablishment.channelName ? generalDataEstablishment.channelName : '',
+      securityManagerName: generalDataEstablishment.securityManagerName ? generalDataEstablishment.securityManagerName : '',
       securityManagerLastName: generalDataEstablishment.securityManagerLastName
         ? generalDataEstablishment.securityManagerLastName
-        : "",
-      securityManagerMobile: generalDataEstablishment.securityManagerMobile
-        ? generalDataEstablishment.securityManagerMobile
-        : "",
-      securityManagerEmail: generalDataEstablishment.securityManagerEmail
-        ? generalDataEstablishment.securityManagerEmail
-        : "",
-      estNumber: generalDataEstablishment.estNumber
-        ? generalDataEstablishment.estNumber
-        : "",
-        RefNo: generalDataEstablishment.refNo
-        ? generalDataEstablishment.refNo
-        : "",
-        Commune:generalDataEstablishment?.commune?generalDataEstablishment?.commune:""
+        : '',
+      securityManagerMobile: generalDataEstablishment.securityManagerMobile ? generalDataEstablishment.securityManagerMobile : '',
+      securityManagerEmail: generalDataEstablishment.securityManagerEmail ? generalDataEstablishment.securityManagerEmail : '',
+      estNumber: generalDataEstablishment.estNumber ? generalDataEstablishment.estNumber : '',
+      RefNo: generalDataEstablishment.refNo ? generalDataEstablishment.refNo : '',
+      Commune: generalDataEstablishment?.commune ? generalDataEstablishment?.commune : '',
     });
 
     getTabData();
   }, [generalDataEstablishment]);
   useEffect(() => {
-    api("get", "/api/v1/status/dropdown").then((res) => {
+    api('get', '/api/v1/status/dropdown').then((res) => {
       setdropdownValue((preVal) => {
         return {
           ...preVal,
@@ -184,7 +148,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       });
     });
-    api("get", "/api/v1/tracktype/dropdown").then((res) =>
+    api('get', '/api/v1/tracktype/dropdown').then((res) =>
       setdropdownValue((preVal) => {
         return {
           ...preVal,
@@ -192,7 +156,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         };
       })
     );
-    api("get", "/api/v1/city/dropdown").then((res) =>
+    api('get', '/api/v1/city/dropdown').then((res) =>
       setdropdownValue((preVal) => {
         return {
           ...preVal,
@@ -201,26 +165,23 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       })
     );
 
-    api(
-      "get",
-      `/api/v1/get_historicaldata_establishment/${store.establishmentId}`
-    ).then((res) => {
+    api('get', `/api/v1/get_historicaldata_establishment/${store.establishmentId}`).then((res) => {
       setHistoricalDataEstablishment(res.data);
     });
   }, []);
-  const setCommunedata = (text,id)=>{
-    setInputValues((pre)=>{
-      return{
-       ...pre,
-       cityId:id,
-       Commune:text
-      }
-    })
-  }
+  const setCommunedata = (text, id) => {
+    setInputValues((pre) => {
+      return {
+        ...pre,
+        cityId: id,
+        Commune: text,
+      };
+    });
+  };
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    if (inputValues.statusId === "2" && value !== "2" && name === "statusId") {
+    if (inputValues.statusId === '2' && value !== '2' && name === 'statusId') {
       setOpen(true);
       setMessageText(
         `${t(
@@ -228,7 +189,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         )}`
       );
     }
-    if (inputValues.statusId !== "2" && value === "2" && name === "statusId") {
+    if (inputValues.statusId !== '2' && value === '2' && name === 'statusId') {
       setOpen(true);
       setMessageText(
         `${t(
@@ -236,10 +197,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         )}`
       );
     }
-    if (
-      inputValues.establishmentName !== store.establishmentname &&
-      name === "establishmentName"
-    ) {
+    if (inputValues.establishmentName !== store.establishmentname && name === 'establishmentName') {
       setTimeout(() => {
         setOpen(true);
         setMessageText(
@@ -263,7 +221,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       establishmentId: store.establishmentId,
       caseFileId: store.caseFileId,
     };
-    api("put", `/api/v1/update_generaldata_establishment`, updatedObj)
+    api('put', `/api/v1/update_generaldata_establishment`, updatedObj)
       .then((res) => {
         if (res.data === true) {
           setButtonEnability((pre) => {
@@ -272,7 +230,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
               historicalsearchbutton: false,
             };
           });
-          toast.success(t("Successfull"));
+          toast.success(t('Successfull'));
           setToggler((pre) => {
             return {
               ...pre,
@@ -286,10 +244,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
             };
           });
           updatestore({
-            validatedSections: {...store?.validatedSections,
-            historicalsearchvalidated:true
-            }
-          })
+            validatedSections: { ...store?.validatedSections, historicalsearchvalidated: true },
+          });
         }
       })
       .catch((err) => {
@@ -297,10 +253,10 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
       });
   };
   const getTabData = () => {
-    api("get", "/api/v1/categories/getall").then((res) => {
+    api('get', '/api/v1/categories/getall').then((res) => {
       updatestore({
-        implantationDataid:res?.data[0]?.orderNum
-      })
+        implantationDataid: res?.data[0]?.orderNum,
+      });
     });
   };
   return (
@@ -315,81 +271,62 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
           });
         }}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          borderBottom: "0.6px solid #C5D3DB",
-          padding: "8px 10px",
-          backgroundColor: "#3675B7",
-          borderRadius: "5px",
-          color: "#ffffff",
-          width: "96%",
-          margin: "auto",
+          display: 'flex',
+          justifyContent: 'space-between',
+          borderBottom: '0.6px solid #C5D3DB',
+          padding: '8px 10px',
+          backgroundColor: '#3675B7',
+          borderRadius: '5px',
+          color: '#ffffff',
+          width: '96%',
+          margin: 'auto',
         }}
       >
-        <Typography variant="h6">{t("General data")}</Typography>
-        {Icon.iconhistoricalsearch || store?.validatedSections?.historicalsearchvalidated? <img src={don} /> : null}
+        <Typography variant="h6">{t('General data')}</Typography>
+        {Icon.iconhistoricalsearch || store?.validatedSections?.historicalsearchvalidated ? <img src={don} /> : null}
       </Box>
       <Accordion
         sx={{
-          margin: "10px auto !important",
-          borderRadius: "10px",
-          width: "97.5%",
+          margin: '10px auto !important',
+          borderRadius: '10px',
+          width: '97.5%',
         }}
         expanded={Toggler.togglerhistoricalsearch ? true : false}
       >
-        <AccordionSummary
-          sx={{ display: "none" }}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        ></AccordionSummary>
+        <AccordionSummary sx={{ display: 'none' }} aria-controls="panel1a-content" id="panel1a-header"></AccordionSummary>
         <AccordionDetails>
           <Item
             sx={{
-              borderRadius: "10px",
-              width: "97%",
-              margin: "auto",
-              boxShadow: "none",
+              borderRadius: '10px',
+              width: '97%',
+              margin: 'auto',
+              boxShadow: 'none',
             }}
           >
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
               <Grid item md={12}>
-                <DialogBox
-                  setOpen={setOpen}
-                  messageText={messageText}
-                  open={open}
-                />
-                <form
-                  className="establishment-form"
-                  type="submit"
-                  autoComplete="off"
-                  onSubmit={handleSubmit}
-                >
+                <DialogBox setOpen={setOpen} messageText={messageText} open={open} />
+                <form className="establishment-form" type="submit" autoComplete="off" onSubmit={handleSubmit}>
                   <Box>
                     <div className="heading-establishment">
-                      <span className="checklist-heading line">
-                        {" "}
-                        Nom et statut
-                      </span>
+                      <span className="checklist-heading line"> Nom et statut</span>
                       <Box
                         sx={{
-                          borderTop: "3px solid #C5D3DB",
-                          width: "100%",
-                          marginTop: "12px",
+                          borderTop: '3px solid #C5D3DB',
+                          width: '100%',
+                          marginTop: '12px',
                         }}
                       ></Box>
                     </div>
 
-                    <Box sx={{ display: "flex", padding: "10px 0px" }}>
+                    <Box sx={{ display: 'flex', padding: '10px 0px' }}>
                       <div className="flex-form">
-                        <label className="label-color label-general">
-                          {" "}
-                          {t("Name")}
-                        </label>
+                        <label className="label-color label-general"> {t('Name')}</label>
                         <input
                           required
                           autocomplete="off"
@@ -397,8 +334,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="establishmentName"
                           value={inputValues.establishmentName}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form">
@@ -410,16 +347,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="RefNo"
                           value={inputValues.RefNo}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form channel-name">
-                        <label
-                          style={{ marginLeft: "" }}
-                          className="label-color"
-                        >
-                          {t("Status")}
+                        <label style={{ marginLeft: '' }} className="label-color">
+                          {t('Status')}
                         </label>
                         <select
                           className="dropdown statusid"
@@ -429,8 +363,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           value={inputValues.statusId}
                           required
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.status.data?.map((item) => (
@@ -444,47 +378,42 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </Box>
 
                   <Box>
-                    <Box sx={{ display: "flex", padding: "10px 0px" }}>
+                    <Box sx={{ display: 'flex', padding: '10px 0px' }}>
                       <div className="flex-form">
-                        <label className="label-color label-general">
-                          {t("Number")}
-                        </label>
+                        <label className="label-color label-general">{t('Number')}</label>
                         <input
                           ref={inputRefone}
                           autocomplete="off"
                           type="search"
-                          onChange={(e)=>{
-                            setInputValues((pre)=>{
-                              return{
-                                 ...pre,
-                                 estNumber:e.target.value
-                              }
-                            })
-                            if(inputRefone.current.validity.patternMismatch){
-                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                          onChange={(e) => {
+                            setInputValues((pre) => {
+                              return {
+                                ...pre,
+                                estNumber: e.target.value,
+                              };
+                            });
+                            if (inputRefone.current.validity.patternMismatch) {
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère');
                             }
-                            if(!inputRefone.current.validity.patternMismatch){
-                              e.target.setCustomValidity('')
+                            if (!inputRefone.current.validity.patternMismatch) {
+                              e.target.setCustomValidity('');
                             }
-                            if(inputRefone.current.validity.valueMissing){
-                              e.target.setCustomValidity(`'Numéro de téléphone requis'`)
+                            if (inputRefone.current.validity.valueMissing) {
+                              e.target.setCustomValidity(`'Numéro de téléphone requis'`);
                             }
                           }}
                           name="estNumber"
                           required
                           value={inputValues.estNumber}
-                          
                           minlength="10"
                           maxlength="10"
-                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
-                           onInput={e => e.target.setCustomValidity('')}
-                           pattern="^0{1}[\d]{9}$"
+                          onInvalid={(e) => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                          onInput={(e) => e.target.setCustomValidity('')}
+                          pattern="^0{1}[\d]{9}$"
                         />
                       </div>
                       <div className="flex-form">
-                        <label className="label-color">
-                          {t("Channel type")}{" "}
-                        </label>
+                        <label className="label-color">{t('Channel type')} </label>
                         <select
                           className="dropdown dropdown-tracktype"
                           autocomplete="off"
@@ -493,8 +422,8 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           value={inputValues.trackTypeId}
                           required
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.tracktype.data?.map((item) => (
@@ -505,9 +434,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                         </select>
                       </div>
                       <div className="flex-form channel-name">
-                        <label className="label-color">
-                          {t("Channel name")}
-                        </label>
+                        <label className="label-color">{t('Channel name')}</label>
                         <input
                           required
                           autocomplete="off"
@@ -515,13 +442,13 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="channelName"
                           value={inputValues?.channelName?.toUpperCase()}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
 
-                    <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                       <div className="flex-form cp">
                         <label className="label-cp label-general">CP</label>
                         <input
@@ -531,26 +458,24 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="zipCode"
                           value={inputValues.zipCode}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form">
-                        <label className="label-color label-commune">
-                          {t("City")}{" "}
-                        </label>
+                        <label className="label-color label-commune">{t('City')} </label>
                         <select
                           className="dropdown commune-dropdown"
                           autocomplete="off"
                           type="select"
                           name="cityId"
                           value={inputValues.cityId}
-                          onChange={(e)=>{
-                            setCommunedata(e.target.selectedOptions[0].text,e.target.value);  
+                          onChange={(e) => {
+                            setCommunedata(e.target.selectedOptions[0].text, e.target.value);
                           }}
                           required
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         >
                           <option value="">Choisissez s'il vous plaît</option>
                           {dropdownValue.cityId.data?.map((item) => (
@@ -564,24 +489,19 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                   </Box>
                   <Box>
                     <div className="heading-establishment">
-                      <span className="checklist-heading heading-est">
-                        {" "}
-                        Responsable de sécurité
-                      </span>
+                      <span className="checklist-heading heading-est"> Responsable de sécurité</span>
                       <Box
                         sx={{
-                          borderTop: "3px solid #C5D3DB",
-                          width: "100%",
-                          marginTop: "11px",
-                          marginLeft: "12px",
+                          borderTop: '3px solid #C5D3DB',
+                          width: '100%',
+                          marginTop: '11px',
+                          marginLeft: '12px',
                         }}
                       ></Box>
                     </div>
-                    <Box sx={{ display: "flex" }}>
+                    <Box sx={{ display: 'flex' }}>
                       <div className="flex-form flex-form-responsable nom-et-form">
-                        <label className="label-color label-responsables">
-                          {t("Name")}{" "}
-                        </label>
+                        <label className="label-color label-responsables">{t('Name')} </label>
                         <input
                           required
                           autocomplete="off"
@@ -589,14 +509,12 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerLastName"
                           value={inputValues?.securityManagerLastName?.toUpperCase()}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                       <div className="flex-form nom-et-form">
-                        <label className="label-color label-responsables">
-                          {t("First name")}
-                        </label>
+                        <label className="label-color label-responsables">{t('First name')}</label>
                         <input
                           required
                           autocomplete="off"
@@ -604,75 +522,71 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
                           onChange={handleChange}
                           name="securityManagerName"
                           value={inputValues.securityManagerName}
-                          onInvalid={e => e.target.setCustomValidity('merci de remplir ce champ')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('merci de remplir ce champ')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                         />
                       </div>
                     </Box>
-                    <Box sx={{ display: "flex" }}>
+                    <Box sx={{ display: 'flex' }}>
                       <div className="flex-form flex-form-responsable">
-                        <label className="label-color label-responsables">
-                          Mobile{" "}
-                        </label>
+                        <label className="label-color label-responsables">Mobile </label>
                         <input
-                           ref={inputRef}
-                           autocomplete="off"
+                          ref={inputRef}
+                          autocomplete="off"
                           required
                           type="tel"
                           minlength="10"
                           maxlength="10"
-                          onChange={(e)=>{
-                            setInputValues((pre)=>{
-                            return{
-                              ...pre,
-                              securityManagerMobile:e.target.value
+                          onChange={(e) => {
+                            setInputValues((pre) => {
+                              return {
+                                ...pre,
+                                securityManagerMobile: e.target.value,
+                              };
+                            });
+                            if (inputRef.current.validity.patternMismatch) {
+                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère');
                             }
-                            })
-                            if(inputRef.current.validity.patternMismatch){
-                              e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')
+                            if (!inputRef.current.validity.patternMismatch) {
+                              e.target.setCustomValidity('');
                             }
-                            if(!inputRef.current.validity.patternMismatch){
-                              e.target.setCustomValidity('')
-                            }
-                            if(inputRef.current.validity.valueMissing){
-                              e.target.setCustomValidity(`'Numéro de téléphone requis'`)
+                            if (inputRef.current.validity.valueMissing) {
+                              e.target.setCustomValidity(`'Numéro de téléphone requis'`);
                             }
                           }}
                           name="securityManagerMobile"
                           value={inputValues.securityManagerMobile}
-                          onInvalid={e => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity('Le numéro doit contenir 10 chiffres et aucun caractère')}
+                          onInput={(e) => e.target.setCustomValidity('')}
                           pattern="^0{1}[\d]{9}$"
                         />
                       </div>
 
                       <div className="flex-form form-est-mail">
-                        <label className="label-color label-responsables">
-                          Mail
-                        </label>
+                        <label className="label-color label-responsables">Mail</label>
                         <input
-                         ref={inputRefemail}
-                         autocomplete="off"
+                          ref={inputRefemail}
+                          autocomplete="off"
                           required
                           type="email"
-                          onChange={(e)=>{
-                            setInputValues((pre)=>{
-                              return{
-                              ...pre,
-                              securityManagerEmail:e.target.value
-                              }
-                            })
-                            if(inputRefemail.current.validity.patternMismatch){
-                              e.target.setCustomValidity(`Format d'email invalide`)
+                          onChange={(e) => {
+                            setInputValues((pre) => {
+                              return {
+                                ...pre,
+                                securityManagerEmail: e.target.value,
+                              };
+                            });
+                            if (inputRefemail.current.validity.patternMismatch) {
+                              e.target.setCustomValidity(`Format d'email invalide`);
                             }
-                            if(!inputRefemail.current.validity.patternMismatch){
-                              e.target.setCustomValidity('')
+                            if (!inputRefemail.current.validity.patternMismatch) {
+                              e.target.setCustomValidity('');
                             }
                           }}
                           name="securityManagerEmail"
                           value={inputValues.securityManagerEmail}
-                          onInvalid={e => e.target.setCustomValidity(`Format d'email invalide`)}
-                          onInput={e => e.target.setCustomValidity('')}
+                          onInvalid={(e) => e.target.setCustomValidity(`Format d'email invalide`)}
+                          onInput={(e) => e.target.setCustomValidity('')}
                           pattern="(.+)@(.+){2,}\.(.+){2,}"
                         />
                       </div>
@@ -681,49 +595,43 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
 
                   <Box
                     sx={{
-                      textAlign: "right",
-                      width: "100%",
-                      paddingTop: "5px",
+                      textAlign: 'right',
+                      width: '100%',
+                      paddingTop: '5px',
                     }}
                   >
-                   
-                    {
-                      store.activeCase === "newcase"?(
-                        <Button
-                      type="submit"
-                      disabled={!store?.validatedSections?.detailsobjectvalidated?true:false}
-                      endIcon={
-                        <img className="icon-validate" src={Rightarrow} />
-                      }
-                      sx={{
-                        background: "#3675B7",
-                        ":hover": { background: "#3675B7" },
-                      }}
-                      variant="contained"
-                    >
-                      {t("VALIDATE")}
-                    </Button>
-
-                      ):null
-                    }
-                     {
-                      store.activeCase === "currentcases"?(
-                        <Button
+                    {store.activeCase === 'newcase' ? (
+                      <Button
                         type="submit"
-                        disabled={!store?.validatedSections?.detailsobjectvalidated && !store?.validatedSections?.iconstudytwo?true:false}
-                        endIcon={
-                          <img className="icon-validate" src={Rightarrow} />
-                        }
+                        disabled={!store?.validatedSections?.detailsobjectvalidated ? true : false}
+                        endIcon={<img className="icon-validate" src={Rightarrow} />}
                         sx={{
-                          background: "#3675B7",
-                          ":hover": { background: "#3675B7" },
+                          background: '#3675B7',
+                          ':hover': { background: '#3675B7' },
                         }}
                         variant="contained"
                       >
-                        {t("VALIDATE")}
+                        {t('VALIDATE')}
                       </Button>
-                      ):null
-                    }
+                    ) : null}
+                    {store.activeCase === 'currentcases' ? (
+                      <Button
+                        type="submit"
+                        disabled={
+                          !store?.validatedSections?.detailsobjectvalidated && !store?.validatedSections?.iconstudytwo
+                            ? true
+                            : false
+                        }
+                        endIcon={<img className="icon-validate" src={Rightarrow} />}
+                        sx={{
+                          background: '#3675B7',
+                          ':hover': { background: '#3675B7' },
+                        }}
+                        variant="contained"
+                      >
+                        {t('VALIDATE')}
+                      </Button>
+                    ) : null}
                   </Box>
                 </form>
               </Grid>
@@ -771,7 +679,7 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
       />
-      <SectionFilter
+      {/* <SectionFilter
         setToggler={setToggler}
         Toggler={Toggler}
         setIcon={setIcon}
@@ -779,6 +687,14 @@ const HistoricalSearch = ({ generalDataEstablishment }) => {
         buttonEnability={buttonEnability}
         setButtonEnability={setButtonEnability}
         generalDataEstablishment={generalDataEstablishment}
+      /> */}
+      <SectionFilters
+        setToggler={setToggler}
+        Toggler={Toggler}
+        setIcon={setIcon}
+        Icon={Icon}
+        buttonEnability={buttonEnability}
+        setButtonEnability={setButtonEnability}
       />
       {/* <SectionFilterCheckBox
       setToggler={setToggler}
