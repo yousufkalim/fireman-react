@@ -163,12 +163,12 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
     const value = e.target.value;
     const checked = e.target.checked;
     const id = e.target.id;
+    console.log(id, 'id');
     const obj = {
       sectionFilterId: id,
       sectionGroupId: 1,
     };
-    console.log(id, 'id');
-    console.log(checkBoxesData);
+
     if (checked) {
       setcheckBoxesData((pre) => {
         return {
@@ -176,24 +176,42 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
           ['groupid']: [...checkBoxesData?.groupid, obj],
         };
       });
-      console.log(checkBoxesData, 'hg');
-      if (checkBoxesData?.groupid.length == 0 && checkBoxesData?.groupid.filter((_) => _?.sectionFilterId == 60).length == 1) {
-        setcheckBoxesData((pre) => {
-          return {
-            ...pre,
-            typeone: '',
-            typetwo: '',
-          };
-        });
-      }
     }
     if (!checked) {
+      console.log(checkBoxesData?.groupid);
       setcheckBoxesData((pre) => {
         return {
           ...pre,
           ['groupid']: [...checkBoxesData?.groupid.filter((item) => item.sectionFilterId != id)],
         };
       });
+      /////////
+      if (
+        checkBoxesData?.groupid.length == 2 &&
+        id == 61 &&
+        checkBoxesData?.groupid.filter((_) => _?.sectionFilterId == 60).length == 1
+      ) {
+        setcheckBoxesData((pre) => {
+          return {
+            ...pre,
+            typeone: [],
+            typetwo: [],
+          };
+        });
+      }
+      if (
+        checkBoxesData?.groupid.length == 1 &&
+        id == 61 &&
+        checkBoxesData?.groupid.filter((_) => _?.sectionFilterId == 61).length == 1
+      ) {
+        setcheckBoxesData((pre) => {
+          return {
+            ...pre,
+            typeone: [],
+            typetwo: [],
+          };
+        });
+      }
     }
   };
   ////
@@ -224,7 +242,8 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
             [name]: [...checkBoxesData?.typetwo, obj],
           };
         });
-        if (checkBoxesData?.typeone.length == 0 && id == 81) {
+        console.log(checkBoxesData);
+        if (checkBoxesData?.typeone.length == 0 && checkBoxesData?.typetwo.length == 0 && id == 81) {
           setRadioValues((pre) => {
             return {
               ...pre,
@@ -236,6 +255,11 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
       }
     }
     if (!checked) {
+      console.log(checkBoxesData, '!checked');
+      console.log(radioValues, '!checked');
+      console.log(checkBoxesData?.typeone.length, ' checkBoxesData?.typeone.length');
+      console.log(checkBoxesData?.typetwo.length, 'checkBoxesData?.typetwo.length');
+      console.log();
       if (name == 'typeone') {
         setcheckBoxesData((pre) => {
           return {
@@ -268,6 +292,19 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
             };
           });
         }
+        if (
+          checkBoxesData?.typeone.length == 1 &&
+          checkBoxesData?.typetwo.filter((_) => _?.sectionFilterId == 81).length == 1 &&
+          checkBoxesData?.typetwo.length == 1
+        ) {
+          setRadioValues((pre) => {
+            return {
+              ...pre,
+              ForAll: '',
+              configurationOne: '',
+            };
+          });
+        }
       }
       if (name == 'typetwo') {
         setcheckBoxesData((pre) => {
@@ -276,7 +313,11 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
             [name]: [...checkBoxesData?.typetwo.filter((item) => item.sectionFilterId != id)],
           };
         });
-        if (checkBoxesData?.typeone.length == 0 && checkBoxesData?.typetwo.filter((_) => _?.sectionFilterId == 81).length == 1) {
+        if (
+          checkBoxesData?.typeone.length == 0 &&
+          checkBoxesData?.typetwo.filter((_) => _?.sectionFilterId == 81).length == 1 &&
+          id != 81
+        ) {
           setRadioValues((pre) => {
             return {
               ...pre,
@@ -301,11 +342,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
       };
     });
   };
-  console.log(checkBoxesData?.groupid, 'checkBoxesData?.groupid');
-  console.log(
-    checkBoxesData?.groupid?.some((_) => _?.sectionFilterId == 60),
-    'checkBoxesData'
-  );
   const handleSubmit = (e) => {
     e.preventDefault();
     const alreadychecked = filterData?.groups?.filter((value) => {
