@@ -248,7 +248,7 @@ const SectionFilter = ({ setToggler, Toggler, setIcon, Icon }) => {
           margin: 'auto',
         }}
       >
-        <Typography variant="h6"> reglementaions</Typography>
+        <Typography variant="h6"> Reglementations</Typography>
         {Icon.iconsectionfilter || store?.validatedSections?.sectionfiltervalidated ? <img src={don} /> : null}
       </Box>
       <Accordion
