@@ -368,7 +368,7 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
           margin: 'auto',
         }}
       >
-        <Typography variant="h6"> reglementaions</Typography>
+        <Typography variant="h6"> Reglementaions</Typography>
         {Icon.iconsectionfilter || store?.validatedSections?.sectionfiltervalidated ? <img src={don} /> : null}
       </Box>
       <Accordion
@@ -460,7 +460,7 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           ))}
                       </div>
 
-                      <div style={{ width: '96.5%' }} className="radio-btn-container">
+                      <div style={{ width: '100%' }} className="radio-btn-container">
                         {filterData?.groups[0]?.sectionFilters
                           ?.filter((types) => types?.category == '2typesmax')
                           .map((groupClassements) => (
