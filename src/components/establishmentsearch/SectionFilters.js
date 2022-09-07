@@ -159,8 +159,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
   };
   ///
   const handleChangeMain = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
     const checked = e.target.checked;
     const id = e.target.id;
     console.log(id, 'id');
@@ -358,7 +356,10 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
       configurationTwo: radioValues?.configurationTwo,
       configurationThree: radioValues?.configurationThree,
     };
-
+    if (checkBoxesData?.groupid.length == 0) {
+      toast.error('veuillez remplir les sections du règlement');
+      return;
+    }
     if (store?.caseFileId) {
       if (obj?.sectionGroupId && obj?.difficultyLevel && obj?.sectionFilterId && filters) {
         api('post', '/api/v1/casefiles/save_section_filters', obj).then((res) => {
@@ -409,7 +410,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
     });
   };
 
-  console.log(checkBoxesData, 'checkBoxesData');
   return (
     <>
       <Box
@@ -476,10 +476,7 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           ?.filter((types) => types?.filterType == 4)
                           .map((_) => (
                             <>
-                              <div style={{ textAlign: 'start' }} className="radion-btn-text-container">
-                                <span style={{ width: '80%', whiteSpace: 'nowrap' }} className="radio-btn-name-text">
-                                  {_?.name}
-                                </span>
+                              <div style={{ textAlign: 'start', width: 'unset' }} className="radion-btn-text-container">
                                 <CustomCheckBox
                                   id={_?.sectionFilterId}
                                   Name={_?.btnName}
@@ -492,6 +489,12 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                       .map((___) => ___?.sectionFilterId)[0] == _?.sectionFilterId
                                   }
                                 />
+                                <span
+                                  style={{ width: '80%', whiteSpace: 'nowrap', marginLeft: '15%' }}
+                                  className="radio-btn-name-text"
+                                >
+                                  {_?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -508,9 +511,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ textAlign: 'start' }} className="radion-btn-text-container">
-                                <span style={{ width: '80%' }} className="radio-btn-name-text">
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomCheckBox
                                   textAlign={true}
                                   onChange={(e) => {
@@ -530,6 +530,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                     checkBoxesData?.groupid.length == 0
                                   }
                                 />
+                                <span style={{ width: '80%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -541,9 +544,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ textAlign: 'start' }} className="radion-btn-text-container">
-                                <span style={{ width: '100%' }} className="radio-btn-name-text">
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomCheckBox
                                   onChange={(e) => {
                                     handleChange(e, groupClassements?.sectionFilterId);
@@ -563,6 +563,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                     checkBoxesData?.groupid.length == 0
                                   }
                                 />
+                                <span style={{ width: '100%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -590,34 +593,36 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         }}
                       ></Box>
                     </div>
-                    <div style={{ display: 'flex' }}>
-                      {filterData?.groups[0]?.sectionFilters
-                        ?.filter((types) => types?.category == 'ForAll')
-                        .map((groupClassements) => (
-                          <>
-                            <div style={{ width: '20%' }} className="radion-btn-text-container">
-                              <span style={{ textAlign: 'center', width: '80%' }} className="radio-btn-name-text">
-                                {groupClassements?.name}
-                              </span>
-                              <CustomRadioButton
-                                id={groupClassements?.sectionFilterId}
-                                Name="ForAll"
-                                For={groupClassements?.name}
-                                btnName={groupClassements?.name}
-                                onChange={(e) => {
-                                  _setState('configurationOne', groupClassements?.sectionFilterId);
-                                  _setFilters(groupClassements?.sectionFilterId, groupClassements?.filterType);
-                                }}
-                                checked={radioValues?.configurationOne == groupClassements?.sectionFilterId}
-                                disabled={
-                                  checkBoxesData?.typetwo?.filter((_) => _?.sectionFilterId == 81).length == 1 &&
-                                  checkBoxesData?.typetwo.length == 1 &&
-                                  checkBoxesData?.typeone.length == 0
-                                }
-                              />
-                            </div>
-                          </>
-                        ))}
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-evenly', width: '50%' }}>
+                        {filterData?.groups[0]?.sectionFilters
+                          ?.filter((types) => types?.category == 'ForAll')
+                          .map((groupClassements) => (
+                            <>
+                              <div style={{ width: '7%' }} className="radion-btn-text-container">
+                                <CustomRadioButton
+                                  id={groupClassements?.sectionFilterId}
+                                  Name="ForAll"
+                                  For={groupClassements?.name}
+                                  btnName={groupClassements?.name}
+                                  onChange={(e) => {
+                                    _setState('configurationOne', groupClassements?.sectionFilterId);
+                                    _setFilters(groupClassements?.sectionFilterId, groupClassements?.filterType);
+                                  }}
+                                  checked={radioValues?.configurationOne == groupClassements?.sectionFilterId}
+                                  disabled={
+                                    checkBoxesData?.typetwo?.filter((_) => _?.sectionFilterId == 81).length == 1 &&
+                                    checkBoxesData?.typetwo.length == 1 &&
+                                    checkBoxesData?.typeone.length == 0
+                                  }
+                                />
+                                <span style={{ textAlign: 'center', marginLeft: '20%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
+                              </div>
+                            </>
+                          ))}
+                      </div>
                     </div>
                   </div>
 
@@ -638,9 +643,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ width: '25%' }} className="radion-btn-text-container">
-                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomRadioButton
                                   id={groupClassements?.sectionFilterId}
                                   Name="ForCTS7"
@@ -653,6 +655,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                   defaultChecked={groupClassements?.isSelected}
                                   width="unset"
                                 />
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -664,12 +669,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ width: '25%' }} className="radion-btn-text-container">
-                                <span
-                                  style={{ textAlign: 'start', width: '100%', whiteSpace: 'nowra' }}
-                                  className="radio-btn-name-text"
-                                >
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomRadioButton
                                   id={groupClassements?.sectionFilterId}
                                   Name="ForCTS10"
@@ -682,6 +681,12 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                   defaultChecked={groupClassements?.isSelected}
                                   width="unset"
                                 />
+                                <span
+                                  style={{ textAlign: 'start', width: '100%', whiteSpace: 'nowra' }}
+                                  className="radio-btn-name-text"
+                                >
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -697,7 +702,7 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         width: '99%',
                         display: 'flex',
                         flexDirection: 'column',
-                        padding: '0% 0.4%',
+                        padding: '0% 1.4%',
                       }}
                     >
                       <div style={{ display: 'flex' }}>
@@ -706,9 +711,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ width: '25%' }} className="radion-btn-text-container">
-                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomRadioButton
                                   id={groupClassements?.sectionFilterId}
                                   onChange={(e) => {
@@ -721,6 +723,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                   defaultChecked={groupClassements?.isSelected}
                                   width="unset"
                                 />
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -731,9 +736,6 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                           .map((groupClassements) => (
                             <>
                               <div style={{ width: '25%' }} className="radion-btn-text-container">
-                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                  {groupClassements?.name}
-                                </span>
                                 <CustomRadioButton
                                   id={groupClassements?.sectionFilterId}
                                   onChange={(e) => {
@@ -746,6 +748,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                   defaultChecked={groupClassements?.isSelected}
                                   width="unset"
                                 />
+                                <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                  {groupClassements?.name}
+                                </span>
                               </div>
                             </>
                           ))}
@@ -774,15 +779,12 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         }}
                       ></Box>
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', marginLeft: '11%' }}>
                       {filterData?.groups[0]?.sectionFilters
                         ?.filter((types) => types?.filterType == 1)
                         .map((groupClassements) => (
                           <>
                             <div style={{ width: '25%' }} className="radion-btn-text-container">
-                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                {groupClassements?.name}
-                              </span>
                               <CustomRadioButton
                                 id={groupClassements?.sectionFilterId}
                                 onChange={(e) => {
@@ -795,19 +797,19 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 defaultChecked={groupClassements?.isSelected}
                                 width="unset"
                               />
+                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                {groupClassements?.name}
+                              </span>
                             </div>
                           </>
                         ))}
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', marginLeft: '11%' }}>
                       {filterData?.groups[0]?.sectionFilters
                         ?.filter((types) => types?.filterType == 2)
                         .map((groupClassements) => (
                           <>
                             <div style={{ width: '25%' }} className="radion-btn-text-container">
-                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                {groupClassements?.name}
-                              </span>
                               <CustomRadioButton
                                 id={groupClassements?.sectionFilterId}
                                 onChange={(e) => {
@@ -820,6 +822,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 defaultChecked={groupClassements?.isSelected}
                                 width="unset"
                               />
+                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                {groupClassements?.name}
+                              </span>
                             </div>
                           </>
                         ))}
@@ -849,15 +854,12 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         }}
                       ></Box>
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', marginLeft: '11%' }}>
                       {filterData?.groups[0]?.sectionFilters
                         ?.filter((types) => types?.filterType == 3)
                         .map((groupClassements) => (
                           <>
                             <div style={{ width: '25%' }} className="radion-btn-text-container">
-                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
-                                {groupClassements?.name}
-                              </span>
                               <CustomRadioButton
                                 id={groupClassements?.sectionFilterId}
                                 onChange={(e) => {
@@ -870,6 +872,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                                 defaultChecked={groupClassements?.isSelected}
                                 width="unset"
                               />
+                              <span style={{ textAlign: 'start', width: '100%' }} className="radio-btn-name-text">
+                                {groupClassements?.name}
+                              </span>
                             </div>
                           </>
                         ))}
@@ -916,12 +921,10 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                       alignItems: 'center',
                       width: '83%',
                       padding: '1% 0%',
+                      marginLeft: '11%',
                     }}
                   >
                     <div style={{ width: '41%' }} className="levels">
-                      <span style={{ width: '47%' }} className="radio-btn-name-text">
-                        N1
-                      </span>
                       <CustomRadioButton
                         checked={radioValues?.difficultyLevel == 1}
                         Name="difficultylevels"
@@ -931,9 +934,11 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         onChange={(e) => _setState('difficultyLevel', 1)}
                         setState={setRadioValues}
                       />
+                      <span style={{ width: '47%' }} className="radio-btn-name-text">
+                        N1
+                      </span>
                     </div>
                     <div style={{ width: '45%' }} className="levels">
-                      <span style={{ width: '46%' }}>N2</span>
                       <CustomRadioButton
                         checked={radioValues?.difficultyLevel == 2}
                         Name="difficultylevels"
@@ -943,11 +948,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         onChange={(e) => _setState('difficultyLevel', 2)}
                         setState={setRadioValues}
                       />
+                      <span style={{ width: '46%' }}>N2</span>
                     </div>
                     <div style={{ width: '45%' }} className="levels">
-                      <span style={{ width: '42%' }} className="radio-btn-name-text">
-                        N3
-                      </span>
                       <CustomRadioButton
                         checked={radioValues?.difficultyLevel == 3}
                         Name="difficultylevels"
@@ -957,6 +960,9 @@ const SectionFilters = ({ setToggler, Toggler, setIcon, Icon }) => {
                         onChange={(e) => _setState('difficultyLevel', 3)}
                         setState={setRadioValues}
                       />
+                      <span style={{ width: '42%' }} className="radio-btn-name-text">
+                        N3
+                      </span>
                     </div>
                   </div>
                 </div>
