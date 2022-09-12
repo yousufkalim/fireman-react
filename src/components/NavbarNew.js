@@ -21,11 +21,13 @@ import { useTranslation, Trans } from 'react-i18next';
 import { UpdateStore } from '../StoreContext';
 import moment from 'moment';
 import api from '../api/index';
+import { chatUrl } from '../config';
 import ronaldo from '../assets/ronaldo.jpeg';
 import 'moment/locale/fr';
 import useState from 'react-usestateref';
 import jwt from 'jwt-decode';
 import useClickOutside from 'use-click-outside';
+import { baseUrl } from '../config';
 
 import Popup from './Popup';
 
@@ -59,10 +61,7 @@ export default function Navbar({ Story }) {
 
   ////
   useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl('https://fireman-chat.falconconsulting.fr/notificationsHub')
-      .withAutomaticReconnect()
-      .build();
+    const newConnection = new HubConnectionBuilder().withUrl(chatUrl).withAutomaticReconnect().build();
     setConnection(newConnection);
   }, []);
 
@@ -297,11 +296,7 @@ export default function Navbar({ Story }) {
                     setLogout(true);
                   }}
                   className="img-nav"
-                  src={
-                    profile?.profilePicture
-                      ? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(37)}`
-                      : dummy
-                  }
+                  src={profile?.profilePicture ? `${baseUrl + profile?.profilePicture?.substr(37)}` : dummy}
                 />
                 {logout ? (
                   <p

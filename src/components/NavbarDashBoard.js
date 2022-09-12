@@ -16,10 +16,12 @@ import Menu from '@mui/material/Menu';
 import moment from 'moment';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import api from '../api/index';
+import { chatUrl } from "../config";
 import { Store } from '../StoreContext';
 import useClickOutside from 'use-click-outside';
 import jwt from 'jwt-decode';
 import dummy from '../assets/dummy.jpeg';
+import { baseUrl } from '../config';
 
 import Popup from './Popup';
 import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
@@ -56,7 +58,7 @@ const NavbarDashBoard = () => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl('https://fireman-chat.falconconsulting.fr/chatHub')
+      .withUrl(chatUrl)
       .withAutomaticReconnect()
       .build();
     setConnection(newConnection);
@@ -252,11 +254,7 @@ const NavbarDashBoard = () => {
                     setLogout(true);
                   }}
                   className="img-nav"
-                  src={
-                    profile?.profilePicture
-                      ? `https://fireman-api.falconconsulting.fr${profile?.profilePicture?.substr(37)}`
-                      : dummy
-                  }
+                  src={profile?.profilePicture ? `${baseUrl + profile?.profilePicture?.substr(37)}` : dummy}
                 />
                 {logout ? (
                   <p

@@ -1,30 +1,31 @@
-import React from "react";
-import ChatSideTwo from "./ChatSideTwo";
-import { useEffect, useRef } from "react";
-import useState from "react-usestateref";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import ChatWindow from "./ChatWindow";
-import jwt from "jwt-decode";
-import api from "../../api/index";
-import ChatSideBarTwo from "./ChatSideBarTwo";
-import Box from "@mui/material/Box";
-import { Store } from "../../StoreContext";
-import { UpdateStore } from "../../StoreContext";
+import React from 'react';
+import ChatSideTwo from './ChatSideTwo';
+import { useEffect, useRef } from 'react';
+import useState from 'react-usestateref';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import ChatWindow from './ChatWindow';
+import jwt from 'jwt-decode';
+import api from '../../api/index';
+import ChatSideBarTwo from './ChatSideBarTwo';
+import Box from '@mui/material/Box';
+import { Store } from '../../StoreContext';
+import { UpdateStore } from '../../StoreContext';
+import { chatUrl } from '../../config';
 const IndexThree = ({ handleClose }) => {
   const [state, setState, counterRef] = useState({
     messageList: [],
     chatList: [],
     userData: null,
-    activeChat: "",
-    activeReciever: "",
-    message: "",
-    search: "",
+    activeChat: '',
+    activeReciever: '',
+    message: '',
+    search: '',
     searchList: [],
     isLoading: true,
-    connection: "",
+    connection: '',
     msglist: [],
     CurrentReceivedmsgData: {},
-    msgseenstatus: "",
+    msgseenstatus: '',
   });
   const [connection, setConnection] = useState(null);
   const [chat, setChat] = useState([]);
@@ -33,10 +34,7 @@ const IndexThree = ({ handleClose }) => {
   const updatestore = UpdateStore();
   latestChat.current = chat;
   useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl("https://fireman-chat.falconconsulting.fr/chatHub")
-      .withAutomaticReconnect()
-      .build();
+    const newConnection = new HubConnectionBuilder().withUrl(chatUrl).withAutomaticReconnect().build();
     setConnection(newConnection);
     updatestore({
       connection: newConnection,
@@ -45,8 +43,8 @@ const IndexThree = ({ handleClose }) => {
   }, []);
 
   useEffect(() => {
-    var token = localStorage.getItem("userData");
-    var chat_active = localStorage.getItem("activeChat");
+    var token = localStorage.getItem('userData');
+    var chat_active = localStorage.getItem('activeChat');
     const userData = jwt(token);
     setState((pre) => {
       return {
@@ -62,13 +60,13 @@ const IndexThree = ({ handleClose }) => {
       connection
         .start()
         .then((result) => {
-          var token = localStorage.getItem("userData");
-          var chat_active = localStorage.getItem("activeChat");
+          var token = localStorage.getItem('userData');
+          var chat_active = localStorage.getItem('activeChat');
           const userData = jwt(token);
           const userId = userData.Id;
           ////////start
 
-          api("get", `/api/v1/chat/GetChatList/${userData.Id}`).then((res) => {
+          api('get', `/api/v1/chat/GetChatList/${userData.Id}`).then((res) => {
             var chatlist = [];
             res?.data?.data?.map((chat) => {
               var a = chat.userA;
@@ -132,7 +130,7 @@ const IndexThree = ({ handleClose }) => {
             }
 
             ////start
-            var chat_active = localStorage.getItem("activeChat");
+            var chat_active = localStorage.getItem('activeChat');
             // debugger;
             if (chat_active) {
               let active;
@@ -162,8 +160,8 @@ const IndexThree = ({ handleClose }) => {
               setState({ isLoading: false });
             }
 
-            connection?.on("CheckIsOnline", (userId, isOnline, lastSeen, status) => {
-                console.log("CheckIsOnline",userId, isOnline, lastSeen, status);
+            connection?.on('CheckIsOnline', (userId, isOnline, lastSeen, status) => {
+              console.log('CheckIsOnline', userId, isOnline, lastSeen, status);
               if (userData.Id !== userId) {
                 //  console.log("user is online now", userId);
                 let newChatList = chatlist.map((chat, index) =>
@@ -179,10 +177,10 @@ const IndexThree = ({ handleClose }) => {
                     };
                   });
                 }
-                if (status !== "") {
+                if (status !== '') {
                   chat_active = counterRef.current.activeChat;
                 } else {
-                  console.log("extra messages not ", chat_active);
+                  console.log('extra messages not ', chat_active);
                 }
                 setState((pre) => {
                   return {
@@ -193,18 +191,18 @@ const IndexThree = ({ handleClose }) => {
               }
             });
 
-            store.connection.on("msgSeenStatus", (usrId, chatId, seen) => {
+            store.connection.on('msgSeenStatus', (usrId, chatId, seen) => {
               chat_active = counterRef.current.activeChat;
               if (chatId == chat_active && userData.Id != usrId) {
-                if (seen !== "") {
+                if (seen !== '') {
                   chat_active = counterRef.current.activeChat;
                 } else {
-                  console.log("extra messages seen not ", chat_active);
+                  console.log('extra messages seen not ', chat_active);
                 }
               }
             });
 
-            store.connection.on("CheckIsOnline", (userId, isOnline, status) => {});
+            store.connection.on('CheckIsOnline', (userId, isOnline, status) => {});
             ////////
             setState((pre) => {
               return {
@@ -212,7 +210,7 @@ const IndexThree = ({ handleClose }) => {
                 chatList: chatlist,
               };
             });
-            var chat_active = localStorage.getItem("activeChat");
+            var chat_active = localStorage.getItem('activeChat');
             //  loadActiveChatMessage(
             //   token,
             //   parseInt(chat_active),
@@ -222,33 +220,33 @@ const IndexThree = ({ handleClose }) => {
 
           //////end
           loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
-          connection.on("ReceiveMessage", (message, chat) => {
+          connection.on('ReceiveMessage', (message, chat) => {
             const updatedChat = [...latestChat.current];
             if (message.sender != userData.Id) {
               message.isSender = false;
-              message.status = "";
+              message.status = '';
               if (counterRef.current.activeChat == message.chatInfoId) {
                 updatedChat.push(message);
               }
               //setChat(updatedChat);
-              connection.send("ActiveChat", message.reciever, chat.chatInfoId);
+              connection.send('ActiveChat', message.reciever, chat.chatInfoId);
             } else {
               const status =
-                message.readMsg == "Send"
-                  ? "sent"
-                  : message.readMsg == "Delivered"
-                  ? "received"
-                  : message.readMsg == "Seen" && "read";
+                message.readMsg == 'Send'
+                  ? 'sent'
+                  : message.readMsg == 'Delivered'
+                  ? 'received'
+                  : message.readMsg == 'Seen' && 'read';
               message.isSender = true;
               message.status = status;
               updatedChat.push(message);
               //setChat(updatedChat);
-              connection.send("ActiveChat", message.reciever, chat.chatInfoId);
+              connection.send('ActiveChat', message.reciever, chat.chatInfoId);
             }
             setChat(updatedChat);
           });
           loadActiveChatMessage(token, parseInt(chat_active), userData.Id);
-          connection.on("msgSeenStatus", (usrId, chatId, seen) => {
+          connection.on('msgSeenStatus', (usrId, chatId, seen) => {
             setState((pre) => {
               return {
                 ...pre,
@@ -261,7 +259,7 @@ const IndexThree = ({ handleClose }) => {
             });
           });
         })
-        .catch((e) => console.log("Connection failed: ", e));
+        .catch((e) => console.log('Connection failed: ', e));
     }
   }, [connection]);
 
@@ -272,7 +270,7 @@ const IndexThree = ({ handleClose }) => {
 
   // }
   const loadActiveChatMessage = (token, chatId, userId) => {
-    api("get", `/api/v1/chat/GetMessages/${chatId}`).then((responseMessages) => {
+    api('get', `/api/v1/chat/GetMessages/${chatId}`).then((responseMessages) => {
       var messagelist = [];
       if (responseMessages.data.data.messages.length > 0) {
         responseMessages.data.data.messages.map((message) => {
@@ -282,15 +280,15 @@ const IndexThree = ({ handleClose }) => {
             messageObject = {
               isSender: false,
               message: message.message,
-              status: "",
+              status: '',
             };
           } else {
             const status =
-              message.readMsg == "Send"
-                ? "sent"
-                : message.readMsg == "Delivered"
-                ? "received"
-                : message.readMsg == "Seen" && "read";
+              message.readMsg == 'Send'
+                ? 'sent'
+                : message.readMsg == 'Delivered'
+                ? 'received'
+                : message.readMsg == 'Seen' && 'read';
             messageObject = {
               isSender: true,
               message: message.message,
@@ -301,15 +299,15 @@ const IndexThree = ({ handleClose }) => {
           return null;
         });
         setChat(messagelist);
-        connection && connection.send("activeChat", userId, chatId);
+        connection && connection.send('activeChat', userId, chatId);
       } else {
         setChat([]);
       }
     });
   };
   const sendMessage = async (user, message) => {
-    var token = localStorage.getItem("userData");
-    var chat_active = localStorage.getItem("activeChat");
+    var token = localStorage.getItem('userData');
+    var chat_active = localStorage.getItem('activeChat');
     const userData = jwt(token);
     const info = {
       Sender: parseInt(userData.Id),
@@ -318,18 +316,18 @@ const IndexThree = ({ handleClose }) => {
     };
     if (connection._connectionStarted) {
       try {
-        await connection.send("SendMessage", info, info);
+        await connection.send('SendMessage', info, info);
         //await connection.send('SendNotification', state.activeReciever);
       } catch (e) {
         console.log(e);
       }
     } else {
-      alert("No connection to server yet.");
+      alert('No connection to server yet.');
     }
   };
   const changeChat = (chat) => {
-    var token = localStorage.getItem("userdata");
-    localStorage.removeItem("activeChat");
+    var token = localStorage.getItem('userdata');
+    localStorage.removeItem('activeChat');
     var chatListis = state.chatList;
     var index = chatListis?.indexOf(chatListis?.find((item) => item.chatroom_id == chat.chatroom_id));
     if (index != -1) {
@@ -348,7 +346,7 @@ const IndexThree = ({ handleClose }) => {
         activeChat: chatListis[index]?.chatroom_id,
         activeReciever: chatListis[index]?.reciever,
         messageList: [],
-        message: "",
+        message: '',
         CurrentReceivedmsgData: {},
       };
     });
@@ -357,7 +355,7 @@ const IndexThree = ({ handleClose }) => {
   };
   return (
     <>
-      <Box sx={{ display: "flex", height: "100%" }}>
+      <Box sx={{ display: 'flex', height: '100%' }}>
         <ChatSideBarTwo
           handleClose={handleClose}
           state={state}
@@ -366,7 +364,7 @@ const IndexThree = ({ handleClose }) => {
           chat={chat}
           activeChat={state.chatList?.find((chat) => chat?.chatroom_id == state.activeChat)}
         />
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: '100%' }}>
           <ChatWindow
             handleClose={handleClose}
             chat={chat}
